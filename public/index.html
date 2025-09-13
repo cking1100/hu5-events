@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HU5 Events Finder</title>
+  <meta name="color-scheme" content="dark light" />
+  <style>
+    :root{
+      --bg:#0a0f14; --muted:#9aa4af; --card:#0e1319; --text:#e8edf2; --accent:#7dd3fc; --border:#1f2732; --chip:#0f141b;
+      --good:#22c55e; --warn:#f59e0b; --error:#ef4444; --pill:#0a1118; --glow:rgba(125,211,252,.25);
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f6f8fb; --text:#0b0d10; --card:#ffffff; --border:#e4e9f2; --muted:#5b6773; --chip:#eef2f6; --accent:#0369a1; --pill:#f3f6f9; --glow:rgba(3,105,161,.18); }
+    }
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; background:
+        radial-gradient(1200px 600px at 90% -10%, var(--glow), transparent 60%),
+        radial-gradient(900px 700px at -10% 0%, var(--glow), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    }
+
+    /* Top announcement */
+    .announce{
+      position:sticky; top:0; z-index:50;
+      display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap;
+      padding:10px 14px; backdrop-filter:saturate(120%) blur(10px);
+      background:color-mix(in oklab, var(--bg) 78%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .announce .msg{ font-size:14px; color:var(--muted) }
+    .announce .email{ color:var(--accent); font-weight:700; text-decoration:none }
+    .announce .x{ border:1px solid var(--border); background:var(--chip); color:var(--muted); border-radius:999px; padding:4px 10px; cursor:pointer }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:10;
+      border-bottom:1px solid var(--border);
+      background:color-mix(in oklab, var(--bg) 86%, transparent);
+      backdrop-filter:saturate(120%) blur(10px);
+    }
+    .wrap{ max-width:1080px; margin:0 auto; padding:16px }
+    .brand{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap }
+    .brand-left{ display:flex; align-items:center; gap:12px }
+    .logo{
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg,var(--accent),transparent 65%); border:1px solid var(--border);
+      box-shadow:0 0 0 1px color-mix(in oklab, var(--accent) 30%, transparent) inset, 0 10px 30px var(--glow);
+      font-weight:800;
+    }
+    h1{ font-size:22px; margin:0 }
+    .tag{ color:var(--muted); font-size:13px }
+
+    /* Toolbar */
+    .toolbar{ display:grid; gap:10px; margin-top:12px;
+      grid-template-columns: 1.5fr 1fr 1fr auto auto;
+    }
+    .field, select, button, .chip, .seg{
+      padding:10px 12px; border-radius:12px; border:1px solid var(--border);
+      background:var(--card); color:var(--text); outline:none; transition:.15s transform, .2s filter;
+    }
+    .field::placeholder{ color:var(--muted) }
+    .seg{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none }
+    .seg:hover{ filter:brightness(1.06) }
+    .seg[aria-pressed="true"]{ box-shadow:0 0 0 2px color-mix(in oklab, var(--accent) 55%, transparent) inset }
+
+    /* Quick filters */
+    .quick{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap }
+
+    /* Stats */
+    .stats{
+      margin-top:12px; display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; color:var(--muted); font-size:14px;
+    }
+    .badges{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+    .chip{ display:inline-flex; gap:8px; align-items:center; background:var(--chip); font-size:13px }
+    .dot{ width:8px; height:8px; border-radius:50% }
+    .dot.good{ background:var(--good) } .dot.warn{ background:var(--warn) } .dot.error{ background:var(--error) }
+
+    /* Main */
+    main{ max-width:1080px; margin:18px auto 84px; padding:0 16px }
+    .empty,.error{
+      border:1px dashed var(--border); border-radius:16px; padding:28px; color:var(--muted); text-align:center
+    }
+    .actions-row{ margin:8px 0 16px; display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+
+    /* Sections & cards */
+    .section{ margin:18px 0 24px }
+    .section h3{
+      margin:0 0 10px; font-size:13px; font-weight:800; color:var(--muted);
+      text-transform:uppercase; letter-spacing:.08em; display:flex; align-items:center; gap:8px;
+    }
+    .grid{ display:grid; gap:12px }
+
+    .event{
+      background:var(--card); border:1px solid var(--border); border-radius:16px; padding:14px 16px;
+      display:grid; grid-template-columns: auto 1fr auto; gap:12px; align-items:center;
+      transition:.15s transform, .2s box-shadow;
+    }
+    .event:hover{ transform:translateY(-2px); box-shadow:0 16px 40px var(--glow) }
+
+    /* Date pill */
+    .pill{
+      width:70px; border:1px solid var(--border); background:var(--pill); border-radius:12px; text-align:center; padding:10px 8px;
+      display:flex; flex-direction:column; gap:2px; justify-content:center
+    }
+    .pill .dow{ font-weight:700; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em }
+    .pill .day{ font-size:20px; font-weight:800 }
+    .pill .mon{ font-size:12px; font-weight:700; color:var(--muted) }
+
+    .title{ font-size:18px; font-weight:800; margin:0 0 4px }
+    .meta{ color:var(--muted); font-size:14px }
+    .source{ color:var(--muted); font-size:12px; margin-top:6px }
+    .card-actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end }
+    .btn{ border:1px solid var(--border); padding:8px 12px; border-radius:12px; background:var(--chip); color:var(--text); text-decoration:none; font-weight:600 }
+    .btn:hover{ filter:brightness(1.1) }
+    .link{ color:var(--accent); text-decoration:none; font-weight:600 }
+    .muty{ color:var(--muted) }
+
+    .tiny{ font-size:12px }
+    .ghost{ background:transparent }
+
+    .footerbar{
+      position:fixed; bottom:12px; left:0; right:0; display:flex; justify-content:center; pointer-events:none;
+    }
+    .toast{
+      pointer-events:auto;
+      background:var(--card); border:1px solid var(--border); border-radius:999px; padding:8px 14px; color:var(--muted);
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+
+    @media (max-width:980px){
+      .toolbar{ grid-template-columns: 1fr 1fr auto }
+      .toolbar > :nth-child(3){ display:none } /* hide "to" on small screens */
+      .event{ grid-template-columns: 1fr; }
+      .pill{ order:-1; width:100%; flex-direction:row; gap:8px; justify-content:center }
+      .card-actions{ justify-content:flex-start }
+    }
+  </style>
+</head>
+<body>
+  <!-- Feedback banner (session-only) -->
+  <div id="announce" class="announce" hidden>
+    <span class="msg">Ideas? Bugs? Want a venue added? Buissiness owner? Email <a class="email" href="mailto:hu5eventsfinder@gmail.com">hu5eventsfinder@gmail.com</a></span>
+    <button class="x" id="announceClose" aria-label="Dismiss">Dismiss</button>
+  </div>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="brand-left">
+          <div class="logo" aria-hidden="true">H</div>
+          <div>
+            <h1>HU5 Events Finder v1.0.0</h1>
+            <div class="tag">Polar Bear • Adelphi • Welly — all in one place</div>
+          </div>
+        </div>
+        <button id="share" class="seg tiny" title="Share current filters">Share</button>
+      </div>
+
+      <div class="toolbar" role="region" aria-label="Filters">
+        <input id="q" class="field" placeholder="Search artist, venue, keyword…" autocomplete="off" spellcheck="false" />
+        <input id="from" class="field" type="date" aria-label="From date" />
+        <input id="to" class="field" type="date" aria-label="To date" />
+        <select id="sort" class="field" aria-label="Sort">
+          <option value="date-asc">Soonest first</option>
+          <option value="date-desc">Latest first</option>
+          <option value="title">Title A→Z</option>
+        </select>
+        <select id="venue" class="field" aria-label="Venue">
+          <option value="">All venues</option>
+        </select>
+      </div>
+
+      <div class="quick" role="group" aria-label="Quick ranges">
+        <button class="seg" data-range="all" aria-pressed="true">All upcoming</button>
+        <button class="seg" data-range="today">Today</button>
+        <button class="seg" data-range="weekend">This weekend</button>
+        <button class="seg" data-range="next7">Next 7 days</button>
+        <button id="toggleUndated" class="seg" aria-pressed="true" title="Show/hide events with no date">Hide undated</button>
+        <button id="refreshNow" class="seg" title="Reload events.json">Refresh now</button>
+      </div>
+
+      <div class="stats" aria-live="polite">
+        <div class="badges">
+          <span id="count" class="chip" title="Events shown"><span class="dot good"></span><span id="countText">0 events</span></span>
+          <span id="updated" class="chip" title="Last updated"><span class="dot warn"></span><span id="updatedText">—</span></span>
+          <span id="nextRefresh" class="chip" title="Auto-refresh"><span class="dot good"></span><span id="refreshText">Auto refresh on</span></span>
+        </div>
+        <label class="seg tiny">
+          <input id="auto" type="checkbox" style="accent-color:var(--accent)" checked />
+          &nbsp;Auto-refresh
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="actions-row">
+      <button id="clear" class="seg ghost tiny">Clear filters</button>
+    </div>
+    <div id="status" class="empty" hidden>Loading…</div>
+    <div id="list"></div>
+  </main>
+
+  <div class="footerbar"><div id="toast" class="toast" hidden>Copied settings to clipboard</div></div>
+
+<script>
+(() => {
+  /* ----------------------- Tiny DOM helpers ----------------------- */
+  const $  = (s, el=document) => el.querySelector(s);
+  const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+
+  /* ----------------------- State ----------------------- */
+  const state = {
+    all: [],
+    view: [],
+    autoRefresh: true,
+    refreshMs: 5 * 60 * 1000,
+    nextTickAt: null,
+    lastUpdated: null,
+    range: "all",            // all | today | weekend | next7
+    showUndated: true
+  };
+
+  /* ----------------------- Elements ----------------------- */
+  const els = {
+    announce: $("#announce"),
+    announceClose: $("#announceClose"),
+
+    list: $("#list"),
+    status: $("#status"),
+    countText: $("#countText"),
+    updatedText: $("#updatedText"),
+    refreshText: $("#refreshText"),
+    auto: $("#auto"),
+    q: $("#q"), from: $("#from"), to: $("#to"), sort: $("#sort"), venue: $("#venue"),
+    nextRefresh: $("#nextRefresh"),
+    rangeButtons: $$(".quick .seg[data-range]"),
+    toggleUndated: $("#toggleUndated"),
+    refreshNow: $("#refreshNow"),
+    clear: $("#clear"),
+    share: $("#share"),
+    toast: $("#toast"),
+  };
+
+  /* ----------------------- Storage/URL sync ----------------------- */
+  const STORAGE_KEY = "hu5-filters-v1";
+
+  function saveFilters(){
+    const data = {
+      q: els.q.value || "",
+      from: els.from.value || "",
+      to: els.to.value || "",
+      sort: els.sort.value || "date-asc",
+      venue: els.venue.value || "",
+      range: state.range,
+      showUndated: state.showUndated
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    const url = new URL(location.href);
+    Object.entries(data).forEach(([k,v]) => v ? url.searchParams.set(k, v) : url.searchParams.delete(k));
+    history.replaceState(null, "", url.toString());
+  }
+
+  function loadFilters(){
+    const url = new URL(location.href);
+    const saved = localStorage.getItem(STORAGE_KEY);
+    let data = saved ? JSON.parse(saved) : {};
+    for (const key of ["q","from","to","sort","venue","range","showUndated"]) {
+      if (url.searchParams.has(key)) {
+        const raw = url.searchParams.get(key);
+        data[key] = (key === "showUndated") ? raw !== "false" : raw;
+      }
+    }
+    els.q.value = data.q || "";
+    els.from.value = data.from || "";
+    els.to.value = data.to || "";
+    els.sort.value = data.sort || "date-asc";
+    els.venue.value = data.venue || "";
+    state.range = data.range || "all";
+    state.showUndated = (typeof data.showUndated === "boolean") ? data.showUndated : true;
+    syncRangeButtons();
+    els.toggleUndated.setAttribute("aria-pressed", state.showUndated ? "true" : "false");
+    els.toggleUndated.textContent = state.showUndated ? "Hide undated" : "Show undated";
+  }
+
+  /* ----------------------- Date helpers ----------------------- */
+  function yyyyMmDd(d){
+    const pad = n => String(n).padStart(2,"0");
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  }
+
+  function setDateRange(fromDate, toDate){
+    els.from.value = yyyyMmDd(fromDate);
+    els.to.value   = yyyyMmDd(toDate);
+    applyFilters();
+  }
+
+  function applyQuickRange(kind){
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    if (kind === "today"){
+      setDateRange(today, today);
+      return;
+    }
+    if (kind === "next7"){
+      const to = new Date(today); to.setDate(to.getDate() + 6);
+      setDateRange(today, to);
+      return;
+    }
+    if (kind === "weekend"){
+      // Upcoming Sat+Sun only (if Sun today: just today)
+      const dow = today.getDay(); // 0=Sun..6=Sat
+      let from, to;
+      if (dow === 6){ // Saturday
+        from = new Date(today);
+        to   = new Date(today); to.setDate(to.getDate() + 1);
+      } else if (dow === 0){ // Sunday
+        from = new Date(today);
+        to   = new Date(today);
+      } else {
+        const sat = new Date(today); sat.setDate(sat.getDate() + (6 - dow));
+        const sun = new Date(sat);  sun.setDate(sun.getDate() + 1);
+        from = sat; to = sun;
+      }
+      setDateRange(from, to);
+      return;
+    }
+    // "all"
+    els.from.value = "";
+    els.to.value = "";
+    state.showUndated = true;
+    els.toggleUndated.setAttribute("aria-pressed","true");
+    els.toggleUndated.textContent = "Hide undated";
+    applyFilters();
+  }
+
+  /* ----------------------- Misc helpers ----------------------- */
+  function escapeHTML(s){
+    if (s == null) return "";
+    return String(s)
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#39;");
+  }
+
+  function parseMaybe(iso){
+    if (!iso) return null;
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function fmtDateShort(iso){
+    const d = parseMaybe(iso); if (!d) return "Undated";
+    return d.toLocaleDateString(undefined, { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
+  }
+
+  function timeAgo(d){
+    if (!d) return "—";
+    const ms = Date.now() - d.getTime();
+    const mins = Math.round(ms/60000);
+    if (mins < 1) return "just now";
+    if (mins < 60) return `${mins} min ago`;
+    const hrs = Math.round(mins/60);
+    if (hrs < 24) return `${hrs} hr${hrs>1?'s':''} ago`;
+    const days = Math.round(hrs/24);
+    return `${days} day${days>1?'s':''} ago`;
+  }
+
+  function venueLabel(ev) {
+    const raw = (ev.venue || ev.source || '').toLowerCase().replace(/[’']/g, "'");
+    if (/\bwelly\b|giveitsomewelly/.test(raw)) return "The Welly Club";
+    if (/\badelphi\b/.test(raw)) return "The New Adelphi Club";
+    if (/\bpolar\b/.test(raw)) return "Polar Bear Music Club";
+    if (/\bpeople'?s republic\b/.test(raw)) return "The People's Republic";
+    return ev.venue || ev.source || "Other";
+  }
+
+  function isIcsLike(url){
+    const u = url || "";
+    return /\.ics(\?|$)/i.test(u) || /[?&]format=ical\b/i.test(u) || /calendar\.google\.com|google\.com\/calendar/i.test(u);
+  }
+
+  function toListingsUrl(url, source){
+    if (!url) return "#";
+    if (!isIcsLike(url)) return url;
+    try {
+      const u = new URL(url, location.href);
+      if (/[?&]format=ical\b/i.test(u.search)) return u.origin + u.pathname;
+    } catch {}
+    const s = (source || "").toLowerCase();
+    if (url.includes("polarbearmusicclub.co.uk") || s.includes("polar bear")) return "https://www.polarbearmusicclub.co.uk/whatson";
+    if (url.includes("giveitsomewelly.com") || s.includes("welly")) return "https://www.giveitsomewelly.com/shows/";
+    if (url.includes("theadelphi.com") || s.includes("adelphi")) return "https://www.theadelphi.com/events/";
+    return "#";
+  }
+
+  function toGCalDateISO(d){
+    if (!d) return null;
+    const pad = n => String(n).padStart(2,"0");
+    return (
+      d.getUTCFullYear() + pad(d.getUTCMonth()+1) + pad(d.getUTCDate()) + "T" +
+      pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + "Z"
+    );
+  }
+
+  function googleHref(ev){
+    const start = parseMaybe(ev?.start);
+    const end = ev?.end ? parseMaybe(ev.end) : (start ? new Date(start.getTime()+2*60*60*1000) : null);
+    if (!start || !end) return null;
+    const s = toGCalDateISO(start);
+    const e = toGCalDateISO(end);
+    const title = encodeURIComponent(ev?.title || "Event");
+    const loc = encodeURIComponent([ev?.venue, ev?.address].filter(Boolean).join(", "));
+    const details = encodeURIComponent(ev?.url || "");
+    return `https://www.google.com/calendar/event?action=TEMPLATE&text=${title}&dates=${s}/${e}&location=${loc}&details=${details}`;
+  }
+
+  function groupByDate(items){
+    const dated = items.filter(ev => parseMaybe(ev.start));
+    const undated = items.filter(ev => !parseMaybe(ev.start));
+    const groups = new Map();
+    for (const ev of dated) {
+      const d = parseMaybe(ev.start);
+      const key = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(ev);
+    }
+    const ordered = Array.from(groups.entries()).sort(([a],[b]) => a.localeCompare(b));
+    if (state.showUndated && undated.length) ordered.push(["Undated", undated]);
+    return ordered;
+  }
+
+  function dateParts(iso){
+    const d = parseMaybe(iso);
+    if (!d) return { dow:"", day:"–", mon:"" };
+    return {
+      dow: d.toLocaleDateString(undefined, { weekday:"short" }),
+      day: String(d.getDate()).padStart(2,"0"),
+      mon: d.toLocaleDateString(undefined, { month:"short" }),
+    };
+  }
+
+  /* ----------------------- Data loading ----------------------- */
+  async function fetchEventsJson(){
+    const url = "events.json?ts=" + Date.now(); // cache-buster
+    const res = await fetch(url, { cache:"no-store" });
+    if (!res.ok) throw new Error(`Failed to load events.json (${res.status})`);
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch { throw new Error("Invalid JSON in events.json"); }
+
+    // lastUpdated
+    let updated = null;
+    try {
+      const most = data.reduce((m, e) => Math.max(m, e.scrapedAt ? +new Date(e.scrapedAt) : 0), 0);
+      if (most) updated = new Date(most);
+    } catch {}
+    if (!updated) {
+      const hdr = res.headers.get("Last-Modified") || res.headers.get("Date");
+      if (hdr) updated = new Date(hdr);
+    }
+    state.lastUpdated = updated || new Date();
+    return data;
+  }
+
+  /* ----------------------- Rendering ----------------------- */
+  function populateVenueFilter(){
+    const venues = Array.from(new Set(state.all.map(venueLabel))).sort();
+    const opts = ['<option value="">All venues</option>'].concat(venues.map(v => `<option value="${escapeHTML(v)}">${escapeHTML(v)}</option>`));
+    els.venue.innerHTML = opts.join("");
+  }
+
+  function render(){
+    const n = state.view.length;
+    els.countText.textContent = `${n} event${n===1?"":"s"}`;
+    els.refreshText.textContent = state.autoRefresh ? "Auto refresh on" : "Auto refresh off";
+    els.updatedText.textContent = state.lastUpdated ? `Updated ${timeAgo(state.lastUpdated)} (${state.lastUpdated.toLocaleString()})` : "—";
+
+    if (!n) {
+      els.list.innerHTML = `<div class="empty">No events match your filters. <button class="seg tiny" id="resetBtn">Reset</button></div>`;
+      $("#resetBtn")?.addEventListener("click", () => {
+        els.q.value=""; els.from.value=""; els.to.value=""; els.sort.value="date-asc"; els.venue.value="";
+        state.range="all"; state.showUndated=true; syncRangeButtons();
+        els.toggleUndated.setAttribute("aria-pressed","true"); els.toggleUndated.textContent="Hide undated";
+        applyFilters();
+      });
+      return;
+    }
+
+    const groups = groupByDate(state.view);
+    const sections = groups.map(([key, items]) => {
+      const label = key === "Undated" ? "Undated" : fmtDateShort(items[0].start);
+      const grid = items.map(ev => {
+        const pill = dateParts(ev.start);
+        const openHref = toListingsUrl(ev.url || "", ev.source);
+        const gHref = googleHref(ev);
+        const isIcs = isIcsLike(ev.url || "");
+        const title = escapeHTML(ev.title || "Untitled");
+        const meta = [
+          parseMaybe(ev.start) ? new Date(ev.start).toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' }) : "",
+          ev.venue ? escapeHTML(ev.venue) : null,
+          ev.address ? escapeHTML(ev.address) : null,
+        ].filter(Boolean).join(" · ");
+        const src = escapeHTML(ev.source || "Unknown");
+        const ticket = Array.isArray(ev.tickets) && ev.tickets.find(t => t && t.url);
+
+        return `
+        <article class="event" role="article" aria-label="${title}">
+          <div class="pill" aria-hidden="true">
+            <div class="dow">${escapeHTML(pill.dow)}</div>
+            <div class="day">${escapeHTML(pill.day)}</div>
+            <div class="mon">${escapeHTML(pill.mon)}</div>
+          </div>
+          <div>
+            <h2 class="title">${title}</h2>
+            <div class="meta">${meta || "<span class='muty'>Details TBC</span>"}</div>
+            <div class="source">Source: ${src}</div>
+          </div>
+          <div class="card-actions">
+            ${ticket ? `<a class="btn" href="${escapeHTML(ticket.url)}" target="_blank" rel="noopener">Tickets</a>` : ""}
+            ${gHref ? `<a class="btn" href="${escapeHTML(gHref)}" target="_blank" rel="noopener">Add to Google</a>` : ""}
+            <a class="btn" href="${escapeHTML(openHref)}" target="_blank" rel="noopener">${isIcs ? "Listings" : "Open"}</a>
+          </div>
+        </article>`;
+      }).join("");
+
+      return `<section class="section"><h3>${escapeHTML(label)}</h3><div class="grid">${grid}</div></section>`;
+    }).join("");
+
+    els.list.innerHTML = sections;
+  }
+
+  /* ----------------------- Filtering logic ----------------------- */
+  function syncRangeButtons(){
+    els.rangeButtons.forEach(b => b.setAttribute("aria-pressed", b.dataset.range === state.range ? "true" : "false"));
+  }
+
+  function applyFilters(){
+    const q = els.q.value.toLowerCase().trim();
+    const hasFrom = !!els.from.value;
+    const hasTo   = !!els.to.value;
+    const from = hasFrom ? +new Date(els.from.value) : null;
+    const to   = hasTo   ? +new Date(els.to.value + "T23:59:59") : null;
+    const sort = els.sort.value;
+    const vfilter = els.venue.value;
+
+    let arr = [...state.all];
+
+    // Drop past events (keep undated for now; we handle below)
+    const today = new Date(); today.setHours(0,0,0,0);
+    const todayTs = +today;
+    arr = arr.filter(e => {
+      const d = parseMaybe(e.start);
+      return d ? (+d >= todayTs) : true;
+    });
+
+    // Text
+    if (q) {
+      arr = arr.filter(e => (`${e.title||""} ${e.venue||""} ${e.address||""} ${e.source||""}`).toLowerCase().includes(q));
+    }
+
+    // If explicit date window, EXCLUDE undated and clamp
+    if (hasFrom || hasTo) {
+      arr = arr.filter(e => parseMaybe(e.start)); // drop undated
+      if (hasFrom) arr = arr.filter(e => +parseMaybe(e.start) >= from);
+      if (hasTo)   arr = arr.filter(e => +parseMaybe(e.start) <= to);
+    } else {
+      // No explicit window; respect the Undated toggle
+      if (!state.showUndated) arr = arr.filter(e => parseMaybe(e.start));
+    }
+
+    if (vfilter) arr = arr.filter(e => venueLabel(e) === vfilter);
+
+    // Sort
+    if (sort === "date-asc") {
+      arr.sort((a,b) => +parseMaybe(a.start || 0) - +parseMaybe(b.start || 0));
+    } else if (sort === "date-desc") {
+      arr.sort((a,b) => +parseMaybe(b.start || 0) - +parseMaybe(a.start || 0));
+    } else if (sort === "title") {
+      arr.sort((a,b) => (a.title||"").localeCompare(b.title||""));
+    }
+
+    state.view = arr;
+    render();
+    saveFilters();
+  }
+
+  function debounce(fn, ms){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), ms); }; }
+
+  /* ----------------------- Boot ----------------------- */
+  async function boot(initial=false){
+    try{
+      $("#status").hidden = false;
+      $("#status").textContent = initial ? "Loading…" : "Refreshing…";
+
+      // Show announcement per tab/session
+      const dismissed = sessionStorage.getItem("announceDismissed") === "1";
+      els.announce.hidden = dismissed;
+
+      loadFilters();
+      const data = await fetchEventsJson();
+      state.all = Array.isArray(data) ? data : [];
+
+      populateVenueFilter();
+      applyFilters();
+    } catch (e){
+      console.error(e);
+      $("#status").hidden = false;
+      $("#status").className = "error";
+      $("#status").textContent = e.message || "Could not load events.json — run the fetcher first.";
+      return;
+    } finally {
+      $("#status").hidden = true;
+    }
+  }
+
+  /* ----------------------- Auto refresh ----------------------- */
+  function scheduleTick(){
+    if (!state.autoRefresh) return;
+    clearTimeout(scheduleTick._t);
+    scheduleTick._t = setTimeout(async () => { await boot(false); scheduleTick(); }, state.refreshMs);
+    state.nextTickAt = Date.now() + state.refreshMs;
+  }
+  function tickUI(){
+    if (!state.autoRefresh || !state.nextTickAt) {
+      $("#nextRefresh .dot").className = "dot " + (state.autoRefresh ? "good" : "warn");
+      return;
+    }
+    const ms = Math.max(0, state.nextTickAt - Date.now());
+    const min = Math.floor(ms/60000), sec = Math.floor((ms%60000)/1000);
+    $("#nextRefresh .dot").className = "dot good";
+    $("#refreshText").textContent = `Auto refresh in ${min}:${String(sec).padStart(2,"0")}`;
+    requestAnimationFrame(tickUI);
+  }
+
+  /* ----------------------- Bindings ----------------------- */
+  const onFilterInput = debounce(applyFilters, 120);
+  ["input","change"].forEach(evt => {
+    [els.q, els.from, els.to, els.sort, els.venue].forEach(el => el.addEventListener(evt, onFilterInput));
+  });
+
+  els.auto.addEventListener("change", () => {
+    state.autoRefresh = !!els.auto.checked;
+    if (state.autoRefresh) { scheduleTick(); tickUI(); }
+    else { clearTimeout(scheduleTick._t); state.nextTickAt = null; $("#refreshText").textContent = "Auto refresh off"; }
+    render();
+    saveFilters();
+  });
+
+  els.rangeButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.range = btn.dataset.range;
+      syncRangeButtons();
+      applyQuickRange(state.range); // sets dates & applies filters
+      saveFilters();
+    });
+  });
+
+  els.toggleUndated.addEventListener("click", () => {
+    state.showUndated = !state.showUndated;
+    els.toggleUndated.setAttribute("aria-pressed", state.showUndated ? "true" : "false");
+    els.toggleUndated.textContent = state.showUndated ? "Hide undated" : "Show undated";
+    applyFilters();
+  });
+
+  els.refreshNow.addEventListener("click", async () => { await boot(false); });
+
+  els.clear.addEventListener("click", () => {
+    els.q.value=""; els.from.value=""; els.to.value=""; els.sort.value="date-asc"; els.venue.value="";
+    state.range="all"; state.showUndated=true; syncRangeButtons();
+    els.toggleUndated.setAttribute("aria-pressed","true"); els.toggleUndated.textContent="Hide undated";
+    applyFilters();
+  });
+
+  els.share.addEventListener("click", async () => {
+    saveFilters();
+    try {
+      await navigator.clipboard.writeText(location.href);
+      els.toast.hidden = false; setTimeout(()=> els.toast.hidden = true, 1500);
+    } catch {
+      alert("Copied: " + location.href);
+    }
+  });
+
+  els.announceClose.addEventListener("click", () => {
+    sessionStorage.setItem("announceDismissed","1");
+    els.announce.hidden = true;
+  });
+
+  // Start
+  (async () => { await boot(true); scheduleTick(); tickUI(); })();
+})();
+</script>
+</body>
+</html>
