@@ -1,9 +1,12 @@
-﻿name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  schedule:
+    # every 6 hours (UTC). Change this if you want.
+    - cron: '0 */6 * * *'
 
 permissions:
   contents: read
@@ -11,7 +14,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -19,21 +22,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
       - run: npm ci
 
-      # Generate events.json at build time (skip Welly to keep CI simple/fast)
-      - name: Build public folder
+      # Run your scraper to refresh events.json
+      - name: Scrape & build events.json
         env:
+          # Set to "0" if you want Welly included in the auto runs
           SKIP_WELLY: "1"
         run: |
           mkdir -p public
-          node ./scrape-hull-venues.js > public/events.json || echo "scrape failed, using committed events.json"
+          node ./scrape-hull-venues.js > public/events.json || echo "scrape failed, keeping previous"
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
