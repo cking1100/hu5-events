@@ -1,90 +1,254 @@
-// scrape-hull-venues.js (ESM; writes ONLY JSON to stdout)
+// scrape-hull-venues.js
+// ESM script: fetches multiple Hull venue calendars and prints JSON to stdout.
+// - All logs go to stderr (so stdout is clean JSON)
+// - HTML entities are decoded (fixes Jelly &#8211; ...)
+// - Addresses always present via venue fallback map
+// - Union Mash Up "Private Event" pages are skipped
+
+/* ----------------------------- Imports ----------------------------- */
 import * as cheerio from "cheerio";
+import he from "he"; // decode HTML entities like &#8211; and &#8217;
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
-import tz from "dayjs/plugin/timezone.js";
-import customParse from "dayjs/plugin/customParseFormat.js";
+import timezone from "dayjs/plugin/timezone.js";
+import customParseFormat from "dayjs/plugin/customParseFormat.js";
 
+/* Enable Day.js plugins once */
 dayjs.extend(utc);
-dayjs.extend(tz);
-dayjs.extend(customParse);
+dayjs.extend(timezone);
+dayjs.extend(customParseFormat);
 
+/* ----------------------------- Config ------------------------------ */
 const TZ = "Europe/London";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36";
 const ACCEPT_LANG = "en-GB,en;q=0.9";
 
-const log = (...a) => console.error(...a);         // all logs -> stderr
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+/* Start-of-today cutoff in London. We keep today+future, allow undated. */
+const CUTOFF = dayjs.tz(dayjs(), TZ).startOf("day");
 
+/* ---------------------- Small general utilities -------------------- */
+const log = (...a) => console.error(...a); // All logs → stderr
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const unique = (arr) => [...new Set((arr || []).filter(Boolean))];
 const nowISO = () => new Date().toISOString();
-const normalizeWhitespace = (s = "") => s.replace(/\s+/g, " ").trim();
-const safeNewURL = (href, base) => { try { return new URL(href, base).toString(); } catch { return null; } };
-const safeJoinDateTime = (d, t) => {
-  const D = (d || "").trim(), T = (t || "").trim();
-  return (D && T) ? `${D} ${T}` : (D || T || "");
-};
 
-// Convert a Dayjs (or Date) safely to ISO
-function toISO(d) {
+/* Normalize + decode HTML entities; squash whitespace; strip NBSPs */
+const normalizeWhitespace = (s = "") =>
+  he
+    .decode(String(s))
+    .replace(/\u00A0/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+/* Guarded URL resolution (absolute URL or null) */
+const safeNewURL = (href, base) => {
   try {
-    if (!d) return null;
-    if (typeof d.isValid === "function") {
-      if (!d.isValid()) return null;
-      return new Date(+d).toISOString();
-    }
-    const dt = new Date(d);
-    return isNaN(dt) ? null : dt.toISOString();
+    return new URL(href, base).toString();
   } catch {
     return null;
   }
+};
+
+/* Dayjs→ISO wrapper that won’t throw */
+// Dayjs→ISO (and general) safe converter that never throws
+function toISO(d) {
+  try {
+    if (d && typeof d === "object" && typeof d.isValid === "function") {
+      if (!d.isValid()) return null;
+      const ms = +d;
+      if (!Number.isFinite(ms)) return null;
+      const dt = new Date(ms);
+      const t = dt.getTime();
+      if (!Number.isFinite(t)) return null;
+      return dt.toISOString();
+    }
+    const dt = d instanceof Date ? d : new Date(d);
+    const t = dt.getTime();
+    if (!Number.isFinite(t)) return null;
+    return dt.toISOString();
+  } catch { return null; }
 }
 
-// --- PolarBear-specific helpers ---
-function stripOrdinals(s="") {
-  return s.replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, "$1");
+async function fetchWithTimeout(url, {
+  method = "GET",
+  headers = {},
+  timeoutMs = 15000,     // 15s per request
+  retries = 1,           // retry once on network/timeouts
+  retryDelayMs = 500,    // backoff baseline
+} = {}) {
+  let lastErr;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { method, headers, signal: ctrl.signal });
+      clearTimeout(t);
+      // Treat 4xx/5xx as failures worth retrying (except 404)
+      if (!res.ok && res.status !== 404) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      return res; // ok (or 404 we still return to let caller decide)
+    } catch (e) {
+      clearTimeout(t);
+      lastErr = e;
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, retryDelayMs * (attempt + 1)));
+        continue;
+      }
+      throw lastErr;
+    }
+  }
+  throw lastErr;
 }
 
-// Grab a sensible time from a big text blob: supports "8pm", "8.00pm", "20:00", "Doors 7:30pm", "7 – 11pm"
-function extractTimeFrom(text="") {
-  const t = text.replace(/\u00A0/g," ").replace(/\s+/g," ");
-  // Priority: explicit times with minutes+am/pm, then 24h, then hour+am/pm, then doors:
+// Collect Skiddle event links from anchors, JSON-LD and data-* attributes
+function collectSkiddleEventLinks($, pageUrl, base = "https://www.skiddle.com") {
+  const links = new Set();
+
+  const add = (u) => {
+    try {
+      const full = new URL(u, base).toString();
+      if (/^https?:\/\/(www\.)?skiddle\.com\//i.test(full)) {
+        // Event detail URL patterns we accept:
+        if (
+          /\/e\/\d+\/?$/i.test(full) ||                        // short form: /e/12345678
+          /-\d{4,}\/?$/i.test(full) ||                         // slug ending -12345678
+          /\/events?\/\d+/i.test(full)                         // /event/123456 or /events/123456
+        ) {
+          const x = new URL(full);
+          x.search = "";
+          x.hash = "";
+          links.add(x.toString());
+        }
+      }
+    } catch { /* ignore bad urls */ }
+  };
+
+  // 1) Plain anchors
+  $("a[href]").each((_, a) => add($(a).attr("href")));
+
+  // 2) Data attrs commonly used by Skiddle cards
+  $("[data-eid], [data-eventid], [data-event-id]").each((_, el) => {
+    const id = $(el).attr("data-eid") || $(el).attr("data-eventid") || $(el).attr("data-event-id");
+    if (id && /^\d{4,}$/.test(id)) add(`${base}/e/${id}`);
+  });
+
+  // 3) JSON-LD blocks (ItemList or Event)
+  $("script[type='application/ld+json']").each((_, s) => {
+    let raw = $(s).contents().text();
+    try {
+      const json = JSON.parse(raw);
+      const nodes = Array.isArray(json) ? json : [json];
+
+      for (const node of nodes) {
+        const graphs = Array.isArray(node?.["@graph"]) ? node["@graph"] : [node];
+
+        for (const g of graphs) {
+          if (!g || typeof g !== "object") continue;
+
+          const types = Array.isArray(g["@type"]) ? g["@type"] : [g["@type"]];
+          const tset = new Set(types.filter(Boolean).map(String));
+
+          // Direct Event
+          if (tset.has("Event") && g.url) add(g.url);
+
+          // ItemList with itemListElement containing events or urls
+          if (tset.has("ItemList") && Array.isArray(g.itemListElement)) {
+            for (const it of g.itemListElement) {
+              const item = it?.item || it?.url || it?.["@id"] || it;
+              if (typeof item === "string") add(item);
+              else if (item?.url) add(item.url);
+            }
+          }
+        }
+      }
+    } catch { /* ignore malformed json */ }
+  });
+
+  return [...links];
+}
+
+/* ------------------------ Date/time helpers ------------------------ */
+/** Remove ordinals: "2nd Nov 2025" → "2 Nov 2025" */
+function stripOrdinals(s = "") {
+  return normalizeWhitespace(s).replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, "$1");
+}
+
+/** Extract a plausible time from a text blob (8pm, 20:00, Doors 7:30pm, etc.) */
+function extractTimeFrom(text = "") {
+  const t = normalizeWhitespace(text);
+
+  // Priority: explicit minutes+am/pm, then 24h, then hour+am/pm, then doors:
   const m12a = t.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0];
-  const m24  = t.match(/\b\d{1,2}[:.]\d{2}\b/ )?.[0];
+  const m24 = t.match(/\b\d{1,2}[:.]\d{2}\b/)?.[0];
   const m12b = t.match(/\b\d{1,2}\s*(am|pm)\b/i)?.[0];
   const mDoors = t.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?(?:\s*(am|pm))?)\b/i)?.[1];
 
   let raw = m12a || m24 || m12b || mDoors || "";
   if (!raw) return "";
 
-  // normalise: 8.00pm -> 8:00 pm, 8pm -> 8:00 pm, 19 -> 19:00
-  raw = raw
+  // Normalise: "8.00pm"→"8:00 pm", "8pm"→"8:00 pm", "19"→"19:00"
+  raw = normalizeWhitespace(raw)
     .toLowerCase()
     .replace(/\./g, ":")
     .replace(/\s*(am|pm)$/i, " $1")
-    .replace(/^(\d{1,2})(am|pm)$/i, "$1:00 $2");
+    .replace(/^(\d{1,2})(am|pm)$/i, "$1:00 $2")
+    .replace(/^(\d{1,2})(?!:)/, "$1:00");
 
-  // if 24h without minutes like "19", add :00
-  raw = raw.replace(/^(\d{1,2})(?!:)/, "$1:00");
   return raw;
 }
 
-// Parse “D/M/Y” or “D MMM(M) YYYY” with either “HH:mm” or “h:mm a”, strictly.
-// Returns ISO or null; never throws.
-function parseDMYWithTime(dateText="", timeText="") {
-  const d = stripOrdinals(dateText.trim());
-  const t = timeText.trim();
+/** Normalise many time-ish things to "HH:mm" (24h). Returns null if not parseable. */
+function to24h(raw) {
+  if (!raw) return null;
+  const s = normalizeWhitespace(raw).toLowerCase().replace(/\./g, ":");
+
+  // "doors 7:30pm" -> "7:30pm"
+  const mDoors = s.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i);
+  if (mDoors) return to24h(mDoors[1]);
+
+  // 12h: 8pm / 8:00pm
+  let m = s.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/i);
+  if (m) {
+    let hh = parseInt(m[1], 10);
+    const mm = m[2] ? m[2].padStart(2, "0") : "00";
+    const ap = m[3].toLowerCase();
+    if (ap === "pm" && hh !== 12) hh += 12;
+    if (ap === "am" && hh === 12) hh = 0;
+    return String(hh).padStart(2, "0") + ":" + mm;
+  }
+
+  // range: "7 pm – 11 pm" -> take start "7 pm"
+  m = s.match(/\b(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i);
+  if (m) return to24h(m[1]);
+
+  // 24h: "20:00" or "7:30"
+  m = s.match(/\b(\d{1,2}):(\d{2})\b/);
+  if (m) {
+    const hh = String(Math.min(23, Math.max(0, parseInt(m[1], 10)))).padStart(2, "0");
+    const mm = String(Math.min(59, Math.max(0, parseInt(m[2], 10)))).padStart(2, "0");
+    return `${hh}:${mm}`;
+  }
+
+  // Bare hour? Not safe to guess here. Return null.
+  return null;
+}
+
+/** Parse D/M/Y + optional time strictly, return ISO or null. */
+function parseDMYWithTime(dateText = "", timeText = "") {
+  const d = stripOrdinals(dateText);
+  const t = normalizeWhitespace(timeText);
   if (!d) return null;
   const s = t ? `${d} ${t}` : d;
 
   const fmts = [
     "DD/MM/YYYY HH:mm", "D/M/YYYY HH:mm",
-    "DD/MM/YYYY h:mm a","D/M/YYYY h:mm a",
-    "D MMMM YYYY HH:mm","D MMM YYYY HH:mm",
-    "D MMMM YYYY h:mm a","D MMM YYYY h:mm a",
-    "DD/MM/YYYY",       "D/M/YYYY",
-    "D MMMM YYYY",      "D MMM YYYY",
+    "DD/MM/YYYY h:mm a", "D/M/YYYY h:mm a",
+    "D MMMM YYYY HH:mm", "D MMM YYYY HH:mm",
+    "D MMMM YYYY h:mm a", "D MMM YYYY h:mm a",
+    "DD/MM/YYYY", "D/M/YYYY",
+    "D MMMM YYYY", "D MMM YYYY",
   ];
   for (const f of fmts) {
     const parsed = dayjs.tz(s, f, TZ, true);
@@ -94,45 +258,10 @@ function parseDMYWithTime(dateText="", timeText="") {
   return null;
 }
 
-// Strict DD/MM/YYYY (+ optional HH:mm) parsing (Adelphi)
-function strictParseDMY(dateText, timeText) {
-  const d = (dateText || "").trim();
-  let t = (timeText || "").trim();
-  if (!d) return null;
-
-  // normalise common variants: 8.00pm -> 8:00 pm, 8pm -> 8 pm
-  t = t.replace(/\./g, ":")
-       .replace(/\s*(am|pm)$/i, " $1")
-       .replace(/^(\d{1,2})(am|pm)$/i, "$1 $2")
-       .replace(/^(\d{1,2}):?(\d{2})?(?:\s*(am|pm))?$/i, (_, h, m, ap) => {
-         const mm = m ? m : (ap ? "00" : "00");
-         return ap ? `${h}:${mm} ${ap.toLowerCase()}` : `${h}:${mm}`;
-       });
-
-  const s = t ? `${d} ${t}` : d;
-
-  const fmts = [
-    "DD/MM/YYYY HH:mm", "D/M/YYYY HH:mm",
-    "DD/MM/YYYY H:mm",  "D/M/YYYY H:mm",
-    "DD/MM/YYYY h:mm a","D/M/YYYY h:mm a",
-    "DD/MM/YYYY h a",   "D/M/YYYY h a",
-    "DD/MM/YYYY",       "D/M/YYYY",
-  ];
-
-  for (const f of fmts) {
-    const parsed = dayjs.tz(s, f, TZ, true); // strict parse
-    const iso = toISO(parsed);
-    if (iso) return iso;
-  }
-  return null;
-}
-
-
-
-// Fuzzy date text parser used as a fallback
+/** Fuzzy text parser for when strict formats fail. */
 function tryParseDateFromText(text) {
-  if (!text) return null;
-  const cleaned = String(text).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+  const cleaned = normalizeWhitespace(text);
+  if (!cleaned) return null;
   if (!/\d/.test(cleaned) && !/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(cleaned)) return null;
 
   const formats = [
@@ -149,6 +278,7 @@ function tryParseDateFromText(text) {
     if (iso) return iso;
   }
 
+  // Try date fragments inside the text
   const fragment =
     cleaned.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
     cleaned.match(/\b\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}\b/i)?.[0] ||
@@ -169,7 +299,7 @@ function tryParseDateFromText(text) {
   return toISO(d3) || null;
 }
 
-// Read JSON-LD Event if present
+/* --------------------- JSON-LD Event extractor --------------------- */
 function extractEventFromJSONLD($$, pageUrl) {
   try {
     const blocks = $$("script[type='application/ld+json']")
@@ -186,116 +316,235 @@ function extractEventFromJSONLD($$, pageUrl) {
             if (!g || typeof g !== "object") continue;
             const types = Array.isArray(g["@type"]) ? g["@type"] : [g["@type"]];
             if (types.includes("Event")) {
-              const title = g.name || g.headline || "";
+              const title = normalizeWhitespace(g.name || g.headline || "");
               const startISO = g.startDate || null;
               const endISO = g.endDate || null;
-              const address =
+              const address = normalizeWhitespace(
                 g.location?.name ||
                 g.location?.address?.streetAddress ||
-                g.location?.address?.addressLocality || "";
-              const offers = Array.isArray(g.offers) ? g.offers : (g.offers ? [g.offers] : []);
+                g.location?.address?.addressLocality || ""
+              );
+              const offers = Array.isArray(g.offers)
+                ? g.offers
+                : g.offers
+                ? [g.offers]
+                : [];
               const tickets = offers
-                .map(o => ({ label: normalizeWhitespace(o.name || "Tickets"), url: safeNewURL(o.url || "", pageUrl) }))
-                .filter(t => t?.url);
+                .map((o) => ({
+                  label: normalizeWhitespace(o.name || "Tickets"),
+                  url: safeNewURL(o.url || "", pageUrl),
+                }))
+                .filter((t) => t?.url);
               return { title, startISO, endISO, address, tickets };
             }
           }
         }
-      } catch { /* keep scanning */ }
+      } catch {
+        /* continue */
+      }
     }
   } catch {}
   return null;
 }
 
-function buildEvent({ source, venue, url, title, dateText, timeText, startISO, endISO, address, tickets = [] }) {
-  let start = null;
-  try {
-    start = startISO || (dateText ? tryParseDateFromText(`${dateText} ${timeText || ""}`) : null);
-  } catch {
-    start = null;
+/* ----------------------- Address fallbacks + resolver ---------------------- */
+// Expanded aliases so we catch different spellings
+const VENUE_ADDR = {
+  // Canonical names
+  "polar bear music club": "229 Spring Bank, Hull, HU3 1LR",
+  "the welly club": "105-107 Beverley Rd, Hull, HU3 1TS",
+  "the new adelphi club": "89 De Grey Street, Hull, HU5 2RU",
+  "vox box": "64-70 Newland Ave, Hull, HU5 3AB",
+  "union mash up": "22-24 Princes Ave, Hull, HU5 3QA",
+  "dive hu5": "Unit 1, 78 Princes Ave, Hull HU5 3QJ",
+
+  // Common aliases / signage
+  "polar bear": "229 Spring Bank, Hull, HU3 1LR",
+  "adelphi": "89 De Grey Street, Hull, HU5 2RU",
+  "vox box bar": "64-70 Newland Ave, Hull, HU5 3AB",
+  "umu": "22-24 Princes Ave, Hull, HU5 3QA",
+  "union mashup": "22-24 Princes Ave, Hull, HU5 3QA",
+  "dive bar": "Unit 1, 78 Princes Ave, Hull HU5 3QJ",
+};
+
+/** Resolve a postal address using:
+ *  1) rawAddress if it already contains a Hull postcode or looks complete
+ *  2) fuzzy match of venue/source against known aliases
+ */
+function resolveAddress(rawAddress = "", venue = "", source = "") {
+  const clean = normalizeWhitespace(rawAddress);
+  if (/\bHU\d+\s*\d?[A-Z]{2}\b/i.test(clean) || /Hull/i.test(clean)) {
+    return clean;
   }
-  return {
-    source,
-    venue,
-    url,
-    title: normalizeWhitespace(title || ""),
-    start: start || null,
-    end: endISO || null,
-    dateText: normalizeWhitespace(dateText || ""),
-    timeText: normalizeWhitespace(timeText || ""),
-    address: normalizeWhitespace(address || ""),
-    tickets: (tickets || []).filter(t => t && t.url),
-    scrapedAt: nowISO(),
-  };
+  const v = normalizeWhitespace(venue).toLowerCase();
+  const s = normalizeWhitespace(source).toLowerCase();
+
+  // direct hit
+  if (VENUE_ADDR[v]) return VENUE_ADDR[v];
+  if (VENUE_ADDR[s]) return VENUE_ADDR[s];
+
+  const allKeys = Object.keys(VENUE_ADDR);
+
+  // substring / keyword hits
+  const hit =
+    allKeys.find(k => v.includes(k)) ||
+    allKeys.find(k => s.includes(k)) ||
+    null;
+
+  return hit ? VENUE_ADDR[hit] : clean; // return clean (possibly empty) if no match
 }
 
-// London "today" cutoff (so we keep all of today, but drop anything earlier)
-const CUTOFF = dayjs.tz(dayjs(), TZ).startOf("day");
+/* ------------------------ Canonical event builder ------------------- */
+// - Decodes / normalizes all text
+// - Ensures an address using VENUE_ADDR when missing
+function buildEvent({
+  source,
+  venue,
+  url,
+  title,
+  dateText,
+  timeText,
+  startISO,      // optional: trusted ISO (e.g., JSON-LD)
+  endISO,        // optional
+  address,       // optional: raw address; resolver will fill if missing
+  tickets = [],  // optional: [{label, url}]
+  tz = "Europe/London",
+}) {
+  // ---------- Clean / normalise text ----------
+  const src   = normalizeWhitespace(source || "");
+  const ven   = normalizeWhitespace(venue  || "");
+  const href  = String(url || "").trim(); // keep as-is; validated elsewhere
+  const ttl   = normalizeWhitespace(title || "");
+  const dTxt  = normalizeWhitespace(dateText || "");
+  const tTxt  = normalizeWhitespace(timeText || "");
+  const addr  = normalizeWhitespace(address || "");
 
-// Small concurrency helper
-async function mapLimit(arr, limit, iter) {
-  const out = new Array(arr.length);
-  let i = 0;
-  const workers = Array.from({ length: Math.min(limit, arr.length) }, async () => {
-    while (true) {
-      const idx = i++;
-      if (idx >= arr.length) break;
-      out[idx] = await iter(arr[idx], idx);
+  // ---------- Start time resolution ----------
+  // 1) Trust a valid startISO if provided
+  let start = toISO(startISO);
+
+  // 2) Else strict parse date+time (prefers explicit page time if present)
+  if (!start) {
+    // If we have a clear time, try strict D/M/Y + time first
+    const t24 = to24h(tTxt || "");
+    if (dTxt && t24) {
+      const strict = dayjs.tz(`${dTxt} ${t24}`, ["D/M/YYYY HH:mm", "DD/MM/YYYY HH:mm", "D MMM YYYY HH:mm", "D MMMM YYYY HH:mm"], tz);
+      start = toISO(strict);
     }
-  });
-  await Promise.all(workers);
-  return out.filter(Boolean);
-}
-
-// ---- helper: build list pages for upcoming months + pagination ----
-function makePolarBearListPages(baseList, monthsAhead = 9, maxPages = 5) {
-  const pages = new Set();
-  pages.add(baseList.replace(/\/+$/, "")); // /whatson
-
-  // Month views (The Events Calendar style: ?tribe-bar-date=YYYY-MM-01)
-  const start = dayjs.tz(dayjs(), TZ).startOf("month");
-  for (let i = 0; i < monthsAhead; i++) {
-    const key = start.add(i, "month").format("YYYY-MM-01");
-    pages.add(`${baseList.replace(/\/+$/, "")}?tribe-bar-date=${key}`);
   }
 
-  // Classic pagination (…/page/2/, …/page/3/)
-  for (let p = 2; p <= maxPages; p++) {
-    pages.add(`${baseList.replace(/\/+$/, "")}/page/${p}/`);
+  // 3) Else try general strict helper (covers more formats)
+  if (!start && (dTxt || tTxt)) {
+    start = parseDMYWithTime(dTxt, tTxt); // returns ISO or null
   }
-  return [...pages];
+
+  // 4) Final fallback: fuzzy parse from any combined text (only if we had any date-ish text)
+  if (!start && (dTxt || tTxt)) {
+    start = tryParseDateFromText(`${dTxt} ${tTxt}`); // returns ISO or null
+  }
+
+  // ---------- Display helpers ----------
+  let displayTime24 = "";
+  let displayDateTimeLocal = "";
+
+  // Prefer a computed local time from `start`;
+  // if missing, fall back to a parsed "HH:mm" from the provided timeText.
+  if (start) {
+    const local = dayjs(start).tz(tz);
+    if (local.isValid()) {
+      displayTime24 = local.format("HH:mm");
+      displayDateTimeLocal = local.format("YYYY-MM-DD HH:mm");
+    }
+  } else {
+    const t24 = to24h(tTxt || "");
+    if (t24) displayTime24 = t24;
+  }
+
+  // ---------- Address (guaranteed when venue/source is known) ----------
+  const resolvedAddress = resolveAddress(addr, ven, src);
+
+  // ---------- Tickets: clean + de-dupe by URL ----------
+  const seenUrls = new Set();
+  const cleanTickets = (tickets || [])
+    .filter(t => t && t.url) // only keep with URL
+    .map(t => ({
+      label: normalizeWhitespace(t.label || "Tickets"),
+      url:   String(t.url).trim(),
+    }))
+    .filter(t => {
+      if (seenUrls.has(t.url)) return false;
+      seenUrls.add(t.url);
+      return true;
+    });
+
+  // ---------- Return canonical shape ----------
+  const ev = {
+    source: src,
+    venue: ven,
+    url: href,
+    title: ttl,
+    start: start || null,
+    end: toISO(endISO) || null,
+    dateText: dTxt,
+    timeText: tTxt,
+    address: resolvedAddress,          // ← always filled when recognised
+    tickets: cleanTickets,
+    scrapedAt: new Date().toISOString(),
+  };
+
+  // Non-breaking display extras your UI can use if present
+  if (displayTime24)        ev.displayTime24 = displayTime24;           // "HH:mm"
+  if (displayDateTimeLocal) ev.displayDateTime24 = displayDateTimeLocal; // "YYYY-MM-DD HH:mm" in TZ
+
+  return ev;
 }
 
-// ----------------< POLAR BEAR >----------------
-// ---------------- POLAR BEAR (robust date/time) ----------------
+/* ============================= SCRAPERS ============================ */
+/* -------- POLAR BEAR ---------------------------------------------- */
 async function scrapePolarBear() {
+  log("[polar] list");
   const base = "https://www.polarbearmusicclub.co.uk";
   const listURL = `${base}/whatson`;
-  log("[polar] list");
-
-  const res = await fetch(listURL, { headers: { "user-agent": UA, "accept-language": ACCEPT_LANG } });
-  const html = await res.text();
-  const $ = cheerio.load(html);
-
-  // Collect likely detail links on the listings page
   const baseHost = new URL(base).hostname;
-  const rawLinks = $("a[href]").map((_, a) => $(a).attr("href")).get();
 
+  let html;
+  try {
+    const res = await fetch(listURL, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+    });
+    html = await res.text();
+  } catch (e) {
+    log("[polar] list fetch failed:", e.message);
+    return [];
+  }
+
+  const $ = cheerio.load(html);
+  const rawLinks = $("a[href]")
+    .map((_, a) => $(a).attr("href"))
+    .get();
+
+  // Candidate detail links live under /whatson/<slug>
   const eventLinks = unique(
     rawLinks
-      .map(h => safeNewURL(h, base))
+      .map((h) => safeNewURL(h, base))
       .filter(Boolean)
-      .filter(u => {
+      .filter((u) => {
         try {
           const uu = new URL(u);
           if (uu.hostname !== baseHost) return false;
-          // detail pages live under /whatson/<slug>
           if (!/^\/whatson\/[^/?#]+$/.test(uu.pathname)) return false;
           if (/google|ics|calendar|format=ical/i.test(u)) return false;
           return true;
-        } catch { return false; }
+        } catch {
+          return false;
+        }
       })
-      .map(u => { const x = new URL(u); x.search = ""; x.hash = ""; return x.toString(); })
+      .map((u) => {
+        const x = new URL(u);
+        x.search = "";
+        x.hash = "";
+        return x.toString();
+      })
   );
 
   log(`[polar] candidate detail links: ${eventLinks.length}`);
@@ -303,26 +552,30 @@ async function scrapePolarBear() {
   const out = [];
   for (const url of eventLinks) {
     try {
-      const r2 = await fetch(url, { headers: { "user-agent": UA, "accept-language": ACCEPT_LANG } });
+      const r2 = await fetch(url, {
+        headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+      });
       const html2 = await r2.text();
       const $$ = cheerio.load(html2);
 
-      // Prefer JSON-LD first
+      // Prefer JSON-LD
       const fromLD = extractEventFromJSONLD($$, url) || {};
-      let title = fromLD.title || $$("h1").first().text().trim() || $$("title").text().trim();
+      let title =
+        fromLD.title || $$("h1").first().text().trim() || $$("title").text().trim();
 
-      // Try to capture a tight text zone around the H1 for date/time
       const $h1 = $$("h1").first();
       const near = normalizeWhitespace(
-        ($h1.text() || "") + " " +
-        $h1.nextAll().slice(0, 4).text() + " " +
-        $h1.parent().next().text()
+        ($h1.text() || "") +
+          " " +
+          $h1.nextAll().slice(0, 4).text() +
+          " " +
+          $h1.parent().next().text()
+      );
+      const big = normalizeWhitespace(
+        $$("main, article, .event, body").first().text()
       );
 
-      // If that fails, use a broader sweep
-      const big = normalizeWhitespace($$("main, article, .event, body").first().text());
-
-      // Date candidates
+      // Date (look in nearby first, then big sweep)
       const dateText =
         near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
         near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
@@ -332,31 +585,28 @@ async function scrapePolarBear() {
         big.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
         "";
 
-      // Time candidates (be generous)
-      let timeText =
-        extractTimeFrom(near) ||
-        extractTimeFrom(big) ||
-        "";
+      const timeText = extractTimeFrom(near) || extractTimeFrom(big) || "";
 
-      // FINAL start: prefer LD, else strict D/M/Y+time, else fuzzy
       const startISO =
         fromLD.startISO ||
         parseDMYWithTime(dateText, timeText) ||
         tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
 
-      // Address (best-effort)
       const address =
         fromLD.address ||
         ($$("a[href*='maps.google'], a[href*='g.page']").parent().text().trim()) ||
         (big.match(/\bHull\b.*?(HU\d\w?\s*\d\w\w)\b/i)?.[0] || "");
 
-      // Tickets
       const tickets = $$("a[href]")
-        .filter((_, a) => /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test($$(a).attr("href") || ""))
+        .filter((_, a) =>
+          /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
+            $$(a).attr("href") || ""
+          )
+        )
         .map((_, a) => {
           const href = $$(a).attr("href") || "";
           const u = safeNewURL(href, url);
-          return u ? ({ label: $$(a).text().trim() || "Tickets", url: u }) : null;
+          return u ? { label: $$(a).text().trim() || "Tickets", url: u } : null;
         })
         .get()
         .filter(Boolean);
@@ -364,16 +614,26 @@ async function scrapePolarBear() {
       const ev = buildEvent({
         source: "Polar Bear Music Club",
         venue: "Polar Bear Music Club",
-        url, title,
-        dateText, timeText,
+        url,
+        title,
+        dateText,
+        timeText,
         startISO,
         endISO: fromLD.endISO || null,
-        address, tickets
+        address,
+        tickets,
       });
 
-      // If we still couldn't parse a date, just keep it as undated (no crash).
+      // Filter past if we parsed a date
+      if (ev.start) {
+        const d = dayjs(ev.start);
+        if (d.isValid() && d.isBefore(CUTOFF)) {
+          continue;
+        }
+      }
+
       out.push(ev);
-      await sleep(100);
+      await sleep(60);
     } catch (e) {
       log("Polar Bear event error:", e.message, url);
     }
@@ -383,18 +643,36 @@ async function scrapePolarBear() {
   return out;
 }
 
-/* ----------------< ADELPHI >---------------- */
+/* -------- ADELPHI -------------------------------------------------- */
+function parseDateOnlyAdelphi(dateText) {
+  if (!dateText) return null;
+  const formats = [
+    "D/M/YYYY", "DD/M/YYYY", "D/MM/YYYY", "DD/MM/YYYY",
+    "D MMMM YYYY", "DD MMMM YYYY",
+    "D MMM YYYY", "DD MMM YYYY",
+    "ddd D MMMM YYYY", "dddd D MMMM YYYY",
+    "ddd D MMM YYYY", "dddd D MMM YYYY",
+  ];
+  for (const f of formats) {
+    const d = dayjs.tz(dateText, f, TZ);
+    if (d.isValid()) return d.format("YYYY-MM-DD");
+  }
+  return null;
+}
+
 async function scrapeAdelphi() {
   log("[adelphi] list");
   const base = "https://www.theadelphi.com";
   const baseHost = new URL(base).hostname;
   const listURLs = [`${base}/events/`, `${base}/`];
 
-  // 1) collect links
+  // Collect candidate links
   let hrefs = [];
   for (const listURL of listURLs) {
     try {
-      const res = await fetch(listURL, { headers: { "user-agent": UA, "accept-language": ACCEPT_LANG } });
+      const res = await fetch(listURL, {
+        headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+      });
       const html = await res.text();
       const $ = cheerio.load(html);
       hrefs.push(...$("a[href]").map((_, a) => $(a).attr("href")).get());
@@ -404,151 +682,206 @@ async function scrapeAdelphi() {
   }
 
   const rawEventLinks = hrefs
-    .map(h => safeNewURL(h, base))
+    .map((h) => safeNewURL(h, base))
     .filter(Boolean)
-    .filter(u => {
+    .filter((u) => {
       try {
         const uu = new URL(u);
         return uu.hostname === baseHost && /^\/events\/[^/]+\/?$/.test(uu.pathname);
-      } catch { return false; }
+      } catch {
+        return false;
+      }
     })
-    .map(u => { const x = new URL(u); x.search=""; x.hash=""; return x.toString(); });
+    .map((u) => {
+      const x = new URL(u);
+      x.search = "";
+      x.hash = "";
+      return x.toString();
+    });
 
   // de-dupe by slug
-  const seen = new Set(); const eventLinks = [];
+  const seen = new Set();
+  const eventLinks = [];
   for (const u of rawEventLinks) {
-    const slug = new URL(u).pathname.replace(/\/+$/,"").split("/").pop();
-    if (!seen.has(slug)) { seen.add(slug); eventLinks.push(u); }
+    const slug = new URL(u).pathname.replace(/\/+$/, "").split("/").pop();
+    if (!seen.has(slug)) {
+      seen.add(slug);
+      eventLinks.push(u);
+    }
   }
 
-  log(`[adelphi] found links: ${rawEventLinks.length}`);
   log(`[adelphi] unique slugs: ${eventLinks.length}`);
 
-  // 2) crawl detail pages with small concurrency
-  const MAX = 300;
-  const toCrawl = eventLinks.slice(0, MAX);
-  log(`[adelphi] crawling: ${toCrawl.length}`);
+  const results = [];
+  const BATCH = 6;
+  for (let i = 0; i < eventLinks.length; i += BATCH) {
+    const batch = eventLinks.slice(i, i + BATCH);
+    const settled = await Promise.allSettled(
+      batch.map(async (url) => {
+        try {
+          const r2 = await fetch(url, {
+            headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+          });
+          const html2 = await r2.text();
+          const $$ = cheerio.load(html2);
 
-  const results = await mapLimit(toCrawl, 6, async (url) => {
-    try {
-      const r2 = await fetch(url, { headers: { "user-agent": UA, "accept-language": ACCEPT_LANG } });
-      const html2 = await r2.text();
-      const $$ = cheerio.load(html2);
+          const fromLD = extractEventFromJSONLD($$, url) || {};
+          const title =
+            fromLD.title ||
+            $$("h1, .entry-title").first().text().trim() ||
+            $$("title").text().trim();
 
-      const fromLD = extractEventFromJSONLD($$, url) || {};
-      const title =
-        fromLD.title ||
-        $$("h1, .entry-title").first().text().trim() ||
-        $$("title").text().trim();
+          // Find a decent text zone for date/time mining
+          const zones = [
+            ".entry-content",
+            ".single-event",
+            ".tribe-events-single-event-description",
+            ".tribe-events-event-meta",
+            "main",
+            "article",
+            "body",
+          ];
+          let text = "";
+          for (const sel of zones) {
+            const t = $$(sel).first().text();
+            if (t && t.trim().length > 40) {
+              text = t;
+              break;
+            }
+          }
+          if (!text) text = $$("body").text();
+          text = normalizeWhitespace(text);
 
-      // Focus on useful text blocks first
-      const zones = [
-        ".entry-content",
-        ".single-event",
-        ".tribe-events-single-event-description",
-        ".tribe-events-event-meta",
-        "main",
-        "article",
-        "body"
-      ];
-      let text = "";
-      for (const sel of zones) {
-        const t = $$(sel).first().text();
-        if (t && t.trim().length > 40) { text = t; break; }
-      }
-      if (!text) text = $$("body").text();
-      text = normalizeWhitespace(text).replace(/\u00A0/g, " ");
+          // Date (DD/MM/YYYY or wordy)
+          const dateRaw =
+            text.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            text.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            text.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            "";
+          const dateText = stripOrdinals(dateRaw);
 
-      // DATE: prefer D/M/Y, else "20 December 2025", else "Sat 20 December 2025"
-      const dateRaw =
-        text.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
-        text.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-        text.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-        "";
-      const dateText = dateRaw.replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, "$1");
+          const dateOnly = (() => {
+            if (fromLD.startISO) {
+              const d = dayjs(fromLD.startISO).tz(TZ);
+              if (d.isValid()) return d.format("YYYY-MM-DD");
+            }
+            return parseDateOnlyAdelphi(dateText);
+          })();
 
-      // TIME: accept 20:00 / 20.00 / 8pm / 8:00pm / Doors 7:30pm / "7pm – 11pm"
-      let timeText = "";
-      const mDoors = text.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?(?:\s*(am|pm))?)\b/i);
-      const m24    = text.match(/\b\d{1,2}[:.]\d{2}\b/);
-      const m12a   = text.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i);
-      const m12b   = text.match(/\b\d{1,2}\s*(am|pm)\b/i);
-      const mRange = text.match(/\b(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i);
+          // Time (prefer explicit time on the page)
+          const mDoors = text.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i);
+          const m12a = text.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i);
+          const m12b = text.match(/\b\d{1,2}\s*(am|pm)\b/i);
+          const mRange = text.match(/\b(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i);
+          const m24 = text.match(/\b\d{1,2}[:.]\d{2}\b/);
+          const pick = mDoors?.[1] || m12a?.[0] || m12b?.[0] || mRange?.[1] || m24?.[0] || "";
+          const timeText = normalizeWhitespace(pick);
+          const pageTime24 = to24h(timeText); // "HH:mm" or null
 
-      const pick = mDoors?.[1] || m12a?.[0] || m24?.[0] || m12b?.[0] || mRange?.[1] || "";
-      if (pick) {
-        timeText = pick
-          .toLowerCase()
-          .replace(/\./g, ":")
-          .replace(/\s*(am|pm)$/, " $1")
-          .replace(/^(\d{1,2})(am|pm)$/i, "$1 $2");
-        // ensure minutes exist when AM/PM but no :
-        if (/^\d{1,2}\s*(am|pm)$/i.test(timeText)) timeText = timeText.replace(/^(\d{1,2})\s*(am|pm)$/i, "$1:00 $2");
-      }
+          // Compose start
+          let startISO = null;
+          if (dateOnly && pageTime24) {
+            startISO = dayjs
+              .tz(`${dateOnly} ${pageTime24}`, "YYYY-MM-DD HH:mm", TZ)
+              .toISOString();
+          } else if (fromLD.startISO) {
+            // Use LD, but if page time differs, prefer page time (if dateOnly exists)
+            startISO = dayjs(fromLD.startISO).isValid()
+              ? dayjs(fromLD.startISO).toISOString()
+              : null;
+            if (startISO && pageTime24 && dateOnly) {
+              const ldH = dayjs(startISO).tz(TZ).hour();
+              const pgH = parseInt(pageTime24.split(":")[0], 10);
+              if (ldH !== pgH) {
+                startISO = dayjs
+                  .tz(`${dateOnly} ${pageTime24}`, "YYYY-MM-DD HH:mm", TZ)
+                  .toISOString();
+              }
+            }
+          } else if (dateOnly && pageTime24) {
+            startISO = dayjs
+              .tz(`${dateOnly} ${pageTime24}`, "YYYY-MM-DD HH:mm", TZ)
+              .toISOString();
+          }
 
-      // Final startISO preference: JSON-LD > strict D/M/Y > fuzzy
-      const startISO =
-        fromLD.startISO ||
-        strictParseDMY(dateText, timeText) ||
-        tryParseDateFromText(`${dateText} ${timeText}`.trim());
+          // Past filter (keep undated)
+          if (startISO) {
+            const d = dayjs(startISO);
+            if (d.isValid() && d.isBefore(CUTOFF)) return null;
+          }
 
-      // Filter past only if we have a confident parse
-      if (startISO) {
-        const d = dayjs(startISO);
-        if (d.isValid() && d.isBefore(dayjs.tz(dayjs(), TZ).startOf("day"))) {
+          // For display, if we got a parsed time, keep it around in case UI wants HH:mm
+          let displayTime24 = "";
+          if (startISO) {
+            displayTime24 = dayjs(startISO).tz(TZ).format("HH:mm");
+          } else if (pageTime24) {
+            displayTime24 = pageTime24;
+          }
+
+          const address =
+            fromLD.address ||
+            (text.match(/\b89\s+De\s+Grey\s+Street\b.*?\bHU5\s*2RU\b/i)?.[0] || "");
+
+          const tickets = $$("a[href]")
+            .filter((_, a) =>
+              /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|wegottickets|ticketsource)/i.test(
+                $$(a).attr("href") || ""
+              )
+            )
+            .map((_, a) => {
+              const href = $$(a).attr("href") || "";
+              const u = safeNewURL(href, url);
+              return u ? { label: $$(a).text().trim() || "Tickets", url: u } : null;
+            })
+            .get()
+            .filter(Boolean);
+
+          const ev = buildEvent({
+            source: "The Adelphi Club",
+            venue: "The New Adelphi Club",
+            url,
+            title,
+            dateText,
+            timeText,
+            startISO,
+            endISO: fromLD.endISO || null,
+            address,
+            tickets,
+          });
+
+          // Attach optional display fields if your UI wants them (non-breaking)
+          if (displayTime24) ev.displayTime24 = displayTime24;
+
+          return ev;
+        } catch (e) {
+          log("Adelphi event error:", e.message);
           return null;
         }
-      }
+      })
+    );
 
-      const address =
-        fromLD.address ||
-        (text.match(/\b89\s+De\s+Grey\s+Street\b.*?\bHU5\s*2RU\b/i)?.[0] || "");
+    for (const r of settled) if (r.status === "fulfilled" && r.value) results.push(r.value);
+    await sleep(60);
+  }
 
-      const tickets = $$("a[href]")
-        .filter((_, a) => /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|wegottickets|ticketsource)/i.test($$(a).attr("href") || ""))
-        .map((_, a) => {
-          const href = $$(a).attr("href") || "";
-          const u = safeNewURL(href, url);
-          return u ? { label: $$(a).text().trim() || "Tickets", url: u } : null;
-        })
-        .get()
-        .filter(Boolean);
-
-      return buildEvent({
-        source: "The Adelphi Club",
-        venue: "The New Adelphi Club",
-        url, title,
-        dateText,
-        timeText,
-        startISO,
-        endISO: fromLD.endISO || null,
-        address,
-        tickets
-      });
-    } catch (e) {
-      log("Adelphi event error:", e.message, url);
-      return null;
-    }
-  });
-
-  const out = results.filter(Boolean);
-  log(`[adelphi] done, events: ${out.length}`);
-  return out;
+  log(`[adelphi] done, events: ${results.length}`);
+  return results;
 }
 
-
-/* ----------------< WELLY >---------------- */
+/* -------- WELLY ---------------------------------------------------- */
 async function scrapeWelly() {
   log("[welly] list");
-  const base = "https://www.giveitsomewelly.com";
+  const base = "https://www.ggiveitsomewelly.com".replace("gg", "g"); // guard typo
   const listURLs = [`${base}/shows/`, `${base}/whats-on/`];
   const baseHost = new URL(base).hostname;
 
-  // 1) fetch listing pages and collect /event/* links
+  // Collect detail links (/event/<slug>/)
   let hrefs = [];
   for (const listURL of listURLs) {
     try {
-      const res = await fetch(listURL, { headers: { "user-agent": UA, "accept-language": ACCEPT_LANG } });
+      const res = await fetch(listURL, {
+        headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+      });
       const html = await res.text();
       const $ = cheerio.load(html);
       hrefs.push(...$("a[href]").map((_, a) => $(a).attr("href")).get());
@@ -558,85 +891,562 @@ async function scrapeWelly() {
   }
 
   const rawEventLinks = hrefs
-    .map(h => safeNewURL(h, base))
+    .map((h) => safeNewURL(h, base))
     .filter(Boolean)
-    .filter(u => {
+    .filter((u) => {
       try {
         const uu = new URL(u);
         return uu.hostname === baseHost && /^\/event\/[^/]+\/?$/.test(uu.pathname);
-      } catch { return false; }
+      } catch {
+        return false;
+      }
     })
-    .map(u => { const x = new URL(u); x.search = ""; x.hash = ""; return x.toString(); });
+    .map((u) => {
+      const x = new URL(u);
+      x.search = "";
+      x.hash = "";
+      return x.toString();
+    });
 
-  // de-dup by slug
+  // De-dupe by slug
   const seen = new Set();
   const eventLinks = [];
   for (const u of rawEventLinks) {
     const slug = new URL(u).pathname.replace(/\/+$/, "").split("/").pop();
-    if (!seen.has(slug)) { seen.add(slug); eventLinks.push(u); }
+    if (!seen.has(slug)) {
+      seen.add(slug);
+      eventLinks.push(u);
+    }
   }
 
   log(`[welly] found links: ${eventLinks.length}`);
 
-  // 2) crawl detail pages (small batches)
   const results = [];
   const BATCH = 6;
   for (let i = 0; i < eventLinks.length; i += BATCH) {
     const batch = eventLinks.slice(i, i + BATCH);
+    const settled = await Promise.allSettled(
+      batch.map(async (url) => {
+        try {
+          const r2 = await fetch(url, {
+            headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+          });
+          const html2 = await r2.text();
+          const $$ = cheerio.load(html2);
+
+          const fromLD = extractEventFromJSONLD($$, url) || {};
+          let title =
+            fromLD.title ||
+            $$("h1").first().text().trim() ||
+            $$("article h1, .event-title, [class*='title']").first().text().trim() ||
+            $$("title").text().trim();
+
+          const big = normalizeWhitespace(
+            $$("main, article, .event, body").first().text()
+          );
+
+          // Wordy date like "2nd November 2025" / "Sat 29th Nov"
+          const dateWordy =
+            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            big.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i)?.[0] ||
+            "";
+
+          const timeWordy =
+            big.match(/\b\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0] ||
+            big.match(/\bat\s+\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0]?.replace(/^at\s+/i, "") ||
+            "";
+
+          const startISO =
+            fromLD.startISO ||
+            parseDMYWithTime(dateWordy, timeWordy) ||
+            tryParseDateFromText(stripOrdinals(`${dateWordy} ${timeWordy}`));
+
+          // Past filter (keep undated)
+          if (startISO) {
+            const d = dayjs(startISO);
+            if (d.isValid() && d.isBefore(CUTOFF)) return null;
+          }
+
+          const address =
+            fromLD.address ||
+            (big.match(/\b105-107\s+Beverley\s+Rd\b.*?\bHU3\s*1TS\b/i)?.[0] || "") ||
+            (big.match(/\bHull\b.*?(HU\d\w?\s*\d\w\w)\b/i)?.[0] || "");
+
+          const tickets = $$("a[href]")
+            .filter((_, a) =>
+              /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
+                $$(a).attr("href") || ""
+              )
+            )
+            .map((_, a) => ({
+              label: $$(a).text().trim() || "Tickets",
+              url: safeNewURL($$(a).attr("href"), url),
+            }))
+            .get()
+            .filter((t) => t && t.url);
+
+          return buildEvent({
+            source: "The Welly Club",
+            venue: "The Welly Club",
+            url,
+            title,
+            dateText: dateWordy,
+            timeText: timeWordy,
+            startISO,
+            endISO: fromLD.endISO || null,
+            address,
+            tickets,
+          });
+        } catch (e) {
+          log("Welly event error:", e.message, url);
+          return null;
+        }
+      })
+    );
+
+    for (const r of settled) if (r.status === "fulfilled" && r.value) results.push(r.value);
+    await sleep(60);
+  }
+
+  log(`[welly] done, events: ${results.length}`);
+  return results;
+}
+
+/* -------- VOX BOX -------------------------------------------------- */
+// Source listings: https://voxboxbar.co.uk/upcoming-events/
+// Detail pages typically under same domain; structure can vary, so we:
+//  - Collect links from the listing page
+//  - Visit each candidate; mine Title / Date / Time / Tickets from text + JSON-LD
+async function scrapeVoxBox() {
+  log("[vox] list");
+  const base = "https://voxboxbar.co.uk";
+  const listURL = `${base}/upcoming-events/`;
+  const baseHost = new URL(base).hostname;
+
+  let html;
+  try {
+    const res = await fetch(listURL, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+    });
+    html = await res.text();
+  } catch (e) {
+    log("[vox] list fetch failed:", e.message);
+    return [];
+  }
+
+  const $ = cheerio.load(html);
+  // Grab all links under the list; filter to this host; ignore obvious non-detail links
+  const rawLinks = $("a[href]")
+    .map((_, a) => $(a).attr("href"))
+    .get();
+
+  const eventLinks = unique(
+    rawLinks
+      .map((h) => safeNewURL(h, base))
+      .filter(Boolean)
+      .filter((u) => {
+        try {
+          const uu = new URL(u);
+          if (uu.hostname !== baseHost) return false;
+          // Heuristic: ignore mailto/tel/#/calendar exports; ignore PDFs
+          if (/^mailto:|^tel:/i.test(u)) return false;
+          if (/\.(pdf|jpg|jpeg|png|webp)$/i.test(uu.pathname)) return false;
+          return true;
+        } catch {
+          return false;
+        }
+      })
+      .map((u) => {
+        const x = new URL(u);
+        x.hash = "";
+        // Keep query because some builders store the occurrence date there
+        return x.toString();
+      })
+  );
+
+  log(`[vox] candidate links: ${eventLinks.length}`);
+
+  const results = [];
+  const BATCH = 6;
+  for (let i = 0; i < eventLinks.length; i += BATCH) {
+    const batch = eventLinks.slice(i, i + BATCH);
+    const settled = await Promise.allSettled(
+      batch.map(async (url) => {
+        try {
+          const r2 = await fetch(url, {
+            headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+          });
+          const html2 = await r2.text();
+          const $$ = cheerio.load(html2);
+
+          const fromLD = extractEventFromJSONLD($$, url) || {};
+          const title =
+            fromLD.title ||
+            $$("h1, .entry-title, .event-title").first().text().trim() ||
+            $$("title").text().trim();
+
+          // Search around H1 and the main content for date/time
+          const $h1 = $$("h1, .entry-title, .event-title").first();
+          const near = normalizeWhitespace(
+            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text()
+          );
+          const big = normalizeWhitespace(
+            $$("main, article, .content, .entry-content, body").first().text()
+          );
+
+          const dateText =
+            near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            "";
+
+          const timeText =
+            extractTimeFrom(near) ||
+            extractTimeFrom(big) ||
+            "";
+
+          let startISO =
+            fromLD.startISO ||
+            parseDMYWithTime(dateText, timeText) ||
+            tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
+
+          // If query contains an occurrence date (?date=YYYY-MM-DD), use it with time if helpful
+          const occurrence =
+            (url.match(/[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/) || [])[2];
+          if (occurrence) {
+            const t24 = to24h(timeText || "") || "20:00";
+            const forced = dayjs.tz(`${occurrence} ${t24}`, "YYYY-MM-DD HH:mm", TZ);
+            if (forced.isValid()) startISO = forced.toISOString();
+          }
+
+          // Past filter
+          if (startISO) {
+            const d = dayjs(startISO);
+            if (d.isValid() && d.isBefore(CUTOFF)) return null;
+          }
+
+          const address =
+            fromLD.address ||
+            (big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] || ""); // fallback map will fill the rest
+
+          const tickets = $$("a[href]")
+            .filter((_, a) =>
+              /(eventbrite|skiddle|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i.test(
+                $$(a).attr("href") || ""
+              )
+            )
+            .map((_, a) => {
+              const href = $$(a).attr("href") || "";
+              const u = safeNewURL(href, url);
+              return u ? { label: $$(a).text().trim() || "Tickets", url: u } : null;
+            })
+            .get()
+            .filter(Boolean);
+
+          return buildEvent({
+            source: "Vox Box",
+            venue: "Vox Box",
+            url,
+            title,
+            dateText,
+            timeText,
+            startISO,
+            endISO: null,
+            address,
+            tickets,
+          });
+        } catch (e) {
+          log("Vox Box event error:", e.message);
+          return null;
+        }
+      })
+    );
+
+    for (const r of settled) if (r.status === "fulfilled" && r.value) results.push(r.value);
+    await sleep(60);
+  }
+
+  log(`[vox] done, events: ${results.length}`);
+  return results;
+}
+
+/* -------- UNION MASH UP (UMU) ------------------------------------- */
+// - Source list: https://unionmashup.co.uk/umu-events/
+// - Detail: /events/<slug>/ (sometimes with ?occurrence=YYYY-MM-DD)
+// - SKIP "Private Event" pages (by title or body text)
+async function scrapeUnionMashUp() {
+  log("[umu] list");
+  const base = "https://unionmashup.co.uk";
+  const listURL = `${base}/umu-events/`;
+  const baseHost = new URL(base).hostname;
+
+  let html;
+  try {
+    const res = await fetch(listURL, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+    });
+    html = await res.text();
+  } catch (e) {
+    log("[umu] list fetch failed:", e.message);
+    return [];
+  }
+
+  const $ = cheerio.load(html);
+  const rawLinks = $("a[href]")
+    .map((_, a) => $(a).attr("href"))
+    .get();
+
+  const eventLinks = unique(
+    rawLinks
+      .map((h) => safeNewURL(h, base))
+      .filter(Boolean)
+      .filter((u) => {
+        try {
+          const uu = new URL(u);
+          if (uu.hostname !== baseHost) return false;
+          return /^\/events\/[^/]+\/?/.test(uu.pathname);
+        } catch {
+          return false;
+        }
+      })
+      .map((u) => {
+        const x = new URL(u);
+        x.hash = "";
+        // Keep ?occurrence=YYYY-MM-DD because UMU uses it
+        return x.toString();
+      })
+  );
+
+  // De-dupe by pathname (ignore differing ?occurrence=)
+  const seen = new Set();
+  const deduped = [];
+  for (const u of eventLinks) {
+    const p = new URL(u).pathname.replace(/\/+$/, "");
+    if (!seen.has(p)) {
+      seen.add(p);
+      deduped.push(u);
+    }
+  }
+
+  log(`[umu] found links: ${deduped.length}`);
+
+  const results = [];
+  const BATCH = 6;
+  for (let i = 0; i < deduped.length; i += BATCH) {
+    const batch = deduped.slice(i, i + BATCH);
+    const settled = await Promise.allSettled(
+      batch.map(async (url) => {
+        try {
+          const r2 = await fetch(url, {
+            headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+          });
+          const html2 = await r2.text();
+          const $$ = cheerio.load(html2);
+
+          const fromLD = extractEventFromJSONLD($$, url) || {};
+          const title =
+            fromLD.title ||
+            $$("h1, .entry-title").first().text().trim() ||
+            $$("title").text().trim();
+
+          // 🚫 Skip private events by title
+          if (/private\s*event/i.test(title)) {
+            log("[umu] skipping private event (title):", title);
+            return null;
+          }
+
+          // Date/Time blocks sometimes labelled
+          const pageDate = ($$("h3:contains('Date')").next().text() || "").trim();
+          const pageTime = ($$("h3:contains('Time')").next().text() || "").trim();
+
+          // Nearby/body text (for time & private screening)
+          const near = normalizeWhitespace(
+            ($$("h1, .entry-title").first().text() || "") +
+              " " +
+              $$("h1, .entry-title").first().nextAll().slice(0, 6).text()
+          );
+          const big = normalizeWhitespace(
+            $$("main, article, .tribe-events-single-event-description, body")
+              .first()
+              .text()
+          );
+
+          // 🚫 Skip private events by body text
+          const bodyText = (big || near || "").toLowerCase();
+          if (bodyText.includes("private event")) {
+            log("[umu] skipping private event (body):", title);
+            return null;
+          }
+
+          const dateText =
+            pageDate ||
+            near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            "";
+
+          const timeText =
+            pageTime ||
+            near.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0] ||
+            near.match(/\b\d{1,2}\s*(am|pm)\b/i)?.[0] ||
+            near.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i)?.[1] ||
+            big.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0] ||
+            "";
+
+          let startISO =
+            fromLD.startISO ||
+            parseDMYWithTime(dateText, timeText) ||
+            tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
+
+          // Respect ?occurrence=YYYY-MM-DD if present
+          const occurrence =
+            (url.match(/[?&]occurrence=(\d{4}-\d{2}-\d{2})/) || [])[1];
+          if (occurrence) {
+            const t24 = to24h(timeText || "") || "20:00"; // default evening
+            const forced = dayjs.tz(`${occurrence} ${t24}`, "YYYY-MM-DD HH:mm", TZ);
+            if (forced.isValid()) startISO = forced.toISOString();
+          }
+
+          // Past filter
+          if (startISO) {
+            const d = dayjs(startISO);
+            if (d.isValid() && d.isBefore(CUTOFF)) return null;
+          }
+
+          // Tickets
+          const tickets = $$("a[href]")
+            .filter((_, a) =>
+              /(eventbrite|skiddle|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i.test(
+                $$(a).attr("href") || ""
+              )
+            )
+            .map((_, a) => {
+              const href = $$(a).attr("href") || "";
+              const u = safeNewURL(href, url);
+              return u ? { label: $$(a).text().trim() || "Tickets", url: u } : null;
+            })
+            .get()
+            .filter(Boolean);
+
+          // iCal link (optional)
+          const ical =
+            $$("a:contains('iCal'), a:contains('iCalendar'), a[href$='.ics']").attr(
+              "href"
+            ) || null;
+          if (ical) tickets.push({ label: "iCal", url: safeNewURL(ical, url) });
+
+          const address = fromLD.address || ""; // fallback map covers if blank
+
+          return buildEvent({
+            source: "Union Mash Up",
+            venue: "Union Mash Up",
+            url,
+            title,
+            dateText,
+            timeText,
+            startISO,
+            endISO: null,
+            address,
+            tickets,
+          });
+        } catch (e) {
+          log("UMU event error:", e.message);
+          return null;
+        }
+      })
+    );
+
+    for (const r of settled) if (r.status === "fulfilled" && r.value) results.push(r.value);
+    await sleep(60);
+  }
+
+  log(`[umu] done, events: ${results.length}`);
+  return results;
+}
+
+/* -------- DIVE HU5 (Skiddle) --------------------------------------- */
+async function scrapeDiveHU5() {
+  log("[dive] list");
+  const base = "https://www.skiddle.com";
+  const listURL = "https://www.skiddle.com/whats-on/Hull/DIVE-HU5/";
+
+  let html;
+  try {
+    const res = await fetchWithTimeout(listURL, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+      timeoutMs: 15000, retries: 1
+    });
+    html = await res.text();
+  } catch (e) {
+    log("[dive] list fetch failed:", e.message);
+    return [];
+  }
+
+  const $ = cheerio.load(html);
+  // NEW: try multiple ways to discover event links
+  let eventLinks = collectSkiddleEventLinks($, listURL, base);
+
+  // Fallback: sometimes the page is a venue hub without direct details;
+  // widen by also accepting /whats-on/ deep links that end with -digits
+  if (eventLinks.length === 0) {
+    const raw = $("a[href]").map((_, a) => $(a).attr("href")).get();
+    eventLinks = [...new Set(raw
+      .map(h => safeNewURL(h, base))
+      .filter(Boolean)
+      .filter(u => /skiddle\.com/i.test(u) && /-\d{4,}\/?$/.test(u))
+      .map(u => { const x = new URL(u); x.hash=""; x.search=""; return x.toString(); })
+    )];
+  }
+
+  const MAX_DETAIL = 200;
+  const toCrawl = eventLinks.slice(0, MAX_DETAIL);
+  log(`[dive] candidate links: ${toCrawl.length}`);
+
+  if (toCrawl.length === 0) return [];
+
+  const out = [];
+  const BATCH = 6;
+
+  for (let i = 0; i < toCrawl.length; i += BATCH) {
+    const batch = toCrawl.slice(i, i + BATCH);
+
     const settled = await Promise.allSettled(batch.map(async (url) => {
       try {
-        const r2 = await fetch(url, { headers: { "user-agent": UA, "accept-language": ACCEPT_LANG } });
+        const r2 = await fetchWithTimeout(url, {
+          headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+          timeoutMs: 15000, retries: 1
+        });
         const html2 = await r2.text();
         const $$ = cheerio.load(html2);
 
+        // Prefer JSON-LD
         const fromLD = extractEventFromJSONLD($$, url) || {};
-        let title =
+        const title =
           fromLD.title ||
-          $$("h1").first().text().trim() ||
-          $$("article h1, .event-title, [class*='title']").first().text().trim() ||
+          $$("h1, .event-title, .headline").first().text().trim() ||
           $$("title").text().trim();
 
-        const big = $$("main, article, .event, body").first().text()
-          .replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+        const $h1 = $$("h1, .event-title, .headline").first();
+        const near = normalizeWhitespace(($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text());
+        const big  = normalizeWhitespace($$("main, article, .content, .entry-content, body").first().text());
 
-        // date like "2nd November 2025" or "Sat 29th Nov"
-        const dateWordy =
+        const dateText =
+          near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+          near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+          big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
           big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-          big.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i)?.[0] ||
           "";
 
-        const timeWordy =
-          big.match(/\b\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0] ||
-          big.match(/\bat\s+\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0]?.replace(/^at\s+/i, "") ||
-          "";
+        const timeText = extractTimeFrom(near) || extractTimeFrom(big) || "";
 
-        const stripOrd = (s) => (s || "").replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, "$1");
-
-        // strict Welly parser (handles 12h+am/pm and 24h)
-        const strictWellyParse = (dTxt, tTxt) => {
-          const d0 = stripOrd(dTxt);
-          const t0 = (tTxt || "").trim();
-          const s = t0 ? `${d0} ${t0}` : d0;
-          const tries = [
-            "D MMMM YYYY h:mm a", "D MMM YYYY h:mm a",
-            "D MMMM YYYY HH:mm",  "D MMM YYYY HH:mm",
-            "DD/MM/YYYY HH:mm",   "D/M/YYYY HH:mm",
-            "D MMMM YYYY",        "D MMM YYYY",
-          ];
-          for (const fmt of tries) {
-            const parsed = dayjs(s, fmt, true).tz(TZ);
-            const iso = toISO(parsed);
-            if (iso) return iso;
-          }
-          return null;
-        };
-
-        const startISO =
+        let startISO =
           fromLD.startISO ||
-          strictWellyParse(dateWordy, timeWordy) ||
-          tryParseDateFromText(stripOrd(`${dateWordy} ${timeWordy}`));
+          parseDMYWithTime(dateText, timeText) ||
+          tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
 
-        // drop obviously past (keep undated)
+        // Filter past (keep undated)
         if (startISO) {
           const d = dayjs(startISO);
           if (d.isValid() && d.isBefore(CUTOFF)) return null;
@@ -644,77 +1454,106 @@ async function scrapeWelly() {
 
         const address =
           fromLD.address ||
-          (big.match(/\b105-107\s+Beverley\s+Rd\b.*?\bHU3\s*1TS\b/i)?.[0] || "") ||
-          (big.match(/\bHull\b.*?(HU\d\w?\s*\d\w\w)\b/i)?.[0] || "");
+          (big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] || ""); // resolver will finalise
 
+        // Ticket links
         const tickets = $$("a[href]")
-          .filter((_, a) => /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test($$(a).attr("href") || ""))
-          .map((_, a) => ({ label: $$(a).text().trim() || "Tickets", url: safeNewURL($$(a).attr("href"), url) }))
+          .filter((_, a) =>
+            /(skiddle|eventbrite|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i
+              .test($$(a).attr("href") || "")
+          )
+          .map((_, a) => {
+            const href = $$(a).attr("href") || "";
+            const u = safeNewURL(href, url);
+            return u ? { label: $$(a).text().trim() || "Tickets", url: u } : null;
+          })
           .get()
-          .filter(t => t && t.url);
+          .filter(Boolean);
 
-        return buildEvent({
-          source: "The Welly Club",
-          venue: "The Welly Club",
-          url, title,
-          dateText: dateWordy,
-          timeText: timeWordy,
+        const ev = buildEvent({
+          source: "DIVE HU5",
+          venue: "DIVE HU5",
+          url,
+          title,
+          dateText,
+          timeText,
           startISO,
-          endISO: fromLD.endISO || null,
-          address, tickets
+          endISO: null,
+          address,
+          tickets
         });
+
+        out.push(ev);
+        await sleep(40);
       } catch (e) {
-        log("Welly event error:", e.message, url);
+        log("Dive HU5 event error:", e.message, url);
         return null;
       }
     }));
 
-    for (const r of settled) if (r.status === "fulfilled" && r.value) results.push(r.value);
+    for (const r of settled) if (r.status === "fulfilled" && r.value) out.push(r.value);
   }
 
-  log(`[welly] done, events: ${results.length}`);
-  return results;
+  log(`[dive] done, events: ${out.length}`);
+  return out.filter(Boolean);
 }
 
-/* ----------------< MAIN >---------------- */
+/* ============================== MAIN =============================== */
+// - Run venue scrapers concurrently (env toggles skip specific ones)
+// - Keep today+future (dated), include undated
+// - Output *only* JSON to stdout
 async function main() {
-  log("[start] hull scrapers");
-  const skipWelly = process.env.SKIP_WELLY === "1";
-  log("[cfg] SKIP_WELLY =", skipWelly ? "1" : "0");
+  try {
+    log("[start] hull scrapers");
 
-  const tasks = [scrapePolarBear(), scrapeAdelphi()];
-  if (!skipWelly) tasks.push(scrapeWelly());
+    const skipWelly = process.env.SKIP_WELLY === "1";
+    const skipVox   = process.env.SKIP_VOX   === "1";
+    const skipUMU   = process.env.SKIP_UMU   === "1";
+    const skipDive  = process.env.SKIP_DIVE  === "1";
 
-  const settled = await Promise.allSettled(tasks);
+    log("[cfg] SKIP_WELLY =", skipWelly ? "1" : "0");
+    log("[cfg] SKIP_VOX   =", skipVox   ? "1" : "0");
+    log("[cfg] SKIP_UMU   =", skipUMU   ? "1" : "0");
+    log("[cfg] SKIP_DIVE  =", skipDive  ? "1" : "0");
 
-  const events = [];
-  for (const r of settled) {
-    if (r.status === "fulfilled") events.push(...r.value);
-    else log("[scrape] failed:", r.reason?.message || r.reason);
+    const tasks = [scrapePolarBear(), scrapeAdelphi()];
+    if (!skipWelly) tasks.push(scrapeWelly());
+    if (!skipVox)   tasks.push(scrapeVoxBox());
+    if (!skipUMU)   tasks.push(scrapeUnionMashUp());
+    if (!skipDive)  tasks.push(scrapeDiveHU5());
+
+    const settled = await Promise.allSettled(tasks);
+
+    const events = [];
+    for (const r of settled) {
+      if (r.status === "fulfilled") events.push(...(r.value || []));
+      else log("[scrape] failed:", r.reason?.message || r.reason);
+    }
+
+    // Sort: dated first (asc), then undated
+    events.sort((a, b) => {
+      const ta = Date.parse(a?.start || "");
+      const tb = Date.parse(b?.start || "");
+      const aValid = Number.isFinite(ta);
+      const bValid = Number.isFinite(tb);
+      if (!aValid && !bValid) return 0;
+      if (!aValid) return 1;
+      if (!bValid) return -1;
+      return ta - tb;
+    });
+
+    // Keep today+future (TZ), keep undated
+    const cutoffMs = +CUTOFF;
+    const futureEvents = events.filter((ev) => {
+      const t = Date.parse(ev.start || "");
+      return Number.isNaN(t) ? true : t >= cutoffMs;
+    });
+
+    process.stdout.write(JSON.stringify(futureEvents, null, 2));
+  } catch (e) {
+    console.error("[fatal scraper]", e);
+    process.exit(1);
   }
-
-  // Sort: dated first (asc), then undated
-  events.sort((a, b) => {
-    const ta = Date.parse(a?.start || "");
-    const tb = Date.parse(b?.start || "");
-    const aValid = Number.isFinite(ta), bValid = Number.isFinite(tb);
-    if (!aValid && !bValid) return 0;
-    if (!aValid) return 1;
-    if (!bValid) return -1;
-    return ta - tb;
-  });
-
-  // Keep today+future (London), keep undated
-  const cutoffMs = +CUTOFF; // start of today in TZ
-  const futureEvents = events.filter(ev => {
-    const t = Date.parse(ev.start || "");
-    return Number.isNaN(t) ? true : t >= cutoffMs;
-  });
-
-  process.stdout.write(JSON.stringify(events, null, 2));
 }
 
-main().catch(e => {
-  console.error("[fatal scraper]", e);
-  process.exit(1);
-});
+main();

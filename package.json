@@ -5,14 +5,19 @@
   "private": true,
   "scripts": {
     "scrape": "node ./scrape-hull-venues.js > ./public/events.json",
+    "fetch": "npm run scrape",
+    "refresh": "npm run scrape && npm run start",
     "start": "node ./server.js",
-    "dev": "node ./server.js"
+    "dev": "nodemon --watch server.js --watch public --ext js,json,html --exec \"node ./server.js\""
   },
   "dependencies": {
     "cheerio": "^1.0.0",
     "dayjs": "^1.11.11",
-    "deps": "^1.0.0",
     "express": "^4.19.2",
+    "he": "^1.2.0",
     "puppeteer": "^24.20.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }
