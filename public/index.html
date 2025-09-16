@@ -40,7 +40,7 @@
   @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
   /* Top email bar */
-  .topbar{position:sticky; top:0; z-index:70; background:color-mix(in oklab,var(--bg) 94%, transparent); border-bottom:1px solid var(--border); backdrop-filter:saturate(120%) blur(8px);}
+  .topbar{position:static; top:auto; z-index:70; background:color-mix(in oklab,var(--bg) 94%, transparent); border-bottom:1px solid var(--border); backdrop-filter:saturate(120%) blur(8px);}
   .wrap{max-width:980px; margin:0 auto; padding:12px}
   .topbar .wrap{display:flex; gap:12px; align-items:center; justify-content:space-between}
   .lead{font-weight:900; font-size:13px; color:var(--muted)}
@@ -48,7 +48,7 @@
   .topbar a:hover{text-decoration:underline}
 
   /* Header */
-  header{position:sticky; top:44px; z-index:60; border-bottom:1px solid var(--border); background:color-mix(in oklab,var(--bg) 86%, transparent); backdrop-filter:saturate(120%) blur(10px);}
+  header{position:static; top:auto; z-index:60; border-bottom:1px solid var(--border); background:color-mix(in oklab,var(--bg) 86%, transparent); backdrop-filter:saturate(120%) blur(10px);}
   header::after{content:""; display:block; height:2px; background:
     linear-gradient(90deg, color-mix(in oklab,var(--accent) 55%, transparent), transparent 40%, transparent 60%, color-mix(in oklab,var(--accent2) 55%, transparent)); opacity:.35}
   .brand{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
@@ -132,6 +132,9 @@
          background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:12px;
          padding:10px 12px; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:opacity .24s ease, transform .24s ease; z-index:80; font-weight:800}
   #toast.show{opacity:1; transform:translateX(-50%) translateY(0) scale(1)}
+
+  /* Unified scrolling overrides */
+  .topbar, header{position:static !important; top:auto !important}
 </style>
 </head>
 <body>
@@ -426,7 +429,7 @@
     if (!els.contactEmail) return;
     const subject = 'HU5 Events Finder — Idea / Bug / Venue request';
     const bodyLines = [
-      'Hi HU5 team,',
+      'Hello,',
       '',
       'Type: [Idea / Bug / Venue request]',
       'Details:',
