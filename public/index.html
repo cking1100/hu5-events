@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
 <!-- Google tag (gtag.js) -->
+ <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q98ES83PZK"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-Q98ES83PZK');
+  gtag('config', 'G-Q98ES83PZK', { anonymize_ip: true });
 </script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -17,9 +19,9 @@
 <meta name="robots" content="noindex" />
 <style>
   :root{
-    --bg:#0b0d10; --card:#0f1318; --text:#e7edf3; --muted:#a6b0bb;
+    --bg:#050507; --card:#0a0d11; --text:#e7edf3; --muted:#a6b0bb;
     --accent:#7dd3fc; --accent2:#38bdf8; --accent3:#14b8a6;
-    --border:#1b2330; --chip:#0f161f; --pill:#0a1118;
+    --border:#1b2330; --chip:#0a0e12; --pill:#080c10;
     --good:#22c55e; --warn:#f59e0b; --error:#ef4444;
     --radius:16px; --shadow:0 8px 28px rgba(0,0,0,.28);
     --tap:44px; --safe: env(safe-area-inset-bottom, 0px);
@@ -35,16 +37,15 @@
   html,body{height:100%}
   /* keep header visible when jumping to sections */
   html{scroll-behavior:smooth; scroll-padding-top:132px}
-  body{
-    margin:0;
-    background:
-      radial-gradient(900px 600px at 120% -10%, color-mix(in oklab, var(--accent2) 14%, transparent), transparent),
-      radial-gradient(700px 500px at -10% 120%, color-mix(in oklab, var(--accent3) 10%, transparent), transparent),
-      var(--bg);
-    color:var(--text);
-    font:clamp(14px,1.9vw,16px)/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    overflow-x:hidden; text-rendering:optimizeLegibility;
-  }
+body
+{
+  margin:0;
+  background: var(--bg); /* only solid background */
+  color:var(--text);
+  font:clamp(14px,1.9vw,16px)/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  overflow-x:hidden;
+  text-rendering:optimizeLegibility;
+}
   .hidden{display:none!important}
   @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
@@ -103,6 +104,7 @@
     display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; box-shadow:var(--shadow);
     transition:border-color .15s ease, transform .12s ease, box-shadow .15s ease;
   }
+  .event:focus-within{outline:2px solid var(--accent); outline-offset:3px}
   .event:hover,.event:focus-within{border-color:color-mix(in oklab,var(--accent) 60%, var(--border)); transform:translateY(-1px); box-shadow:0 10px 28px rgba(0,0,0,.32)}
   .pill{min-width:68px;border:1px solid var(--border);background:var(--pill);border-radius:12px;text-align:center;padding:8px 6px;display:flex;flex-direction:column;gap:2px;justify-content:center}
   .pill .dow{font-weight:800;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
@@ -141,9 +143,6 @@
          background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:12px;
          padding:10px 12px; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:opacity .24s ease, transform .24s ease; z-index:80; font-weight:800}
   #toast.show{opacity:1; transform:translateX(-50%) translateY(0) scale(1)}
-
-  /* Unified scrolling overrides */
-  .topbar, header{position:static !important; top:auto !important}
 </style>
 </head>
 <body>
@@ -163,7 +162,7 @@
           <div class="logo" aria-hidden="true">H</div>
           <div>
             <h1>HU5 Events Finder</h1>
-            <div class="tag">Polar Bear • Adelphi • Welly • Vox Box • UMU • Dive — all in one place</div>
+            <div class="tag">Polar Bear • Adelphi • Welly • Vox Box • UMU — all in one place</div>
           </div>
         </div>
         <div class="row">
@@ -281,7 +280,10 @@
   }
 
   // ICS-like URLs? then link to listings page instead
-  const isIcsLike=url=>{const u=url||''; return /\.ics(\?|$)/i.test(u)||/[?&]format=ical\b/i.test(u)||/calendar\.google\.com|google\.com\/calendar/i.test(u);};
+  const isIcsLike = (url='') =>
+  /\.(ics)(\?|$)/i.test(url) ||
+  /[?&]format=ical(\b|=|&|$)/i.test(url) ||
+  /(?:^|\/\/)calendar\.google\.com|google\.com\/calendar/i.test(url);
   function toListingsUrl(url,source){
     if(!url) return '#'; if(!isIcsLike(url)) return url;
     try{ const u=new URL(url, location.href); if (/[?&]format=ical\b/i.test(u.search)) return u.origin+u.pathname; }catch{}
@@ -418,20 +420,42 @@
   }
 
   // Compute effective start for an event (used for filtering + grouping)
-  function computeEffectiveStart(ev) {
-    // 1) ISO start
-    const a = parseMaybe(ev.start);
-    if (a) return a;
-    // 2) displayDateTime24 "YYYY-MM-DD HH:mm"
-    const b = parseDateTime24Local(ev.displayDateTime24 || ev.displayDateTime || '');
-    if (b) return b;
-    // 3) dateText + a time source
-    const bestTime = ev.displayTime24 || ev.timeText || ev.time || '';
-    const c = parseDateText(ev.dateText, bestTime);
-    if (c) return c;
-    // none
-    return null;
+function computeEffectiveStart(ev) {
+  // Accept a bunch of possible ISO-ish properties from scrapers
+  const iso =
+    ev.start ||
+    ev.startISO ||
+    ev.start_iso ||
+    ev.startDate ||
+    ev.start_date ||
+    ev.start_time ||
+    null;
+
+  // A. Try ISO directly
+  const a = parseMaybe(iso);
+  if (a) return a;
+
+  // B. Try "YYYY-MM-DD HH:mm"
+  const b = parseDateTime24Local(ev.displayDateTime24 || ev.displayDateTime || '');
+  if (b) return b;
+
+  // C. Try dateText + time (fallback 20:00)
+  const bestTime = ev.displayTime24 || ev.timeText || ev.time || '';
+  const c = parseDateText(ev.dateText, bestTime);
+  if (c) return c;
+
+  // D. If Adelphi and still nothing, last-ditch: parse just the dateText with 20:00
+  if (/\badelphi\b/i.test(String(ev.source||'') + ' ' + String(ev.venue||''))) {
+    const dOnly = (ev.dateOnly || '').trim();
+    if (dOnly && /^\d{4}-\d{2}-\d{2}$/.test(dOnly)) {
+      const d = parseDateTime24Local(`${dOnly} 20:00`);
+      if (d) return d;
+    }
   }
+
+  return null;
+}
+
 
   // Email mailto pre-fill
   function updateMailto(){
@@ -538,35 +562,57 @@
 
     // time display helpers
     const to24h = (raw) => {
-      if (!raw) return null;
-      const s0 = String(raw).trim();
-      const s  = s0.toLowerCase().replace(/\./g, ':');
-      const mDoors = s.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i);
-      if (mDoors) return to24h(mDoors[1]);
-      let m = s.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/i);
-      if (m) {
-        let hh = parseInt(m[1],10), mm = m[2] ? m[2].padStart(2,'0') : '00';
-        const ap = m[3].toLowerCase();
-        if (ap === 'pm' && hh !== 12) hh += 12;
-        if (ap === 'am' && hh === 12) hh = 0;
-        return String(hh).padStart(2,'0') + ':' + mm;
-      }
-      m = s.match(/\b(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i);
-      if (m) return to24h(m[1]);
-      m = s.match(/\b(\d{1,2}):(\d{2})\b/);
-      if (m) {
-        const hh = String(Math.min(23, Math.max(0, parseInt(m[1],10)))).padStart(2,'0');
-        const mm = String(Math.min(59, Math.max(0, parseInt(m[2],10)))).padStart(2,'0');
-        return `${hh}:${mm}`;
-      }
-      m = s.match(/(?:^|\b)(\d{1,2})(?:\b|$)/);
-      if (m) {
-        const hhNum = parseInt(m[1], 10);
-        if (hhNum >= 5 && hhNum <= 11) return String(hhNum + 12).padStart(2,'0') + ':00';
-        if (hhNum === 12) return '12:00';
-      }
-      return null;
-    };
+  if (!raw) return null;
+
+  // Normalize once
+  let s = String(raw).trim().toLowerCase().replace(/\./g, ':');
+
+  // Strip junk words and ranges up front (prevents recursion ping-pong)
+  s = s
+    .replace(/\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?\s*/g, '')
+    .replace(/\b(?:till|’?\s*til|til)\s*late\b/g, '')
+    .replace(/\blate\b/g, '')
+    .replace(/\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/g, '') // drop trailing range end
+    .trim();
+
+  // 12h with minutes
+  let m = s.match(/\b(\d{1,2})(?::(\d{2}))\s*(am|pm)\b/i);
+  if (m) {
+    let hh = parseInt(m[1],10), mm = m[2] || '00';
+    const ap = m[3].toLowerCase();
+    if (ap === 'pm' && hh !== 12) hh += 12;
+    if (ap === 'am' && hh === 12) hh = 0;
+    return String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+  }
+
+  // 12h hour only
+  m = s.match(/\b(\d{1,2})\s*(am|pm)\b/i);
+  if (m) {
+    let hh = parseInt(m[1],10);
+    const ap = m[2].toLowerCase();
+    if (ap === 'pm' && hh !== 12) hh += 12;
+    if (ap === 'am' && hh === 12) hh = 0;
+    return String(hh).padStart(2,'0') + ':00';
+  }
+
+  // 24h
+  m = s.match(/\b(\d{1,2}):(\d{2})\b/);
+  if (m) {
+    const hh = Math.min(23, Math.max(0, parseInt(m[1],10)));
+    const mm = Math.min(59, Math.max(0, parseInt(m[2],10)));
+    return String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+  }
+
+  // Bare hour heuristic (evening bias 5–11 -> PM)
+  m = s.match(/(?:^|\b)(\d{1,2})(?:\b|$)/);
+  if (m) {
+    const hhNum = parseInt(m[1], 10);
+    if (hhNum >= 5 && hhNum <= 11) return String(hhNum + 12).padStart(2,'0') + ':00';
+    if (hhNum === 12) return '12:00';
+  }
+
+  return null;
+};
     const firstTimeSnippet = (raw) => {
       if (!raw) return null;
       const s = String(raw);
@@ -601,13 +647,18 @@
         const gHref = googleHref(ev);
         const isIcs = isIcsLike(ev.url||'');
 
-        let time24='';
-        const mined=pickTimeText(ev);
-        if (ev.displayTime24) time24=ev.displayTime24;
-        else if (mined && mined.kind==='parsed') time24=mined.value;
-        else if (mined && mined.kind==='raw') time24=mined.value;
-        else if (ev._hasDate) time24 = ev._startEff.toLocaleTimeString('en-GB',{hour:'2-digit', minute:'2-digit', hour12:false, timeZone:state.TZ});
+let time24 = '';
+const mined = pickTimeText(ev);
 
+if (ev.displayTime24) {
+  time24 = ev.displayTime24;
+} else if (mined && mined.kind === 'parsed') {
+  time24 = mined.value;
+} else if (mined && mined.kind === 'raw') {
+  time24 = mined.value;
+} else if (ev._hasDate && ev._startEff instanceof Date && !isNaN(+ev._startEff)) {
+  time24 = ev._startEff.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', hour12:false, timeZone: state.TZ });
+}
         const meta = [ time24, ev.venue && highlight(ev.venue,q), ev.address && highlight(ev.address,q) ].filter(Boolean).join(' · ');
         const src = escapeHTML(ev.source || venueLabel(ev) || 'Unknown');
 
@@ -780,8 +831,10 @@
   }
 
   // bindings
-  const onFilterInput = ()=> apply();
-  ['input','change'].forEach(ev => [els.q,els.from,els.to,els.sort,els.venue].forEach(el => el?.addEventListener(ev,onFilterInput)));
+  const debounce=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
+  const onFilterInput = debounce(()=>apply(),150);
+[ 'input','change'].forEach(ev => [els.q,els.from,els.to,els.sort,els.venue].forEach(el => el?.addEventListener(ev,onFilterInput)));
+
 
   els.auto?.addEventListener('change', ()=>{
     state.autoRefresh = !!els.auto.checked;
@@ -794,11 +847,13 @@
   els.refreshNow?.addEventListener('click', async()=>{ await boot(false); showToast('Refreshed'); });
   els.clear?.addEventListener('click', ()=>{ resetFilters(); apply(); });
 
-  els.share?.addEventListener('click', async ()=>{
-    replaceUrl(); updateMailto();
-    try{ await navigator.clipboard.writeText(location.href); showToast('Link copied'); }
-    catch{ prompt('Copy this link', location.href); }
-  });
+els.share?.addEventListener('click', async ()=>{
+  replaceUrl(); updateMailto();
+  const url = location.href; const title='HU5 Events Finder';
+  if (navigator.share) { try { await navigator.share({ title, url }); return; } catch {} }
+  try { await navigator.clipboard.writeText(url); showToast('Link copied'); }
+  catch { prompt('Copy this link', url); }
+});
 
   window.addEventListener('keydown', (e)=>{
     const tag = (e.target && (e.target.tagName||'')).toLowerCase();
@@ -828,17 +883,107 @@
   });
 
   // auto-refresh timer chip
-  function scheduleTick(){ if(!state.autoRefresh) return; clearTimeout(scheduleTick._t); scheduleTick._t = setTimeout(async()=>{ await boot(false); scheduleTick(); }, state.refreshMs); state.nextTickAt = Date.now() + state.refreshMs; }
-  function tickUI(){
+// auto-refresh timer chip
+function scheduleTick(){
+  // Always clear any pending timeout first
+  clearTimeout(scheduleTick._t);
+
+  if (!state.autoRefresh) {
+    state.nextTickAt = null;
+    // Stop the rAF loop and set UI text/state
+    tickUIStop();
     const dot = document.querySelector('#nextRefresh .dot');
-    if (!state.autoRefresh || !state.nextTickAt) { if (dot) dot.className='dot '+(state.autoRefresh?'good':'warn'); return; }
-    const ms=Math.max(0, state.nextTickAt - Date.now());
-    const m=Math.floor(ms/60000), s=Math.floor((ms%60000)/1000);
-    if (dot) dot.className='dot good';
-    els.refreshText.textContent = `Auto refresh in ${m}:${String(s).padStart(2,'0')}`;
-    requestAnimationFrame(tickUI);
+    if (dot) dot.className = 'dot warn';
+    els.refreshText.textContent = 'Auto refresh off';
+    return;
   }
 
+  // Plan next refresh and start/keep the UI countdown
+  state.nextTickAt = Date.now() + state.refreshMs;
+  scheduleTick._t = setTimeout(async () => {
+    await boot(false);             // reload data
+    scheduleTick();                // schedule the next tick
+  }, state.refreshMs);
+
+  // Ensure we have exactly one rAF loop running
+  if (!tickUI._raf) tickUI();
+}
+
+function tickUI(){
+  // If disabled or no next tick, stop the loop and set UI appropriately
+  if (!state.autoRefresh || !state.nextTickAt) {
+    tickUIStop();
+    const dot = document.querySelector('#nextRefresh .dot');
+    if (dot) dot.className = 'dot ' + (state.autoRefresh ? 'good' : 'warn');
+    els.refreshText.textContent = state.autoRefresh ? 'Auto refresh on' : 'Auto refresh off';
+    return;
+  }
+
+  const dot = document.querySelector('#nextRefresh .dot');
+  const ms  = Math.max(0, state.nextTickAt - Date.now());
+  const m   = Math.floor(ms / 60000);
+  const s   = Math.floor((ms % 60000) / 1000);
+
+  if (dot) dot.className = 'dot good';
+  els.refreshText.textContent = `Auto refresh in ${m}:${String(s).padStart(2, '0')}`;
+
+  tickUI._raf = requestAnimationFrame(tickUI);
+}
+
+function tickUIStop(){
+  if (tickUI._raf) {
+    cancelAnimationFrame(tickUI._raf);
+    tickUI._raf = null;
+  }
+}
+
+function reasonHidden(ev, today0) {
+  if (!ev) return 'no event';
+  if (!ev._hasDate) return 'undated (_startEff missing)';
+  if (+ev._startEff < +today0) return 'past date';
+  return '';
+}
+
+function dumpAdelphiDiagnostics(where = 'console') {
+  const today0 = startOfTodayLocal();
+  const rows = state.all
+    .filter(e => /\badelphi\b/i.test(String(e.source||'') + ' ' + String(e.venue||'')))
+    .map(e => ({
+      title: e.title || '(no title)',
+      url: e.url || '',
+      source: e.source || '',
+      venue: e.venue || '',
+      dateText: e.dateText || '',
+      timeText: e.timeText || '',
+      start: e.start || '',
+      startISO: e.startISO || e.start_iso || '',
+      displayTime24: e.displayTime24 || '',
+      displayDateTime24: e.displayDateTime24 || e.displayDateTime || '',
+      _hasDate: !!e._hasDate,
+      _startEff: e._startEff ? e._startEff.toISOString ? e._startEff.toISOString() : String(e._startEff) : '',
+      hiddenReason: reasonHidden(e, today0),
+    }));
+
+  if (where === 'console') {
+    console.group('[HU5] Adelphi diagnostics');
+    console.table(rows);
+    console.groupEnd();
+  } else {
+    const pre = document.createElement('pre');
+    pre.style.whiteSpace = 'pre-wrap';
+    pre.style.font = '12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+    pre.style.padding = '12px';
+    pre.style.border = '1px solid var(--border)';
+    pre.style.borderRadius = '12px';
+    pre.style.background = 'var(--card)';
+    pre.textContent = JSON.stringify(rows, null, 2);
+    const host = document.createElement('div');
+    host.className = 'section';
+    host.innerHTML = '<h3>Adelphi diagnostics</h3>';
+    host.appendChild(pre);
+    document.querySelector('main.wrap')?.prepend(host);
+  }
+}
   /* =============================== BOOT =============================== */
   async function boot(initial=false){
     try{
@@ -847,16 +992,15 @@
       const data = await fetchEventsJson();
 
       // IMPORTANT: compute effective start BEFORE apply()
-      state.all = (Array.isArray(data) ? data : []).map(ev => {
-        // decode stray HTML entities in titles like Jelly &#8211; ...
-        try {
-          const div = document.createElement('div'); div.innerHTML = ev.title || '';
-          ev.title = div.textContent || div.innerText || ev.title || '';
-        } catch {}
-        const eff = computeEffectiveStart(ev);
-        return { ...ev, _startEff: eff, _hasDate: !!eff };
-      });
-
+state.all = (Array.isArray(data) ? data : []).map(ev => {
+  try {
+    const div = document.createElement('div'); div.innerHTML = ev.title || '';
+    ev.title = div.textContent || div.innerText || ev.title || '';
+  } catch {}
+  const eff = computeEffectiveStart(ev);
+  return { ...ev, _startEff: eff, _hasDate: !!eff };
+});
+      dumpAdelphiDiagnostics('console'); 
       populateVenueFilter();
       apply();
       els.status.hidden=true;
