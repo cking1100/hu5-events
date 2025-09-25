@@ -264,13 +264,16 @@ function tryParseDateFromText(text) {
   if (!cleaned) return null;
   if (!/\d/.test(cleaned) && !/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(cleaned)) return null;
 
-  const formats = [
-    "dddd D MMMM YYYY HH:mm", "dddd D MMM YYYY HH:mm",
-    "D MMMM YYYY HH:mm", "D MMM YYYY HH:mm",
-    "DD/MM/YYYY HH:mm", "D/M/YYYY HH:mm",
-    "DD/MM/YYYY", "D/M/YYYY",
-    "D MMMM YYYY", "D MMM YYYY",
-  ];
+const formats = [
+  "YYYY-MM-DD",
+  "YYYY/MM/DD",   // <- handles "2025/09/19"
+  "D/M/YYYY", "DD/M/YYYY", "D/MM/YYYY", "DD/MM/YYYY",
+  "ddd D/M/YYYY", "dddd D/M/YYYY", "ddd DD/MM/YYYY", "dddd DD/MM/YYYY",
+  "D MMMM YYYY", "DD MMMM YYYY",
+  "ddd D MMMM YYYY", "dddd D MMMM YYYY",
+  "D MMM YYYY", "DD MMM YYYY",
+  "ddd D MMM YYYY", "dddd D MMM YYYY",
+];
 
   for (const f of formats) {
     const d = dayjs.tz(cleaned, f, TZ);
@@ -643,79 +646,91 @@ async function scrapePolarBear() {
   return out;
 }
 
-/* -------- ADELPHI -------------------------------------------------- */
-function parseDateOnlyAdelphi(dateText) {
-  if (!dateText) return null;
-  const formats = [
-    "D/M/YYYY", "DD/M/YYYY", "D/MM/YYYY", "DD/MM/YYYY",
-    "D MMMM YYYY", "DD MMMM YYYY",
-    "D MMM YYYY", "DD MMM YYYY",
-    "ddd D MMMM YYYY", "dddd D MMMM YYYY",
-    "ddd D MMM YYYY", "dddd D MMM YYYY",
-  ];
-  for (const f of formats) {
-    const d = dayjs.tz(dateText, f, TZ);
-    if (d.isValid()) return d.format("YYYY-MM-DD");
-  }
-  return null;
-}
-
+/* -------- THE NEW ADELPHI CLUB ----------------------------------- */
+// Source list: https://www.theadelphi.com/events/
 async function scrapeAdelphi() {
   log("[adelphi] list");
   const base = "https://www.theadelphi.com";
+  const listURL = `${base}/events/`;
   const baseHost = new URL(base).hostname;
-  const listURLs = [`${base}/events/`, `${base}/`];
 
-  // Collect candidate links
-  let hrefs = [];
-  for (const listURL of listURLs) {
-    try {
-      const res = await fetch(listURL, {
-        headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-      });
-      const html = await res.text();
-      const $ = cheerio.load(html);
-      hrefs.push(...$("a[href]").map((_, a) => $(a).attr("href")).get());
-    } catch (e) {
-      log("[adelphi] list fetch failed:", listURL, e.message);
-    }
-  }
-
-  const rawEventLinks = hrefs
-    .map((h) => safeNewURL(h, base))
-    .filter(Boolean)
-    .filter((u) => {
-      try {
-        const uu = new URL(u);
-        return uu.hostname === baseHost && /^\/events\/[^/]+\/?$/.test(uu.pathname);
-      } catch {
-        return false;
-      }
-    })
-    .map((u) => {
-      const x = new URL(u);
-      x.search = "";
-      x.hash = "";
-      return x.toString();
+  let html;
+  try {
+    const res = await fetch(listURL, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
     });
-
-  // de-dupe by slug
-  const seen = new Set();
-  const eventLinks = [];
-  for (const u of rawEventLinks) {
-    const slug = new URL(u).pathname.replace(/\/+$/, "").split("/").pop();
-    if (!seen.has(slug)) {
-      seen.add(slug);
-      eventLinks.push(u);
-    }
+    html = await res.text();
+  } catch (e) {
+    log("[adelphi] list fetch failed:", e.message);
+    return [];
   }
 
-  log(`[adelphi] unique slugs: ${eventLinks.length}`);
+  const $ = cheerio.load(html);
+
+  // Collect candidate links from the listing page(s)
+  const rawLinks = $("a[href]").map((_, a) => $(a).attr("href")).get();
+
+  // keep: same host; likely detail urls under /event/ or /events/<slug>/
+  // ignore: mailto/tel, media, calendar exports, query-only filters
+  const eventLinks = unique(
+    rawLinks
+      .map((h) => safeNewURL(h, base))
+      .filter(Boolean)
+      .filter((u) => {
+        try {
+          const uu = new URL(u);
+          if (uu.hostname !== baseHost) return false;
+          if (/^mailto:|^tel:/i.test(u)) return false;
+          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(uu.pathname)) return false;
+          if (/eventDisplay=past/i.test(uu.search)) return false;
+          // Common detail patterns:
+          return (
+            /^\/event\/[^/]+\/?$/i.test(uu.pathname) ||   // /event/my-gig/
+            /^\/events\/[^/]+\/?$/i.test(uu.pathname) ||  // /events/my-gig/
+            /^\/events\/[^/]+\/[^/]+\/?$/i.test(uu.pathname) // /events/category/slug/
+          );
+        } catch {
+          return false;
+        }
+      })
+      .map((u) => {
+        // Normalize (keep query — some builders encode the occurrence date there)
+        const x = new URL(u);
+        x.hash = "";
+        return x.toString();
+      })
+  );
+
+  log(`[adelphi] candidate links: ${eventLinks.length}`);
+
+  // De-dupe by pathname (ignore differing occurrence/date queries)
+  const seen = new Set();
+  const deduped = [];
+  for (const u of eventLinks) {
+    const p = new URL(u).pathname.replace(/\/+$/, "");
+    if (!seen.has(p)) {
+      seen.add(p);
+      deduped.push(u);
+    }
+  }
 
   const results = [];
   const BATCH = 6;
-  for (let i = 0; i < eventLinks.length; i += BATCH) {
-    const batch = eventLinks.slice(i, i + BATCH);
+
+  // Helper: capture a plausible time string from nearby/body text
+  function pickTime(text = "") {
+    const t =
+      text.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0] ||
+      text.match(/\b\d{1,2}\s*(am|pm)\b/i)?.[0] ||
+      text.match(/\b\d{1,2}[:.]\d{2}\b/)?.[0] ||
+      text.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i)?.[1] ||
+      "";
+    return normalizeWhitespace(t);
+  }
+
+  for (let i = 0; i < deduped.length; i += BATCH) {
+    const batch = deduped.slice(i, i + BATCH);
+
     const settled = await Promise.allSettled(
       batch.map(async (url) => {
         try {
@@ -725,83 +740,80 @@ async function scrapeAdelphi() {
           const html2 = await r2.text();
           const $$ = cheerio.load(html2);
 
+          // Prefer JSON-LD where available
           const fromLD = extractEventFromJSONLD($$, url) || {};
+
           const title =
             fromLD.title ||
-            $$("h1, .entry-title").first().text().trim() ||
+            $$("h1, .entry-title, .tribe-events-single-event-title")
+              .first()
+              .text()
+              .trim() ||
             $$("title").text().trim();
 
-          // Find a decent text zone for date/time mining
-          const zones = [
-            ".entry-content",
-            ".single-event",
-            ".tribe-events-single-event-description",
-            ".tribe-events-event-meta",
-            "main",
-            "article",
-            "body",
-          ];
-          let text = "";
-          for (const sel of zones) {
-            const t = $$(sel).first().text();
-            if (t && t.trim().length > 40) {
-              text = t;
-              break;
-            }
-          }
-          if (!text) text = $$("body").text();
-          text = normalizeWhitespace(text);
+          // Nearby + full text for date/time scraping
+          const $h1 =
+            $$("h1, .entry-title, .tribe-events-single-event-title").first();
+          const near = normalizeWhitespace(
+            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text()
+          );
+          const big = normalizeWhitespace(
+            $$(
+              "main, article, .tribe-events-single, .entry-content, .content, body"
+            )
+              .first()
+              .text()
+          );
 
-          // Date (DD/MM/YYYY or wordy)
-          const dateRaw =
-            text.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
-            text.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-            text.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+          // Look for common explicit labels (The Events Calendar often renders these)
+          const labeledDate =
+            $$("*:contains('Date')").next().first().text().trim() ||
+            $$("*:contains('Start Date')").next().first().text().trim() ||
             "";
-          const dateText = stripOrdinals(dateRaw);
 
-          const dateOnly = (() => {
-            if (fromLD.startISO) {
-              const d = dayjs(fromLD.startISO).tz(TZ);
-              if (d.isValid()) return d.format("YYYY-MM-DD");
-            }
-            return parseDateOnlyAdelphi(dateText);
-          })();
+          const labeledTime =
+            $$("*:contains('Time')").next().first().text().trim() ||
+            $$("*:contains('Start Time')").next().first().text().trim() ||
+            "";
 
-          // Time (prefer explicit time on the page)
-          const mDoors = text.match(/\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i);
-          const m12a = text.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i);
-          const m12b = text.match(/\b\d{1,2}\s*(am|pm)\b/i);
-          const mRange = text.match(/\b(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i);
-          const m24 = text.match(/\b\d{1,2}[:.]\d{2}\b/);
-          const pick = mDoors?.[1] || m12a?.[0] || m12b?.[0] || mRange?.[1] || m24?.[0] || "";
-          const timeText = normalizeWhitespace(pick);
-          const pageTime24 = to24h(timeText); // "HH:mm" or null
+          // Date candidates (prefer nearby, then labeled, then big sweep)
+          const dateTextRaw =
+            near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            near.match(
+              /\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i
+            )?.[0] ||
+            labeledDate ||
+            big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            "";
 
-          // Compose start
-          let startISO = null;
-          if (dateOnly && pageTime24) {
-            startISO = dayjs
-              .tz(`${dateOnly} ${pageTime24}`, "YYYY-MM-DD HH:mm", TZ)
-              .toISOString();
-          } else if (fromLD.startISO) {
-            // Use LD, but if page time differs, prefer page time (if dateOnly exists)
-            startISO = dayjs(fromLD.startISO).isValid()
-              ? dayjs(fromLD.startISO).toISOString()
-              : null;
-            if (startISO && pageTime24 && dateOnly) {
-              const ldH = dayjs(startISO).tz(TZ).hour();
-              const pgH = parseInt(pageTime24.split(":")[0], 10);
-              if (ldH !== pgH) {
-                startISO = dayjs
-                  .tz(`${dateOnly} ${pageTime24}`, "YYYY-MM-DD HH:mm", TZ)
-                  .toISOString();
-              }
-            }
-          } else if (dateOnly && pageTime24) {
-            startISO = dayjs
-              .tz(`${dateOnly} ${pageTime24}`, "YYYY-MM-DD HH:mm", TZ)
-              .toISOString();
+          const dateText = dateTextRaw
+            ? normalizeWhitespace(stripOrdinals(dateTextRaw).replace(/,/g, " "))
+            : "";
+
+          // Time candidates
+          const timeTextRaw = labeledTime || pickTime(near) || pickTime(big) || "";
+          const timeText = normalizeWhitespace(timeTextRaw);
+          const t24 = to24h(timeText || ""); // may be null
+
+          // Build startISO
+          let startISO =
+            fromLD.startISO ||
+            parseDMYWithTime(dateText, timeText) ||
+            tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
+
+          // Respect ?occurrence=YYYY-MM-DD or ?eventDate=YYYY-MM-DD if present
+          const occurrence =
+            (url.match(/[?&](occurrence|eventDate)=(\d{4}-\d{2}-\d{2})/) || [])[2];
+          if (occurrence) {
+            const hhmm = t24 || "20:00"; // default to a reasonable evening time
+            const forced = dayjs.tz(
+              `${occurrence} ${hhmm}`,
+              "YYYY-MM-DD HH:mm",
+              TZ
+            );
+            const iso = toISO(forced);
+            if (iso) startISO = iso;
           }
 
           // Past filter (keep undated)
@@ -810,34 +822,30 @@ async function scrapeAdelphi() {
             if (d.isValid() && d.isBefore(CUTOFF)) return null;
           }
 
-          // For display, if we got a parsed time, keep it around in case UI wants HH:mm
-          let displayTime24 = "";
-          if (startISO) {
-            displayTime24 = dayjs(startISO).tz(TZ).format("HH:mm");
-          } else if (pageTime24) {
-            displayTime24 = pageTime24;
-          }
-
+          // Address (let resolver fill if blank)
           const address =
             fromLD.address ||
-            (text.match(/\b89\s+De\s+Grey\s+Street\b.*?\bHU5\s*2RU\b/i)?.[0] || "");
+            (big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] || "");
 
+          // Ticket links (Adelphi often uses SeeTickets, WeGotTickets, Gigantic, Hull Box Office)
           const tickets = $$("a[href]")
             .filter((_, a) =>
-              /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|wegottickets|ticketsource)/i.test(
+              /(seetickets|wegottickets|gigantic|eventbrite|ticketsource|ticketweb|eventim|fatsoma|hullboxoffice)/i.test(
                 $$(a).attr("href") || ""
               )
             )
             .map((_, a) => {
               const href = $$(a).attr("href") || "";
               const u = safeNewURL(href, url);
-              return u ? { label: $$(a).text().trim() || "Tickets", url: u } : null;
+              return u
+                ? { label: $$(a).text().trim() || "Tickets", url: u }
+                : null;
             })
             .get()
             .filter(Boolean);
 
-          const ev = buildEvent({
-            source: "The Adelphi Club",
+          return buildEvent({
+            source: "The New Adelphi Club",
             venue: "The New Adelphi Club",
             url,
             title,
@@ -848,11 +856,6 @@ async function scrapeAdelphi() {
             address,
             tickets,
           });
-
-          // Attach optional display fields if your UI wants them (non-breaking)
-          if (displayTime24) ev.displayTime24 = displayTime24;
-
-          return ev;
         } catch (e) {
           log("Adelphi event error:", e.message);
           return null;
@@ -860,7 +863,9 @@ async function scrapeAdelphi() {
       })
     );
 
-    for (const r of settled) if (r.status === "fulfilled" && r.value) results.push(r.value);
+    for (const r of settled)
+      if (r.status === "fulfilled" && r.value) results.push(r.value);
+
     await sleep(60);
   }
 
@@ -1035,10 +1040,9 @@ async function scrapeVoxBox() {
   }
 
   const $ = cheerio.load(html);
+
   // Grab all links under the list; filter to this host; ignore obvious non-detail links
-  const rawLinks = $("a[href]")
-    .map((_, a) => $(a).attr("href"))
-    .get();
+  const rawLinks = $("a[href]").map((_, a) => $(a).attr("href")).get();
 
   const eventLinks = unique(
     rawLinks
@@ -1048,7 +1052,6 @@ async function scrapeVoxBox() {
         try {
           const uu = new URL(u);
           if (uu.hostname !== baseHost) return false;
-          // Heuristic: ignore mailto/tel/#/calendar exports; ignore PDFs
           if (/^mailto:|^tel:/i.test(u)) return false;
           if (/\.(pdf|jpg|jpeg|png|webp)$/i.test(uu.pathname)) return false;
           return true;
@@ -1066,8 +1069,58 @@ async function scrapeVoxBox() {
 
   log(`[vox] candidate links: ${eventLinks.length}`);
 
+  // --- Helpers (local, VoxBox-specific hardening) ---
+  function sanitizeTimeCandidate(raw) {
+    // Normalize & strip junk words like "late", "’til", "till", "doors", "from"
+    let s = normalizeWhitespace(String(raw || "").toLowerCase());
+
+    // Remove common leading labels
+    s = s.replace(/\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?/g, " ").trim();
+
+    // Kill "late" / "til/’til/till late" suffixes
+    s = s.replace(/\b(?:till|’?til|til)\b\s*late\b/g, " ").replace(/\blate\b/g, " ").trim();
+
+    // Collapse ranges like "8pm – 3am" -> take the first time token
+    // Capture 12h times (with optional minutes) or 24h times
+    const timeToken =
+      s.match(/\b\d{1,2}[:.]\d{2}\s*(?:am|pm)\b/i)?.[0] ||
+      s.match(/\b\d{1,2}\s*(?:am|pm)\b/i)?.[0] ||
+      s.match(/\b\d{1,2}[:.]\d{2}\b/)?.[0] ||
+      "";
+
+    return normalizeWhitespace(timeToken).trim();
+  }
+
+  function parseDateOnlyVox(text) {
+    if (!text) return null;
+    const cleaned = normalizeWhitespace(stripOrdinals(text).replace(/,/g, " ")).trim();
+    if (!cleaned) return null;
+    const fmts = [
+      "YYYY-MM-DD",
+      "D/M/YYYY", "DD/M/YYYY", "D/MM/YYYY", "DD/MM/YYYY",
+      "D MMMM YYYY", "DD MMMM YYYY",
+      "D MMM YYYY", "DD MMM YYYY",
+      "ddd D MMMM YYYY", "dddd D MMMM YYYY",
+      "ddd D MMM YYYY", "dddd D MMM YYYY",
+    ];
+    for (const f of fmts) {
+      const d = dayjs(cleaned, f, true);
+      if (d.isValid()) return d.format("YYYY-MM-DD");
+    }
+    return null;
+  }
+
+  function safeToISO(djs) {
+    // Only call toISOString on a valid Dayjs
+    if (djs && dayjs.isDayjs?.(djs) ? djs.isValid() : dayjs(djs).isValid()) {
+      return (dayjs.isDayjs?.(djs) ? djs : dayjs(djs)).toISOString();
+    }
+    return null;
+  }
+
   const results = [];
   const BATCH = 6;
+
   for (let i = 0; i < eventLinks.length; i += BATCH) {
     const batch = eventLinks.slice(i, i + BATCH);
     const settled = await Promise.allSettled(
@@ -1080,6 +1133,7 @@ async function scrapeVoxBox() {
           const $$ = cheerio.load(html2);
 
           const fromLD = extractEventFromJSONLD($$, url) || {};
+
           const title =
             fromLD.title ||
             $$("h1, .entry-title, .event-title").first().text().trim() ||
@@ -1087,37 +1141,67 @@ async function scrapeVoxBox() {
 
           // Search around H1 and the main content for date/time
           const $h1 = $$("h1, .entry-title, .event-title").first();
-          const near = normalizeWhitespace(
-            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text()
-          );
-          const big = normalizeWhitespace(
-            $$("main, article, .content, .entry-content, body").first().text()
-          );
+          const near = normalizeWhitespace(($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text());
+          const big = normalizeWhitespace($$("main, article, .content, .entry-content, body").first().text());
 
-          const dateText =
+          const rawDateText =
             near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
             near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
             big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
             big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
             "";
 
-          const timeText =
+          const dateText = rawDateText ? normalizeWhitespace(stripOrdinals(rawDateText).replace(/,/g, " ")) : "";
+
+          const rawTime =
             extractTimeFrom(near) ||
             extractTimeFrom(big) ||
             "";
 
-          let startISO =
-            fromLD.startISO ||
-            parseDMYWithTime(dateText, timeText) ||
-            tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
+          const timeText = sanitizeTimeCandidate(rawTime);
+          const t24 = to24h(timeText || ""); // may be null
 
-          // If query contains an occurrence date (?date=YYYY-MM-DD), use it with time if helpful
-          const occurrence =
-            (url.match(/[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/) || [])[2];
+          // Build startISO safely
+          let startISO = null;
+
+          // 1) Try LD first, but validate
+          if (fromLD.startISO) {
+            const d = dayjs(fromLD.startISO);
+            if (d.isValid()) startISO = d.toISOString();
+          }
+
+          // 2) If we have a date, combine with page time (or leave time off if none)
+          if (!startISO && dateText) {
+            const dateOnly = parseDateOnlyVox(dateText);
+            if (dateOnly && t24) {
+              const d = dayjs.tz(`${dateOnly} ${t24}`, "YYYY-MM-DD HH:mm", TZ);
+              const iso = safeToISO(d);
+              if (iso) startISO = iso;
+            } else if (dateOnly) {
+              // fallback to 20:00 if time truly missing (safer default than crashing)
+              const d = dayjs.tz(`${dateOnly} 20:00`, "YYYY-MM-DD HH:mm", TZ);
+              const iso = safeToISO(d);
+              if (iso) startISO = iso;
+            }
+          }
+
+          // 3) Fallback: your generic text parser (but guard its output)
+          if (!startISO) {
+            try {
+              const candidate = tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
+              // candidate might be a string, Date, or Dayjs depending on your helper — normalize:
+              const iso = safeToISO(dayjs(candidate));
+              if (iso) startISO = iso;
+            } catch {}
+          }
+
+          // 4) Query occurrence override (?date=YYYY-MM-DD or ?occurrence=YYYY-MM-DD)
+          const occurrence = (url.match(/[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/) || [])[2];
           if (occurrence) {
-            const t24 = to24h(timeText || "") || "20:00";
-            const forced = dayjs.tz(`${occurrence} ${t24}`, "YYYY-MM-DD HH:mm", TZ);
-            if (forced.isValid()) startISO = forced.toISOString();
+            const t = t24 || "20:00";
+            const forced = dayjs.tz(`${occurrence} ${t}`, "YYYY-MM-DD HH:mm", TZ);
+            const iso = safeToISO(forced);
+            if (iso) startISO = iso;
           }
 
           // Past filter
@@ -1150,7 +1234,7 @@ async function scrapeVoxBox() {
             url,
             title,
             dateText,
-            timeText,
+            timeText,     // keep original (sanitized) for reference
             startISO,
             endISO: null,
             address,
@@ -1173,8 +1257,7 @@ async function scrapeVoxBox() {
 
 /* -------- UNION MASH UP (UMU) ------------------------------------- */
 // - Source list: https://unionmashup.co.uk/umu-events/
-// - Detail: /events/<slug>/ (sometimes with ?occurrence=YYYY-MM-DD)
-// - SKIP "Private Event" pages (by title or body text)
+
 async function scrapeUnionMashUp() {
   log("[umu] list");
   const base = "https://unionmashup.co.uk";
@@ -1385,7 +1468,7 @@ async function scrapeDiveHU5() {
   }
 
   const $ = cheerio.load(html);
-  // NEW: try multiple ways to discover event links
+  //try multiple ways to discover event links
   let eventLinks = collectSkiddleEventLinks($, listURL, base);
 
   // Fallback: sometimes the page is a venue hub without direct details;
