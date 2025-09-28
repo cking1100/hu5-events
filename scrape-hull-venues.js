@@ -894,6 +894,35 @@ async function scrapeTPR() {
     } catch { return false; }
   };
 
+  const VENUE_NAME = "The People's Republic";
+
+const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+function cleanTPRTitle(title = "") {
+  let x = title;
+
+  // remove “… hosted by The People's Republic” (with/without separators)
+  const hostedBy = new RegExp(
+    String.raw`\s*(?:[-–—•|·]\s*)?(?:\(?\s*)?hosted by\s+${escapeRegex(VENUE_NAME)}\s*\)?\s*$`,
+    "i"
+  );
+  x = x.replace(hostedBy, "");
+
+  // also remove trailing “@ The People's Republic” or “at The People’s Republic”
+  const atVenue = new RegExp(
+    String.raw`\s*(?:[-–—•|·]\s*)?(?:@|at)\s+${escapeRegex(VENUE_NAME)}\s*$`,
+    "i"
+  );
+  x = x.replace(atVenue, "");
+
+  // tidy leftover trailing separators/spaces
+  x = x.replace(/\s*(?:[-–—•|·])\s*$/g, "");
+  x = x.replace(/\s{2,}/g, " ").trim();
+
+  // never return empty
+  return x || title.trim();
+}
+
   const isWithinFutureWindow = (iso) => {
     const d = dayjs(iso);
     return d.isValid() && d.isBefore(NOW.add(FUTURE_WINDOW_YEARS, "years").endOf("year"));
@@ -1075,6 +1104,8 @@ async function scrapeTPR() {
             $$("h1, .title, .page-title, [class*='header'] h1").first().text().trim() ||
             $$("title").text().trim();
 
+            title = cleanTPRTitle(normalizeWhitespace(title || ""));
+            
           const $h1 = $$("h1, .title, .page-title, [class*='header'] h1").first();
           const near = normalizeWhitespace(($h1.text() || "") + " " + $h1.nextAll().slice(0, 12).text());
           const big  = normalizeWhitespace($$("main, article, .content, body").first().text());
