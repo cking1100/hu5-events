@@ -298,16 +298,20 @@ body
 
   // Build Google Calendar link when we have a start time
   const toGCalDateISO=d=>{ if(!d) return null; const p=n=>String(n).padStart(2,'0'); return d.getUTCFullYear()+p(d.getUTCMonth()+1)+p(d.getUTCDate())+'T'+p(d.getUTCHours())+p(d.getUTCMinutes())+p(d.getUTCSeconds())+'Z'; };
-  function googleHref(ev){
-    const start = ev._startEff || parseMaybe(ev?.start);
-    const end = ev?.end ? parseMaybe(ev.end) : (start ? new Date(start.getTime()+2*60*60*1000) : null);
-    if(!start||!end) return null;
-    const s=toGCalDateISO(start), e=toGCalDateISO(end);
-    const title=encodeURIComponent(ev?.title||'Event');
-    const loc=encodeURIComponent([ev?.venue, ev?.address].filter(Boolean).join(', '));
-    const details=encodeURIComponent(ev?.url||'');
-    return `https://www.google.com/calendar/event?action=TEMPLATE&text=${title}&dates=${s}/${e}&location=${loc}&details=${details}`;
-  }
+function googleHref(ev){
+  if (!ev) return null;
+  const start = ev._startEff || parseMaybe(ev.start);
+  const end   = ev && ev.end ? parseMaybe(ev.end) : (start ? new Date(start.getTime()+2*60*60*1000) : null);
+  if(!start || !end) return null;
+
+  const s = toGCalDateISO(start), e = toGCalDateISO(end);
+  const title = encodeURIComponent((ev && ev.title) || 'Event');
+  const loc   = encodeURIComponent([ev && ev.venue, ev && ev.address].filter(Boolean).join(', '));
+  const details = encodeURIComponent((ev && ev.url) || '');
+  return 'https://www.google.com/calendar/event?action=TEMPLATE&text=' + title +
+         '&dates=' + s + '/' + e + '&location=' + loc + '&details=' + details;
+}
+
 
   // Highlight matching query text
   function highlight(text, query){
@@ -350,77 +354,134 @@ body
 
   /* =================== SMART DATE/TIME PARSERS (UI) =================== */
   // Parse "YYYY-MM-DD HH:mm" to a local Date
-  function parseDateTime24Local(s='') {
-    const m = String(s).trim().match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})$/);
-    if (!m) return null;
-    const [,Y,Mo,D,H,Mi] = m.map(Number);
-    const d = new Date(Y, Mo-1, D, H, Mi, 0);
-    return isNaN(+d) ? null : d;
-  }
-  // Parse dateText (DD/MM/YY, DD/MM/YYYY, "15 Sep", "Mon 15 September") + timeText
-  function parseDateText(dateText, timeText) {
-    const monthMap = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
-    const clean = (s='') => s.replace(/\u00A0/g,' ').replace(/\s+/g,' ').trim();
-    const dTxt = clean(dateText || '');
-    const tTxt = clean(timeText || '');
+function parseDateTime24Local(s = '') {
+  if (!s) return null;
+  const txt = String(s).trim();
+  // Accept space or 'T' separator; optional seconds
+  const m = txt.match(
+    /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?$/
+  );
+  if (!m) return null;
+  const Y  = Number(m[1]);
+  const Mo = Number(m[2]);
+  const D  = Number(m[3]);
+  const H  = Number(m[4]);
+  const Mi = Number(m[5]);
+  const Ss = Number(m[6] || 0);
+  const d = new Date(Y, Mo - 1, D, H, Mi, Ss, 0);
+  return isNaN(d.getTime()) ? null : d;
+}
 
-    if (!dTxt) return null;
+/**
+ * Parse a human date (DD/MM[/YY], "15 Sep", "Mon 15 September", "YYYY-MM-DD") plus a time snippet.
+ * timeText can be 12/24h or "doors 9pm". Defaults to 20:00 when not provided.
+ */
+function parseDateText(dateText, timeText) {
+  const monthMap = {
+    jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11
+  };
+  const clean = (s='') =>
+    String(s).replace(/\u00A0/g,' ').replace(/\s+/g,' ').trim();
 
-    // time default 20:00; try to parse 12/24h or "doors"
-    let hh = 20, mm = 0;
-    if (tTxt) {
-      const s = tTxt.toLowerCase().replace(/\./g,':');
-      let m = s.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/i);
-      if (m) {
-        hh = parseInt(m[1],10); mm = parseInt(m[2]||'0',10);
-        const ap = m[3].toLowerCase(); if (ap==='pm' && hh!==12) hh+=12; if (ap==='am' && hh===12) hh=0;
-      } else if ((m = s.match(/\b(\d{1,2}):(\d{2})\b/))) {
-        hh = Math.min(23, Math.max(0, parseInt(m[1],10)));
-        mm = Math.min(59, Math.max(0, parseInt(m[2],10)));
-      } else if ((m = s.match(/\bdoors?\s*[:\-]?\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i))) {
-        hh = parseInt(m[1],10); mm = parseInt(m[2]||'0',10);
-        if (m[3]) { const ap = m[3].toLowerCase(); if (ap==='pm' && hh!==12) hh+=12; if (ap==='am' && hh===12) hh=0; }
-        else if (hh>=5 && hh<=11) { hh += 12; }
+  const dTxt = clean(dateText);
+  const tTxt = clean(timeText);
+
+  if (!dTxt) return null;
+
+  // ---- Time parse (default 20:00) ----
+  let hh = 20, mm = 0;
+  if (tTxt) {
+    const t = tTxt.toLowerCase().replace(/\./g, ':');
+    let m;
+
+    // "9:30 pm"
+    m = t.match(/\b(\d{1,2})(?::(\d{2}))\s*(am|pm)\b/i);
+    if (m) {
+      hh = Number(m[1]); mm = Number(m[2] || 0);
+      const ap = m[3].toLowerCase();
+      if (ap === 'pm' && hh !== 12) hh += 12;
+      if (ap === 'am' && hh === 12) hh = 0;
+    } else if ((m = t.match(/\b(\d{1,2})\s*(am|pm)\b/i))) {
+      // "9 pm"
+      hh = Number(m[1]);
+      const ap = m[2].toLowerCase();
+      if (ap === 'pm' && hh !== 12) hh += 12;
+      if (ap === 'am' && hh === 12) hh = 0;
+    } else if ((m = t.match(/\b(\d{1,2}):(\d{2})\b/))) {
+      // "21:00"
+      hh = Math.min(23, Math.max(0, Number(m[1])));
+      mm = Math.min(59, Math.max(0, Number(m[2])));
+    } else if ((m = t.match(/\bdoors?\s*[:\-]?\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i))) {
+      // "doors 9", "doors 9pm"
+      hh = Number(m[1]); mm = Number(m[2] || 0);
+      if (m[3]) {
+        const ap = m[3].toLowerCase();
+        if (ap === 'pm' && hh !== 12) hh += 12;
+        if (ap === 'am' && hh === 12) hh = 0;
+      } else if (hh >= 5 && hh <= 11) {
+        // evening bias if no am/pm
+        hh += 12;
       }
     }
-
-    const today0 = startOfTodayLocal();
-    const today = new Date();
-
-    // DD/MM/YY or DD/MM/YYYY (YY -> 20YY)
-    let m = dTxt.match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\b/);
-    if (m) {
-      let [, dStr, moStr, yStr] = m;
-      let day = parseInt(dStr,10);
-      let mon = parseInt(moStr,10) - 1;
-      let year = yStr ? parseInt(yStr,10) : today.getFullYear();
-      if (yStr && yStr.length === 2) year = 2000 + parseInt(yStr,10);
-      let dt = new Date(year, mon, day, hh, mm, 0);
-      if (!yStr && +dt < +today0) dt.setFullYear(year + 1);
-      return isNaN(+dt) ? null : dt;
-    }
-
-    // "Mon 15 Sep [YY|YYYY]" or "15 September [YY|YYYY]" (with ordinals)
-    m = dTxt.replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi,'$1')
-            .match(/\b(?:(?:mon|tue|wed|thu|fri|sat|sun)\w*\s+)?(\d{1,2})\s+([a-z]{3,9})(?:\s+(\d{2,4}))?\b/i);
-    if (m) {
-      const d = parseInt(m[1],10);
-      const monKey = m[2].toLowerCase().slice(0,3);
-      const mon = monthMap[monKey];
-      if (mon!=null) {
-        let year = m[3] ? parseInt(m[3],10) : today.getFullYear();
-        if (m[3] && m[3].length === 2) year = 2000 + parseInt(m[3],10);
-        let dt = new Date(year, mon, d, hh, mm, 0);
-        if (!m[3] && +dt < +today0) dt.setFullYear(year + 1);
-        return isNaN(+dt) ? null : dt;
-      }
-    }
-
-    return null;
   }
+
+  const today = new Date();
+  const today0 = startOfTodayLocal();
+
+  // Helper to roll forward a no-year date that ended up in the past
+  const rollIfPastNoYear = (dt, hadYear) => {
+    if (!dt || isNaN(+dt)) return null;
+    if (!hadYear && +dt < +today0) dt.setFullYear(dt.getFullYear() + 1);
+    return dt;
+  };
+
+  // ---- Accept ISO date (YYYY-MM-DD) in dateText directly ----
+  let m = dTxt.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
+  if (m) {
+    const Y  = Number(m[1]);
+    const Mo = Number(m[2]);
+    const D  = Number(m[3]);
+    const dt = new Date(Y, Mo - 1, D, hh, mm, 0, 0);
+    return isNaN(+dt) ? null : dt;
+  }
+
+  // ---- DD/MM[/YY] or DD/MM/YYYY (YY -> 20YY) ----
+  m = dTxt.match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\b/);
+  if (m) {
+    const day = Number(m[1]);
+    const mon = Number(m[2]) - 1;
+    let year = m[3] ? Number(m[3]) : today.getFullYear();
+    const hadYear = !!m[3];
+    if (m[3] && m[3].length === 2) year = 2000 + Number(m[3]);
+    const dt = new Date(year, mon, day, hh, mm, 0, 0);
+    return rollIfPastNoYear(dt, hadYear);
+  }
+
+  // ---- "Mon 15 Sep [YY|YYYY]" or "15 September [YY|YYYY]" (with ordinals) ----
+  m = dTxt
+    .replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, '$1')
+    .match(/\b(?:(?:mon|tue|wed|thu|fri|sat|sun)\w*\s+)?(\d{1,2})\s+([a-z]{3,9})(?:\s+(\d{2,4}))?\b/i);
+
+  if (m) {
+    const day = Number(m[1]);
+    const monKey = m[2].toLowerCase().slice(0, 4) === 'sept' ? 'sept' : m[2].toLowerCase().slice(0,3);
+    const mon = monthMap[monKey];
+    if (mon != null) {
+      let year = m[3] ? Number(m[3]) : today.getFullYear();
+      const hadYear = !!m[3];
+      if (m[3] && m[3].length === 2) year = 2000 + Number(m[3]);
+      const dt = new Date(year, mon, day, hh, mm, 0, 0);
+      return rollIfPastNoYear(dt, hadYear);
+    }
+  }
+
+  return null;
+}
 
   // Compute effective start for an event (used for filtering + grouping)
 function computeEffectiveStart(ev) {
+  if (!ev || typeof ev !== 'object') return null;
+
   // Accept a bunch of possible ISO-ish properties from scrapers
   const iso =
     ev.start ||
@@ -431,21 +492,21 @@ function computeEffectiveStart(ev) {
     ev.start_time ||
     null;
 
-  // A. Try ISO directly
+  // A) Try ISO-ish directly
   const a = parseMaybe(iso);
   if (a) return a;
 
-  // B. Try "YYYY-MM-DD HH:mm"
+  // B) Try "YYYY-MM-DD HH:mm"
   const b = parseDateTime24Local(ev.displayDateTime24 || ev.displayDateTime || '');
   if (b) return b;
 
-  // C. Try dateText + time (fallback 20:00)
+  // C) Try dateText + time (fallback 20:00)
   const bestTime = ev.displayTime24 || ev.timeText || ev.time || '';
   const c = parseDateText(ev.dateText, bestTime);
   if (c) return c;
 
-  // D. If Adelphi and still nothing, last-ditch: parse just the dateText with 20:00
-  if (/\badelphi\b/i.test(String(ev.source||'') + ' ' + String(ev.venue||''))) {
+  // D) Adelphi last-ditch: parse explicit YYYY-MM-DD + default 20:00
+  if (/\badelphi\b/i.test(String(ev.source || '') + ' ' + String(ev.venue || ''))) {
     const dOnly = (ev.dateOnly || '').trim();
     if (dOnly && /^\d{4}-\d{2}-\d{2}$/.test(dOnly)) {
       const d = parseDateTime24Local(`${dOnly} 20:00`);
@@ -455,8 +516,6 @@ function computeEffectiveStart(ev) {
 
   return null;
 }
-
-
   // Email mailto pre-fill
   function updateMailto(){
     if (!els.contactEmail) return;
@@ -475,37 +534,44 @@ function computeEffectiveStart(ev) {
   }
 
   // Shareable filters in URL
-  function filtersToParams(){
-    const o = {
-      q: els.q.value || '',
-      from: els.from.value || '',
-      to: els.to.value || '',
-      sort: els.sort.value || 'date-asc',
-      venue: els.venue.value || '',
-      range: state.range || 'all',
-      undated: state.showUndated ? '1' : '0'
-    };
-    const params = new URLSearchParams();
-    Object.entries(o).forEach(([k,v])=>{ if(String(v).trim()!=='') params.set(k,v); });
-    return params.toString();
-  }
-  function paramsToFilters(u){
+function filtersToParams(){
+  const o = {
+    q: els.q.value || '',
+    from: els.from.value || '',
+    to: els.to.value || '',
+    sort: els.sort.value || 'date-asc',
+    venue: els.venue.value || '',
+    range: state.range || 'all',
+    undated: state.showUndated ? '1' : '0'
+  };
+  const params = new URLSearchParams();
+  Object.entries(o).forEach(([k,v]) => { if (String(v).trim() !== '') params.set(k, v); });
+  return params.toString();
+}
+
+function paramsToFilters(u){
+  try {
     const p = new URL(u, location.href).searchParams;
     const val = (k, def='') => p.get(k) ?? def;
     const has = (k) => p.has(k);
-    if (has('q')) els.q.value = val('q');
-    if (has('from')) els.from.value = val('from');
-    if (has('to')) els.to.value = val('to');
-    if (has('sort')) els.sort.value = val('sort');
+
+    if (has('q'))     els.q.value     = val('q');
+    if (has('from'))  els.from.value  = val('from');
+    if (has('to'))    els.to.value    = val('to');
+    if (has('sort'))  els.sort.value  = val('sort');
     if (has('venue')) els.venue.value = val('venue');
-    if (has('range')) state.range = val('range');
+    if (has('range')) state.range     = val('range');
     if (has('undated')) state.showUndated = val('undated') !== '0';
+  } catch (e) {
+    console.warn('paramsToFilters failed:', e);
   }
-  function replaceUrl(){
-    const qs = filtersToParams();
-    const base = location.origin + location.pathname;
-    history.replaceState(null, '', qs ? `${base}?${qs}` : base);
-  }
+}
+
+function replaceUrl(){
+  const qs = filtersToParams();
+  const base = location.origin + location.pathname;
+  history.replaceState(null, '', qs ? `${base}?${qs}` : base);
+}
 
   /* ============================== FETCH =============================== */
   async function fetchEventsJson(){
@@ -624,17 +690,35 @@ function computeEffectiveStart(ev) {
       if (m) return m[0];
       return null;
     };
-    const pickTimeText = (ev) => {
-      const fields = [ ev.displayTime24, ev.timeText, ev.time_text, ev.time, ev.meta, ev.notes, ev.description, ev.title ];
-      for (const f of fields) {
-        if (!f) continue;
-        const norm = to24h(f);
-        if (norm) return { kind: 'parsed', value: norm };
-        const raw = firstTimeSnippet(f);
-        if (raw) return { kind: 'raw', value: raw };
-      }
-      return null;
-    };
+const pickTimeText = (ev) => {
+  // Treat The People's Republic specially: only trust explicit time fields.
+  const isTPR = /\bpeople'?s republic\b/i.test(
+    String(ev.source || '') + ' ' + String(ev.venue || '')
+  );
+
+  // 1) Always try explicit, structured fields first
+  const explicit = [ev.displayTime24, ev.timeText, ev.time, ev.time_text].filter(Boolean);
+  for (const f of explicit) {
+    const norm = to24h(f);
+    if (norm) return { kind: 'parsed', value: norm };
+    const raw = firstTimeSnippet(f);
+    if (raw) return { kind: 'raw', value: raw };
+  }
+
+  // 2) For non-TPR only, allow softer fields (meta/notes/description/title)
+  if (!isTPR) {
+    const soft = [ev.meta, ev.notes, ev.description, ev.title].filter(Boolean);
+    for (const f of soft) {
+      const norm = to24h(f);
+      if (norm) return { kind: 'parsed', value: norm };
+      const raw = firstTimeSnippet(f);
+      if (raw) return { kind: 'raw', value: raw };
+    }
+  }
+
+  // 3) Nothing found
+  return null;
+};
 
     const q = els.q.value.trim();
     const sections = groupByDate(state.view, state.sort).map(([key, items]) => {
@@ -833,7 +917,14 @@ if (ev.displayTime24) {
   // bindings
   const debounce=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
   const onFilterInput = debounce(()=>apply(),150);
-[ 'input','change'].forEach(ev => [els.q,els.from,els.to,els.sort,els.venue].forEach(el => el?.addEventListener(ev,onFilterInput)));
+['input','change'].forEach(function(evt){
+  [els.q, els.from, els.to, els.sort, els.venue].forEach(function(el){
+    if (el) el.addEventListener(evt, onFilterInput);
+  });
+});
+
+var resetBtn = $('#resetBtn');
+if (resetBtn) resetBtn.addEventListener('click', function(){ resetFilters(); apply(); });
 
 
   els.auto?.addEventListener('change', ()=>{
@@ -994,10 +1085,38 @@ function dumpAdelphiDiagnostics(where = 'console') {
       // IMPORTANT: compute effective start BEFORE apply()
 state.all = (Array.isArray(data) ? data : []).map(ev => {
   try {
-    const div = document.createElement('div'); div.innerHTML = ev.title || '';
+    const div = document.createElement('div');
+    div.innerHTML = ev.title || '';
     ev.title = div.textContent || div.innerText || ev.title || '';
   } catch {}
-  const eff = computeEffectiveStart(ev);
+
+  let eff = computeEffectiveStart(ev);
+
+  const isTPR = /\bpeople'?s republic\b/i.test(
+    String(ev.source || '') + ' ' + String(ev.venue || '')
+  );
+  if (isTPR) {
+    const yearProbe = [
+      ev.start, ev.startISO, ev.start_iso, ev.startDate, ev.start_date,
+      ev.dateText, ev.dateOnly, ev.displayDateTime24, ev.displayDateTime
+    ]
+      .filter(Boolean)
+      .join(' ');
+    const hasYear = /\b\d{4}\b/.test(yearProbe);
+
+    if (!hasYear) {
+      // No valid year → treat as undated
+      eff = null;
+      delete ev.displayDateTime24;
+      delete ev.displayDateTime;
+
+      // Default time if not provided
+      if (!ev.displayTime24 && !ev.timeText && !ev.time) {
+        ev.displayTime24 = '20:00'; // show 8 pm in the UI
+      }
+    }
+  }
+
   return { ...ev, _startEff: eff, _hasDate: !!eff };
 });
       dumpAdelphiDiagnostics('console'); 
