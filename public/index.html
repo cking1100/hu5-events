@@ -1,1143 +1,2484 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<!-- Google tag (gtag.js) -->
- <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q98ES83PZK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <link
+      rel="preconnect"
+      href="https://www.googletagmanager.com"
+      crossorigin
+    />
+    <link
+      rel="preconnect"
+      href="https://www.google-analytics.com"
+      crossorigin
+    />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-Q98ES83PZK"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag('config', 'G-Q98ES83PZK', { anonymize_ip: true });
-</script>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>HU5 Events Finder</title>
-<meta name="color-scheme" content="dark light" />
-<meta name="robots" content="noindex" />
-<style>
-  :root{
-    --bg:#050507; --card:#0a0d11; --text:#e7edf3; --muted:#a6b0bb;
-    --accent:#7dd3fc; --accent2:#38bdf8; --accent3:#14b8a6;
-    --border:#1b2330; --chip:#0a0e12; --pill:#080c10;
-    --good:#22c55e; --warn:#f59e0b; --error:#ef4444;
-    --radius:16px; --shadow:0 8px 28px rgba(0,0,0,.28);
-    --tap:44px; --safe: env(safe-area-inset-bottom, 0px);
-  }
-  @media (prefers-color-scheme: light){
-    :root{
-      --bg:#f6f8fb; --card:#ffffff; --text:#0b0d10; --muted:#5b6773;
-      --accent:#0369a1; --accent2:#0284c7; --accent3:#0d9488;
-      --border:#e2e8f0; --chip:#eef3f9; --pill:#f3f6f9; --shadow:0 8px 20px rgba(0,0,0,.08);
-    }
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  /* keep header visible when jumping to sections */
-  html{scroll-behavior:smooth; scroll-padding-top:132px}
-body
-{
-  margin:0;
-  background: var(--bg); /* only solid background */
-  color:var(--text);
-  font:clamp(14px,1.9vw,16px)/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial;
-  overflow-x:hidden;
-  text-rendering:optimizeLegibility;
-}
-  .hidden{display:none!important}
-  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+      gtag("config", "G-Q98ES83PZK", { anonymize_ip: true });
+    </script>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>HU5 Events Finder</title>
+    <meta name="color-scheme" content="dark light" />
+    <meta name="robots" content="noindex" />
 
-  /* Top email bar */
-  .topbar{position:static; top:auto; z-index:70; background:color-mix(in oklab,var(--bg) 94%, transparent); border-bottom:1px solid var(--border); backdrop-filter:saturate(120%) blur(8px);}
-  .wrap{max-width:980px; margin:0 auto; padding:12px}
-  .topbar .wrap{display:flex; gap:12px; align-items:center; justify-content:space-between}
-  .lead{font-weight:900; font-size:13px; color:var(--muted)}
-  .topbar a{color:inherit; text-decoration:none; font-weight:800; padding:6px 10px; border-radius:999px; background:var(--chip); border:1px solid var(--border)}
-  .topbar a:hover{text-decoration:underline}
+    <style>
+      :root {
+        --bg: #050507;
+        --card: #0a0d11;
+        --text: #e7edf3;
+        --muted: #a6b0bb;
+        --accent: #7dd3fc;
+        --accent2: #38bdf8;
+        --accent3: #14b8a6;
+        --border: #1b2330;
+        --chip: #0a0e12;
+        --pill: #080c10;
+        --good: #22c55e;
+        --warn: #f59e0b;
+        --error: #ef4444;
+        --radius: 16px;
+        --shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+        --tap: 44px;
+        --safe: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f6f8fb;
+          --card: #ffffff;
+          --text: #0b0d10;
+          --muted: #5b6773;
+          --accent: #0369a1;
+          --accent2: #0284c7;
+          --accent3: #0d9488;
+          --border: #e2e8f0;
+          --chip: #eef3f9;
+          --pill: #f3f6f9;
+          --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      /* keep header visible when jumping to sections */
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 132px;
+      }
+      body {
+        margin: 0;
+        background: var(--bg); /* only solid background */
+        color: var(--text);
+        font: clamp(14px, 1.9vw, 16px) / 1.55 system-ui, -apple-system, Segoe UI,
+          Roboto, Arial;
+        overflow-x: hidden;
+        text-rendering: optimizeLegibility;
+      }
+      .hidden {
+        display: none !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
 
-  /* Header */
-  header{position:static; top:auto; z-index:60; border-bottom:1px solid var(--border); background:color-mix(in oklab,var(--bg) 86%, transparent); backdrop-filter:saturate(120%) blur(10px);}
-  header::after{content:""; display:block; height:2px; background:
-    linear-gradient(90deg, color-mix(in oklab,var(--accent) 55%, transparent), transparent 40%, transparent 60%, color-mix(in oklab,var(--accent2) 55%, transparent)); opacity:.35}
-  .brand{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
-  .brand-left{display:flex; align-items:center; gap:12px; min-width:0}
-  .logo{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;flex:0 0 36px;
-        background:linear-gradient(135deg,var(--accent), transparent 60%); border:1px solid var(--border); font-weight:900}
-  h1{font-size:clamp(18px,2.8vw,22px); margin:0; white-space:nowrap}
-  .tag{color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+      /* Top email bar */
+      .topbar {
+        position: static;
+        top: auto;
+        z-index: 70;
+        background: color-mix(in oklab, var(--bg) 94%, transparent);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: saturate(120%) blur(8px);
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 12px;
+      }
+      .topbar .wrap {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .lead {
+        font-weight: 900;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .topbar a {
+        color: inherit;
+        text-decoration: none;
+        font-weight: 800;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--chip);
+        border: 1px solid var(--border);
+      }
+      .topbar a:hover {
+        text-decoration: underline;
+      }
 
-  /* Controls */
-  .seg,.btn,.field,select{
-    padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text);
-    min-height:var(--tap); outline:none; transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-  }
-  .btn,.seg{display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:800; border-radius:999px; background:var(--chip); cursor:pointer}
-  .btn:hover,.seg:hover{transform:translateY(-1px); box-shadow:0 6px 20px rgba(0,0,0,.15); border-color: color-mix(in oklab,var(--accent) 35%, var(--border))}
-  .btn:focus-visible,.seg:focus-visible{outline:2px solid var(--accent)}
-  .seg.is-active,.seg[aria-pressed="true"]{box-shadow:0 0 0 2px var(--accent) inset; color:var(--accent)}
-  .muty{color:var(--muted)}
-  .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
-  .chip{display:inline-flex; align-items:center; gap:8px; background:var(--chip); padding:8px 12px; border-radius:999px; border:1px solid var(--border)}
-  .dot{width:8px;height:8px;border-radius:50%}
-  .dot.good{background:var(--good)} .dot.warn{background:var(--warn)} .dot.error{background:var(--error)}
+      /* Header */
+      header {
+        position: static;
+        top: auto;
+        z-index: 60;
+        border-bottom: 1px solid var(--border);
+        background: color-mix(in oklab, var(--bg) 86%, transparent);
+        backdrop-filter: saturate(120%) blur(10px);
+      }
+      header::after {
+        content: "";
+        display: block;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          color-mix(in oklab, var(--accent) 55%, transparent),
+          transparent 40%,
+          transparent 60%,
+          color-mix(in oklab, var(--accent2) 55%, transparent)
+        );
+        opacity: 0.35;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .brand-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+      .logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 36px;
+        background: linear-gradient(135deg, var(--accent), transparent 60%);
+        border: 1px solid var(--border);
+        font-weight: 900;
+      }
+      h1 {
+        font-size: clamp(18px, 2.8vw, 22px);
+        margin: 0;
+        white-space: nowrap;
+      }
+      .tag {
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-  /* Filters grid */
-  #filtersPanel{display:grid; gap:8px; grid-template-columns:1fr 1fr; padding-top:10px}
-  @media (min-width:820px){#filtersPanel{grid-template-columns:1.2fr 1fr 1fr auto auto auto} #filtersToggle{display:none}}
+      /* Controls */
+      .seg,
+      .btn,
+      .field,
+      select {
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        min-height: var(--tap);
+        outline: none;
+        transition: transform 0.12s ease, box-shadow 0.12s ease,
+          border-color 0.12s ease;
+      }
+      .btn,
+      .seg {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-weight: 800;
+        border-radius: 999px;
+        background: var(--chip);
+        cursor: pointer;
+      }
+      .btn:hover,
+      .seg:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+      }
+      .btn:focus-visible,
+      .seg:focus-visible {
+        outline: 2px solid var(--accent);
+      }
+      .seg.is-active,
+      .seg[aria-pressed="true"] {
+        box-shadow: 0 0 0 2px var(--accent) inset;
+        color: var(--accent);
+      }
+      .muty {
+        color: var(--muted);
+      }
+      .btn[data-kind="tickets"] {
+        background: color-mix(in oklab, var(--accent2) 16%, transparent);
+        border-color: color-mix(in oklab, var(--accent2) 60%, transparent);
+        color: var(--accent2);
+      }
+      .btn[data-kind="tickets"]:hover,
+      .btn[data-kind="tickets"]:focus-visible {
+        border-color: color-mix(in oklab, var(--accent2) 80%, transparent);
+      }
+      .btn.nobook {
+        background: color-mix(in oklab, var(--accent3) 12%, transparent);
+        border-color: color-mix(in oklab, var(--accent3) 55%, transparent);
+        color: var(--accent3);
+      }
+      .btn.nobook:hover,
+      .btn.nobook:focus-visible {
+        border-color: color-mix(in oklab, var(--accent3) 75%, transparent);
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--chip);
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .dot.good {
+        background: var(--good);
+      }
+      .dot.warn {
+        background: var(--warn);
+      }
+      .dot.error {
+        background: var(--error);
+      }
 
-  .quick{margin-top:10px; display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap:8px}
-  .header-toolbar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:8px; padding-bottom:8px; border-bottom:1px solid var(--border)}
+      /* Filters grid */
+      #filtersPanel {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: 1fr 1fr;
+        padding-top: 10px;
+      }
+      @media (min-width: 820px) {
+        #filtersPanel {
+          grid-template-columns: 1.2fr 1fr 1fr auto auto auto;
+        }
+        #filtersToggle {
+          display: none;
+        }
+      }
 
-  /* Stats */
-  .stats{margin-top:10px; display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; color:var(--muted); font-size:14px}
+      .quick {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 8px;
+      }
+      .header-toolbar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+      }
 
-  /* Main + cards */
-  main{max-width:980px; margin:10px auto calc(80px + var(--safe)); padding:0 12px}
-  .empty,.error{border:1px dashed var(--border); border-radius:var(--radius); padding:24px; color:var(--muted); text-align:center}
-  .section{margin:18px 0 26px}
-  .section h3{margin:0 0 12px; font-size:12px; font-weight:900; color:var(--muted); text-transform:uppercase; letter-spacing:.08em}
-  .grid{display:grid; gap:12px}
-  .event{
-    background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px;
-    display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; box-shadow:var(--shadow);
-    transition:border-color .15s ease, transform .12s ease, box-shadow .15s ease;
-  }
-  .event:focus-within{outline:2px solid var(--accent); outline-offset:3px}
-  .event:hover,.event:focus-within{border-color:color-mix(in oklab,var(--accent) 60%, var(--border)); transform:translateY(-1px); box-shadow:0 10px 28px rgba(0,0,0,.32)}
-  .pill{min-width:68px;border:1px solid var(--border);background:var(--pill);border-radius:12px;text-align:center;padding:8px 6px;display:flex;flex-direction:column;gap:2px;justify-content:center}
-  .pill .dow{font-weight:800;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-  .pill .day{font-size:20px;font-weight:900}
-  .pill .mon{font-size:11px;font-weight:800;color:var(--muted)}
-  .title{font-size:18px;font-weight:900;margin:0 0 4px; word-break:break-word}
-  .title a{color:inherit; text-decoration:none}
-  .title a:focus-visible{outline:2px solid var(--accent); border-radius:6px}
-  .meta{color:var(--muted); font-size:14px; word-break:break-word}
-  .source{color:var(--muted); font-size:12px; margin-top:6px}
-  .card-actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
-  .btn.free{background: color-mix(in oklab, var(--good) 12%, transparent); border-color: color-mix(in oklab, var(--good) 55%, transparent); color: var(--good)}
-  .btn.sold{background: color-mix(in oklab, var(--error) 12%, transparent); border-color: color-mix(in oklab, var(--error) 55%, transparent); color: var(--error)}
-  mark{background: color-mix(in oklab,var(--accent) 35%, transparent); color:inherit; padding:0 .12em; border-radius:4px}
+      /* Stats */
+      .stats {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 14px;
+      }
 
-  /* Phone layout */
-  @media (max-width:720px){
-    .wrap{padding:12px} .brand{gap:8px} .title{font-size:17px}
-    #filtersPanel{grid-template-columns:1fr}
-    .event{grid-template-columns:1fr; padding:12px}
-    .pill{order:-1; width:100%; flex-direction:row; gap:10px; justify-content:center}
-    .card-actions{justify-content:stretch; width:100%}
-    .card-actions .btn{flex:1 1 auto; min-width:0}
-    .quick{margin-top:8px; grid-template-columns: repeat(auto-fill, minmax(120px,1fr))}
-    header .row{gap:6px}
-  }
-  @media (max-width:720px){.card-actions{display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px} .card-actions .btn{width:100%}}
-  @media (max-width:420px){.card-actions{grid-template-columns:1fr}}
+      /* Main + cards */
+      main {
+        max-width: 980px;
+        margin: 10px auto calc(80px + var(--safe));
+        padding: 0 12px;
+      }
+      .empty,
+      .error {
+        border: 1px dashed var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .section {
+        margin: 18px 0 26px;
+      }
+      .section h3 {
+        margin: 0 0 12px;
+        font-size: 12px;
+        font-weight: 900;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+      }
+      .event {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+        align-items: center;
+        box-shadow: var(--shadow);
+        transition: border-color 0.15s ease, transform 0.12s ease,
+          box-shadow 0.15s ease;
+      }
+      .event:focus-within {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .event:hover,
+      .event:focus-within {
+        border-color: color-mix(in oklab, var(--accent) 60%, var(--border));
+        transform: translateY(-1px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+      }
+      .pill {
+        min-width: 68px;
+        border: 1px solid var(--border);
+        background: var(--pill);
+        border-radius: 12px;
+        text-align: center;
+        padding: 8px 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        justify-content: center;
+      }
+      .pill .dow {
+        font-weight: 800;
+        font-size: 10px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .pill .day {
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .pill .mon {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--muted);
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 900;
+        margin: 0 0 4px;
+        word-break: break-word;
+      }
+      .title a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .title a:focus-visible {
+        outline: 2px solid var(--accent);
+        border-radius: 6px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 14px;
+        word-break: break-word;
+      }
+      .source {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 6px;
+      }
+      .card-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .btn.free {
+        background: color-mix(in oklab, var(--good) 12%, transparent);
+        border-color: color-mix(in oklab, var(--good) 55%, transparent);
+        color: var(--good);
+      }
+      .btn.sold {
+        background: color-mix(in oklab, var(--error) 12%, transparent);
+        border-color: color-mix(in oklab, var(--error) 55%, transparent);
+        color: var(--error);
+      }
+      .btn.post {
+        background: color-mix(in oklab, var(--warn) 12%, transparent);
+        border-color: color-mix(in oklab, var(--warn) 55%, transparent);
+        color: var(--warn);
+      }
+      mark {
+        background: color-mix(in oklab, var(--accent) 35%, transparent);
+        color: inherit;
+        padding: 0 0.12em;
+        border-radius: 4px;
+      }
 
-  /* Mobile back-to-top */
-  #fabTop{position:fixed; right:12px; bottom:calc(12px + var(--safe)); z-index:60; border-radius:999px; border:1px solid var(--border); background:var(--chip); box-shadow:var(--shadow); padding:10px 14px; font-weight:900}
-  @media (min-width:721px){#fabTop{display:none}}
+      /* Phone layout */
+      @media (max-width: 720px) {
+        .wrap {
+          padding: 12px;
+        }
+        .brand {
+          gap: 8px;
+        }
+        .title {
+          font-size: 17px;
+        }
+        #filtersPanel {
+          grid-template-columns: 1fr;
+        }
+        .event {
+          grid-template-columns: 1fr;
+          padding: 12px;
+        }
+        .pill {
+          order: -1;
+          width: 100%;
+          flex-direction: row;
+          gap: 10px;
+          justify-content: center;
+        }
+        .card-actions {
+          justify-content: stretch;
+          width: 100%;
+        }
+        .card-actions .btn {
+          flex: 1 1 auto;
+          min-width: 0;
+        }
+        .quick {
+          margin-top: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        }
+        header .row {
+          gap: 6px;
+        }
+      }
+      @media (max-width: 720px) {
+        .card-actions {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+        }
+        .card-actions .btn {
+          width: 100%;
+        }
+      }
+      @media (max-width: 420px) {
+        .card-actions {
+          grid-template-columns: 1fr;
+        }
+      }
 
-  /* Toast */
-  #toast{position:fixed; left:50%; bottom:calc(24px + var(--safe)); transform:translateX(-50%) translateY(16px) scale(.98);
-         background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:12px;
-         padding:10px 12px; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:opacity .24s ease, transform .24s ease; z-index:80; font-weight:800}
-  #toast.show{opacity:1; transform:translateX(-50%) translateY(0) scale(1)}
-</style>
-</head>
-<body>
-  <!-- Top: email -->
-  <div class="topbar">
-    <div class="wrap">
-      <div class="lead">Bugs? Suggestions? Venue owner?</div>
-      <a id="contactEmail" href="mailto:hu5eventsfinder@gmail.com" aria-label="Email HU5 Events Finder">hu5eventsfinder@gmail.com</a>
+      /* Mobile back-to-top */
+      #fabTop {
+        position: fixed;
+        right: 12px;
+        bottom: calc(12px + var(--safe));
+        z-index: 60;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--chip);
+        box-shadow: var(--shadow);
+        padding: 10px 14px;
+        font-weight: 900;
+      }
+      @media (min-width: 721px) {
+        #fabTop {
+          display: none;
+        }
+      }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(24px + var(--safe));
+        transform: translateX(-50%) translateY(16px) scale(0.98);
+        background: var(--card);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.24s ease, transform 0.24s ease;
+        z-index: 80;
+        font-weight: 800;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top: email -->
+    <div class="topbar">
+      <div class="wrap">
+        <div class="lead">Bugs? Suggestions? Venue owner?</div>
+        <a
+          id="contactEmail"
+          href="mailto:hu5eventsfinder@gmail.com"
+          aria-label="Email HU5 Events Finder"
+          >hu5eventsfinder@gmail.com</a
+        >
+      </div>
     </div>
-  </div>
 
-  <!-- Sticky header -->
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <div class="brand-left">
-          <div class="logo" aria-hidden="true">H</div>
-          <div>
-            <h1>HU5 Events Finder</h1>
-            <div class="tag">Polar Bear • Adelphi • Welly • Vox Box • UMU — all in one place</div>
+    <!-- Sticky header -->
+    <header>
+      <div class="wrap">
+        <div class="brand">
+          <div class="brand-left">
+            <div class="logo" aria-hidden="true">H</div>
+            <div>
+              <h1>HU5 Events Finder</h1>
+              <div class="tag">
+                HU5 Venues all in one place - built for the community
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <button
+              id="filtersToggle"
+              class="seg"
+              aria-expanded="true"
+              aria-controls="filtersPanel"
+            >
+              Filters
+            </button>
+            <button id="share" class="seg" title="Copy link to this view">
+              🔗 Share
+            </button>
           </div>
         </div>
-        <div class="row">
-          <button id="filtersToggle" class="seg" aria-expanded="true" aria-controls="filtersPanel">Filters</button>
-          <button id="share" class="seg" title="Copy link to this view">🔗 Share</button>
+
+        <div id="filtersPanel" role="region" aria-label="Filters">
+          <input
+            id="q"
+            class="field"
+            placeholder="Search artist, venue, keyword…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Search (press / to focus)"
+          />
+          <input id="from" class="field" type="date" aria-label="From date" />
+          <input id="to" class="field" type="date" aria-label="To date" />
+          <select id="sort" class="field" aria-label="Sort">
+            <option value="date-asc">Soonest first</option>
+            <option value="date-desc">Latest first</option>
+            <option value="title">Title A→Z</option>
+          </select>
+          <select id="venue" class="field" aria-label="Venue">
+            <option value="">All venues</option>
+          </select>
+          <button id="clear" class="seg" title="Reset all filters">
+            Clear
+          </button>
+        </div>
+
+        <div class="quick" role="group" aria-label="Quick ranges">
+          <button class="seg" data-range="all" aria-pressed="true">
+            All upcoming
+          </button>
+          <button class="seg" data-range="today">Today</button>
+          <button class="seg" data-range="weekend">This weekend</button>
+          <button class="seg" data-range="next7">Next 7 days</button>
+          <button
+            id="toggleUndated"
+            class="seg"
+            aria-pressed="true"
+            title="Show/hide undated"
+          >
+            Hide undated
+          </button>
+          <button id="refreshNow" class="seg" title="Reload events.json">
+            Refresh
+          </button>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <div class="row">
+            <span class="chip" title="Events shown"
+              ><span class="dot good"></span
+              ><span id="countText">0 events</span></span
+            >
+            <span class="chip" title="Last updated"
+              ><span class="dot warn"></span
+              ><span id="updatedText">—</span></span
+            >
+            <span id="nextRefresh" class="chip" title="Auto-refresh"
+              ><span class="dot good"></span
+              ><span id="refreshText">Auto refresh on</span></span
+            >
+          </div>
+          <label class="seg" style="gap: 6px"
+            ><input
+              id="auto"
+              type="checkbox"
+              style="accent-color: var(--accent)"
+              checked
+            />
+            Auto-refresh</label
+          >
         </div>
       </div>
+    </header>
 
-      <div id="filtersPanel" role="region" aria-label="Filters">
-        <input id="q" class="field" placeholder="Search artist, venue, keyword…" autocomplete="off" spellcheck="false" aria-label="Search (press / to focus)" />
-        <input id="from" class="field" type="date" aria-label="From date" />
-        <input id="to" class="field" type="date" aria-label="To date" />
-        <select id="sort" class="field" aria-label="Sort">
-          <option value="date-asc">Soonest first</option>
-          <option value="date-desc">Latest first</option>
-          <option value="title">Title A→Z</option>
-        </select>
-        <select id="venue" class="field" aria-label="Venue">
-          <option value="">All venues</option>
-        </select>
-        <button id="clear" class="seg" title="Reset all filters">Clear</button>
-      </div>
+    <main class="wrap">
+      <div id="status" class="empty" hidden>Loading…</div>
+      <div id="list" aria-live="polite"></div>
+      <button id="fabTop" class="seg" aria-label="Back to filters">
+        ↑ Filters
+      </button>
+    </main>
 
-      <div class="quick" role="group" aria-label="Quick ranges">
-        <button class="seg" data-range="all" aria-pressed="true">All upcoming</button>
-        <button class="seg" data-range="today">Today</button>
-        <button class="seg" data-range="weekend">This weekend</button>
-        <button class="seg" data-range="next7">Next 7 days</button>
-        <button id="toggleUndated" class="seg" aria-pressed="true" title="Show/hide undated">Hide undated</button>
-        <button id="refreshNow" class="seg" title="Reload events.json">Refresh</button>
-      </div>
-
-      <div class="stats" aria-live="polite">
-        <div class="row">
-          <span class="chip" title="Events shown"><span class="dot good"></span><span id="countText">0 events</span></span>
-          <span class="chip" title="Last updated"><span class="dot warn"></span><span id="updatedText">—</span></span>
-          <span id="nextRefresh" class="chip" title="Auto-refresh"><span class="dot good"></span><span id="refreshText">Auto refresh on</span></span>
+    <!-- Private Admin (optional) -->
+    <aside
+      id="adminPanel"
+      role="dialog"
+      aria-modal="false"
+      aria-label="Site statistics"
+      hidden
+    >
+      <div class="row">
+        <h2 style="margin: 4px 0 8px; font-size: 16px">
+          Site statistics (private)
+        </h2>
+        <div class="row" style="gap: 8px">
+          <button id="copyStats" class="seg">Copy JSON</button>
+          <button id="closeAdmin" class="seg" aria-label="Close">Close</button>
         </div>
-        <label class="seg" style="gap:6px"><input id="auto" type="checkbox" style="accent-color:var(--accent)" checked /> Auto-refresh</label>
       </div>
+      <div id="adminSummary" class="muty" style="margin-bottom: 8px"></div>
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px">
+        <tbody id="adminTable"></tbody>
+      </table>
+    </aside>
+
+    <div id="toast" role="status" aria-live="polite" aria-atomic="true">
+      Link copied
     </div>
-  </header>
-
-  <main class="wrap">
-    <div id="status" class="empty" hidden>Loading…</div>
-    <div id="list" aria-live="polite"></div>
-    <button id="fabTop" class="seg" aria-label="Back to filters">↑ Filters</button>
-  </main>
-
-  <!-- Private Admin (optional) -->
-  <aside id="adminPanel" role="dialog" aria-modal="false" aria-label="Site statistics" hidden>
-    <div class="row">
-      <h2 style="margin:4px 0 8px;font-size:16px">Site statistics (private)</h2>
-      <div class="row" style="gap:8px">
-        <button id="copyStats" class="seg">Copy JSON</button>
-        <button id="closeAdmin" class="seg" aria-label="Close">Close</button>
-      </div>
-    </div>
-    <div id="adminSummary" class="muty" style="margin-bottom:8px"></div>
-    <table style="width:100%;border-collapse:collapse;font-size:13px"><tbody id="adminTable"></tbody></table>
-  </aside>
-
-  <div id="toast" role="status" aria-live="polite" aria-atomic="true">Link copied</div>
-
-<script>
-(() => {
-  /* =========================== DOM SHORTCUTS =========================== */
-  const $  = (s, el=document) => el.querySelector(s);
-  const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
-
-  /* ============================== STATE =============================== */
-  const state = {
-    TZ:'Europe/London',
-    all:[],        // raw events from events.json + computed fields
-    view:[],       // filtered/sorted events for current view
-    autoRefresh:true, refreshMs:5*60*1000, nextTickAt:null, lastUpdated:null,
-    range:'all', showUndated:true, sort:'date-asc',
-    stats:{loads:0,lastLoadMs:0,lastRenderMs:0,totalEvents:0,datedEvents:0,undatedEvents:0,venues:{},filtersUsed:0,lastAppliedAt:null},
-    isAdmin:false
-  };
-
-  const els = {
-    list:$('#list'), status:$('#status'),
-    countText:$('#countText'), updatedText:$('#updatedText'), refreshText:$('#refreshText'),
-    auto:$('#auto'),
-    q:$('#q'), from:$('#from'), to:$('#to'), sort:$('#sort'), venue:$('#venue'),
-    rangeButtons: $$('.quick .seg[data-range]'),
-    toggleUndated:$('#toggleUndated'), refreshNow:$('#refreshNow'),
-    clear:$('#clear'), share:$('#share'),
-    filtersPanel:$('#filtersPanel'), filtersToggle:$('#filtersToggle'),
-    admin:$('#adminPanel'), adminTable:$('#adminTable'), adminSummary:$('#adminSummary'), copyStats:$('#copyStats'), closeAdmin:$('#closeAdmin'),
-    fabTop:$('#fabTop'), toast:$('#toast'), contactEmail:$('#contactEmail')
-  };
-
-  const STORAGE_KEY='hu5-filters-vEffStart';
-  const ADMIN_KEY='hu5-admin';
-
-  /* ============================= HELPERS ============================== */
-  const escapeHTML = s => s==null?'':String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
-  const parseMaybe = iso => { if(!iso) return null; const d=new Date(iso); return isNaN(d.getTime())?null:d; };
-  const timeAgo = d => { if(!d) return '—'; const ms=Date.now()-d.getTime(), m=Math.round(ms/60000); if(m<1) return 'just now'; if(m<60) return `${m} min ago`; const h=Math.round(m/60); if(h<24) return `${h} hr${h>1?'s':''} ago`; const days=Math.round(h/24); return `${days} day${days>1?'s':''} ago`; };
-  const startOfTodayLocal = () => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate(), 0,0,0,0); };
-
-  // Normalise venue labels across sources (for filtering chip)
-  function venueLabel(ev){
-    const raw=(ev.venue||ev.source||'').toLowerCase().replace(/[’']/g,"'");
-    if (/\bwelly\b|giveitsomewelly/.test(raw)) return 'The Welly Club';
-    if (/\badelphi\b/.test(raw)) return 'The New Adelphi Club';
-    if (/\bpolar\b/.test(raw)) return 'Polar Bear Music Club';
-    if (/\bpeople'?s republic\b/.test(raw)) return "The People's Republic";
-    if (/\bvox\s*box\b|voxboxbar\.co\.uk/.test(raw)) return 'Vox Box';
-    if (/\bunion\s*mash\s*up\b|unionmashup\.co\.uk/.test(raw)) return 'Union Mash Up';
-    if (/\bdive\b.*hu5|skiddle\.com\/whats-on\/hull\/dive-hu5/i.test(raw)) return 'DIVE HU5';
-    return ev.venue || ev.source || 'Other';
-  }
-
-  // ICS-like URLs? then link to listings page instead
-  const isIcsLike = (url='') =>
-  /\.(ics)(\?|$)/i.test(url) ||
-  /[?&]format=ical(\b|=|&|$)/i.test(url) ||
-  /(?:^|\/\/)calendar\.google\.com|google\.com\/calendar/i.test(url);
-  function toListingsUrl(url,source){
-    if(!url) return '#'; if(!isIcsLike(url)) return url;
-    try{ const u=new URL(url, location.href); if (/[?&]format=ical\b/i.test(u.search)) return u.origin+u.pathname; }catch{}
-    const s=(source||'').toLowerCase();
-    if (url.includes('polarbearmusicclub.co.uk')||s.includes('polar bear')) return 'https://www.polarbearmusicclub.co.uk/whatson';
-    if (url.includes('giveitsomewelly.com')||s.includes('welly')) return 'https://www.giveitsomewelly.com/shows/';
-    if (url.includes('theadelphi.com')||s.includes('adelphi')) return 'https://www.theadelphi.com/events/';
-    if (url.includes('unionmashup.co.uk') || s.includes('union mash up')) return 'https://unionmashup.co.uk/umu-events/';
-    if (/skiddle\.com\/whats-on\/hull\/dive-hu5/i.test(url) || s.includes('dive')) return 'https://www.skiddle.com/whats-on/Hull/DIVE-HU5/';
-    return url;
-  }
-
-  // Build Google Calendar link when we have a start time
-  const toGCalDateISO=d=>{ if(!d) return null; const p=n=>String(n).padStart(2,'0'); return d.getUTCFullYear()+p(d.getUTCMonth()+1)+p(d.getUTCDate())+'T'+p(d.getUTCHours())+p(d.getUTCMinutes())+p(d.getUTCSeconds())+'Z'; };
-function googleHref(ev){
-  if (!ev) return null;
-  const start = ev._startEff || parseMaybe(ev.start);
-  const end   = ev && ev.end ? parseMaybe(ev.end) : (start ? new Date(start.getTime()+2*60*60*1000) : null);
-  if(!start || !end) return null;
-
-  const s = toGCalDateISO(start), e = toGCalDateISO(end);
-  const title = encodeURIComponent((ev && ev.title) || 'Event');
-  const loc   = encodeURIComponent([ev && ev.venue, ev && ev.address].filter(Boolean).join(', '));
-  const details = encodeURIComponent((ev && ev.url) || '');
-  return 'https://www.google.com/calendar/event?action=TEMPLATE&text=' + title +
-         '&dates=' + s + '/' + e + '&location=' + loc + '&details=' + details;
-}
-
-
-  // Highlight matching query text
-  function highlight(text, query){
-    if (!text) return '';
-    if (!query) return escapeHTML(text);
-    const q = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    if (!q) return escapeHTML(text);
-    return escapeHTML(text).replace(new RegExp(`(${q})`, 'ig'), '<mark>$1</mark>');
-  }
-
-  // Free / Sold-out detectors
-  function isFreeEvent(ev){
-    if (!ev || typeof ev !== 'object') return false;
-    if (ev.free === true || ev.isFree === true) return true;
-    const textFields = [ ev.price, ev.priceText, ev.entry, ev.admission, ev.cost, ev.tags, ev.notes, ev.meta, ev.badges, ev.title, ev.description ];
-    if (Array.isArray(ev.tickets)) {
-      for (const t of ev.tickets) {
-        if (!t) continue;
-        textFields.push(t.label, t.status, t.note, t.text, t.type);
-        if (typeof t.price === 'number' && t.price === 0) return true;
-        if (typeof t.price === 'string') textFields.push(t.price);
-      }
-    }
-    const big = textFields.filter(Boolean).map(x => Array.isArray(x) ? x.join(' ') : String(x)).join(' ').toLowerCase();
-    if (/\bfree(\s*entry|\s*admission|\s*ticket|\b)/i.test(big)) return true;
-    if (/\bno\s*cover\b/i.test(big)) return true;
-    if (/\bpay\s*what\s*you\s*want\b/i.test(big)) return true;
-    if (/([£$€]\s*0(\.00)?\b)|\b0(\.00)?\s*(gbp|usd|eur)?\b/i.test(big)) return true;
-    return false;
-  }
-  function isSoldOut(ev){
-    if (!ev || typeof ev !== 'object') return false;
-    if (ev.soldOut === true || ev.sold_out === true) return true;
-    if (ev.availability && String(ev.availability).toLowerCase().includes('sold')) return true;
-    const textFields = [ev.status, ev.notes, ev.title, ev.description, ev.badges, ev.meta];
-    if (Array.isArray(ev.tickets)) { for (const t of ev.tickets) { if (!t) continue; textFields.push(t.status, t.label, t.note); } }
-    const big = textFields.filter(Boolean).map(x => Array.isArray(x) ? x.join(' ') : String(x)).join(' ').toLowerCase();
-    return /(sold\s*out|sold-out|no\s*tickets|fully\s*booked|at\s*capacity|sold\b)/.test(big);
-  }
-
-  /* =================== SMART DATE/TIME PARSERS (UI) =================== */
-  // Parse "YYYY-MM-DD HH:mm" to a local Date
-function parseDateTime24Local(s = '') {
-  if (!s) return null;
-  const txt = String(s).trim();
-  // Accept space or 'T' separator; optional seconds
-  const m = txt.match(
-    /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?$/
-  );
-  if (!m) return null;
-  const Y  = Number(m[1]);
-  const Mo = Number(m[2]);
-  const D  = Number(m[3]);
-  const H  = Number(m[4]);
-  const Mi = Number(m[5]);
-  const Ss = Number(m[6] || 0);
-  const d = new Date(Y, Mo - 1, D, H, Mi, Ss, 0);
-  return isNaN(d.getTime()) ? null : d;
-}
-
-/**
- * Parse a human date (DD/MM[/YY], "15 Sep", "Mon 15 September", "YYYY-MM-DD") plus a time snippet.
- * timeText can be 12/24h or "doors 9pm". Defaults to 20:00 when not provided.
- */
-function parseDateText(dateText, timeText) {
-  const monthMap = {
-    jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11
-  };
-  const clean = (s='') =>
-    String(s).replace(/\u00A0/g,' ').replace(/\s+/g,' ').trim();
-
-  const dTxt = clean(dateText);
-  const tTxt = clean(timeText);
-
-  if (!dTxt) return null;
-
-  // ---- Time parse (default 20:00) ----
-  let hh = 20, mm = 0;
-  if (tTxt) {
-    const t = tTxt.toLowerCase().replace(/\./g, ':');
-    let m;
-
-    // "9:30 pm"
-    m = t.match(/\b(\d{1,2})(?::(\d{2}))\s*(am|pm)\b/i);
-    if (m) {
-      hh = Number(m[1]); mm = Number(m[2] || 0);
-      const ap = m[3].toLowerCase();
-      if (ap === 'pm' && hh !== 12) hh += 12;
-      if (ap === 'am' && hh === 12) hh = 0;
-    } else if ((m = t.match(/\b(\d{1,2})\s*(am|pm)\b/i))) {
-      // "9 pm"
-      hh = Number(m[1]);
-      const ap = m[2].toLowerCase();
-      if (ap === 'pm' && hh !== 12) hh += 12;
-      if (ap === 'am' && hh === 12) hh = 0;
-    } else if ((m = t.match(/\b(\d{1,2}):(\d{2})\b/))) {
-      // "21:00"
-      hh = Math.min(23, Math.max(0, Number(m[1])));
-      mm = Math.min(59, Math.max(0, Number(m[2])));
-    } else if ((m = t.match(/\bdoors?\s*[:\-]?\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i))) {
-      // "doors 9", "doors 9pm"
-      hh = Number(m[1]); mm = Number(m[2] || 0);
-      if (m[3]) {
-        const ap = m[3].toLowerCase();
-        if (ap === 'pm' && hh !== 12) hh += 12;
-        if (ap === 'am' && hh === 12) hh = 0;
-      } else if (hh >= 5 && hh <= 11) {
-        // evening bias if no am/pm
-        hh += 12;
-      }
-    }
-  }
-
-  const today = new Date();
-  const today0 = startOfTodayLocal();
-
-  // Helper to roll forward a no-year date that ended up in the past
-  const rollIfPastNoYear = (dt, hadYear) => {
-    if (!dt || isNaN(+dt)) return null;
-    if (!hadYear && +dt < +today0) dt.setFullYear(dt.getFullYear() + 1);
-    return dt;
-  };
-
-  // ---- Accept ISO date (YYYY-MM-DD) in dateText directly ----
-  let m = dTxt.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
-  if (m) {
-    const Y  = Number(m[1]);
-    const Mo = Number(m[2]);
-    const D  = Number(m[3]);
-    const dt = new Date(Y, Mo - 1, D, hh, mm, 0, 0);
-    return isNaN(+dt) ? null : dt;
-  }
-
-  // ---- DD/MM[/YY] or DD/MM/YYYY (YY -> 20YY) ----
-  m = dTxt.match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\b/);
-  if (m) {
-    const day = Number(m[1]);
-    const mon = Number(m[2]) - 1;
-    let year = m[3] ? Number(m[3]) : today.getFullYear();
-    const hadYear = !!m[3];
-    if (m[3] && m[3].length === 2) year = 2000 + Number(m[3]);
-    const dt = new Date(year, mon, day, hh, mm, 0, 0);
-    return rollIfPastNoYear(dt, hadYear);
-  }
-
-  // ---- "Mon 15 Sep [YY|YYYY]" or "15 September [YY|YYYY]" (with ordinals) ----
-  m = dTxt
-    .replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, '$1')
-    .match(/\b(?:(?:mon|tue|wed|thu|fri|sat|sun)\w*\s+)?(\d{1,2})\s+([a-z]{3,9})(?:\s+(\d{2,4}))?\b/i);
-
-  if (m) {
-    const day = Number(m[1]);
-    const monKey = m[2].toLowerCase().slice(0, 4) === 'sept' ? 'sept' : m[2].toLowerCase().slice(0,3);
-    const mon = monthMap[monKey];
-    if (mon != null) {
-      let year = m[3] ? Number(m[3]) : today.getFullYear();
-      const hadYear = !!m[3];
-      if (m[3] && m[3].length === 2) year = 2000 + Number(m[3]);
-      const dt = new Date(year, mon, day, hh, mm, 0, 0);
-      return rollIfPastNoYear(dt, hadYear);
-    }
-  }
-
-  return null;
-}
-
-  // Compute effective start for an event (used for filtering + grouping)
-function computeEffectiveStart(ev) {
-  if (!ev || typeof ev !== 'object') return null;
-
-  // Accept a bunch of possible ISO-ish properties from scrapers
-  const iso =
-    ev.start ||
-    ev.startISO ||
-    ev.start_iso ||
-    ev.startDate ||
-    ev.start_date ||
-    ev.start_time ||
-    null;
-
-  // A) Try ISO-ish directly
-  const a = parseMaybe(iso);
-  if (a) return a;
-
-  // B) Try "YYYY-MM-DD HH:mm"
-  const b = parseDateTime24Local(ev.displayDateTime24 || ev.displayDateTime || '');
-  if (b) return b;
-
-  // C) Try dateText + time (fallback 20:00)
-  const bestTime = ev.displayTime24 || ev.timeText || ev.time || '';
-  const c = parseDateText(ev.dateText, bestTime);
-  if (c) return c;
-
-  // D) Adelphi last-ditch: parse explicit YYYY-MM-DD + default 20:00
-  if (/\badelphi\b/i.test(String(ev.source || '') + ' ' + String(ev.venue || ''))) {
-    const dOnly = (ev.dateOnly || '').trim();
-    if (dOnly && /^\d{4}-\d{2}-\d{2}$/.test(dOnly)) {
-      const d = parseDateTime24Local(`${dOnly} 20:00`);
-      if (d) return d;
-    }
-  }
-
-  return null;
-}
-  // Email mailto pre-fill
-  function updateMailto(){
-    if (!els.contactEmail) return;
-    const subject = 'HU5 Events Finder — Idea / Bug / Venue request';
-    const bodyLines = [
-      'Hello,',
-      '',
-      'Type: [Idea / Bug / Venue request]',
-      'Details:',
-      '',
-      `Current view: ${location.href}`,
-      `Browser: ${navigator.userAgent}`
-    ];
-    const mailto = `mailto:hu5eventsfinder@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
-    els.contactEmail.setAttribute('href', mailto);
-  }
-
-  // Shareable filters in URL
-function filtersToParams(){
-  const o = {
-    q: els.q.value || '',
-    from: els.from.value || '',
-    to: els.to.value || '',
-    sort: els.sort.value || 'date-asc',
-    venue: els.venue.value || '',
-    range: state.range || 'all',
-    undated: state.showUndated ? '1' : '0'
-  };
-  const params = new URLSearchParams();
-  Object.entries(o).forEach(([k,v]) => { if (String(v).trim() !== '') params.set(k, v); });
-  return params.toString();
-}
-
-function paramsToFilters(u){
-  try {
-    const p = new URL(u, location.href).searchParams;
-    const val = (k, def='') => p.get(k) ?? def;
-    const has = (k) => p.has(k);
-
-    if (has('q'))     els.q.value     = val('q');
-    if (has('from'))  els.from.value  = val('from');
-    if (has('to'))    els.to.value    = val('to');
-    if (has('sort'))  els.sort.value  = val('sort');
-    if (has('venue')) els.venue.value = val('venue');
-    if (has('range')) state.range     = val('range');
-    if (has('undated')) state.showUndated = val('undated') !== '0';
-  } catch (e) {
-    console.warn('paramsToFilters failed:', e);
-  }
-}
-
-function replaceUrl(){
-  const qs = filtersToParams();
-  const base = location.origin + location.pathname;
-  history.replaceState(null, '', qs ? `${base}?${qs}` : base);
-}
-
-  /* ============================== FETCH =============================== */
-  async function fetchEventsJson(){
-    const t0=performance.now();
-    const res = await fetch('events.json?ts='+Date.now(), {cache:'no-store'});
-    if(!res.ok) throw new Error(`Failed to load events.json (${res.status})`);
-    const txt = await res.text();
-    let data; try{ data = JSON.parse(txt); }catch{ throw new Error('Invalid JSON in events.json'); }
-    let updated=null; if (Array.isArray(data)) { try{ const most=data.reduce((m,e)=>Math.max(m, e?.scrapedAt?+new Date(e.scrapedAt):0),0); if(most) updated=new Date(most);}catch{} }
-    if(!updated){ const hdr=res.headers.get('Last-Modified')||res.headers.get('Date'); if(hdr) updated=new Date(hdr); }
-    state.lastUpdated = updated || new Date();
-    state.stats.loads += 1; state.stats.lastLoadMs = Math.round(performance.now()-t0);
-    return Array.isArray(data)?data:[];
-  }
-
-  /* ============================ RENDERING ============================= */
-  function groupByDate(items, sortKey){
-    const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: state.TZ, year:'numeric', month:'2-digit', day:'2-digit' });
-    const dated = items.filter(ev=>ev._hasDate);
-    const undated = items.filter(ev=>!ev._hasDate);
-    const groups = new Map();
-
-    for (const ev of dated){
-      const d = ev._startEff;
-      const parts = fmt.formatToParts(d).reduce((acc,p)=> (acc[p.type]=p.value, acc), {});
-      const key = `${parts.year}-${parts.month}-${parts.day}`;
-      if(!groups.has(key)) groups.set(key, []);
-      groups.get(key).push(ev);
-    }
-
-    let ordered = Array.from(groups.entries());
-    if (sortKey === 'date-desc') ordered.sort(([a],[b]) => b.localeCompare(a));
-    else                         ordered.sort(([a],[b]) => a.localeCompare(b));
-
-    if (state.showUndated && undated.length) ordered.push(['Undated', undated]);
-    return ordered;
-  }
-
-  function render(){
-    const t0 = performance.now();
-    const n = state.view.length;
-
-    els.countText.textContent = `${n} event${n===1?'':'s'}`;
-    els.refreshText.textContent = state.autoRefresh ? 'Auto refresh on' : 'Auto refresh off';
-    els.updatedText.textContent = state.lastUpdated
-      ? `Updated ${timeAgo(state.lastUpdated)} (${state.lastUpdated.toLocaleString()})` : '—';
-
-    if (!n){
-      els.list.innerHTML = `<div class="empty">No events match your filters. <button class="seg" id="resetBtn">Reset</button></div>`;
-      $('#resetBtn')?.addEventListener('click', ()=>{ resetFilters(); apply(); });
-      replaceUrl(); updateMailto();
-      return;
-    }
-
-    // time display helpers
-    const to24h = (raw) => {
-  if (!raw) return null;
-
-  // Normalize once
-  let s = String(raw).trim().toLowerCase().replace(/\./g, ':');
-
-  // Strip junk words and ranges up front (prevents recursion ping-pong)
-  s = s
-    .replace(/\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?\s*/g, '')
-    .replace(/\b(?:till|’?\s*til|til)\s*late\b/g, '')
-    .replace(/\blate\b/g, '')
-    .replace(/\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/g, '') // drop trailing range end
-    .trim();
-
-  // 12h with minutes
-  let m = s.match(/\b(\d{1,2})(?::(\d{2}))\s*(am|pm)\b/i);
-  if (m) {
-    let hh = parseInt(m[1],10), mm = m[2] || '00';
-    const ap = m[3].toLowerCase();
-    if (ap === 'pm' && hh !== 12) hh += 12;
-    if (ap === 'am' && hh === 12) hh = 0;
-    return String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
-  }
-
-  // 12h hour only
-  m = s.match(/\b(\d{1,2})\s*(am|pm)\b/i);
-  if (m) {
-    let hh = parseInt(m[1],10);
-    const ap = m[2].toLowerCase();
-    if (ap === 'pm' && hh !== 12) hh += 12;
-    if (ap === 'am' && hh === 12) hh = 0;
-    return String(hh).padStart(2,'0') + ':00';
-  }
-
-  // 24h
-  m = s.match(/\b(\d{1,2}):(\d{2})\b/);
-  if (m) {
-    const hh = Math.min(23, Math.max(0, parseInt(m[1],10)));
-    const mm = Math.min(59, Math.max(0, parseInt(m[2],10)));
-    return String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
-  }
-
-  // Bare hour heuristic (evening bias 5–11 -> PM)
-  m = s.match(/(?:^|\b)(\d{1,2})(?:\b|$)/);
-  if (m) {
-    const hhNum = parseInt(m[1], 10);
-    if (hhNum >= 5 && hhNum <= 11) return String(hhNum + 12).padStart(2,'0') + ':00';
-    if (hhNum === 12) return '12:00';
-  }
-
-  return null;
-};
-    const firstTimeSnippet = (raw) => {
-      if (!raw) return null;
-      const s = String(raw);
-      let m = s.match(/\b\d{1,2}(?::\d{2})?\s*(?:am|pm)\b/i);
-      if (m) return m[0];
-      m = s.match(/\b\d{1,2}:\d{2}\b/);
-      if (m) return m[0];
-      m = s.match(/\bdoors?\s*[:\-]?\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i);
-      if (m) return m[0];
-      return null;
-    };
-const pickTimeText = (ev) => {
-  // Treat The People's Republic specially: only trust explicit time fields.
-  const isTPR = /\bpeople'?s republic\b/i.test(
-    String(ev.source || '') + ' ' + String(ev.venue || '')
-  );
-
-  // 1) Always try explicit, structured fields first
-  const explicit = [ev.displayTime24, ev.timeText, ev.time, ev.time_text].filter(Boolean);
-  for (const f of explicit) {
-    const norm = to24h(f);
-    if (norm) return { kind: 'parsed', value: norm };
-    const raw = firstTimeSnippet(f);
-    if (raw) return { kind: 'raw', value: raw };
-  }
-
-  // 2) For non-TPR only, allow softer fields (meta/notes/description/title)
-  if (!isTPR) {
-    const soft = [ev.meta, ev.notes, ev.description, ev.title].filter(Boolean);
-    for (const f of soft) {
-      const norm = to24h(f);
-      if (norm) return { kind: 'parsed', value: norm };
-      const raw = firstTimeSnippet(f);
-      if (raw) return { kind: 'raw', value: raw };
-    }
-  }
-
-  // 3) Nothing found
-  return null;
-};
-
-    const q = els.q.value.trim();
-    const sections = groupByDate(state.view, state.sort).map(([key, items]) => {
-      const label = key==='Undated' ? 'Undated' :
-        new Date(key+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short', day:'2-digit', month:'short', year:'numeric', timeZone:state.TZ});
-
-      const grid = items.map(ev=>{
-        const titleRaw = ev.title || 'Untitled';
-        const openHref = toListingsUrl(ev.url||'', ev.source);
-        const gHref = googleHref(ev);
-        const isIcs = isIcsLike(ev.url||'');
-
-let time24 = '';
-const mined = pickTimeText(ev);
-
-if (ev.displayTime24) {
-  time24 = ev.displayTime24;
-} else if (mined && mined.kind === 'parsed') {
-  time24 = mined.value;
-} else if (mined && mined.kind === 'raw') {
-  time24 = mined.value;
-} else if (ev._hasDate && ev._startEff instanceof Date && !isNaN(+ev._startEff)) {
-  time24 = ev._startEff.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', hour12:false, timeZone: state.TZ });
-}
-        const meta = [ time24, ev.venue && highlight(ev.venue,q), ev.address && highlight(ev.address,q) ].filter(Boolean).join(' · ');
-        const src = escapeHTML(ev.source || venueLabel(ev) || 'Unknown');
-
-        const ticketObj = Array.isArray(ev.tickets) ? ev.tickets.find(t => t && (t.url || t.link)) : null;
-        const ticketUrl = ticketObj?.url || ticketObj?.link || ev.ticketUrl || ev.ticketsUrl || ev.linkTickets || null;
-
-        const free = isFreeEvent(ev);
-        const sold = isSoldOut(ev);
-
-        let actions='';
-        if (sold) actions += `<span class="btn sold" title="Sold out">Sold out</span>`;
-        else if (ticketUrl) actions += free
-          ? `<a class="btn free" href="${escapeHTML(ticketUrl)}" target="_blank" rel="noopener noreferrer" title="Free ticket">Free ticket</a>`
-          : `<a class="btn" href="${escapeHTML(ticketUrl)}" target="_blank" rel="noopener noreferrer">Tickets</a>`;
-        else if (free) actions += `<span class="btn free" title="Free entry">Free entry</span>`;
-
-        const d = ev._startEff || null;
-        const dparts = d ? {
-          dow: d.toLocaleDateString('en-GB',{weekday:'short'}),
-          day: String(d.getDate()).padStart(2,'0'),
-          mon: d.toLocaleDateString('en-GB',{month:'short'})
-        } : {dow:'', day:'–', mon:''};
-
-        return `
-          <article class="event" role="article" aria-label="${escapeHTML(titleRaw)}">
+
+    <script>
+      (() => {
+        /* =========================== DOM SHORTCUTS =========================== */
+        const $ = (s, el = document) => el.querySelector(s);
+        const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+
+        /* ============================== STATE =============================== */
+        const state = {
+          TZ: "Europe/London",
+          all: [], // raw events from events.json + computed fields
+          view: [], // filtered/sorted events for current view
+          autoRefresh: true,
+          refreshMs: 5 * 60 * 1000,
+          nextTickAt: null,
+          lastUpdated: null,
+          range: "all",
+          showUndated: true,
+          sort: "date-asc",
+          stats: {
+            loads: 0,
+            lastLoadMs: 0,
+            lastRenderMs: 0,
+            totalEvents: 0,
+            datedEvents: 0,
+            undatedEvents: 0,
+            venues: {},
+            filtersUsed: 0,
+            lastAppliedAt: null,
+          },
+          isAdmin: false,
+        };
+        Object.defineProperty(window, "state", { get: () => state });
+
+        const els = {
+          list: $("#list"),
+          status: $("#status"),
+          countText: $("#countText"),
+          updatedText: $("#updatedText"),
+          refreshText: $("#refreshText"),
+          auto: $("#auto"),
+          q: $("#q"),
+          from: $("#from"),
+          to: $("#to"),
+          sort: $("#sort"),
+          venue: $("#venue"),
+          rangeButtons: $$(".quick .seg[data-range]"),
+          toggleUndated: $("#toggleUndated"),
+          refreshNow: $("#refreshNow"),
+          clear: $("#clear"),
+          share: $("#share"),
+          filtersPanel: $("#filtersPanel"),
+          filtersToggle: $("#filtersToggle"),
+          admin: $("#adminPanel"),
+          adminTable: $("#adminTable"),
+          adminSummary: $("#adminSummary"),
+          copyStats: $("#copyStats"),
+          closeAdmin: $("#closeAdmin"),
+          fabTop: $("#fabTop"),
+          toast: $("#toast"),
+          contactEmail: $("#contactEmail"),
+        };
+
+        const STORAGE_KEY = "hu5-filters-vEffStart";
+        const ADMIN_KEY = "hu5-admin";
+
+        /* ============================= HELPERS ============================== */
+        const escapeHTML = (s) =>
+          s == null
+            ? ""
+            : String(s)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#39;");
+        const parseMaybe = (iso) => {
+          if (!iso) return null;
+          const d = new Date(iso);
+          return isNaN(d.getTime()) ? null : d;
+        };
+        const timeAgo = (d) => {
+          if (!d) return "—";
+          const ms = Date.now() - d.getTime(),
+            m = Math.round(ms / 60000);
+          if (m < 1) return "just now";
+          if (m < 60) return `${m} min ago`;
+          const h = Math.round(m / 60);
+          if (h < 24) return `${h} hr${h > 1 ? "s" : ""} ago`;
+          const days = Math.round(h / 24);
+          return `${days} day${days > 1 ? "s" : ""} ago`;
+        };
+        const startOfTodayLocal = () => {
+          const n = new Date();
+          return new Date(
+            n.getFullYear(),
+            n.getMonth(),
+            n.getDate(),
+            0,
+            0,
+            0,
+            0
+          );
+        };
+
+        function isMeaningfulLink(url) {
+          if (!url) return false;
+          try {
+            const u = new URL(url, location.href);
+            if (!/^https?:$/.test(u.protocol)) return false; // no mailto:, tel:, etc
+            const sameOrigin = u.origin === location.origin;
+            if (sameOrigin) return false; // don’t link back to the finder itself
+            // if it’s clearly an anchor or empty-ish path, also skip
+            if (!u.hostname || u.pathname === "/") return true; // external homepages allowed
+            return true;
+          } catch {
+            return false;
+          }
+        }
+
+        const isFacebookUrl = (url = "") =>
+          /^(https?:\/\/)?(www\.)?(m\.)?facebook\.com\//i.test(String(url));
+
+        const DEFAULT_FREE_VENUES = new Set([
+          "The People's Republic",
+          "Commun'ull",
+          "Hoi",
+          "Vox Box",
+          "Mr Moody's Tavern",
+        ]);
+
+        // Normalise venue labels across sources (for filtering chip)
+        function venueLabel(ev) {
+          const raw = (ev.venue || ev.source || "")
+            .toLowerCase()
+            .replace(/[’']/g, "'");
+          if (/\bwelly\b|giveitsomewelly/.test(raw)) return "The Welly Club";
+          if (/\badelphi\b/.test(raw)) return "The New Adelphi Club";
+          if (/\bpolar\b/.test(raw)) return "Polar Bear Music Club";
+          if (/\bpeople'?s republic\b/.test(raw))
+            return "The People's Republic";
+          if (/\bvox\s*box\b|voxboxbar\.co\.uk/.test(raw)) return "Vox Box";
+          if (/\bunion\s*mash\s*up\b|unionmashup\.co\.uk/.test(raw))
+            return "Union Mash Up";
+          if (/\bcommun'ull\b/.test(raw)) return "Commun'ull";
+          if (/\bmr\s*moody'?s\b/.test(raw)) return "Mr Moody's Tavern";
+          if (/\bhoi\b/.test(raw)) return "Hoi";
+          if (/\bdive\b.*hu5|skiddle\.com\/whats-on\/hull\/dive-hu5/i.test(raw))
+            return "DIVE HU5";
+          return ev.venue || ev.source || "Other";
+        }
+
+        const VENUE_ALIASES = {
+          "The New Adelphi Club": /\badelphi\b/i, // matches "Adelphi", "The Adelphi Club in Hull", etc.
+          "Polar Bear Music Club": /\bpolar\s*bear\b/i,
+          "The Welly Club": /\bwelly\b/i,
+          "Vox Box": /\bvox\s*box\b/i,
+          "Union Mash Up": /\bunion\s*mash\s*up\b|\bumu\b/i,
+          "The People's Republic": /\bpeople'?s\s*republic\b|\btpr\b/i,
+          "Mr Moody's Tavern": /\bmoody'?s\b/i,
+          Hoi: /\bhoi\b/i,
+          "DIVE HU5": /\bdive\b.*\bhu5\b/i,
+        };
+
+        // Append venue to title unless the title already obviously contains it
+        function ensureVenueInTitle(title, venue) {
+          const t = String(title || "");
+          const v = String(venue || "").trim();
+          if (!v) return t;
+
+          // If we have a known alias/regex and it matches the title, don't append
+          const alias = VENUE_ALIASES[v];
+          if (alias && alias.test(t)) return t;
+
+          // Generic fuzzy match fallback
+          const norm = (s) =>
+            s
+              .toLowerCase()
+              .replace(/the\s+/g, "")
+              .replace(/\b(club|bar|venue)\b/g, "")
+              .replace(/[^a-z0-9]+/g, " ")
+              .trim();
+
+          if (norm(t).includes(norm(v))) return t;
+
+          return `${t} — ${v}`;
+        }
+
+        // ICS-like URLs? then link to listings page instead
+        const isIcsLike = (url = "") =>
+          /\.(ics)(\?|$)/i.test(url) ||
+          /[?&]format=ical(\b|=|&|$)/i.test(url) ||
+          /(?:^|\/\/)calendar\.google\.com|google\.com\/calendar/i.test(url);
+        function toListingsUrl(url, source) {
+          if (!url) return "#";
+          if (!isIcsLike(url)) return url;
+          try {
+            const u = new URL(url, location.href);
+            if (/[?&]format=ical\b/i.test(u.search))
+              return u.origin + u.pathname;
+          } catch {}
+          const s = (source || "").toLowerCase();
+          if (
+            url.includes("polarbearmusicclub.co.uk") ||
+            s.includes("polar bear")
+          )
+            return "https://www.polarbearmusicclub.co.uk/whatson";
+          if (url.includes("giveitsomewelly.com") || s.includes("welly"))
+            return "https://www.giveitsomewelly.com/shows/";
+          if (url.includes("theadelphi.com") || s.includes("adelphi"))
+            return "https://www.theadelphi.com/events/";
+          if (url.includes("unionmashup.co.uk") || s.includes("union mash up"))
+            return "https://unionmashup.co.uk/umu-events/";
+          if (
+            /skiddle\.com\/whats-on\/hull\/dive-hu5/i.test(url) ||
+            s.includes("dive")
+          )
+            return "https://www.skiddle.com/whats-on/Hull/DIVE-HU5/";
+          return url;
+        }
+
+        // Build Google Calendar link when we have a start time
+        const toGCalDateISO = (d) => {
+          if (!d) return null;
+          const p = (n) => String(n).padStart(2, "0");
+          return (
+            d.getUTCFullYear() +
+            p(d.getUTCMonth() + 1) +
+            p(d.getUTCDate()) +
+            "T" +
+            p(d.getUTCHours()) +
+            p(d.getUTCMinutes()) +
+            p(d.getUTCSeconds()) +
+            "Z"
+          );
+        };
+        function googleHref(ev) {
+          if (!ev) return null;
+          const start = ev._startEff || parseMaybe(ev.start);
+          const end =
+            ev && ev.end
+              ? parseMaybe(ev.end)
+              : start
+              ? new Date(start.getTime() + 2 * 60 * 60 * 1000)
+              : null;
+          if (!start || !end) return null;
+
+          const s = toGCalDateISO(start),
+            e = toGCalDateISO(end);
+          const title = encodeURIComponent((ev && ev.title) || "Event");
+          const loc = encodeURIComponent(
+            [ev && ev.venue, ev && ev.address].filter(Boolean).join(", ")
+          );
+          const details = encodeURIComponent((ev && ev.url) || "");
+          return (
+            "https://www.google.com/calendar/event?action=TEMPLATE&text=" +
+            title +
+            "&dates=" +
+            s +
+            "/" +
+            e +
+            "&location=" +
+            loc +
+            "&details=" +
+            details
+          );
+        }
+
+        // Highlight matching query text
+        function highlight(text, query) {
+          if (!text) return "";
+          if (!query) return escapeHTML(text);
+          const q = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          if (!q) return escapeHTML(text);
+          return escapeHTML(text).replace(
+            new RegExp(`(${q})`, "ig"),
+            "<mark>$1</mark>"
+          );
+        }
+
+        // Free / Sold-out detectors
+        function isFreeEvent(ev) {
+          if (!ev || typeof ev !== "object") return false;
+
+          // hard flags first
+          if (ev.freeEntry === true || ev.free === true || ev.isFree === true)
+            return true;
+
+          const vName = venueLabel(ev);
+          const isAdelphi =
+            /\badelphi\b/i.test(
+              String(ev.source || "") + " " + String(ev.venue || "")
+            ) || /theadelphi\.com/i.test(String(ev.url || ""));
+          const isTPR = vName === "The People's Republic";
+          const isCommunull = vName === "Commun'ull";
+
+          // gather text (tight vs wide)
+          const fieldsTight = [
+            ev.price,
+            ev.priceText,
+            ev.entry,
+            ev.admission,
+            ev.cost,
+            ev.tags,
+            ev.notes,
+            ev.badges,
+            ev.title,
+          ].filter(Boolean);
+          const fieldsWide = [ev.description, ev.meta].filter(Boolean);
+
+          const scan = (arr) =>
+            arr
+              .map((x) => (Array.isArray(x) ? x.join(" ") : String(x)))
+              .join(" ")
+              .toLowerCase();
+
+          const tight = scan(fieldsTight);
+          const wide = scan(fieldsWide);
+
+          // positive free signals
+          const freeTight =
+            /\bfree(?:\s*(entry|admission|tickets?))?\b/.test(tight) ||
+            /\bno\s*cover\b/.test(tight) ||
+            /(?:^|\b)(£|\$|€)\s*0(?:\.00)?\b/.test(tight) ||
+            /\b0(?:\.00)?\s*(gbp|usd|eur)?\b/.test(tight);
+
+          const freeWide =
+            !isAdelphi && // stay strict for Adelphi
+            (/\bfree(?:\s*(entry|admission|tickets?))?\b/.test(wide) ||
+              /(?:^|\b)(£|\$|€)\s*0(?:\.00)?\b/.test(wide));
+
+          const hasFreeSignal = freeTight || freeWide;
+
+          // paid-ish signals
+          const anyPriceOverZero =
+            /\b(£|\$|€)\s*\d{1,3}(?:\.\d{2})?\b/.test(tight + " " + wide) &&
+            !/(?:^|\b)(£|\$|€)\s*0(?:\.00)?\b/.test(tight + " " + wide);
+
+          const hasPaidCue =
+            /\b(adv|advance|otd|door|on\s*the\s*door|tickets?\s*from)\b/i.test(
+              tight + " " + wide
+            );
+
+          const soldish =
+            /(sold\s*out|sold-out|no\s*tickets|fully\s*booked|at\s*capacity)/i.test(
+              tight + " " + wide
+            );
+
+          if (anyPriceOverZero || hasPaidCue || soldish) return false;
+          if (hasFreeSignal) return true;
+
+          // ✅ default-to-free for TPR & Commun’ull when we have no ticket/cost info
+          if (DEFAULT_FREE_VENUES.has(vName) && !hasTicketOrCostInfo(ev)) {
+            return true;
+          }
+
+          return false;
+        }
+
+        function isSoldOut(ev) {
+          if (!ev || typeof ev !== "object") return false;
+          if (ev.soldOut === true || ev.sold_out === true) return true;
+          if (
+            ev.availability &&
+            String(ev.availability).toLowerCase().includes("sold")
+          )
+            return true;
+
+          const fields = [
+            ev.status,
+            ev.notes,
+            ev.title,
+            ev.description,
+            ev.badges,
+            ev.meta,
+          ];
+          if (Array.isArray(ev.tickets)) {
+            for (const t of ev.tickets)
+              fields.push(t?.status, t?.label, t?.note, t?.text, t?.type);
+          }
+          const big = fields
+            .filter(Boolean)
+            .map((x) => (Array.isArray(x) ? x.join(" ") : String(x)))
+            .join(" ")
+            .toLowerCase();
+
+          return (
+            /(sold\s*out|sold-out|no\s*tickets|fully\s*booked|at\s*capacity|sold\b)/i.test(
+              big
+            ) ||
+            /\btickets?\s*(?:are\s*)?no\s*longer\s*available\b/i.test(big) || // Adelphi phrase
+            /\b(sales?|booking)\s*closed\b/i.test(big)
+          );
+        }
+
+        function hasTicketOrCostInfo(ev) {
+          if (!ev || typeof ev !== "object") return false;
+
+          // treat Commun'ull Facebook links as NOT ticket/cost info
+          const vName = venueLabel(ev);
+          const tObj = Array.isArray(ev.tickets)
+            ? ev.tickets.find((t) => t && (t.url || t.link))
+            : null;
+          const tUrl =
+            ev.ticketUrl ||
+            ev.ticketsUrl ||
+            ev.linkTickets ||
+            tObj?.url ||
+            tObj?.link ||
+            "";
+
+          if (DEFAULT_FREE_VENUES.has(vName) && isFacebookUrl(tUrl)) {
+            return false;
+          }
+
+          // Obvious structured fields
+          if (ev.ticketUrl || ev.ticketsUrl || ev.linkTickets) return true;
+          const priceFields = [
+            ev.price,
+            ev.priceText,
+            ev.entry,
+            ev.admission,
+            ev.cost,
+          ];
+          if (priceFields.some((v) => v && String(v).trim() !== ""))
+            return true;
+
+          if (
+            Array.isArray(ev.tickets) &&
+            ev.tickets.some(
+              (t) => t && (t.url || t.link || t.price || t.status)
+            )
+          ) {
+            return true;
+          }
+
+          // Text scan …
+          const big = [ev.title, ev.description, ev.notes, ev.meta, ev.badges]
+            .filter(Boolean)
+            .map((x) => (Array.isArray(x) ? x.join(" ") : String(x)))
+            .join(" ")
+            .toLowerCase();
+
+          if (/[£$€]\s*\d/.test(big)) return true;
+          if (/\b\d{1,3}\s*(gbp|eur|usd|pounds?|quid)\b/.test(big)) return true;
+          if (
+            /\btickets?\s*(?:on\s*sale|available|adv|otd|door|entry|buy|book)\b/.test(
+              big
+            )
+          )
+            return true;
+          if (/\btickets?\s*(?:are\s*)?no\s*longer\s*available\b/.test(big))
+            return true;
+
+          return false;
+        }
+
+        function isPostponed(ev) {
+          if (!ev || typeof ev !== "object") return false;
+          if (isSoldOut(ev)) return false; // prefer sold-out if both appear
+          const explicit =
+            ev.postponed === true ||
+            /^(postponed|rescheduled)$/i.test(String(ev.status || ""));
+          const byBadge =
+            Array.isArray(ev.badges) &&
+            ev.badges.some((x) => /^(postponed)$/i.test(String(x || "")));
+          return explicit || byBadge;
+        }
+
+        function isNoBookingsEvent(ev) {
+          if (venueLabel(ev) !== "Mr Moody's Tavern") return false;
+          const t = (ev.title || "").toLowerCase().replace(/[^a-z]+/g, " ");
+          return t.includes("sunday") && t.includes("lunch");
+        }
+
+        /* =================== SMART DATE/TIME PARSERS (UI) =================== */
+        // Parse "YYYY-MM-DD HH:mm" to a local Date
+        function parseDateTime24Local(s = "") {
+          if (!s) return null;
+          const txt = String(s).trim();
+          // Accept space or 'T' separator; optional seconds
+          const m = txt.match(
+            /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?$/
+          );
+          if (!m) return null;
+          const Y = Number(m[1]);
+          const Mo = Number(m[2]);
+          const D = Number(m[3]);
+          const H = Number(m[4]);
+          const Mi = Number(m[5]);
+          const Ss = Number(m[6] || 0);
+          const d = new Date(Y, Mo - 1, D, H, Mi, Ss, 0);
+          return isNaN(d.getTime()) ? null : d;
+        }
+
+        /**
+         * Parse a human date (DD/MM[/YY], "15 Sep", "Mon 15 September", "YYYY-MM-DD") plus a time snippet.
+         * timeText can be 12/24h or "doors 9pm". Defaults to 20:00 when not provided.
+         */
+        function parseDateText(dateText, timeText) {
+          const monthMap = {
+            jan: 0,
+            feb: 1,
+            mar: 2,
+            apr: 3,
+            may: 4,
+            jun: 5,
+            jul: 6,
+            aug: 7,
+            sep: 8,
+            sept: 8,
+            oct: 9,
+            nov: 10,
+            dec: 11,
+          };
+          const clean = (s = "") =>
+            String(s)
+              .replace(/\u00A0/g, " ")
+              .replace(/\s+/g, " ")
+              .trim();
+
+          const dTxt = clean(dateText);
+          const tTxt = clean(timeText);
+
+          if (!dTxt) return null;
+
+          // ---- Time parse (default 20:00) ----
+          let hh = 20,
+            mm = 0;
+          if (tTxt) {
+            const t = tTxt.toLowerCase().replace(/\./g, ":");
+            let m;
+
+            // "9:30 pm"
+            m = t.match(/\b(\d{1,2})(?::(\d{2}))\s*(am|pm)\b/i);
+            if (m) {
+              hh = Number(m[1]);
+              mm = Number(m[2] || 0);
+              const ap = m[3].toLowerCase();
+              if (ap === "pm" && hh !== 12) hh += 12;
+              if (ap === "am" && hh === 12) hh = 0;
+            } else if ((m = t.match(/\b(\d{1,2})\s*(am|pm)\b/i))) {
+              // "9 pm"
+              hh = Number(m[1]);
+              const ap = m[2].toLowerCase();
+              if (ap === "pm" && hh !== 12) hh += 12;
+              if (ap === "am" && hh === 12) hh = 0;
+            } else if ((m = t.match(/\b(\d{1,2}):(\d{2})\b/))) {
+              // "21:00"
+              hh = Math.min(23, Math.max(0, Number(m[1])));
+              mm = Math.min(59, Math.max(0, Number(m[2])));
+            } else if (
+              (m = t.match(
+                /\bdoors?\s*[:\-]?\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i
+              ))
+            ) {
+              // "doors 9", "doors 9pm"
+              hh = Number(m[1]);
+              mm = Number(m[2] || 0);
+              if (m[3]) {
+                const ap = m[3].toLowerCase();
+                if (ap === "pm" && hh !== 12) hh += 12;
+                if (ap === "am" && hh === 12) hh = 0;
+              } else if (hh >= 5 && hh <= 11) {
+                // evening bias if no am/pm
+                hh += 12;
+              }
+            }
+          }
+
+          const today = new Date();
+          const today0 = startOfTodayLocal();
+
+          // Helper to roll forward a no-year date that ended up in the past
+          const rollIfPastNoYear = (dt, hadYear) => {
+            if (!dt || isNaN(+dt)) return null;
+            if (!hadYear && +dt < +today0) dt.setFullYear(dt.getFullYear() + 1);
+            return dt;
+          };
+
+          // ---- Accept ISO date (YYYY-MM-DD) in dateText directly ----
+          let m = dTxt.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
+          if (m) {
+            const Y = Number(m[1]);
+            const Mo = Number(m[2]);
+            const D = Number(m[3]);
+            const dt = new Date(Y, Mo - 1, D, hh, mm, 0, 0);
+            return isNaN(+dt) ? null : dt;
+          }
+
+          // ---- DD/MM[/YY] or DD/MM/YYYY (YY -> 20YY) ----
+          m = dTxt.match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?\b/);
+          if (m) {
+            const day = Number(m[1]);
+            const mon = Number(m[2]) - 1;
+            let year = m[3] ? Number(m[3]) : today.getFullYear();
+            const hadYear = !!m[3];
+            if (m[3] && m[3].length === 2) year = 2000 + Number(m[3]);
+            const dt = new Date(year, mon, day, hh, mm, 0, 0);
+            return rollIfPastNoYear(dt, hadYear);
+          }
+
+          // ---- "Mon 15 Sep [YY|YYYY]" or "15 September [YY|YYYY]" (with ordinals) ----
+          m = dTxt
+            .replace(/\b(\d{1,2})(st|nd|rd|th)\b/gi, "$1")
+            .match(
+              /\b(?:(?:mon|tue|wed|thu|fri|sat|sun)\w*\s+)?(\d{1,2})\s+([a-z]{3,9})(?:\s+(\d{2,4}))?\b/i
+            );
+
+          if (m) {
+            const day = Number(m[1]);
+            const monKey =
+              m[2].toLowerCase().slice(0, 4) === "sept"
+                ? "sept"
+                : m[2].toLowerCase().slice(0, 3);
+            const mon = monthMap[monKey];
+            if (mon != null) {
+              let year = m[3] ? Number(m[3]) : today.getFullYear();
+              const hadYear = !!m[3];
+              if (m[3] && m[3].length === 2) year = 2000 + Number(m[3]);
+              const dt = new Date(year, mon, day, hh, mm, 0, 0);
+              return rollIfPastNoYear(dt, hadYear);
+            }
+          }
+
+          return null;
+        }
+
+        // Compute effective start for an event (used for filtering + grouping)
+        function computeEffectiveStart(ev) {
+          if (!ev || typeof ev !== "object") return null;
+
+          // A) ISO-ish fields straight from sources
+          const iso =
+            ev.start ||
+            ev.startISO ||
+            ev.start_iso ||
+            ev.startDate ||
+            ev.start_date ||
+            ev.start_time ||
+            null;
+          const a = parseMaybe(iso);
+          if (a) return a;
+
+          // B) Explicit "YYYY-MM-DD HH:mm"
+          const b = parseDateTime24Local(
+            ev.displayDateTime24 || ev.displayDateTime || ""
+          );
+          if (b) return b;
+
+          // C) Spreadsheet-style: accept several date fields + a time snippet.
+          //    parseDateText defaults time to 20:00 if none given.
+          const bestTime =
+            ev.displayTime24 || ev.timeText || ev.time || ev.time_text || "";
+          const dateTextField =
+            ev.dateText || // old path
+            ev.date || // ✨ spreadsheet "date"
+            ev.dateOnly || // ✨ spreadsheet "dateOnly" (YYYY-MM-DD)
+            ev.when ||
+            ev.day || // loose fallbacks
+            "";
+
+          const c = parseDateText(dateTextField, bestTime);
+          if (c) return c;
+
+          // D) Last-ditch: if we have a clean YYYY-MM-DD anywhere, try it with whatever time we have
+          if (ev.dateOnly && /^\d{4}-\d{2}-\d{2}$/.test(ev.dateOnly)) {
+            const d = parseDateText(ev.dateOnly, bestTime);
+            if (d) return d;
+          }
+
+          return null;
+        }
+
+        // Email mailto pre-fill
+        function updateMailto() {
+          if (!els.contactEmail) return;
+          const subject = "HU5 Events Finder — Idea / Bug / Venue request";
+          const bodyLines = [
+            "Hello,",
+            "",
+            "Type: [Idea / Bug / Venue request]",
+            "Details:",
+            "",
+            `Current view: ${location.href}`,
+            `Browser: ${navigator.userAgent}`,
+          ];
+          const mailto = `mailto:hu5eventsfinder@gmail.com?subject=${encodeURIComponent(
+            subject
+          )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+          els.contactEmail.setAttribute("href", mailto);
+        }
+
+        // Shareable filters in URL
+        function filtersToParams() {
+          const o = {
+            q: els.q.value || "",
+            from: els.from.value || "",
+            to: els.to.value || "",
+            sort: els.sort.value || "date-asc",
+            venue: els.venue.value || "",
+            range: state.range || "all",
+            undated: state.showUndated ? "1" : "0",
+          };
+          const params = new URLSearchParams();
+          Object.entries(o).forEach(([k, v]) => {
+            if (String(v).trim() !== "") params.set(k, v);
+          });
+          return params.toString();
+        }
+
+        function paramsToFilters(u) {
+          try {
+            const p = new URL(u, location.href).searchParams;
+            const val = (k, def = "") => p.get(k) ?? def;
+            const has = (k) => p.has(k);
+
+            if (has("q")) els.q.value = val("q");
+            if (has("from")) els.from.value = val("from");
+            if (has("to")) els.to.value = val("to");
+            if (has("sort")) els.sort.value = val("sort");
+            if (has("venue")) els.venue.value = val("venue");
+            if (has("range")) state.range = val("range");
+            if (has("undated")) state.showUndated = val("undated") !== "0";
+          } catch (e) {
+            console.warn("paramsToFilters failed:", e);
+          }
+        }
+
+        function replaceUrl() {
+          const qs = filtersToParams();
+          const base = location.origin + location.pathname;
+          history.replaceState(null, "", qs ? `${base}?${qs}` : base);
+        }
+
+        /* ============================== FETCH =============================== */
+        async function fetchEventsJson() {
+          const t0 = performance.now();
+          const res = await fetch("events.json?ts=" + Date.now(), {
+            cache: "no-store",
+          });
+          if (!res.ok)
+            throw new Error(`Failed to load events.json (${res.status})`);
+          const txt = await res.text();
+          let data;
+          try {
+            data = JSON.parse(txt);
+          } catch {
+            throw new Error("Invalid JSON in events.json");
+          }
+          let updated = null;
+          if (Array.isArray(data)) {
+            try {
+              const most = data.reduce(
+                (m, e) =>
+                  Math.max(m, e?.scrapedAt ? +new Date(e.scrapedAt) : 0),
+                0
+              );
+              if (most) updated = new Date(most);
+            } catch {}
+          }
+          if (!updated) {
+            const hdr =
+              res.headers.get("Last-Modified") || res.headers.get("Date");
+            if (hdr) updated = new Date(hdr);
+          }
+          state.lastUpdated = updated || new Date();
+          state.stats.loads += 1;
+          state.stats.lastLoadMs = Math.round(performance.now() - t0);
+          return Array.isArray(data) ? data : [];
+        }
+
+        /* ============================ RENDERING ============================= */
+        function groupByDate(items, sortKey) {
+          const fmt = new Intl.DateTimeFormat("en-GB", {
+            timeZone: state.TZ,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          const dated = items.filter((ev) => ev._hasDate);
+          const undated = items.filter((ev) => !ev._hasDate);
+          const groups = new Map();
+
+          for (const ev of dated) {
+            const d = ev._startEff;
+            const parts = fmt
+              .formatToParts(d)
+              .reduce((acc, p) => ((acc[p.type] = p.value), acc), {});
+            const key = `${parts.year}-${parts.month}-${parts.day}`;
+            if (!groups.has(key)) groups.set(key, []);
+            groups.get(key).push(ev);
+          }
+
+          let ordered = Array.from(groups.entries());
+          if (sortKey === "date-desc")
+            ordered.sort(([a], [b]) => b.localeCompare(a));
+          else ordered.sort(([a], [b]) => a.localeCompare(b));
+
+          if (state.showUndated && undated.length)
+            ordered.push(["Undated", undated]);
+          return ordered;
+        }
+
+        function injectLD() {
+          try {
+            const items = state.view
+              .filter((e) => e._hasDate)
+              .slice(0, 50)
+              .map((ev) => ({
+                "@context": "https://schema.org",
+                "@type": "Event",
+                name: ev.title || "Event",
+                startDate: ev._startEff?.toISOString(),
+                eventAttendanceMode:
+                  "https://schema.org/OfflineEventAttendanceMode",
+                eventStatus: isPostponed(ev)
+                  ? "https://schema.org/EventPostponed"
+                  : "https://schema.org/EventScheduled",
+                location: {
+                  "@type": "Place",
+                  name: ev.venue || venueLabel(ev),
+                  address: ev.address || "HU5, Hull, UK",
+                },
+                image: ev.image || undefined,
+                url: isMeaningfulLink(ev.url) ? ev.url : location.href,
+                offers: isFreeEvent(ev)
+                  ? {
+                      "@type": "Offer",
+                      price: "0",
+                      priceCurrency: "GBP",
+                      availability: "https://schema.org/InStock",
+                    }
+                  : undefined,
+              }));
+            const el = document.getElementById("events-ld");
+            if (el) el.textContent = JSON.stringify(items);
+          } catch (e) {
+            /* no-op */
+          }
+        }
+
+        function render() {
+          const t0 = performance.now();
+          const n = state.view.length;
+
+          els.countText.textContent = `${n} event${n === 1 ? "" : "s"}`;
+          els.refreshText.textContent = state.autoRefresh
+            ? "Auto refresh on"
+            : "Auto refresh off";
+          els.updatedText.textContent = state.lastUpdated
+            ? `Updated ${timeAgo(
+                state.lastUpdated
+              )} (${state.lastUpdated.toLocaleString()})`
+            : "—";
+
+          if (!n) {
+            els.list.innerHTML = `<div class="empty">No events match your filters. <button class="seg" id="resetBtn">Reset</button></div>`;
+            $("#resetBtn")?.addEventListener("click", () => {
+              resetFilters();
+              apply();
+            });
+            replaceUrl();
+            updateMailto();
+            return;
+          }
+
+          // time display helpers
+          const to24h = (raw) => {
+            if (!raw) return null;
+
+            let s = String(raw).trim().toLowerCase();
+
+            // ---- Strip prices BEFORE any dot→colon conversion ----
+            // £10, £10.20, 10.20 adv, £10/£12, 10/12, etc.
+            s = s
+              // £x.xx or £x (optionally with / £y.xx)
+              .replace(
+                /£\s*\d{1,3}(?:\.\d{2})?(?:\s*\/\s*£?\s*\d{1,3}(?:\.\d{2})?)*/g,
+                ""
+              )
+              // bare decimals that are clearly prices when followed by fee/ticket words
+              .replace(
+                /\b\d{1,3}\.\d{2}\b(?=\s*(?:adv|otd|door|entry|tickets?|\+?bf|\+?fee|\+?fees))/gi,
+                ""
+              )
+              // bare price ranges like 10/12 (no currency)
+              .replace(
+                /\b\d{1,3}(?:\.\d{2})?\s*\/\s*\d{1,3}(?:\.\d{2})?\b/g,
+                ""
+              );
+
+            // ---- Convert dotted times ONLY (e.g. "8.30" → "8:30") ----
+            s = s.replace(
+              /\b(\d{1,2})\.(\d{2})(?:\s*\/\s*\d{1,2}(?::\d{2})?)?\b/g,
+              "$1:$2"
+            );
+
+            // ---- Strip jelly words & trailing range ends ----
+            s = s
+              .replace(
+                /\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?\s*/g,
+                ""
+              )
+              .replace(/\b(?:till|’?\s*til|til)\s*late\b/g, "")
+              .replace(/\blate\b/g, "")
+              // remove trailing "– 11pm" range ends so we keep the first time
+              .replace(/\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/g, "")
+              .trim();
+
+            // 12h with minutes (e.g. "9:30 pm")
+            let m = s.match(/\b(\d{1,2})(?::(\d{2}))\s*(am|pm)\b/i);
+            if (m) {
+              let hh = parseInt(m[1], 10);
+              const mm = m[2] || "00";
+              const ap = m[3].toLowerCase();
+              if (ap === "pm" && hh !== 12) hh += 12;
+              if (ap === "am" && hh === 12) hh = 0;
+              return (
+                String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0")
+              );
+            }
+
+            // 12h hour only (e.g. "9 pm")
+            m = s.match(/\b(\d{1,2})\s*(am|pm)\b/i);
+            if (m) {
+              let hh = parseInt(m[1], 10);
+              const ap = m[2].toLowerCase();
+              if (ap === "pm" && hh !== 12) hh += 12;
+              if (ap === "am" && hh === 12) hh = 0;
+              return String(hh).padStart(2, "0") + ":00";
+            }
+
+            // 24h (e.g. "21:00" or from earlier "8.30" → "8:30")
+            m = s.match(/\b(\d{1,2}):(\d{2})\b/);
+            if (m) {
+              const hh = Math.min(23, Math.max(0, parseInt(m[1], 10)));
+              const mm = Math.min(59, Math.max(0, parseInt(m[2], 10)));
+              return (
+                String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0")
+              );
+            }
+
+            // Bare hour heuristic (evening bias 5–11 → PM)
+            m = s.match(/(?:^|\b)(\d{1,2})(?:\b|$)/);
+            if (m) {
+              const hhNum = parseInt(m[1], 10);
+              if (hhNum >= 5 && hhNum <= 11)
+                return String(hhNum + 12).padStart(2, "0") + ":00";
+              if (hhNum === 12) return "12:00";
+            }
+
+            return null;
+          };
+
+          const firstTimeSnippet = (raw) => {
+            if (!raw) return null;
+            const s = String(raw);
+            let m = s.match(/\b\d{1,2}(?::\d{2})?\s*(?:am|pm)\b/i);
+            if (m) return m[0];
+            m = s.match(/\b\d{1,2}:\d{2}\b/);
+            if (m) return m[0];
+            m = s.match(
+              /\bdoors?\s*[:\-]?\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i
+            );
+            if (m) return m[0];
+            return null;
+          };
+          const pickTimeText = (ev) => {
+            // Treat The People's Republic specially: only trust explicit time fields.
+            const isTPR = /\bpeople'?s republic\b/i.test(
+              String(ev.source || "") + " " + String(ev.venue || "")
+            );
+
+            // 1) Always try explicit, structured fields first
+            const explicit = [
+              ev.displayTime24,
+              ev.timeText,
+              ev.time,
+              ev.time_text,
+            ].filter(Boolean);
+            for (const f of explicit) {
+              const norm = to24h(f);
+              if (norm) return { kind: "parsed", value: norm };
+              const raw = firstTimeSnippet(f);
+              if (raw) return { kind: "raw", value: raw };
+            }
+
+            // 2) For non-TPR only, allow softer fields (meta/notes/description/title)
+            if (!isTPR) {
+              const soft = [ev.meta, ev.notes, ev.description, ev.title].filter(
+                Boolean
+              );
+              for (const f of soft) {
+                const norm = to24h(f);
+                if (norm) return { kind: "parsed", value: norm };
+                const raw = firstTimeSnippet(f);
+                if (raw) return { kind: "raw", value: raw };
+              }
+            }
+
+            // 3) Nothing found
+            return null;
+          };
+
+          const q = els.q.value.trim();
+          const sections = groupByDate(state.view, state.sort)
+            .map(([key, items]) => {
+              const label =
+                key === "Undated"
+                  ? "Undated"
+                  : new Date(key + "T00:00:00").toLocaleDateString("en-GB", {
+                      weekday: "short",
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                      timeZone: state.TZ,
+                    });
+
+              const grid = items
+                .map((ev) => {
+                  const titleRaw = ev.title || "Untitled";
+                  const vLabel = venueLabel(ev);
+                  const displayTitle = ensureVenueInTitle(titleRaw, vLabel);
+                  const openHref = toListingsUrl(ev.url || "", ev.source);
+                  const gHref = googleHref(ev);
+                  const isIcs = isIcsLike(ev.url || "");
+
+                  let time24 = "";
+                  const mined = pickTimeText(ev);
+
+                  if (ev.displayTime24) {
+                    time24 = ev.displayTime24;
+                  } else if (mined && mined.kind === "parsed") {
+                    time24 = mined.value;
+                  } else if (mined && mined.kind === "raw") {
+                    time24 = mined.value;
+                  } else if (
+                    ev._hasDate &&
+                    ev._startEff instanceof Date &&
+                    !isNaN(+ev._startEff)
+                  ) {
+                    time24 = ev._startEff.toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                      timeZone: state.TZ,
+                    });
+                  }
+                  // Adelphi safeguard: if a morning-looking time slips through, default to 20:00
+                  if (venueLabel(ev) === "The New Adelphi Club") {
+                    const m = /^(\d{1,2}):(\d{2})$/.exec(time24 || "");
+                    if (m) {
+                      const hh = parseInt(m[1], 10);
+                      if (hh >= 0 && hh <= 11) time24 = "20:00";
+                    }
+                  }
+
+                  const meta = [
+                    time24,
+                    ev.venue && highlight(ev.venue, q),
+                    ev.address && highlight(ev.address, q),
+                  ]
+                    .filter(Boolean)
+                    .join(" · ");
+                  const src = escapeHTML(vLabel || "Unknown");
+
+                  const ticketObj = Array.isArray(ev.tickets)
+                    ? ev.tickets.find((t) => t && (t.url || t.link))
+                    : null;
+                  const ticketUrl =
+                    ticketObj?.url ||
+                    ticketObj?.link ||
+                    ev.ticketUrl ||
+                    ev.ticketsUrl ||
+                    ev.linkTickets ||
+                    null;
+
+                  let showOpen = isMeaningfulLink(openHref);
+                  let showTicket = isMeaningfulLink(ticketUrl);
+
+                  // if Commun'ull and the “ticket” link is just Facebook, don't show a Tickets button
+                  const vName = venueLabel(ev);
+                  if (
+                    DEFAULT_FREE_VENUES.has(vName) &&
+                    isFacebookUrl(ticketUrl)
+                  ) {
+                    showTicket = false;
+                  }
+
+                  const sold = isSoldOut(ev);
+                  const postponed = isPostponed(ev);
+                  const noBookings = isNoBookingsEvent(ev);
+
+                  let actions = "";
+                  if (sold) {
+                    actions += `<span class="btn sold" title="Sold out">Sold out</span>`;
+                  } else if (noBookings) {
+                    actions += `<span class="btn nobook" title="No Bookings">No Bookings</span>`;
+                  } else if (postponed) {
+                    actions += `<span class="btn post" title="Postponed">Postponed</span>`;
+                  } else if (showTicket) {
+                    actions += isFreeEvent(ev)
+                      ? `<a class="btn free" href="${escapeHTML(
+                          ticketUrl
+                        )}" target="_blank" rel="noopener noreferrer" title="Free Entry">Free Entry</a>`
+                      : `<a class="btn" data-kind="tickets" href="${escapeHTML(
+                          ticketUrl
+                        )}" target="_blank" rel="noopener noreferrer">Tickets</a>`;
+                  } else if (isFreeEvent(ev)) {
+                    actions += `<span class="btn free" title="Free entry">Free entry</span>`;
+                  }
+
+                  const d = ev._startEff || null;
+                  const dparts = d
+                    ? {
+                        dow: d.toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        }),
+                        day: String(d.getDate()).padStart(2, "0"),
+                        mon: d.toLocaleDateString("en-GB", { month: "short" }),
+                      }
+                    : { dow: "", day: "–", mon: "" };
+
+                  return `
+          <article class="event" role="article" aria-label="${escapeHTML(
+            titleRaw
+          )}">
             <div class="pill" aria-hidden="true">
               <div class="dow">${dparts.dow}</div>
               <div class="day">${dparts.day}</div>
               <div class="mon">${dparts.mon}</div>
             </div>
             <div>
-              <h2 class="title"><a href="${escapeHTML(openHref)}" target="_blank" rel="noopener noreferrer">${highlight(titleRaw,q)}</a></h2>
-              <div class="meta">${meta || "<span class='muty'>Details TBC</span>"}</div>
+<h2 class="title"><a href="${escapeHTML(
+                    openHref
+                  )}" target="_blank" rel="noopener noreferrer">${highlight(
+                    displayTitle,
+                    q
+                  )}</a></h2>
+              <div class="meta">${
+                meta || "<span class='muty'>Details TBC</span>"
+              }</div>
               <div class="source">Source: ${src}</div>
             </div>
             <div class="card-actions">
               ${actions}
-              ${gHref ? `<a class="btn" href="${escapeHTML(gHref)}" target="_blank" rel="noopener noreferrer">Add to Google</a>` : ''}
-              <a class="btn" href="${escapeHTML(openHref)}" target="_blank" rel="noopener noreferrer">${isIcs ? 'Open listings' : 'Open'}</a>
+              ${
+                gHref
+                  ? `<a class="btn" href="${escapeHTML(
+                      gHref
+                    )}" target="_blank" rel="noopener noreferrer">Add to Google</a>`
+                  : ""
+              }
+              ${
+                showOpen
+                  ? `<a class="btn" href="${escapeHTML(
+                      openHref
+                    )}" target="_blank" rel="noopener noreferrer">${
+                      isIcs ? "Open listings" : "Open"
+                    }</a>`
+                  : ""
+              }
+
             </div>
           </article>`;
-      }).join('');
+                })
+                .join("");
 
-      return `<section class="section" id="${escapeHTML(key==='Undated'?'undated':key)}"><h3>${label}</h3><div class="grid">${grid}</div></section>`;
-    }).join('');
+              return `<section class="section" id="${escapeHTML(
+                key === "Undated" ? "undated" : key
+              )}"><h3>${label}</h3><div class="grid">${grid}</div></section>`;
+            })
+            .join("");
 
-    els.list.innerHTML = sections;
+          els.list.innerHTML = sections;
 
-    const dated   = state.all.filter(e => e._hasDate).length;
-    const undated = state.all.length - dated;
-    state.stats.totalEvents   = state.all.length;
-    state.stats.datedEvents   = dated;
-    state.stats.undatedEvents = undated;
-    state.stats.lastRenderMs  = Math.round(performance.now() - t0);
-    state.stats.venues = state.all.reduce((acc, e) => { const v = venueLabel(e); acc[v] = (acc[v]||0) + 1; return acc; }, {});
-    if (state.isAdmin) updateAdminPanel();
+          const dated = state.all.filter((e) => e._hasDate).length;
+          const undated = state.all.length - dated;
+          state.stats.totalEvents = state.all.length;
+          state.stats.datedEvents = dated;
+          state.stats.undatedEvents = undated;
+          state.stats.lastRenderMs = Math.round(performance.now() - t0);
+          state.stats.venues = state.all.reduce((acc, e) => {
+            const v = venueLabel(e);
+            acc[v] = (acc[v] || 0) + 1;
+            return acc;
+          }, {});
+          if (state.isAdmin) updateAdminPanel();
 
-    replaceUrl(); updateMailto();
-  }
+          replaceUrl();
+          updateMailto();
+        }
 
-  /* ============================== FILTERS ============================= */
-  function setDateRange(from,to){ const fmt=d=>{const p=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`}; els.from.value=fmt(from); els.to.value=fmt(to); save(); apply(); }
-  function applyQuickRange(kind){
-    state.range=kind; syncRangeButtons();
-    const today=new Date(); today.setHours(0,0,0,0);
-    if (kind==='today'){ const t=new Date(today); setDateRange(t,t); return; }
-    if (kind==='next7'){ const to=new Date(today); to.setDate(to.getDate()+6); setDateRange(today,to); return; }
-    if (kind==='weekend'){
-      const dow=today.getDay(); let from,to;
-      if (dow===6){ from=new Date(today); to=new Date(today); to.setDate(to.getDate()+1); }
-      else if (dow===0){ from=new Date(today); to=new Date(today); }
-      else { const sat=new Date(today); sat.setDate(sat.getDate()+(6-dow)); const sun=new Date(sat); sun.setDate(sun.getDate()+1); from=sat; to=sun; }
-      setDateRange(from,to); return;
-    }
-    els.from.value=''; els.to.value=''; save(); apply();
-  }
-  function syncRangeButtons(){ els.rangeButtons.forEach(b=>{ const active=b.dataset.range===state.range; b.setAttribute('aria-pressed', active?'true':'false'); b.classList.toggle('is-active', active); }); }
+        /* ============================== FILTERS ============================= */
+        function setDateRange(from, to) {
+          const fmt = (d) => {
+            const p = (n) => String(n).padStart(2, "0");
+            return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(
+              d.getDate()
+            )}`;
+          };
+          els.from.value = fmt(from);
+          els.to.value = fmt(to);
+          save();
+          apply();
+          const visibleAnchor =
+            document.elementFromPoint(0, 140)?.closest("section")?.id || null;
+        }
+        function applyQuickRange(kind) {
+          state.range = kind;
+          syncRangeButtons();
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          if (kind === "today") {
+            const t = new Date(today);
+            setDateRange(t, t);
+            return;
+          }
+          if (kind === "next7") {
+            const to = new Date(today);
+            to.setDate(to.getDate() + 6);
+            setDateRange(today, to);
+            return;
+          }
+          if (kind === "weekend") {
+            const dow = today.getDay();
+            let from, to;
+            if (dow === 6) {
+              from = new Date(today);
+              to = new Date(today);
+              to.setDate(to.getDate() + 1);
+            } else if (dow === 0) {
+              from = new Date(today);
+              to = new Date(today);
+            } else {
+              const sat = new Date(today);
+              sat.setDate(sat.getDate() + (6 - dow));
+              const sun = new Date(sat);
+              sun.setDate(sun.getDate() + 1);
+              from = sat;
+              to = sun;
+            }
+            setDateRange(from, to);
+            return;
+          }
+          els.from.value = "";
+          els.to.value = "";
+          save();
+          apply();
+        }
+        function syncRangeButtons() {
+          els.rangeButtons.forEach((b) => {
+            const active = b.dataset.range === state.range;
+            b.setAttribute("aria-pressed", active ? "true" : "false");
+            b.classList.toggle("is-active", active);
+          });
+        }
 
-  function apply(){
-    const q = els.q.value.toLowerCase().trim();
-    const hasFrom=!!els.from.value, hasTo=!!els.to.value;
-    const from = hasFrom ? +new Date(els.from.value) : null;
-    const to   = hasTo   ? +new Date(els.to.value+'T23:59:59') : null;
-    state.sort = els.sort.value; const vfilter = els.venue.value;
+        function apply() {
+          const q = els.q.value.toLowerCase().trim();
+          const hasFrom = !!els.from.value,
+            hasTo = !!els.to.value;
+          const from = hasFrom ? +new Date(els.from.value) : null;
+          const to = hasTo ? +new Date(els.to.value + "T23:59:59") : null;
+          state.sort = els.sort.value;
+          const vfilter = els.venue.value;
 
-    let arr = [...state.all];
+          let arr = [...state.all];
 
-    // Keep dated events from today (local) onwards; keep undated (we’ll hide if toggle off)
-    const today0 = startOfTodayLocal();
-    arr = arr.filter(e => {
-      if (!e._hasDate) return true;
-      return +e._startEff >= +today0;
-    });
+          // Keep dated events from today (local) onwards; keep undated (we’ll hide if toggle off)
+          const today0 = startOfTodayLocal();
+          arr = arr.filter((e) => {
+            if (!e._hasDate) return true;
+            return +e._startEff >= +today0;
+          });
 
-    // text query
-    if(q){
-      arr = arr.filter(e => (`${e.title||''} ${e.venue||''} ${e.address||''} ${e.source||''}`).toLowerCase().includes(q));
-    }
+          // text query
+          if (q) {
+            arr = arr.filter((e) =>
+              `${e.title || ""} ${e.venue || ""} ${e.address || ""} ${
+                e.source || ""
+              }`
+                .toLowerCase()
+                .includes(q)
+            );
+          }
 
-    // range window: only if user sets a from/to
-    if (hasFrom || hasTo) {
-      arr = arr.filter(e => e._hasDate);
-      if (hasFrom) arr = arr.filter(e => +e._startEff >= from);
-      if (hasTo)   arr = arr.filter(e => +e._startEff <= to);
-    } else {
-      if (!state.showUndated) arr = arr.filter(e => e._hasDate);
-    }
+          // range window: only if user sets a from/to
+          if (hasFrom || hasTo) {
+            arr = arr.filter((e) => e._hasDate);
+            if (hasFrom) arr = arr.filter((e) => +e._startEff >= from);
+            if (hasTo) arr = arr.filter((e) => +e._startEff <= to);
+          } else {
+            if (!state.showUndated) arr = arr.filter((e) => e._hasDate);
+          }
 
-    if (vfilter) arr = arr.filter(e => venueLabel(e) === vfilter);
+          if (vfilter) arr = arr.filter((e) => venueLabel(e) === vfilter);
 
-    // sort by effective date or title
-    if (state.sort==='date-asc')      arr.sort((a,b)=> (+a._startEff || 9e15) - (+b._startEff || 9e15));
-    else if (state.sort==='date-desc')arr.sort((a,b)=> (+b._startEff || -9e15) - (+a._startEff || -9e15));
-    else if (state.sort==='title')    arr.sort((a,b)=> (a.title||'').localeCompare(b.title||''));
+          // sort by effective date or title
+          if (state.sort === "date-asc")
+            arr.sort((a, b) => (+a._startEff || 9e15) - (+b._startEff || 9e15));
+          else if (state.sort === "date-desc")
+            arr.sort(
+              (a, b) => (+b._startEff || -9e15) - (+a._startEff || -9e15)
+            );
+          else if (state.sort === "title")
+            arr.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
 
-    state.view = arr; render(); save(); state.stats.filtersUsed += 1; state.stats.lastAppliedAt = new Date().toISOString();
-  }
+          state.view = arr;
+          render();
+          save();
+          state.stats.filtersUsed += 1;
+          state.stats.lastAppliedAt = new Date().toISOString();
+        }
 
-  function resetFilters(){
-    els.q.value=''; els.from.value=''; els.to.value=''; els.sort.value='date-asc'; els.venue.value='';
-    state.range='all'; state.showUndated=true;
-    syncRangeButtons();
-    els.toggleUndated.setAttribute('aria-pressed','true'); els.toggleUndated.textContent='Hide undated';
-  }
+        function resetFilters() {
+          els.q.value = "";
+          els.from.value = "";
+          els.to.value = "";
+          els.sort.value = "date-asc";
+          els.venue.value = "";
+          state.range = "all";
+          state.showUndated = true;
+          syncRangeButtons();
+          els.toggleUndated.setAttribute("aria-pressed", "true");
+          els.toggleUndated.textContent = "Hide undated";
+        }
 
-  /* ============================= STORAGE ============================== */
-  function save(){
-    const data={ q:els.q.value||'', from:els.from.value||'', to:els.to.value||'', sort:els.sort.value||'date-asc', venue:els.venue.value||'', range:state.range, showUndated:state.showUndated };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  }
-  function load(){
-    const saved = localStorage.getItem(STORAGE_KEY); let data = saved?JSON.parse(saved):{};
-    paramsToFilters(location.href);
-    els.q.value = els.q.value || data.q || '';
-    els.from.value = els.from.value || data.from || '';
-    els.to.value = els.to.value || data.to || '';
-    els.sort.value = els.sort.value || data.sort || 'date-asc';
-    els.venue.value = els.venue.value || data.venue || '';
-    state.range = state.range || data.range || 'all';
-    if (typeof state.showUndated !== 'boolean') state.showUndated = (typeof data.showUndated==='boolean'?data.showUndated:true);
-    syncRangeButtons();
-    els.toggleUndated.setAttribute('aria-pressed', state.showUndated ? 'true':'false');
-    els.toggleUndated.textContent = state.showUndated ? 'Hide undated' : 'Show undated';
-  }
+        /* ============================= STORAGE ============================== */
+        function save() {
+          const data = {
+            q: els.q.value || "",
+            from: els.from.value || "",
+            to: els.to.value || "",
+            sort: els.sort.value || "date-asc",
+            venue: els.venue.value || "",
+            range: state.range,
+            showUndated: state.showUndated,
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+        function load() {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          let data = saved ? JSON.parse(saved) : {};
+          paramsToFilters(location.href);
+          els.q.value = els.q.value || data.q || "";
+          els.from.value = els.from.value || data.from || "";
+          els.to.value = els.to.value || data.to || "";
+          els.sort.value = els.sort.value || data.sort || "date-asc";
+          els.venue.value = els.venue.value || data.venue || "";
+          state.range = state.range || data.range || "all";
+          if (typeof state.showUndated !== "boolean")
+            state.showUndated =
+              typeof data.showUndated === "boolean" ? data.showUndated : true;
+          syncRangeButtons();
+          els.toggleUndated.setAttribute(
+            "aria-pressed",
+            state.showUndated ? "true" : "false"
+          );
+          els.toggleUndated.textContent = state.showUndated
+            ? "Hide undated"
+            : "Show undated";
+        }
 
-  /* ============================== ADMIN ============================== */
-  function updateAdminPanel(){
-    const s = state.stats;
-    $('#adminSummary').textContent = `Loads: ${s.loads} • Last load: ${s.lastLoadMs}ms • Render: ${s.lastRenderMs}ms • Filters used: ${s.filtersUsed}`;
-    const venueRows = Object.entries(s.venues).sort((a,b)=>b[1]-a[1]).map(([v,c])=>`<tr><td>${escapeHTML(v)}</td><td>${c}</td></tr>`).join('');
-    $('#adminTable').innerHTML = `
+        /* ============================== ADMIN ============================== */
+        function updateAdminPanel() {
+          const s = state.stats;
+          $(
+            "#adminSummary"
+          ).textContent = `Loads: ${s.loads} • Last load: ${s.lastLoadMs}ms • Render: ${s.lastRenderMs}ms • Filters used: ${s.filtersUsed}`;
+          const venueRows = Object.entries(s.venues)
+            .sort((a, b) => b[1] - a[1])
+            .map(([v, c]) => `<tr><td>${escapeHTML(v)}</td><td>${c}</td></tr>`)
+            .join("");
+          $("#adminTable").innerHTML = `
       <tr><th>Total events</th><td>${s.totalEvents}</td></tr>
       <tr><th>Dated</th><td>${s.datedEvents}</td></tr>
       <tr><th>Undated</th><td>${s.undatedEvents}</td></tr>
-      <tr><th>Last updated</th><td>${state.lastUpdated ? state.lastUpdated.toLocaleString() : '—'}</td></tr>
-      <tr><th>Last filters applied</th><td>${s.lastAppliedAt || '—'}</td></tr>
+      <tr><th>Last updated</th><td>${
+        state.lastUpdated ? state.lastUpdated.toLocaleString() : "—"
+      }</td></tr>
+      <tr><th>Last filters applied</th><td>${s.lastAppliedAt || "—"}</td></tr>
       <tr><th colspan="2"><strong>Events per venue</strong></th></tr>
       ${venueRows || '<tr><td colspan="2" class="muty">No data</td></tr>'}
     `;
-  }
-  const setAdmin = on => { state.isAdmin=!!on; localStorage.setItem(ADMIN_KEY, state.isAdmin?'1':''); els.admin.hidden=!state.isAdmin; if (state.isAdmin) updateAdminPanel(); };
+        }
+        const setAdmin = (on) => {
+          state.isAdmin = !!on;
+          localStorage.setItem(ADMIN_KEY, state.isAdmin ? "1" : "");
+          els.admin.hidden = !state.isAdmin;
+          if (state.isAdmin) updateAdminPanel();
+        };
 
-  /* ============================== UI BITS ============================= */
-  function showToast(msg='Link copied'){
-    if (!els.toast) return;
-    els.toast.textContent = msg;
-    els.toast.classList.add('show');
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(()=> els.toast.classList.remove('show'), 1400);
-  }
+        /* ============================== UI BITS ============================= */
+        function showToast(msg = "Link copied") {
+          if (!els.toast) return;
+          els.toast.textContent = msg;
+          els.toast.classList.add("show");
+          clearTimeout(showToast._t);
+          showToast._t = setTimeout(
+            () => els.toast.classList.remove("show"),
+            1400
+          );
+        }
 
-  // bindings
-  const debounce=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
-  const onFilterInput = debounce(()=>apply(),150);
-['input','change'].forEach(function(evt){
-  [els.q, els.from, els.to, els.sort, els.venue].forEach(function(el){
-    if (el) el.addEventListener(evt, onFilterInput);
-  });
-});
+        // bindings
+        const debounce = (fn, ms) => {
+          let t;
+          return (...a) => {
+            clearTimeout(t);
+            t = setTimeout(() => fn(...a), ms);
+          };
+        };
+        const onFilterInput = debounce(() => apply(), 150);
+        ["input", "change"].forEach(function (evt) {
+          [els.q, els.from, els.to, els.sort, els.venue].forEach(function (el) {
+            if (el) el.addEventListener(evt, onFilterInput);
+          });
+        });
 
-var resetBtn = $('#resetBtn');
-if (resetBtn) resetBtn.addEventListener('click', function(){ resetFilters(); apply(); });
+        var resetBtn = $("#resetBtn");
+        if (resetBtn)
+          resetBtn.addEventListener("click", function () {
+            resetFilters();
+            apply();
+          });
 
+        els.auto?.addEventListener("change", () => {
+          state.autoRefresh = !!els.auto.checked;
+          if (state.autoRefresh) {
+            scheduleTick();
+            tickUI();
+          } else {
+            clearTimeout(scheduleTick._t);
+            state.nextTickAt = null;
+            $("#refreshText").textContent = "Auto refresh off";
+          }
+          render();
+          save();
+        });
 
-  els.auto?.addEventListener('change', ()=>{
-    state.autoRefresh = !!els.auto.checked;
-    if (state.autoRefresh){ scheduleTick(); tickUI(); } else { clearTimeout(scheduleTick._t); state.nextTickAt=null; $('#refreshText').textContent='Auto refresh off'; }
-    render(); save();
-  });
+        els.rangeButtons.forEach((btn) =>
+          btn.addEventListener("click", () =>
+            applyQuickRange(btn.dataset.range)
+          )
+        );
+        els.toggleUndated?.addEventListener("click", () => {
+          state.showUndated = !state.showUndated;
+          els.toggleUndated.setAttribute(
+            "aria-pressed",
+            state.showUndated ? "true" : "false"
+          );
+          els.toggleUndated.textContent = state.showUndated
+            ? "Hide undated"
+            : "Show undated";
+          apply();
+        });
+        els.refreshNow?.addEventListener("click", async () => {
+          await boot(false);
+          showToast("Refreshed");
+        });
+        els.clear?.addEventListener("click", () => {
+          localStorage.removeItem(STORAGE_KEY);
+          resetFilters();
+          apply();
+        });
 
-  els.rangeButtons.forEach(btn => btn.addEventListener('click', ()=> applyQuickRange(btn.dataset.range)));
-  els.toggleUndated?.addEventListener('click', ()=>{ state.showUndated = !state.showUndated; els.toggleUndated.setAttribute('aria-pressed', state.showUndated?'true':'false'); els.toggleUndated.textContent = state.showUndated ? 'Hide undated' : 'Show undated'; apply(); });
-  els.refreshNow?.addEventListener('click', async()=>{ await boot(false); showToast('Refreshed'); });
-  els.clear?.addEventListener('click', ()=>{ resetFilters(); apply(); });
+        els.share?.addEventListener("click", async () => {
+          replaceUrl();
+          updateMailto();
+          const url = location.href;
+          const title = "HU5 Events Finder";
+          if (navigator.share) {
+            try {
+              await navigator.share({ title, url });
+              return;
+            } catch {}
+          }
+          try {
+            await navigator.clipboard.writeText(url);
+            showToast("Link copied");
+          } catch {
+            prompt("Copy this link", url);
+          }
+        });
 
-els.share?.addEventListener('click', async ()=>{
-  replaceUrl(); updateMailto();
-  const url = location.href; const title='HU5 Events Finder';
-  if (navigator.share) { try { await navigator.share({ title, url }); return; } catch {} }
-  try { await navigator.clipboard.writeText(url); showToast('Link copied'); }
-  catch { prompt('Copy this link', url); }
-});
+        window.addEventListener("keydown", (e) => {
+          const tag = (e.target && (e.target.tagName || "")).toLowerCase();
+          const isTyping =
+            tag === "input" || tag === "textarea" || e.isComposing;
+          if (e.key === "/" && !isTyping) {
+            e.preventDefault();
+            els.q.focus();
+            els.q.select();
+          }
+          if (e.key.toLowerCase() === "r" && !isTyping) {
+            e.preventDefault();
+            els.refreshNow.click();
+          }
+          if (e.key.toLowerCase() === "c" && !isTyping) {
+            e.preventDefault();
+            els.share.click();
+          }
+          const mod = e.ctrlKey || e.metaKey;
+          if (mod && e.shiftKey && (e.key === "S" || e.key === "s")) {
+            e.preventDefault();
+            setAdmin(!state.isAdmin);
+          }
+        });
 
-  window.addEventListener('keydown', (e)=>{
-    const tag = (e.target && (e.target.tagName||'')).toLowerCase();
-    const isTyping = tag==='input' || tag==='textarea' || e.isComposing;
-    if (e.key==='/' && !isTyping){ e.preventDefault(); els.q.focus(); els.q.select(); }
-    if (e.key.toLowerCase()==='r' && !isTyping){ e.preventDefault(); els.refreshNow.click(); }
-    if (e.key.toLowerCase()==='c' && !isTyping){ e.preventDefault(); els.share.click(); }
-    const mod = e.ctrlKey || e.metaKey;
-    if (mod && e.shiftKey && (e.key==='S' || e.key==='s')){ e.preventDefault(); setAdmin(!state.isAdmin); }
-  });
+        // mobile back-to-top
+        els.fabTop?.addEventListener("click", () =>
+          window.scrollTo({ top: 0, behavior: "smooth" })
+        );
 
-  // mobile back-to-top
-  els.fabTop?.addEventListener('click', ()=> window.scrollTo({ top: 0, behavior:'smooth' }));
+        // collapsible filters (compensate scroll jump)
+        els.filtersToggle?.addEventListener("click", () => {
+          const header = document.querySelector("header");
+          const before = header.getBoundingClientRect().height;
+          const willOpen = els.filtersPanel.classList.contains("hidden");
+          els.filtersPanel.classList.toggle("hidden");
+          els.filtersToggle.setAttribute(
+            "aria-expanded",
+            willOpen ? "true" : "false"
+          );
+          requestAnimationFrame(() => {
+            const after = header.getBoundingClientRect().height;
+            const diff = after - before;
+            if (diff) window.scrollBy(0, diff);
+          });
+        });
 
-  // collapsible filters (compensate scroll jump)
-  els.filtersToggle?.addEventListener('click', ()=>{
-    const header = document.querySelector('header');
-    const before = header.getBoundingClientRect().height;
-    const willOpen = els.filtersPanel.classList.contains('hidden');
-    els.filtersPanel.classList.toggle('hidden');
-    els.filtersToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-    requestAnimationFrame(()=>{
-      const after = header.getBoundingClientRect().height;
-      const diff = after - before;
-      if (diff) window.scrollBy(0, diff);
-    });
-  });
+        // auto-refresh timer chip
+        // auto-refresh timer chip
+        function scheduleTick() {
+          // Always clear any pending timeout first
+          clearTimeout(scheduleTick._t);
 
-  // auto-refresh timer chip
-// auto-refresh timer chip
-function scheduleTick(){
-  // Always clear any pending timeout first
-  clearTimeout(scheduleTick._t);
+          if (!state.autoRefresh) {
+            state.nextTickAt = null;
+            // Stop the rAF loop and set UI text/state
+            tickUIStop();
+            const dot = document.querySelector("#nextRefresh .dot");
+            if (dot) dot.className = "dot warn";
+            els.refreshText.textContent = "Auto refresh off";
+            return;
+          }
 
-  if (!state.autoRefresh) {
-    state.nextTickAt = null;
-    // Stop the rAF loop and set UI text/state
-    tickUIStop();
-    const dot = document.querySelector('#nextRefresh .dot');
-    if (dot) dot.className = 'dot warn';
-    els.refreshText.textContent = 'Auto refresh off';
-    return;
-  }
+          // Plan next refresh and start/keep the UI countdown
+          state.nextTickAt = Date.now() + state.refreshMs;
+          scheduleTick._t = setTimeout(async () => {
+            await boot(false); // reload data
+            scheduleTick(); // schedule the next tick
+          }, state.refreshMs);
 
-  // Plan next refresh and start/keep the UI countdown
-  state.nextTickAt = Date.now() + state.refreshMs;
-  scheduleTick._t = setTimeout(async () => {
-    await boot(false);             // reload data
-    scheduleTick();                // schedule the next tick
-  }, state.refreshMs);
+          // Ensure we have exactly one rAF loop running
+          if (!tickUI._raf) tickUI();
+        }
 
-  // Ensure we have exactly one rAF loop running
-  if (!tickUI._raf) tickUI();
-}
+        function tickUI() {
+          // If disabled or no next tick, stop the loop and set UI appropriately
+          if (!state.autoRefresh || !state.nextTickAt) {
+            tickUIStop();
+            const dot = document.querySelector("#nextRefresh .dot");
+            if (dot)
+              dot.className = "dot " + (state.autoRefresh ? "good" : "warn");
+            els.refreshText.textContent = state.autoRefresh
+              ? "Auto refresh on"
+              : "Auto refresh off";
+            return;
+          }
 
-function tickUI(){
-  // If disabled or no next tick, stop the loop and set UI appropriately
-  if (!state.autoRefresh || !state.nextTickAt) {
-    tickUIStop();
-    const dot = document.querySelector('#nextRefresh .dot');
-    if (dot) dot.className = 'dot ' + (state.autoRefresh ? 'good' : 'warn');
-    els.refreshText.textContent = state.autoRefresh ? 'Auto refresh on' : 'Auto refresh off';
-    return;
-  }
+          const dot = document.querySelector("#nextRefresh .dot");
+          const ms = Math.max(0, state.nextTickAt - Date.now());
+          if (ms === 0) {
+            els.refreshText.textContent = "Refreshing…";
+          }
+          const m = Math.floor(ms / 60000);
+          const s = Math.floor((ms % 60000) / 1000);
 
-  const dot = document.querySelector('#nextRefresh .dot');
-  const ms  = Math.max(0, state.nextTickAt - Date.now());
-  const m   = Math.floor(ms / 60000);
-  const s   = Math.floor((ms % 60000) / 1000);
+          if (dot) dot.className = "dot good";
+          els.refreshText.textContent = `Auto refresh in ${m}:${String(
+            s
+          ).padStart(2, "0")}`;
 
-  if (dot) dot.className = 'dot good';
-  els.refreshText.textContent = `Auto refresh in ${m}:${String(s).padStart(2, '0')}`;
+          tickUI._raf = requestAnimationFrame(tickUI);
+        }
 
-  tickUI._raf = requestAnimationFrame(tickUI);
-}
+        function tickUIStop() {
+          if (tickUI._raf) {
+            cancelAnimationFrame(tickUI._raf);
+            tickUI._raf = null;
+          }
+        }
 
-function tickUIStop(){
-  if (tickUI._raf) {
-    cancelAnimationFrame(tickUI._raf);
-    tickUI._raf = null;
-  }
-}
+        function reasonHidden(ev, today0) {
+          if (!ev) return "no event";
+          if (!ev._hasDate) return "undated (_startEff missing)";
+          if (+ev._startEff < +today0) return "past date";
+          return "";
+        }
 
-function reasonHidden(ev, today0) {
-  if (!ev) return 'no event';
-  if (!ev._hasDate) return 'undated (_startEff missing)';
-  if (+ev._startEff < +today0) return 'past date';
-  return '';
-}
+        function dumpAdelphiDiagnostics(where = "console") {
+          const today0 = startOfTodayLocal();
+          const rows = state.all
+            .filter((e) =>
+              /\badelphi\b/i.test(
+                String(e.source || "") + " " + String(e.venue || "")
+              )
+            )
+            .map((e) => ({
+              title: e.title || "(no title)",
+              url: e.url || "",
+              source: e.source || "",
+              venue: e.venue || "",
+              dateText: e.dateText || "",
+              timeText: e.timeText || "",
+              start: e.start || "",
+              startISO: e.startISO || e.start_iso || "",
+              displayTime24: e.displayTime24 || "",
+              displayDateTime24: e.displayDateTime24 || e.displayDateTime || "",
+              _hasDate: !!e._hasDate,
+              _startEff: e._startEff
+                ? e._startEff.toISOString
+                  ? e._startEff.toISOString()
+                  : String(e._startEff)
+                : "",
+              hiddenReason: reasonHidden(e, today0),
+            }));
 
-function dumpAdelphiDiagnostics(where = 'console') {
-  const today0 = startOfTodayLocal();
-  const rows = state.all
-    .filter(e => /\badelphi\b/i.test(String(e.source||'') + ' ' + String(e.venue||'')))
-    .map(e => ({
-      title: e.title || '(no title)',
-      url: e.url || '',
-      source: e.source || '',
-      venue: e.venue || '',
-      dateText: e.dateText || '',
-      timeText: e.timeText || '',
-      start: e.start || '',
-      startISO: e.startISO || e.start_iso || '',
-      displayTime24: e.displayTime24 || '',
-      displayDateTime24: e.displayDateTime24 || e.displayDateTime || '',
-      _hasDate: !!e._hasDate,
-      _startEff: e._startEff ? e._startEff.toISOString ? e._startEff.toISOString() : String(e._startEff) : '',
-      hiddenReason: reasonHidden(e, today0),
-    }));
+          if (where === "console") {
+            console.group("[HU5] Adelphi diagnostics");
+            console.table(rows);
+            console.groupEnd();
+          } else {
+            const pre = document.createElement("pre");
+            pre.style.whiteSpace = "pre-wrap";
+            pre.style.font =
+              "12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+            pre.style.padding = "12px";
+            pre.style.border = "1px solid var(--border)";
+            pre.style.borderRadius = "12px";
+            pre.style.background = "var(--card)";
+            pre.textContent = JSON.stringify(rows, null, 2);
+            const host = document.createElement("div");
+            host.className = "section";
+            host.innerHTML = "<h3>Adelphi diagnostics</h3>";
+            host.appendChild(pre);
+            document.querySelector("main.wrap")?.prepend(host);
+          }
+        }
+        /* =============================== BOOT =============================== */
+        async function boot(initial = false) {
+          try {
+            els.status.hidden = false;
+            els.status.className = "empty";
+            els.status.textContent = initial ? "Loading…" : "Refreshing…";
+            load();
+            const data = await fetchEventsJson();
 
-  if (where === 'console') {
-    console.group('[HU5] Adelphi diagnostics');
-    console.table(rows);
-    console.groupEnd();
-  } else {
-    const pre = document.createElement('pre');
-    pre.style.whiteSpace = 'pre-wrap';
-    pre.style.font = '12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
-    pre.style.padding = '12px';
-    pre.style.border = '1px solid var(--border)';
-    pre.style.borderRadius = '12px';
-    pre.style.background = 'var(--card)';
-    pre.textContent = JSON.stringify(rows, null, 2);
-    const host = document.createElement('div');
-    host.className = 'section';
-    host.innerHTML = '<h3>Adelphi diagnostics</h3>';
-    host.appendChild(pre);
-    document.querySelector('main.wrap')?.prepend(host);
-  }
-}
-  /* =============================== BOOT =============================== */
-  async function boot(initial=false){
-    try{
-      els.status.hidden=false; els.status.className='empty'; els.status.textContent = initial?'Loading…':'Refreshing…';
-      load();
-      const data = await fetchEventsJson();
+            // IMPORTANT: compute effective start BEFORE apply()
+            state.all = (Array.isArray(data) ? data : []).map((ev) => {
+              // (existing title sanitise)
+              try {
+                const div = document.createElement("div");
+                div.innerHTML = ev.title || "";
+                ev.title = div.textContent || div.innerText || ev.title || "";
+              } catch {}
 
-      // IMPORTANT: compute effective start BEFORE apply()
-state.all = (Array.isArray(data) ? data : []).map(ev => {
-  try {
-    const div = document.createElement('div');
-    div.innerHTML = ev.title || '';
-    ev.title = div.textContent || div.innerText || ev.title || '';
-  } catch {}
+              // (existing effective start calc)
+              let eff = computeEffectiveStart(ev);
 
-  let eff = computeEffectiveStart(ev);
+              // (existing TPR no-year logic)
+              const isTPR = /\bpeople'?s republic\b/i.test(
+                String(ev.source || "") + " " + String(ev.venue || "")
+              );
+              if (isTPR) {
+                const yearProbe = [
+                  ev.start,
+                  ev.startISO,
+                  ev.start_iso,
+                  ev.startDate,
+                  ev.start_date,
+                  ev.dateText,
+                  ev.dateOnly,
+                  ev.displayDateTime24,
+                  ev.displayDateTime,
+                ]
+                  .filter(Boolean)
+                  .join(" ");
+                const hasYear = /\b\d{4}\b/.test(yearProbe);
+                if (!hasYear) {
+                  eff = null;
+                  delete ev.displayDateTime24;
+                  delete ev.displayDateTime;
+                  if (!ev.displayTime24 && !ev.timeText && !ev.time)
+                    ev.displayTime24 = "20:00";
+                }
+              }
 
-  const isTPR = /\bpeople'?s republic\b/i.test(
-    String(ev.source || '') + ' ' + String(ev.venue || '')
-  );
-  if (isTPR) {
-    const yearProbe = [
-      ev.start, ev.startISO, ev.start_iso, ev.startDate, ev.start_date,
-      ev.dateText, ev.dateOnly, ev.displayDateTime24, ev.displayDateTime
-    ]
-      .filter(Boolean)
-      .join(' ');
-    const hasYear = /\b\d{4}\b/.test(yearProbe);
+              // ⭐ ADD: strip stray "Postponed" badges (so UI only trusts explicit flags)
+              if (Array.isArray(ev.badges)) {
+                ev.badges = ev.badges.filter(
+                  (b) => !/^(postponed)$/i.test(String(b || ""))
+                );
+              }
 
-    if (!hasYear) {
-      // No valid year → treat as undated
-      eff = null;
-      delete ev.displayDateTime24;
-      delete ev.displayDateTime;
+              return { ...ev, _startEff: eff, _hasDate: !!eff };
+            });
 
-      // Default time if not provided
-      if (!ev.displayTime24 && !ev.timeText && !ev.time) {
-        ev.displayTime24 = '20:00'; // show 8 pm in the UI
-      }
-    }
-  }
+            const byVenueUI = state.all.reduce((m, e) => {
+              const v = (e.venue || e.source || "Unknown").trim();
+              m[v] = (m[v] || 0) + 1;
+              return m;
+            }, {});
+            console.log("[ui] counts by venue:", byVenueUI);
 
-  return { ...ev, _startEff: eff, _hasDate: !!eff };
-});
-      dumpAdelphiDiagnostics('console'); 
-      populateVenueFilter();
-      apply();
-      els.status.hidden=true;
-      updateMailto();
-    }catch(e){
-      console.error(e);
-      els.status.hidden=false; els.status.className='error';
-      els.status.textContent = e.message || 'Could not load events.json — run the fetcher first.';
-    }
-  }
+            dumpAdelphiDiagnostics("console");
+            populateVenueFilter();
+            apply();
+            els.status.hidden = true;
+            updateMailto();
+            injectLD();
+          } catch (e) {
+            console.error(e);
+            els.status.hidden = false;
+            els.status.className = "error";
+            els.status.textContent =
+              e.message ||
+              "Could not load events.json — run the fetcher first.";
+          }
+        }
 
-  function populateVenueFilter(){
-    const venues = Array.from(new Set(state.all.map(venueLabel))).sort();
-    $('#venue').innerHTML = ['<option value="">All venues</option>'].concat(venues.map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(v)}</option>`)).join('');
-  }
+        function populateVenueFilter() {
+          const venues = Array.from(new Set(state.all.map(venueLabel))).sort();
+          const counts = state.all.reduce((m, e) => {
+            const v = venueLabel(e);
+            m[v] = (m[v] || 0) + 1;
+            return m;
+          }, {});
+          $("#venue").innerHTML = ['<option value="">All venues</option>']
+            .concat(
+              venues.map(
+                (v) =>
+                  `<option value="${escapeHTML(v)}">${escapeHTML(v)} (${
+                    counts[v] || 0
+                  })</option>`
+              )
+            )
+            .join("");
+        }
 
-  (async()=>{ const u=new URL(location.href); if (u.searchParams.get('admin')==='1') setAdmin(true); setAdmin(localStorage.getItem(ADMIN_KEY)==='1'); await boot(true); scheduleTick(); tickUI(); })();
-})();
-</script>
-</body>
+        (async () => {
+          const u = new URL(location.href);
+          if (u.searchParams.get("admin") === "1") setAdmin(true);
+          setAdmin(localStorage.getItem(ADMIN_KEY) === "1");
+          await boot(true);
+          scheduleTick();
+          tickUI();
+        })();
+      })();
+    </script>
+  </body>
 </html>
