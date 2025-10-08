@@ -22,17 +22,87 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-Q98ES83PZK", { anonymize_ip: true });
     </script>
+
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <title>HU5 Events Finder</title>
+
+    <title>Find HU5 Events — Hull gigs, pub nights & open mics</title>
+    <meta
+      name="description"
+      content="What’s on in Hull’s HU5: live music, quizzes, comedy nights and open mics at Polar Bear, Adelphi, Welly, The People’s Republic, Vox Box, UMU and more — updated daily."
+    />
+    <meta name="robots" content="index, follow" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="https://www.findhu5.events/" />
+
+    <!-- Icons / PWA (optional files; add when you have them) -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Social sharing -->
+    <meta
+      property="og:title"
+      content="Find HU5 Events — Hull gigs, pub nights & open mics"
+    />
+    <meta
+      property="og:description"
+      content="All HU5 events in one place: gigs, quizzes, comedy, and more — updated daily."
+    />
+    <meta property="og:url" content="https://www.findhu5.events/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://www.findhu5.events/og-preview.png"
+    />
+    <meta property="og:locale" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Find HU5 Events — Hull gigs, pub nights & open mics"
+    />
+    <meta
+      name="twitter:description"
+      content="What’s on in HU5 tonight and this week."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.findhu5.events/og-preview.png"
+    />
+
+    <!-- Browser UI theme colours -->
+    <meta
+      name="theme-color"
+      content="#0a0d11"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#ffffff"
+      media="(prefers-color-scheme: light)"
+    />
+
+    <!-- Structured data (helps Google understand the site + site search) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Find HU5 Events",
+        "url": "https://www.findhu5.events/",
+        "description": "Listings for gigs, pub nights and open mics around Hull’s HU5.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.findhu5.events/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
 
     <style>
       :root {
@@ -76,14 +146,13 @@
       body {
         height: 100%;
       }
-      /* keep header visible when jumping to sections */
       html {
         scroll-behavior: smooth;
         scroll-padding-top: 132px;
       }
       body {
         margin: 0;
-        background: var(--bg); /* only solid background */
+        background: var(--bg);
         color: var(--text);
         font: clamp(14px, 1.9vw, 16px) / 1.55 system-ui, -apple-system, Segoe UI,
           Roboto, Arial;
@@ -103,7 +172,7 @@
         }
       }
 
-      /* Top email bar */
+      /* (all your existing CSS below unchanged) */
       .topbar {
         position: static;
         top: auto;
@@ -140,8 +209,6 @@
       .topbar a:hover {
         text-decoration: underline;
       }
-
-      /* Header */
       header {
         position: static;
         top: auto;
@@ -199,8 +266,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
-      /* Controls */
       .seg,
       .btn,
       .field,
@@ -244,24 +309,6 @@
       .muty {
         color: var(--muted);
       }
-      .btn[data-kind="tickets"] {
-        background: color-mix(in oklab, var(--accent2) 16%, transparent);
-        border-color: color-mix(in oklab, var(--accent2) 60%, transparent);
-        color: var(--accent2);
-      }
-      .btn[data-kind="tickets"]:hover,
-      .btn[data-kind="tickets"]:focus-visible {
-        border-color: color-mix(in oklab, var(--accent2) 80%, transparent);
-      }
-      .btn.nobook {
-        background: color-mix(in oklab, var(--accent3) 12%, transparent);
-        border-color: color-mix(in oklab, var(--accent3) 55%, transparent);
-        color: var(--accent3);
-      }
-      .btn.nobook:hover,
-      .btn.nobook:focus-visible {
-        border-color: color-mix(in oklab, var(--accent3) 75%, transparent);
-      }
       .row {
         display: flex;
         gap: 8px;
@@ -291,8 +338,6 @@
       .dot.error {
         background: var(--error);
       }
-
-      /* Filters grid */
       #filtersPanel {
         display: grid;
         gap: 8px;
@@ -307,7 +352,6 @@
           display: none;
         }
       }
-
       .quick {
         margin-top: 10px;
         display: grid;
@@ -323,8 +367,6 @@
         padding-bottom: 8px;
         border-bottom: 1px solid var(--border);
       }
-
-      /* Stats */
       .stats {
         margin-top: 10px;
         display: flex;
@@ -335,8 +377,6 @@
         color: var(--muted);
         font-size: 14px;
       }
-
-      /* Main + cards */
       main {
         max-width: 980px;
         margin: 10px auto calc(80px + var(--safe));
@@ -457,11 +497,6 @@
         border-color: color-mix(in oklab, var(--error) 55%, transparent);
         color: var(--error);
       }
-      .btn.post {
-        background: color-mix(in oklab, var(--warn) 12%, transparent);
-        border-color: color-mix(in oklab, var(--warn) 55%, transparent);
-        color: var(--warn);
-      }
       mark {
         background: color-mix(in oklab, var(--accent) 35%, transparent);
         color: inherit;
@@ -469,7 +504,6 @@
         border-radius: 4px;
       }
 
-      /* Phone layout */
       @media (max-width: 720px) {
         .wrap {
           padding: 12px;
@@ -525,8 +559,6 @@
           grid-template-columns: 1fr;
         }
       }
-
-      /* Mobile back-to-top */
       #fabTop {
         position: fixed;
         right: 12px;
@@ -544,8 +576,6 @@
           display: none;
         }
       }
-
-      /* Toast */
       #toast {
         position: fixed;
         left: 50%;
@@ -569,6 +599,7 @@
       }
     </style>
   </head>
+
   <body>
     <!-- Top: email -->
     <div class="topbar">

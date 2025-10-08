@@ -1,0 +1,9 @@
+# Allow search engines to crawl everything
+User-agent: *
+Allow: /
+
+# Point crawlers to your sitemap
+Sitemap: https://www.findhu5.events/sitemap.xml
+
+# Crawl-delay helps avoid overload (optional)
+Crawl-delay: 10
