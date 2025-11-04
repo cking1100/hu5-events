@@ -1249,99 +1249,66 @@ async function scrapePolarBear() {
 /* -------- THE NEW ADELPHI CLUB ----------------------------------- */
 // Source list: https://www.theadelphi.com/events/
 async function scrapeAdelphi() {
-  log("[adelphi] list");
   const base = "https://www.theadelphi.com";
   const listURL = `${base}/events/`;
   const baseHost = new URL(base).hostname;
+  const DEFAULT_HHMM = "20:00";
+  const BATCH = 5;
+  const results = [];
+  let pastSkipCount = 0;
+  const PAST_SKIP_LIMIT = 10;
 
+  log("[adelphi] starting scrape...");
+
+  // Step 1: Fetch event list
   let html;
   try {
     const res = await fetch(listURL, {
       headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
     });
     html = await res.text();
-  } catch (e) {
-    log("[adelphi] list fetch failed:", e.message);
+  } catch (err) {
+    log("[adelphi] ❌ failed to fetch event list:", err.message);
     return [];
   }
 
   const $ = cheerio.load(html);
 
-  // Collect candidate links
-  const rawLinks = $("a[href]")
+  // Step 2: Extract candidate event URLs
+  const eventLinks = $("a[href]")
     .map((_, a) => $(a).attr("href"))
-    .get();
-  const eventLinks = unique(
-    rawLinks
-      .map((h) => safeNewURL(h, base))
-      .filter(Boolean)
-      .filter((u) => {
-        try {
-          const uu = new URL(u);
-          if (uu.hostname !== baseHost) return false;
-          if (/^mailto:|^tel:/i.test(u)) return false;
-          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(uu.pathname))
-            return false;
-          if (/eventDisplay=past/i.test(uu.search)) return false;
-          return (
-            /^\/event\/[^/]+\/?$/i.test(uu.pathname) ||
-            /^\/events\/[^/]+\/?$/i.test(uu.pathname) ||
-            /^\/events\/[^/]+\/[^/]+\/?$/i.test(uu.pathname)
-          );
-        } catch {
-          return false;
-        }
-      })
-      .map((u) => {
-        const x = new URL(u);
-        x.hash = "";
-        return x.toString();
-      })
-  );
-  log(`[adelphi] candidate links: ${eventLinks.length}`);
+    .get()
+    .map((href) => safeNewURL(href, base))
+    .filter(Boolean)
+    .filter((u) => {
+      try {
+        const { hostname, pathname, search } = new URL(u);
+        if (hostname !== baseHost) return false;
+        if (/^mailto:|^tel:/i.test(u)) return false;
+        if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(pathname)) return false;
+        if (/eventDisplay=past/i.test(search)) return false;
+        return /^\/event\/[^/]+\/?$|^\/events\/[^/]+\/?$/i.test(pathname);
+      } catch {
+        return false;
+      }
+    });
 
-  // De-dupe by path
-  const seen = new Set();
-  const deduped = [];
-  for (const u of eventLinks) {
-    const p = new URL(u).pathname.replace(/\/+$/, "");
-    if (!seen.has(p)) {
-      seen.add(p);
-      deduped.push(u);
-    }
-  }
+  const urls = eventLinks.length ? eventLinks : [listURL];
 
-  const results = [];
-  const BATCH = 6;
+  log(`[adelphi] scraping ${urls.length} page(s)...`);
 
-  function pickTime(text = "") {
-    const t =
-      text.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0] ||
-      text.match(/\b\d{1,2}\s*(am|pm)\b/i)?.[0] ||
-      text.match(/\b\d{1,2}[:.]\d{2}\b/)?.[0] ||
-      text.match(
-        /\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i
-      )?.[1] ||
-      "";
-    return cleanTimeCandidate(normalizeWhitespace(t));
-  }
-
-  for (let i = 0; i < deduped.length; i += BATCH) {
-    const batch = deduped.slice(i, i + BATCH);
-
+  for (let i = 0; i < urls.length; i += BATCH) {
+    const batch = urls.slice(i, i + BATCH);
     const settled = await Promise.allSettled(
       batch.map(async (url) => {
         try {
-          const r2 = await fetch(url, {
+          const res = await fetch(url, {
             headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
           });
-          const html2 = await r2.text();
-          const $$ = cheerio.load(html2);
-
-          // JSON-LD first
+          const html = await res.text();
+          const $$ = cheerio.load(html);
           const fromLD = extractEventFromJSONLD($$, url) || {};
 
-          // Title
           const title =
             fromLD.title ||
             $$("h1, .entry-title, .tribe-events-single-event-title")
@@ -1350,134 +1317,140 @@ async function scrapeAdelphi() {
               .trim() ||
             $$("title").text().trim();
 
-          // Nearby + big text
-          const $h1 = $$(
-            "h1, .entry-title, .tribe-events-single-event-title"
-          ).first();
+          const $h1 = $$("h1, .entry-title").first();
           const near = normalizeWhitespace(
-            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text()
+            $h1.text() + " " + $h1.nextAll().slice(0, 6).text()
           );
           const big = normalizeWhitespace(
             $$(
-              "main, article, .tribe-events-single, .entry-content, .content, body"
-            )
-              .first()
-              .text()
+              "main, article, .entry-content, .tribe-events-single, body"
+            ).text()
           );
 
-          // Labeled date/time blocks
-          const labeledDate =
-            $$("*:contains('Date')").next().first().text().trim() ||
-            $$("*:contains('Start Date')").next().first().text().trim() ||
-            "";
-          const labeledTime =
-            $$("*:contains('Time')").next().first().text().trim() ||
-            $$("*:contains('Start Time')").next().first().text().trim() ||
-            "";
-
-          // Date + time candidates
-          const dateTextRaw =
-            near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+          // --- Date ---
+          let dateText =
             near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-            labeledDate ||
-            big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
             big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
             "";
-          const dateText = dateTextRaw
-            ? normalizeWhitespace(stripOrdinals(dateTextRaw).replace(/,/g, " "))
-            : "";
 
-          const timeTextRaw =
-            labeledTime || pickTime(near) || pickTime(big) || "";
-          const timeText = normalizeWhitespace(timeTextRaw);
-          const t24 = to24h(timeText || "") || null;
-
-          // CTA/Buttons — catch things like: <a class="action-btn buy">Postponed</a>
-          const ctaEls = $$(
-            "a.action-btn, a[class*='buy'], a.button, a.btn, button, .tickets a"
-          );
-          const ctaBits = [];
-          ctaEls.each((_, el) => {
-            const $el = $$(el);
-            const txt = normalizeWhitespace($el.text());
-            const titleAttr = normalizeWhitespace($el.attr("title") || "");
-            const aria = normalizeWhitespace($el.attr("aria-label") || "");
-            const dataStatus = normalizeWhitespace(
-              $el.attr("data-status") || ""
+          if (dateText) {
+            dateText = normalizeWhitespace(
+              stripOrdinals(dateText).replace(/,/g, " ")
             );
-            if (txt) ctaBits.push(txt);
-            if (titleAttr) ctaBits.push(titleAttr);
-            if (aria) ctaBits.push(aria);
-            if (dataStatus) ctaBits.push(dataStatus);
-          });
-          const ctaBlob = ctaBits.join(" ");
-
-          // Build combined page text (so detectors can see it)
-          const labeled = [
-            $$("*:contains('Date')").next().first().text().trim(),
-            $$("*:contains('Start Date')").next().first().text().trim(),
-            $$("*:contains('Time')").next().first().text().trim(),
-            $$("*:contains('Start Time')").next().first().text().trim(),
-          ]
-            .filter(Boolean)
-            .join(" ");
-          const pageText = [near, big, labeled, title, ctaBlob].join(" ");
-
-          // Sold-out / free detection
-          const soldOut =
-            isSoldOut(pageText) || offersIndicateSoldOut(fromLD.offers);
-          const freeEntry = isFreeEntry([title, near, big].join(" "));
-
-          // Start ISO
-          let startISO =
-            fromLD.startISO ||
-            parseDMYWithTime(dateText, timeText) ||
-            tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`)) ||
-            null;
-
-          // Respect ?occurrence / ?eventDate
-          const occurrence = (url.match(
-            /[?&](occurrence|eventDate)=(\d{4}-\d{2}-\d{2})/
-          ) || [])[2];
-          if (occurrence) {
-            const hhmm = t24 || "20:00";
-            const forced = dayjs.tz(
-              `${occurrence} ${hhmm}`,
-              "YYYY-MM-DD HH:mm",
-              TZ
-            );
-            const iso = toISO(forced);
-            if (iso) startISO = iso;
+          } else {
+            const fallbackDate = tryParseDateFromText(near + " " + big);
+            if (fallbackDate) {
+              const d = dayjs(fallbackDate);
+              if (d.isValid()) dateText = d.format("D MMM YYYY");
+            }
           }
 
-          // Past filter
+          // --- Time ---
+          let timeText = "";
+          let timeUndefined = false;
+          let timeEstimated = false;
+
+          const doorsMatch =
+            big.match(
+              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+            ) ||
+            near.match(
+              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+            );
+
+          const startMatch =
+            big.match(
+              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+            ) ||
+            near.match(
+              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+            );
+
+          if (doorsMatch) {
+            timeText = cleanTimeCandidate(doorsMatch[1]);
+          } else if (startMatch) {
+            timeText = cleanTimeCandidate(startMatch[2]);
+          } else {
+            timeUndefined = true;
+          }
+
+          const t24 = to24h(timeText);
+
+          // --- Build start time ---
+          let startISO = null;
+          try {
+            if (fromLD.startISO) {
+              startISO = toISO(fromLD.startISO);
+            } else if (dateText && t24) {
+              const d = dayjs.tz(
+                `${dateText} ${t24}`,
+                "D MMM YYYY HH:mm",
+                TZ,
+                true
+              );
+              if (d.isValid()) startISO = toISO(d);
+            } else if (dateText) {
+              const d = dayjs.tz(dateText, "D MMM YYYY", TZ, true);
+              if (d.isValid()) startISO = toISO(d);
+            }
+          } catch (err) {
+            log(`[adelphi] ❌ invalid date for "${title}": ${err.message}`);
+            return null;
+          }
+
+          if (!startISO && dateText) {
+            const fallbackDate = tryParseDateFromText(dateText);
+            if (fallbackDate) startISO = toISO(fallbackDate);
+          }
+
+          // --- Past event filter ---
           if (startISO) {
             const d = dayjs(startISO);
-            if (d.isValid() && d.isBefore(CUTOFF)) return null;
+            if (d.isValid() && d.isBefore(CUTOFF)) {
+              if (
+                CUTOFF.diff(d, "year") < 2 &&
+                pastSkipCount < PAST_SKIP_LIMIT
+              ) {
+                log(`[adelphi] ⏩ skipping past: ${title} → ${startISO}`);
+              }
+              pastSkipCount++;
+              return null;
+            }
           }
 
-          // Address
-          const address =
-            fromLD.address || big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] || "";
+          if (!dateText) {
+            log(`[adelphi] ⚠️ missing date for "${title}"`);
+          }
+          if (timeUndefined) {
+            log(`[adelphi] ⚠️ no explicit time for "${title}"`);
+          }
 
-          // Ticket links to external vendors (keep as you had it)
+          const address =
+            fromLD.address ||
+            big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] ||
+            "The New Adelphi Club, Hull";
+
           const tickets = $$("a[href]")
             .filter((_, a) =>
-              /(seetickets|wegottickets|gigantic|eventbrite|ticketsource|ticketweb|eventim|fatsoma|hullboxoffice)/i.test(
+              /(seetickets|gigantic|eventbrite|wegottickets|ticketsource|eventim)/i.test(
                 $$(a).attr("href") || ""
               )
             )
             .map((_, a) => {
-              const href = $$(a).attr("href") || "";
+              const href = $$(a).attr("href");
               const u = safeNewURL(href, url);
               return u
                 ? { label: $$(a).text().trim() || "Tickets", url: u }
                 : null;
             })
-            .get()
-            .filter(Boolean);
+            .get();
 
-          // Build canonical event
+          const text = [title, near, big].join(" ");
+          const soldOut =
+            isSoldOut(text) || offersIndicateSoldOut(fromLD.offers || []);
+          const freeEntry = isFreeEntry(text);
+
           const ev = buildEvent({
             source: "The Adelphi Club",
             venue: "The New Adelphi Club",
@@ -1486,70 +1459,34 @@ async function scrapeAdelphi() {
             dateText,
             timeText,
             startISO,
-            endISO: fromLD.endISO || null,
+            endISO: toISO(fromLD.endISO) || null,
             address,
             tickets,
             soldOut,
             freeEntry,
           });
 
-          // Feed more text to the detector + UI
-          ev.description = pageText;
-          ev.meta = (ev.meta ? `${ev.meta} ` : "") + pageText;
-          ev.badges = Array.isArray(ev.badges) ? ev.badges : [];
-
-          // ✨ Explicit postponed detection from CTA/button text/attrs
-          const postponedRe =
-            /\b(postponed|re-?scheduled|date\s+changed|moved\s+to)\b/i;
-          const isPostponedCTA =
-            postponedRe.test(ctaBlob) ||
-            postponedRe.test(pageText) ||
-            isPostponed(ev);
-
-          if (isPostponedCTA) {
-            ev.postponed = true;
-
-            // Status precedence: postponed beats soldOut/freeEntry
-            ev.soldOut = false;
-            ev.freeEntry = false;
-
-            // Remove any existing "free" badge
-            if (Array.isArray(ev.badges)) {
-              ev.badges = ev.badges.filter(
-                (b) => !/^\s*free\b/i.test(String(b))
-              );
-            } else {
-              ev.badges = [];
-            }
-
-            // Put "Postponed" first so the UI shows it prominently
-            if (!ev.badges.some((b) => /postponed/i.test(b))) {
-              ev.badges.unshift("Postponed");
-            }
-          }
-
-          if (!ev.displayTime24 && t24) ev.displayTime24 = t24;
-
-          // Final past guard
-          if (ev.start) {
-            const d = dayjs(ev.start);
-            if (d.isValid() && d.isBefore(CUTOFF)) return null;
-          }
+          ev.timeUndefined = timeUndefined;
+          ev.timeEstimated = timeEstimated;
 
           return ev;
-        } catch (e) {
-          log("Adelphi event error:", e?.stack || e?.message, url);
+        } catch (err) {
+          log(`[adelphi] ❌ error: ${err.message}`);
           return null;
         }
       })
     );
 
-    for (const r of settled)
+    for (const r of settled) {
       if (r.status === "fulfilled" && r.value) results.push(r.value);
+    }
+
     await sleep(60);
   }
 
-  log(`[adelphi] done, events: ${results.length}`);
+  log(
+    `[adelphi] ✅ done. Events: ${results.length}, Skipped past: ${pastSkipCount}`
+  );
   return results;
 }
 
@@ -3240,7 +3177,8 @@ async function main() {
     tasks.push(
       scrapeCsvVenue({
         name: "Mr Moody's Tavern",
-        csvUrl: SHEETS_URL,
+        csvUrl:
+          "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv",
         address: "6 Newland Ave, Hull HU5 3AF",
         tz: TZ,
       }),
@@ -3256,6 +3194,13 @@ async function main() {
         csvUrl:
           "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0-Kc66mqUugdCaxTW9IPMSrMuRhbiWkkIRvlOY1s1hWMSDdi1FM9C7vrDvENgb6L6jCM_Ji3UUqL0/pub?output=csv",
         address: "22-24 Princes Ave, Hull HU5 3QA",
+        tz: TZ,
+      }),
+      scrapeCsvVenue({
+        name: "Newland Tap",
+        csvUrl:
+          "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
+        address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
         tz: TZ,
       })
     );

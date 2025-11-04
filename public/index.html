@@ -598,6 +598,7 @@
         transform: translateX(-50%) translateY(0) scale(1);
       }
     </style>
+    <script id="events-ld" type="application/ld+json"></script>
   </head>
 
   <body>
@@ -852,6 +853,61 @@
             0
           );
         };
+
+        function toLocalISO(d) {
+          if (!(d instanceof Date) || isNaN(+d)) return null;
+          const pad = (n) => String(n).padStart(2, "0");
+          const tz = -d.getTimezoneOffset(); // minutes
+          const sign = tz >= 0 ? "+" : "-";
+          const hh = pad(Math.floor(Math.abs(tz) / 60));
+          const mm = pad(Math.abs(tz) % 60);
+          return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
+            d.getDate()
+          )}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(
+            d.getSeconds()
+          )}${sign}${hh}:${mm}`;
+        }
+
+        function buildICS(ev) {
+          const start = ev._startEff || parseMaybe(ev.start);
+          if (!start) return null;
+          const end = ev.end
+            ? parseMaybe(ev.end)
+            : new Date(start.getTime() + 2 * 60 * 60 * 1000);
+
+          const dt = (d) => {
+            const p = (n) => String(n).padStart(2, "0");
+            return `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(
+              d.getUTCDate()
+            )}T${p(d.getUTCHours())}${p(d.getUTCMinutes())}${p(
+              d.getUTCSeconds()
+            )}Z`;
+          };
+
+          const lines = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//Find HU5 Events//EN",
+            "BEGIN:VEVENT",
+            `UID:${ev._id}@findhu5.events`,
+            `DTSTAMP:${dt(new Date())}`,
+            `DTSTART:${dt(start)}`,
+            end ? `DTEND:${dt(end)}` : null,
+            `SUMMARY:${(ev.title || "Event").replace(/\r?\n/g, " ")}`,
+            ev.venue
+              ? `LOCATION:${(
+                  ev.venue + (ev.address ? ", " + ev.address : "")
+                ).replace(/\r?\n/g, " ")}`
+              : null,
+            isMeaningfulLink(ev.url) ? `URL:${ev.url}` : null,
+            "END:VEVENT",
+            "END:VCALENDAR",
+          ]
+            .filter(Boolean)
+            .join("\r\n");
+
+          return new Blob([lines], { type: "text/calendar" });
+        }
 
         function isMeaningfulLink(url) {
           if (!url) return false;
@@ -1556,38 +1612,85 @@
           try {
             const items = state.view
               .filter((e) => e._hasDate)
-              .slice(0, 50)
-              .map((ev) => ({
-                "@context": "https://schema.org",
-                "@type": "Event",
-                name: ev.title || "Event",
-                startDate: ev._startEff?.toISOString(),
-                eventAttendanceMode:
-                  "https://schema.org/OfflineEventAttendanceMode",
-                eventStatus: isPostponed(ev)
-                  ? "https://schema.org/EventPostponed"
-                  : "https://schema.org/EventScheduled",
-                location: {
-                  "@type": "Place",
-                  name: ev.venue || venueLabel(ev),
-                  address: ev.address || "HU5, Hull, UK",
-                },
-                image: ev.image || undefined,
-                url: isMeaningfulLink(ev.url) ? ev.url : location.href,
-                offers: isFreeEvent(ev)
-                  ? {
-                      "@type": "Offer",
-                      price: "0",
-                      priceCurrency: "GBP",
-                      availability: "https://schema.org/InStock",
-                    }
-                  : undefined,
-              }));
+              .slice(0, 100)
+              .map((ev) => {
+                // Choose the best open/ticket URL
+                const ticketObj = Array.isArray(ev.tickets)
+                  ? ev.tickets.find((t) => t && (t.url || t.link))
+                  : null;
+                const ticketUrl =
+                  ticketObj?.url ||
+                  ticketObj?.link ||
+                  ev.ticketUrl ||
+                  ev.ticketsUrl ||
+                  ev.linkTickets ||
+                  null;
+
+                const openHref = toListingsUrl(ev.url || "", ev.source);
+
+                const ld = {
+                  "@context": "https://schema.org",
+                  "@type": "Event",
+                  name: ev.title || "Event",
+                  startDate: ev._startEff?.toISOString(),
+                  eventAttendanceMode:
+                    "https://schema.org/OfflineEventAttendanceMode",
+                  eventStatus: isPostponed(ev)
+                    ? "https://schema.org/EventPostponed"
+                    : "https://schema.org/EventScheduled",
+                  location: {
+                    "@type": "Place",
+                    name: ev.venue || venueLabel(ev),
+                    address: ev.address || "HU5, Hull, UK",
+                  },
+                  image: ev.image || undefined,
+                  url: isMeaningfulLink(openHref) ? openHref : location.href,
+                  organizer:
+                    ev.venue || venueLabel(ev)
+                      ? {
+                          "@type": "Organization",
+                          name: ev.venue || venueLabel(ev),
+                        }
+                      : undefined,
+                };
+
+                if (ev.artist) {
+                  ld.performer = [
+                    { "@type": "PerformingGroup", name: ev.artist },
+                  ];
+                }
+
+                // Offers (free or with ticket URL)
+                if (isFreeEvent(ev)) {
+                  ld.offers = {
+                    "@type": "Offer",
+                    price: "0",
+                    priceCurrency: "GBP",
+                    availability: "https://schema.org/InStock",
+                    url: isMeaningfulLink(openHref) ? openHref : undefined,
+                  };
+                } else if (isMeaningfulLink(ticketUrl)) {
+                  ld.offers = {
+                    "@type": "Offer",
+                    url: ticketUrl,
+                    availability: isSoldOut(ev)
+                      ? "https://schema.org/SoldOut"
+                      : "https://schema.org/InStock",
+                  };
+                  // Add price if you have it
+                  const p = ev.price || ev.priceText || ev.admission || ev.cost;
+                  if (p && /(\d+(?:\.\d{2})?)/.test(String(p))) {
+                    ld.offers.price = RegExp.$1;
+                    ld.offers.priceCurrency = "GBP";
+                  }
+                }
+
+                return ld;
+              });
+
             const el = document.getElementById("events-ld");
             if (el) el.textContent = JSON.stringify(items);
-          } catch (e) {
-            /* no-op */
-          }
+          } catch {}
         }
 
         function render() {
@@ -1806,8 +1909,17 @@
                     }
                   }
 
+                  let timeHTML = "";
+                  const dISO = ev._startEff ? toLocalISO(ev._startEff) : null;
+                  if (time24) {
+                    timeHTML = dISO
+                      ? `<time datetime="${escapeHTML(dISO)}">${escapeHTML(
+                          time24
+                        )}</time>`
+                      : escapeHTML(time24);
+                  }
                   const meta = [
-                    time24,
+                    timeHTML,
                     ev.venue && highlight(ev.venue, q),
                     ev.address && highlight(ev.address, q),
                   ]
@@ -1924,6 +2036,55 @@
             .join("");
 
           els.list.innerHTML = sections;
+
+          if (!document.__hu5Delegated) {
+            document.__hu5Delegated = true;
+
+            document.addEventListener("click", (e) => {
+              const a = e.target.closest("[data-kind]");
+              if (!a) return;
+
+              const kind = a.getAttribute("data-kind");
+              const eid = a.getAttribute("data-eid");
+              const ev =
+                state.view.find((x) => x._id === eid) ||
+                state.all.find((x) => x._id === eid);
+
+              if (kind === "ics") {
+                e.preventDefault();
+                if (!ev) return;
+                const blob = buildICS(ev);
+                if (!blob) return;
+                const url = URL.createObjectURL(blob);
+                const name =
+                  (ev.title ? ev.title.replace(/[^\w\-]+/g, "_") : "event") +
+                  ".ics";
+                const tmp = document.createElement("a");
+                tmp.href = url;
+                tmp.download = name;
+                document.body.appendChild(tmp);
+                tmp.click();
+                document.body.removeChild(tmp);
+                URL.revokeObjectURL(url);
+                track("download_ics", {
+                  venue: venueLabel(ev),
+                  title: ev.title || "(untitled)",
+                });
+                showToast("Added to calendar");
+                return;
+              }
+
+              // Track outbound clicks
+              if (kind === "tickets" || kind === "open" || kind === "google") {
+                if (ev)
+                  track(kind + "_click", {
+                    venue: venueLabel(ev),
+                    title: ev.title || "(untitled)",
+                    date: ev._startEff ? ev._startEff.toISOString() : undefined,
+                  });
+              }
+            });
+          }
 
           const dated = state.all.filter((e) => e._hasDate).length;
           const undated = state.all.length - dated;
