@@ -513,7 +513,7 @@ function extractEventFromJSONLD($$, pageUrl) {
   return null;
 }
 
-// ---- helper: infer year/time for D/M inputs without a year (top-level, not inside any function)
+// ---- helper: infer year/time for dates missing a year (numeric AND month-name) ----
 function inferYearAndTime(dateText = "", timeText = "", tz = TZ) {
   const clean = stripOrdinals(String(dateText || ""))
     .replace(/,/g, " ")
@@ -521,34 +521,75 @@ function inferYearAndTime(dateText = "", timeText = "", tz = TZ) {
   if (!clean) return { dateText, timeText };
 
   // already has a year?
-  const hasYear = /\b\d{4}\b/.test(clean);
-  // D/M, D-M, D.M (no year)
-  const m = clean.match(/\b(\d{1,2})[\/\-.](\d{1,2})\b/);
-  if (hasYear || !m) return { dateText: clean, timeText };
-
-  const d = parseInt(m[1], 10);
-  const mo = parseInt(m[2], 10);
-  if (!(d >= 1 && d <= 31 && mo >= 1 && mo <= 12))
-    return { dateText: clean, timeText };
+  if (/\b\d{4}\b/.test(clean)) return { dateText: clean, timeText };
 
   const today = dayjs.tz(TZ);
-  let candidate = dayjs.tz(
-    `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
-      2,
-      "0"
-    )}`,
-    "YYYY-MM-DD",
-    tz,
-    true
+
+  // (A) numeric D/M or D-M or D.M
+  let m = clean.match(/\b(\d{1,2})[\/\-.](\d{1,2})\b/);
+  if (m) {
+    const d = parseInt(m[1], 10);
+    const mo = parseInt(m[2], 10);
+    if (d >= 1 && d <= 31 && mo >= 1 && mo <= 12) {
+      let cand = dayjs.tz(
+        `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
+          2,
+          "0"
+        )}`,
+        "YYYY-MM-DD",
+        tz,
+        true
+      );
+      if (cand.isBefore(CUTOFF)) cand = cand.add(1, "year");
+      return {
+        dateText: cand.format("D/M/YYYY"),
+        timeText: timeText?.trim() || "20:00",
+      };
+    }
+  }
+
+  // (B) month-name formats without year: "5 Nov", "Wed 5 November", etc.
+  m = clean.match(
+    /\b(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*\s+)?(\d{1,2})\s+([A-Za-z]+)\b/i
   );
-  if (!candidate.isValid()) return { dateText: clean, timeText };
+  if (m) {
+    const d = parseInt(m[1], 10);
+    const monName = m[2].toLowerCase();
+    const monIndex = [
+      "jan",
+      "feb",
+      "mar",
+      "apr",
+      "may",
+      "jun",
+      "jul",
+      "aug",
+      "sep",
+      "oct",
+      "nov",
+      "dec",
+    ].findIndex((s) => monName.startsWith(s));
+    if (d >= 1 && d <= 31 && monIndex !== -1) {
+      const mo = monIndex + 1;
+      let cand = dayjs.tz(
+        `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
+          2,
+          "0"
+        )}`,
+        "YYYY-MM-DD",
+        tz,
+        true
+      );
+      if (cand.isBefore(CUTOFF)) cand = cand.add(1, "year");
+      return {
+        dateText: cand.format("D/M/YYYY"),
+        timeText: timeText?.trim() || "20:00",
+      };
+    }
+  }
 
-  // if already before today's London cutoff, roll to next year
-  if (candidate.isBefore(CUTOFF)) candidate = candidate.add(1, "year");
-
-  const inferredDate = candidate.format("D/M/YYYY");
-  const safeTime = timeText && timeText.trim() ? timeText : "20:00";
-  return { dateText: inferredDate, timeText: safeTime };
+  // fallback: return as-is
+  return { dateText: clean, timeText };
 }
 
 /* ----------------------- Address fallbacks + resolver ---------------------- */
@@ -840,8 +881,9 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
       if (i !== -1) return i;
     }
     const want = names.map(norm);
-    for (let i = 0; i < hs.length; i++)
+    for (let i = 0; i < hs.length; i++) {
       if (want.some((w) => hs[i].includes(w))) return i;
+    }
     return -1;
   };
 
@@ -903,13 +945,15 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
   const END_HEADERS = ["end", "end_iso", "endtime", "end_time"];
 
   const tixCol = findCol(TIX_HEADERS);
-  if (tixCol === -1)
+  if (tixCol === -1) {
     log(
       `${TAG} ⚠️ tickets column not found (looked for: ${TIX_HEADERS.join(
         " | "
       )})`
     );
-  else log(`${TAG} tickets column = ${tixCol + 1}: "${headers[tixCol]}"`);
+  } else {
+    log(`${TAG} tickets column = ${tixCol + 1}: "${headers[tixCol]}"`);
+  }
 
   const out = [];
   let kept = 0,
@@ -923,7 +967,16 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
 
     const title = normalizeWhitespace(pick(r, TITLE_HEADERS));
     let url = pick(r, URL_HEADERS);
-    const dateText = stripOrdinals(pick(r, DATE_HEADERS));
+    let dateText = stripOrdinals(pick(r, DATE_HEADERS));
+
+    if (!dateText) {
+      const dayStr = pick(r, ["day"]);
+      const monthStr = pick(r, ["month"]);
+      const yearStr = pick(r, ["year", "yyyy"]);
+      const combo = [dayStr, monthStr, yearStr].filter(Boolean).join(" ");
+      if (combo) dateText = combo;
+    }
+
     const timeText = pick(r, TIME_HEADERS);
     const startRaw = pick(r, START_HEADERS);
     const endRaw = pick(r, END_HEADERS);
@@ -934,12 +987,11 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
     let ticketsRaw = readCell(r, tixCol);
     let ticketUrls = findUrls(ticketsRaw);
 
-    // after: title, url, dateText, timeText, startRaw, endRaw, tickets, etc.
     const rowText = normalizeWhitespace(
       (Array.isArray(r) ? r.join(" ") : Object.values(r).join(" ")) || ""
     );
 
-    // mark sold out if the row text says so OR if the title contains it
+    // mark sold out / free
     const soldOut = isSoldOut(`${title} ${rowText}`);
     const freeEntry = isFreeEntry(`${title} ${rowText}`);
 
@@ -947,8 +999,9 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
     if (!ticketUrls.length) {
       const whole = Array.isArray(r) ? r.join(" ") : Object.values(r).join(" ");
       ticketUrls = findUrls(whole);
-      if (ticketUrls.length)
+      if (ticketUrls.length) {
         log(`${rowTag} 🎟️ scanned row found URL(s): ${ticketUrls.join(", ")}`);
+      }
     }
 
     if (ticketUrls.length) {
@@ -966,27 +1019,29 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
       .map((u) => ({ label: "Tickets", url: safeNewURL(u, url || undefined) }))
       .filter((t) => t.url);
 
-    // 🧠 Infer year/time when the sheet omits them (e.g., "10/10")
-    const { dateText: dateWithYear, timeText: timeWithDefault } =
-      inferYearAndTime(dateText, timeText, tz);
-
-    const startISO =
-      toISO(startRaw) ||
-      parseDMYWithTime(dateWithYear, timeWithDefault) ||
-      tryParseDateFromText(`${dateWithYear} ${timeWithDefault}`) ||
-      null;
-
-    const endISO = toISO(endRaw) || null;
-
-    // Debug: see what we ended up with
-    log(
-      `${rowTag} parsed startISO=${
-        startISO || "(null)"
-      } from date='${dateWithYear}' time='${timeWithDefault}'`
-    );
-    if (!startISO) log(`${rowTag} ⚠️ still undated after inference`);
-
+    // 🛡️ Wrap *all* date logic + buildEvent in a try/catch so one bad row
+    // can’t kill the whole scraper.
     try {
+      // 🧠 Infer year/time when the sheet omits them (e.g., "10/10")
+      const { dateText: dateWithYear, timeText: timeWithDefault } =
+        inferYearAndTime(dateText, timeText, tz);
+
+      const startISO =
+        toISO(startRaw) ||
+        parseDMYWithTime(dateWithYear, timeWithDefault) ||
+        tryParseDateFromText(`${dateWithYear} ${timeWithDefault}`) ||
+        null;
+
+      const endISO = toISO(endRaw) || null;
+
+      // Debug: see what we ended up with
+      log(
+        `${rowTag} parsed startISO=${
+          startISO || "(null)"
+        } from date='${dateWithYear}' time='${timeWithDefault}'`
+      );
+      if (!startISO) log(`${rowTag} ⚠️ still undated after inference`);
+
       const ev = buildEvent({
         source: name,
         venue: name,
@@ -1023,7 +1078,8 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
       log(`${rowTag} ✅ kept | ${ev.title?.slice(0, 80) || ""}`);
     } catch (e) {
       errors++;
-      log(`${rowTag} ❌ error: ${e.message}`);
+      log(`${rowTag} ❌ row-level error: ${e.message}`);
+      continue;
     }
   }
 
@@ -2651,7 +2707,7 @@ async function scrapeUnionMashUp() {
     if (!(d >= 1 && d <= 31 && mo >= 1 && mo <= 12))
       return { dateText: clean, timeText };
 
-    const today = dayjs.tz(TZ);
+    const today = dayjs().tz(tz);
     let candidate = dayjs.tz(
       `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
         2,
@@ -3158,6 +3214,7 @@ async function main() {
     const skipDive = process.env.SKIP_DIVE === "1";
     const skipTPR = process.env.SKIP_TPR === "1";
     const skipMoodys = process.env.SKIP_MOODYS === "1";
+    const onlyNewland = process.env.ONLY_NEWLAND_TAP === "1";
 
     log("[cfg] SKIP_WELLY =", skipWelly ? "1" : "0");
     log("[cfg] SKIP_VOX   =", skipVox ? "1" : "0");
@@ -3165,47 +3222,65 @@ async function main() {
     log("[cfg] SKIP_DIVE  =", skipDive ? "1" : "0");
     log("[cfg] SKIP_TPR   =", skipTPR ? "1" : "0");
     log("[cfg] SKIP_MOODYS =", skipMoodys ? "1" : "0");
+    log("[cfg] ONLY_NEWLAND_TAP =", onlyNewland ? "1" : "0");
 
-    const tasks = [scrapePolarBear(), scrapeAdelphi()];
-    if (!skipWelly) tasks.push(scrapeWelly());
-    if (!skipVox) tasks.push(scrapeVoxBox());
-    if (!skipUMU) tasks.push(scrapeUnionMashUp());
-    if (!skipDive) tasks.push(scrapeDiveHU5());
-    if (!skipTPR) tasks.push(scrapeTPR());
+    let tasks;
 
-    // CSV-driven venues
-    tasks.push(
-      scrapeCsvVenue({
-        name: "Mr Moody's Tavern",
-        csvUrl:
-          "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv",
-        address: "6 Newland Ave, Hull HU5 3AF",
-        tz: TZ,
-      }),
-      scrapeCsvVenue({
-        name: "Commun'ull",
-        csvUrl:
-          "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSCD7I-nOLa2eid-RpWpdWpigTRSS0riXKET2IIZyq6NIWpSrKyE3n1AzBsMzNPQDgwtFnPKTgkUg9/pub?output=csv",
-        address: "178 Chanterlands Avenue, Hull HU5 3TR",
-        tz: TZ,
-      }),
-      scrapeCsvVenue({
-        name: "Hoi",
-        csvUrl:
-          "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0-Kc66mqUugdCaxTW9IPMSrMuRhbiWkkIRvlOY1s1hWMSDdi1FM9C7vrDvENgb6L6jCM_Ji3UUqL0/pub?output=csv",
-        address: "22-24 Princes Ave, Hull HU5 3QA",
-        tz: TZ,
-      }),
-      scrapeCsvVenue({
-        name: "Newland Tap",
-        csvUrl:
-          "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
-        address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
-        tz: TZ,
-      })
-    );
+    if (onlyNewland) {
+      // 🔹 Newland Tap ONLY mode
+      tasks = [
+        scrapeCsvVenue({
+          name: "Newland Tap",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
+          address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
+          tz: TZ,
+        }),
+      ];
+    } else {
+      // 🔹 Normal “all venues” mode
+      tasks = [scrapePolarBear(), scrapeAdelphi()];
+      if (!skipWelly) tasks.push(scrapeWelly());
+      if (!skipVox) tasks.push(scrapeVoxBox());
+      if (!skipUMU) tasks.push(scrapeUnionMashUp());
+      if (!skipDive) tasks.push(scrapeDiveHU5());
+      if (!skipTPR) tasks.push(scrapeTPR());
 
-    if (!skipMoodys) tasks.push(synthMrMoodysSundayLunch({ weeks: 15 }));
+      // CSV-driven venues (NOW including Newland Tap too)
+      tasks.push(
+        scrapeCsvVenue({
+          name: "Mr Moody's Tavern",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv",
+          address: "6 Newland Ave, Hull HU5 3AF",
+          tz: TZ,
+        }),
+        scrapeCsvVenue({
+          name: "Commun'ull",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSCD7I-nOLa2eid-RpWpdWpigTRSS0riXKET2IIZyq6NIWpSrKyE3n1AzBsMzNPQDgwtFnPKTgkUg9/pub?output=csv",
+          address: "178 Chanterlands Avenue, Hull HU5 3TR",
+          tz: TZ,
+        }),
+        scrapeCsvVenue({
+          name: "Hoi",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0-Kc66mqUugdCaxTW9IPMSrMuRhbiWkkIRvlOY1s1hWMSDdi1FM9C7vrDvENgb6L6jCM_Ji3UUqL0/pub?output=csv",
+          address: "22-24 Princes Ave, Hull HU5 3QA",
+          tz: TZ,
+        }),
+        // ⭐ Newland Tap also included in normal mode
+        scrapeCsvVenue({
+          name: "Newland Tap",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
+          address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
+          tz: TZ,
+        })
+      );
+
+      if (!skipMoodys) tasks.push(synthMrMoodysSundayLunch({ weeks: 15 }));
+    }
 
     const settled = await Promise.allSettled(tasks);
 
@@ -3214,6 +3289,15 @@ async function main() {
       if (r.status === "fulfilled") events.push(...(r.value || []));
       else log("[scrape] failed:", r.reason?.message || r.reason);
     }
+
+    // ⭐ Force Newland Tap events to be free entry
+    events = events.map((ev) => {
+      const blob = `${ev.venue || ""} ${ev.source || ""}`.toLowerCase();
+      if (blob.includes("newland tap")) {
+        return { ...ev, freeEntry: true };
+      }
+      return ev;
+    });
 
     // Merge duplicate Mr Moody's Sunday Lunch (CSV + synthetic)
     events = mergeMoodysSundayDuplicates(events);
@@ -3243,6 +3327,13 @@ async function main() {
       const t = Date.parse(ev.start || "");
       return Number.isNaN(t) ? true : t >= cutoffMs;
     });
+
+    log(
+      "[ui] raw venues:",
+      Array.from(new Set(events.map((e) => e.venue))).sort()
+    );
+    log("[ui] total events loaded:", events.length);
+    log("[ui] first 5 events:", events.slice(0, 5));
 
     process.stdout.write(JSON.stringify(futureEvents, null, 2));
   } catch (e) {

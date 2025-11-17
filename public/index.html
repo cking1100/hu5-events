@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="manifest" href="/site.webmanifest" />
     <!-- Google tag (gtag.js) -->
     <link
       rel="preconnect"
@@ -34,7 +35,7 @@
     <title>Find HU5 Events — Hull gigs, pub nights & open mics</title>
     <meta
       name="description"
-      content="What’s on in Hull’s HU5: live music, quizzes, comedy nights and open mics at Polar Bear, Adelphi, Welly, The People’s Republic, Vox Box, UMU and more — updated daily."
+      content="What’s on in Hull’s HU5: live music, quizzes, comedy nights and open mics at Polar Bear, Adelphi, Welly, The People’s Republic, UMU and more — updated daily."
     />
     <meta name="robots" content="index, follow" />
     <meta name="color-scheme" content="dark light" />
@@ -752,6 +753,16 @@
 
     <script>
       (() => {
+        function track(eventName, params = {}) {
+          try {
+            if (typeof gtag === "function") {
+              gtag("event", eventName, params);
+            }
+          } catch (e) {
+            // Safe fallback – don't crash the app if analytics fails
+            console.warn("track error", e);
+          }
+        }
         /* =========================== DOM SHORTCUTS =========================== */
         const $ = (s, el = document) => el.querySelector(s);
         const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
@@ -1610,14 +1621,25 @@
 
         function injectLD() {
           try {
-            const items = state.view
-              .filter((e) => e._hasDate)
+            const today0 = startOfTodayLocal();
+
+            const items = state.all
+              // only events with a computed date
+              .filter(
+                (e) =>
+                  e._hasDate &&
+                  e._startEff instanceof Date &&
+                  !isNaN(+e._startEff)
+              )
+              // only upcoming events
+              .filter((e) => +e._startEff >= +today0)
               .slice(0, 100)
               .map((ev) => {
-                // Choose the best open/ticket URL
+                // ----- URLs -----
                 const ticketObj = Array.isArray(ev.tickets)
                   ? ev.tickets.find((t) => t && (t.url || t.link))
                   : null;
+
                 const ticketUrl =
                   ticketObj?.url ||
                   ticketObj?.link ||
@@ -1628,11 +1650,57 @@
 
                 const openHref = toListingsUrl(ev.url || "", ev.source);
 
+                // ----- start / end dates -----
+                const start = ev._startEff || parseMaybe(ev.start);
+                let end = null;
+
+                if (ev.end) {
+                  end = parseMaybe(ev.end);
+                }
+                if (!end && start) {
+                  // default duration: 2h
+                  end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
+                }
+
+                // ----- description -----
+                let description =
+                  (ev.description && String(ev.description)) ||
+                  (ev.meta && String(ev.meta)) ||
+                  "";
+
+                if (!description.trim()) {
+                  const bits = [];
+                  bits.push(ev.title || "Event");
+                  const venueName = ev.venue || venueLabel(ev);
+                  if (venueName) bits.push(`at ${venueName}`);
+                  bits.push("in HU5, Hull.");
+                  description = bits.join(" ");
+                }
+
+                // ----- image(s) -----
+                const rawImage =
+                  ev.image ||
+                  ev.imageUrl ||
+                  ev.coverImage ||
+                  "https://www.findhu5.events/og-preview.png";
+                const image = Array.isArray(rawImage) ? rawImage : [rawImage];
+
+                // ----- venue / organizer -----
+                const venueName = ev.venue || venueLabel(ev) || "HU5 venue";
+
+                const organizerUrl =
+                  ev.organizerUrl ||
+                  ev.venueUrl ||
+                  (isMeaningfulLink(openHref) && !isIcsLike(openHref)
+                    ? openHref
+                    : "https://www.findhu5.events/");
+
                 const ld = {
-                  "@context": "https://schema.org",
                   "@type": "Event",
                   name: ev.title || "Event",
-                  startDate: ev._startEff?.toISOString(),
+                  description,
+                  startDate: start ? start.toISOString() : undefined,
+                  endDate: end ? end.toISOString() : undefined,
                   eventAttendanceMode:
                     "https://schema.org/OfflineEventAttendanceMode",
                   eventStatus: isPostponed(ev)
@@ -1640,27 +1708,42 @@
                     : "https://schema.org/EventScheduled",
                   location: {
                     "@type": "Place",
-                    name: ev.venue || venueLabel(ev),
-                    address: ev.address || "HU5, Hull, UK",
+                    name: venueName,
+                    address: {
+                      "@type": "PostalAddress",
+                      streetAddress: ev.address || "HU5",
+                      addressLocality: "Hull",
+                      addressRegion: "East Yorkshire",
+                      postalCode: "HU5",
+                      addressCountry: "GB",
+                    },
                   },
-                  image: ev.image || undefined,
-                  url: isMeaningfulLink(openHref) ? openHref : location.href,
-                  organizer:
-                    ev.venue || venueLabel(ev)
-                      ? {
-                          "@type": "Organization",
-                          name: ev.venue || venueLabel(ev),
-                        }
-                      : undefined,
+                  image,
+                  url: isMeaningfulLink(openHref)
+                    ? openHref
+                    : "https://www.findhu5.events/",
+                  organizer: venueName
+                    ? {
+                        "@type": "Organization",
+                        name: venueName,
+                        url: organizerUrl,
+                      }
+                    : undefined,
                 };
 
-                if (ev.artist) {
+                // ----- performer -----
+                const performerName =
+                  ev.artist || ev.performer || ev.headline || ev.title;
+                if (performerName) {
                   ld.performer = [
-                    { "@type": "PerformingGroup", name: ev.artist },
+                    {
+                      "@type": "PerformingGroup",
+                      name: performerName,
+                    },
                   ];
                 }
 
-                // Offers (free or with ticket URL)
+                // ----- offers (free / tickets) -----
                 if (isFreeEvent(ev)) {
                   ld.offers = {
                     "@type": "Offer",
@@ -1677,7 +1760,7 @@
                       ? "https://schema.org/SoldOut"
                       : "https://schema.org/InStock",
                   };
-                  // Add price if you have it
+
                   const p = ev.price || ev.priceText || ev.admission || ev.cost;
                   if (p && /(\d+(?:\.\d{2})?)/.test(String(p))) {
                     ld.offers.price = RegExp.$1;
@@ -1689,8 +1772,17 @@
               });
 
             const el = document.getElementById("events-ld");
-            if (el) el.textContent = JSON.stringify(items);
-          } catch {}
+            if (!el) return;
+
+            const payload = {
+              "@context": "https://schema.org",
+              "@graph": items,
+            };
+
+            el.textContent = JSON.stringify(payload);
+          } catch (err) {
+            console.warn("injectLD failed", err);
+          }
         }
 
         function render() {
@@ -1878,6 +1970,7 @@
                   const openHref = toListingsUrl(ev.url || "", ev.source);
                   const gHref = googleHref(ev);
                   const isIcs = isIcsLike(ev.url || "");
+                  const eid = escapeHTML(ev._id || "");
 
                   let time24 = "";
                   const mined = pickTimeText(ev);
@@ -1956,21 +2049,42 @@
 
                   let actions = "";
                   if (sold) {
-                    actions += `<span class="btn sold" title="Sold out">Sold out</span>`;
+                    actions += `<button class="btn sold" type="button" disabled aria-disabled="true">
+    Sold out
+  </button>`;
                   } else if (noBookings) {
-                    actions += `<span class="btn nobook" title="No Bookings">No Bookings</span>`;
+                    actions += `<button class="btn nobook" type="button" disabled aria-disabled="true">
+    No Bookings
+  </button>`;
                   } else if (postponed) {
-                    actions += `<span class="btn post" title="Postponed">Postponed</span>`;
+                    actions += `<button class="btn post" type="button" disabled aria-disabled="true">
+    Postponed
+  </button>`;
                   } else if (showTicket) {
-                    actions += isFreeEvent(ev)
-                      ? `<a class="btn free" href="${escapeHTML(
-                          ticketUrl
-                        )}" target="_blank" rel="noopener noreferrer" title="Free Entry">Free Entry</a>`
-                      : `<a class="btn" data-kind="tickets" href="${escapeHTML(
-                          ticketUrl
-                        )}" target="_blank" rel="noopener noreferrer">Tickets</a>`;
+                    if (isFreeEvent(ev)) {
+                      actions += `<a class="btn free"
+      data-kind="tickets"
+      data-eid="${eid}"
+      href="${escapeHTML(ticketUrl)}"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Free Entry">
+      Free Entry
+    </a>`;
+                    } else {
+                      actions += `<a class="btn"
+      data-kind="tickets"
+      data-eid="${eid}"
+      href="${escapeHTML(ticketUrl)}"
+      target="_blank"
+      rel="noopener noreferrer">
+      Tickets
+    </a>`;
+                    }
                   } else if (isFreeEvent(ev)) {
-                    actions += `<span class="btn free" title="Free entry">Free entry</span>`;
+                    actions += `<button class="btn free" type="button" disabled aria-disabled="true">
+    Free entry
+  </button>`;
                   }
 
                   const d = ev._startEff || null;
@@ -2005,26 +2119,33 @@
               }</div>
               <div class="source">Source: ${src}</div>
             </div>
-            <div class="card-actions">
-              ${actions}
-              ${
-                gHref
-                  ? `<a class="btn" href="${escapeHTML(
-                      gHref
-                    )}" target="_blank" rel="noopener noreferrer">Add to Google</a>`
-                  : ""
-              }
-              ${
-                showOpen
-                  ? `<a class="btn" href="${escapeHTML(
-                      openHref
-                    )}" target="_blank" rel="noopener noreferrer">${
-                      isIcs ? "Open listings" : "Open"
-                    }</a>`
-                  : ""
-              }
+<div class="card-actions">
+  ${actions}
 
-            </div>
+  ${
+    gHref
+      ? `<a class="btn"
+            data-kind="google"
+            data-eid="${eid}"
+            href="${escapeHTML(gHref)}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >Add to Google</a>`
+      : ""
+  }
+
+  ${
+    showOpen
+      ? `<a class="btn"
+            data-kind="open"
+            data-eid="${eid}"
+            href="${escapeHTML(openHref)}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >${isIcs ? "Open listings" : "Open"}</a>`
+      : ""
+  }
+</div>
           </article>`;
                 })
                 .join("");
@@ -2396,6 +2517,26 @@
           }
         });
 
+        els.copyStats?.addEventListener("click", async () => {
+          const payload = {
+            stats: state.stats,
+            lastUpdated: state.lastUpdated?.toISOString() || null,
+          };
+          const json = JSON.stringify(payload, null, 2);
+
+          try {
+            await navigator.clipboard.writeText(json);
+            showToast("Stats copied");
+          } catch {
+            // Fallback if clipboard fails
+            prompt("Copy stats JSON:", json);
+          }
+        });
+
+        els.closeAdmin?.addEventListener("click", () => {
+          setAdmin(false);
+        });
+
         window.addEventListener("keydown", (e) => {
           const tag = (e.target && (e.target.tagName || "")).toLowerCase();
           const isTyping =
@@ -2571,7 +2712,7 @@
             const data = await fetchEventsJson();
 
             // IMPORTANT: compute effective start BEFORE apply()
-            state.all = (Array.isArray(data) ? data : []).map((ev) => {
+            state.all = (Array.isArray(data) ? data : []).map((ev, idx) => {
               // (existing title sanitise)
               try {
                 const div = document.createElement("div");
@@ -2610,11 +2751,14 @@
                 }
               }
 
-              // ⭐ ADD: strip stray "Postponed" badges (so UI only trusts explicit flags)
               if (Array.isArray(ev.badges)) {
                 ev.badges = ev.badges.filter(
                   (b) => !/^(postponed)$/i.test(String(b || ""))
                 );
+              }
+
+              if (!ev._id) {
+                ev._id = ev.id || ev.slug || String(idx);
               }
 
               return { ...ev, _startEff: eff, _hasDate: !!eff };
@@ -2627,7 +2771,10 @@
             }, {});
             console.log("[ui] counts by venue:", byVenueUI);
 
-            dumpAdelphiDiagnostics("console");
+            if (state.isAdmin) {
+              dumpAdelphiDiagnostics("console");
+            }
+
             populateVenueFilter();
             apply();
             els.status.hidden = true;
