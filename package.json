@@ -1,17 +1,25 @@
 {
   "name": "hu5-events",
   "version": "1.0.0",
+  "description": "Event discovery platform for Hull's HU5 postcode area - aggregating gigs, pub nights, comedy and open mics",
+  "author": "Find HU5 Events",
+  "license": "MIT",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "scrape": "node ./scrape-hull-venues.js > ./public/events.json",
+    "scrape:debug": "node ./scrape-hull-venues.js 2>&1",
     "fetch": "npm run scrape",
-    "refresh": "npm run scrape && npm run start",
     "start": "node ./server.js",
-    "dev": "nodemon --watch server.js --watch public --ext js,json,html --exec \"node ./server.js\""
+    "dev": "nodemon --watch server.js --watch public --ext js,json,html --exec \"node ./server.js\"",
+    "test": "node --test"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
+    "compression": "^1.7.4",
     "dayjs": "^1.11.11",
     "express": "^4.19.2",
     "he": "^1.2.0",

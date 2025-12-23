@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
   <head>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/site.webmanifest" as="fetch" crossorigin />
+    
     <link rel="manifest" href="/site.webmanifest" />
     <!-- Google tag (gtag.js) -->
     <link
@@ -13,6 +16,8 @@
       href="https://www.google-analytics.com"
       crossorigin
     />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-Q98ES83PZK"
@@ -23,7 +28,7 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-Q98ES83PZK", { anonymize_ip: true });
+      gtag("config", "G-Q98ES83PZK", { anonymize_ip: true, send_page_view: false });
     </script>
 
     <meta charset="utf-8" />
@@ -37,17 +42,23 @@
       name="description"
       content="What’s on in Hull’s HU5: live music, quizzes, comedy nights and open mics at Polar Bear, Adelphi, Welly, The People’s Republic, UMU and more — updated daily."
     />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#050818" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f0f8ff" media="(prefers-color-scheme: light)" />
+    <meta name="language" content="en-GB" />
+    <meta name="author" content="Find HU5 Events" />
+    <meta name="creator" content="Find HU5 Events" />
     <link rel="canonical" href="https://www.findhu5.events/" />
 
-    <!-- Icons / PWA (optional files; add when you have them) -->
+    <!-- Icons / PWA -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Social sharing -->
+    <!-- Social sharing (Open Graph) -->
     <meta
       property="og:title"
       content="Find HU5 Events — Hull gigs, pub nights & open mics"
@@ -62,7 +73,11 @@
       property="og:image"
       content="https://www.findhu5.events/og-preview.png"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Find HU5 Events - Event discovery for Hull" />
     <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="Find HU5 Events" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
@@ -76,18 +91,7 @@
       name="twitter:image"
       content="https://www.findhu5.events/og-preview.png"
     />
-
-    <!-- Browser UI theme colours -->
-    <meta
-      name="theme-color"
-      content="#0a0d11"
-      media="(prefers-color-scheme: dark)"
-    />
-    <meta
-      name="theme-color"
-      content="#ffffff"
-      media="(prefers-color-scheme: light)"
-    />
+    <meta name="twitter:image:alt" content="Find HU5 Events - Event discovery for Hull" />
 
     <!-- Structured data (helps Google understand the site + site search) -->
     <script type="application/ld+json">
@@ -107,37 +111,52 @@
 
     <style>
       :root {
-        --bg: #050507;
-        --card: #0a0d11;
-        --text: #e7edf3;
-        --muted: #a6b0bb;
-        --accent: #7dd3fc;
-        --accent2: #38bdf8;
-        --accent3: #14b8a6;
-        --border: #1b2330;
-        --chip: #0a0e12;
-        --pill: #080c10;
-        --good: #22c55e;
-        --warn: #f59e0b;
-        --error: #ef4444;
+        --bg: #050818;
+        --bg-gradient: linear-gradient(135deg, #050818 0%, #0a1128 50%, #0f1f45 100%);
+        --card: #0d1b35;
+        --card-gradient: linear-gradient(135deg, #0d1b35 0%, #091429 100%);
+        --text: #e8f2ff;
+        --muted: #8fa3c0;
+        --accent: #00d4ff;
+        --accent2: #00f0ff;
+        --accent3: #0088ff;
+        --accent4: #0066ff;
+        --border: #1a3a7f;
+        --chip: #0f2847;
+        --pill: #0a1628;
+        --good: #00ff88;
+        --warn: #ffaa00;
+        --error: #ff4466;
+        --glow: rgba(0, 212, 255, 0.4);
+        --glow-strong: rgba(0, 240, 255, 0.6);
         --radius: 16px;
-        --shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+        --shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+        --shadow-lg: 0 0 40px rgba(0, 212, 255, 0.35);
         --tap: 44px;
         --safe: env(safe-area-inset-bottom, 0px);
       }
       @media (prefers-color-scheme: light) {
         :root {
-          --bg: #f6f8fb;
+          --bg: #f0f8ff;
+          --bg-gradient: linear-gradient(135deg, #f0f8ff 0%, #e0efff 50%, #d0e8ff 100%);
           --card: #ffffff;
-          --text: #0b0d10;
-          --muted: #5b6773;
-          --accent: #0369a1;
-          --accent2: #0284c7;
-          --accent3: #0d9488;
-          --border: #e2e8f0;
-          --chip: #eef3f9;
-          --pill: #f3f6f9;
-          --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          --card-gradient: linear-gradient(135deg, #ffffff 0%, #f5faff 100%);
+          --text: #0a1f4f;
+          --muted: #5080c0;
+          --accent: #0066ff;
+          --accent2: #0088ff;
+          --accent3: #0055dd;
+          --accent4: #0044cc;
+          --border: #b0d4ff;
+          --chip: #e8f4ff;
+          --pill: #d0ecff;
+          --good: #00cc66;
+          --warn: #ff8800;
+          --error: #ff3344;
+          --glow: rgba(0, 102, 255, 0.2);
+          --glow-strong: rgba(0, 136, 255, 0.3);
+          --shadow: 0 0 20px rgba(0, 102, 255, 0.15);
+          --shadow-lg: 0 0 40px rgba(0, 102, 255, 0.25);
         }
       }
       * {
@@ -153,12 +172,63 @@
       }
       body {
         margin: 0;
-        background: var(--bg);
+        background: var(--bg-gradient);
         color: var(--text);
         font: clamp(14px, 1.9vw, 16px) / 1.55 system-ui, -apple-system, Segoe UI,
           Roboto, Arial;
         overflow-x: hidden;
         text-rendering: optimizeLegibility;
+        position: relative;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.12) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: -1;
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -20%;
+        width: 140%;
+        height: 200%;
+        background: 
+          radial-gradient(circle at 30% 40%, rgba(0, 102, 255, 0.08) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: -2;
+        animation: drift 15s ease-in-out infinite;
+      }
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+      @keyframes drift {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(20px, 30px); }
+      }
+      @keyframes glow-pulse {
+        0%, 100% { 
+          box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), inset 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+        50% { 
+          box-shadow: 0 0 40px rgba(0, 240, 255, 0.6), inset 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+      }
+      @keyframes shine {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
       }
       .hidden {
         display: none !important;
@@ -178,9 +248,11 @@
         position: static;
         top: auto;
         z-index: 70;
-        background: color-mix(in oklab, var(--bg) 94%, transparent);
+        background: color-mix(in oklab, var(--bg) 85%, transparent);
         border-bottom: 1px solid var(--border);
-        backdrop-filter: saturate(120%) blur(8px);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 4px 20px rgba(0, 212, 255, 0.1);
       }
       .wrap {
         max-width: 980px;
@@ -199,37 +271,43 @@
         color: var(--muted);
       }
       .topbar a {
-        color: inherit;
+        color: var(--accent);
         text-decoration: none;
         font-weight: 800;
         padding: 6px 10px;
         border-radius: 999px;
-        background: var(--chip);
-        border: 1px solid var(--border);
+        background: transparent;
+        border: 1px solid var(--accent);
+        transition: all 0.3s ease;
       }
       .topbar a:hover {
-        text-decoration: underline;
+        background: color-mix(in oklab, var(--accent) 20%, transparent);
+        border-color: var(--accent2);
+        box-shadow: 0 0 15px var(--glow);
       }
       header {
         position: static;
         top: auto;
         z-index: 60;
-        border-bottom: 1px solid var(--border);
-        background: color-mix(in oklab, var(--bg) 86%, transparent);
-        backdrop-filter: saturate(120%) blur(10px);
+        border-bottom: 2px solid var(--border);
+        background: color-mix(in oklab, var(--bg) 75%, transparent);
+        backdrop-filter: saturate(200%) blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px rgba(0, 212, 255, 0.15);
       }
       header::after {
         content: "";
         display: block;
-        height: 2px;
+        height: 4px;
         background: linear-gradient(
           90deg,
-          color-mix(in oklab, var(--accent) 55%, transparent),
-          transparent 40%,
-          transparent 60%,
-          color-mix(in oklab, var(--accent2) 55%, transparent)
+          transparent 0%,
+          var(--accent) 20%,
+          var(--accent2) 50%,
+          var(--accent) 80%,
+          transparent 100%
         );
-        opacity: 0.35;
+        box-shadow: 0 0 20px var(--accent);
       }
       .brand {
         display: flex;
@@ -245,20 +323,25 @@
         min-width: 0;
       }
       .logo {
-        width: 36px;
-        height: 36px;
-        border-radius: 12px;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
         display: grid;
         place-items: center;
-        flex: 0 0 36px;
-        background: linear-gradient(135deg, var(--accent), transparent 60%);
-        border: 1px solid var(--border);
+        flex: 0 0 40px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        border: 2px solid var(--accent2);
         font-weight: 900;
+        font-size: 18px;
+        color: #fff;
+        box-shadow: 0 0 20px var(--glow-strong), inset 0 0 20px rgba(255, 255, 255, 0.1);
+        animation: glow-pulse 3s ease-in-out infinite;
       }
       h1 {
         font-size: clamp(18px, 2.8vw, 22px);
         margin: 0;
         white-space: nowrap;
+        color: var(--text);
       }
       .tag {
         color: var(--muted);
@@ -278,8 +361,18 @@
         color: var(--text);
         min-height: var(--tap);
         outline: none;
-        transition: transform 0.12s ease, box-shadow 0.12s ease,
-          border-color 0.12s ease;
+        transition: all 0.3s ease;
+      }
+      .field,
+      select {
+        background: color-mix(in oklab, var(--card) 90%, var(--bg));
+        border-color: var(--border);
+      }
+      .field:focus,
+      select:focus {
+        border-color: var(--accent);
+        background: color-mix(in oklab, var(--card) 95%, var(--bg));
+        box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 25%, transparent), 0 0 15px var(--glow);
       }
       .btn,
       .seg {
@@ -287,25 +380,45 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        font-weight: 800;
-        border-radius: 999px;
+        font-weight: 700;
+        border-radius: 6px;
         background: var(--chip);
+        color: var(--text);
+        border: 1px solid var(--border);
         cursor: pointer;
+        transition: all 0.3s ease;
       }
       .btn:hover,
       .seg:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+        background: color-mix(in oklab, var(--chip) 140%, var(--accent));
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 212, 255, 0.1);
+      }
+      .btn:active,
+      .seg:active {
+        transform: translateY(0);
       }
       .btn:focus-visible,
       .seg:focus-visible {
         outline: 2px solid var(--accent);
+        outline-offset: 2px;
       }
       .seg.is-active,
       .seg[aria-pressed="true"] {
-        box-shadow: 0 0 0 2px var(--accent) inset;
-        color: var(--accent);
+        background: color-mix(in oklab, var(--accent) 25%, var(--chip));
+        border-color: var(--accent);
+        color: var(--accent2);
+        box-shadow: 0 0 8px rgba(0, 212, 255, 0.1);
+      }
+      .btn {
+        background: var(--chip);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn:hover {
+        background: color-mix(in oklab, var(--chip) 120%, var(--accent));
+        border-color: var(--accent);
       }
       .muty {
         color: var(--muted);
@@ -320,24 +433,43 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: var(--chip);
+        background: linear-gradient(135deg, color-mix(in oklab, var(--chip) 110%, var(--border)), var(--chip));
         padding: 8px 12px;
-        border-radius: 999px;
+        border-radius: 6px;
         border: 1px solid var(--border);
+        color: var(--text);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .chip:hover {
+        background: linear-gradient(135deg, color-mix(in oklab, var(--chip) 130%, var(--accent)), color-mix(in oklab, var(--chip) 120%, var(--accent)));
+        border-color: var(--accent);
+        box-shadow: 0 0 20px var(--glow);
+        transform: translateY(-1px);
       }
       .dot {
         width: 8px;
         height: 8px;
         border-radius: 50%;
       }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
       .dot.good {
         background: var(--good);
+        animation: pulse 2s ease-in-out infinite;
+        box-shadow: 0 0 10px var(--good);
       }
       .dot.warn {
         background: var(--warn);
+        animation: pulse 2s ease-in-out infinite;
+        box-shadow: 0 0 10px var(--warn);
       }
       .dot.error {
         background: var(--error);
+        animation: pulse 2s ease-in-out infinite;
+        box-shadow: 0 0 10px var(--error);
       }
       #filtersPanel {
         display: grid;
@@ -385,29 +517,51 @@
       }
       .empty,
       .error {
-        border: 1px dashed var(--border);
+        border: 2px dashed color-mix(in oklab, var(--border) 80%, transparent);
         border-radius: var(--radius);
         padding: 24px;
         color: var(--muted);
         text-align: center;
+        background: color-mix(in oklab, var(--card) 60%, var(--bg));
+        box-shadow: 
+          0 0 20px rgba(0, 212, 255, 0.1),
+          inset 0 0 20px rgba(0, 212, 255, 0.05);
       }
       .section {
         margin: 18px 0 26px;
       }
       .section h3 {
-        margin: 0 0 12px;
-        font-size: 12px;
+        margin: 0 0 16px;
+        font-size: 18px;
         font-weight: 900;
-        color: var(--muted);
+        color: var(--accent);
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.12em;
+        background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        padding-bottom: 8px;
+        filter: drop-shadow(0 0 2px rgba(0, 212, 255, 0.2)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+      }
+      .section h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), var(--accent), transparent);
+        border-radius: 2px;
+        box-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
       }
       .grid {
         display: grid;
         gap: 12px;
       }
       .event {
-        background: var(--card);
+        background: var(--card-gradient);
         border: 1px solid var(--border);
         border-radius: var(--radius);
         padding: 14px;
@@ -415,61 +569,127 @@
         grid-template-columns: auto 1fr auto;
         gap: 12px;
         align-items: center;
-        box-shadow: var(--shadow);
-        transition: border-color 0.15s ease, transform 0.12s ease,
-          box-shadow 0.15s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
       }
-      .event:focus-within {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
+      .event::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: left 0.5s ease;
+      }
+      .event:hover::before {
+        left: 100%;
       }
       .event:hover,
       .event:focus-within {
-        border-color: color-mix(in oklab, var(--accent) 60%, var(--border));
-        transform: translateY(-1px);
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+        border-color: var(--accent);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+      }
+      .event:focus-within {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
       }
       .pill {
         min-width: 68px;
-        border: 1px solid var(--border);
-        background: var(--pill);
-        border-radius: 12px;
+        border: 1.5px solid var(--accent);
+        background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 18%, var(--pill)), color-mix(in oklab, var(--accent) 10%, var(--pill)));
+        border-radius: 8px;
         text-align: center;
         padding: 8px 6px;
         display: flex;
         flex-direction: column;
         gap: 2px;
         justify-content: center;
+        box-shadow: 
+          0 0 12px rgba(0, 212, 255, 0.15),
+          inset 0 1px 2px rgba(255, 255, 255, 0.2),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .pill::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%);
+        pointer-events: none;
+        animation: shimmer 12s infinite;
+      }
+      .pill:hover {
+        box-shadow: 
+          0 0 18px rgba(0, 212, 255, 0.25),
+          inset 0 1px 3px rgba(255, 255, 255, 0.3),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
       }
       .pill .dow {
         font-weight: 800;
         font-size: 10px;
-        color: var(--muted);
+        color: var(--accent);
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
+        position: relative;
+        z-index: 1;
       }
       .pill .day {
-        font-size: 20px;
+        font-size: 24px;
         font-weight: 900;
+        color: var(--accent2);
+        position: relative;
+        z-index: 1;
+        text-shadow: 0 0 4px rgba(0, 240, 255, 0.2);
       }
       .pill .mon {
-        font-size: 11px;
-        font-weight: 800;
-        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+        position: relative;
+        z-index: 1;
       }
       .title {
         font-size: 18px;
-        font-weight: 900;
+        font-weight: 700;
         margin: 0 0 4px;
         word-break: break-word;
+        color: var(--text);
       }
       .title a {
         color: inherit;
         text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      .title a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        transition: width 0.3s ease;
+      }
+      .title a:hover::after {
+        width: 100%;
+      }
+      .title a:hover {
+        color: var(--accent2);
       }
       .title a:focus-visible {
         outline: 2px solid var(--accent);
-        border-radius: 6px;
+        border-radius: 4px;
       }
       .meta {
         color: var(--muted);
@@ -489,14 +709,26 @@
         justify-content: flex-end;
       }
       .btn.free {
-        background: color-mix(in oklab, var(--good) 12%, transparent);
-        border-color: color-mix(in oklab, var(--good) 55%, transparent);
+        background: color-mix(in oklab, var(--good) 20%, var(--chip));
+        border-color: var(--good);
         color: var(--good);
+        box-shadow: 0 0 12px rgba(0, 255, 136, 0.2);
+      }
+      .btn.free:hover {
+        background: color-mix(in oklab, var(--good) 30%, var(--chip));
+        border-color: var(--good);
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
       }
       .btn.sold {
-        background: color-mix(in oklab, var(--error) 12%, transparent);
-        border-color: color-mix(in oklab, var(--error) 55%, transparent);
+        background: color-mix(in oklab, var(--error) 20%, var(--chip));
+        border-color: var(--error);
         color: var(--error);
+        box-shadow: 0 0 12px rgba(255, 68, 102, 0.2);
+      }
+      .btn.sold:hover {
+        background: color-mix(in oklab, var(--error) 30%, var(--chip));
+        border-color: var(--error);
+        box-shadow: 0 0 20px rgba(255, 68, 102, 0.4);
       }
       mark {
         background: color-mix(in oklab, var(--accent) 35%, transparent);
@@ -565,12 +797,21 @@
         right: 12px;
         bottom: calc(12px + var(--safe));
         z-index: 60;
-        border-radius: 999px;
+        border-radius: 8px;
         border: 1px solid var(--border);
         background: var(--chip);
-        box-shadow: var(--shadow);
+        color: var(--text);
+        box-shadow: 0 8px 32px var(--glow);
         padding: 10px 14px;
-        font-weight: 900;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      #fabTop:hover {
+        background: color-mix(in oklab, var(--chip) 140%, var(--accent));
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px var(--glow);
+        border-color: var(--accent);
       }
       @media (min-width: 721px) {
         #fabTop {
@@ -585,14 +826,14 @@
         background: var(--card);
         color: var(--text);
         border: 1px solid var(--border);
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 10px 12px;
-        box-shadow: var(--shadow);
+        box-shadow: 0 8px 32px var(--glow);
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.24s ease, transform 0.24s ease;
         z-index: 80;
-        font-weight: 800;
+        font-weight: 700;
       }
       #toast.show {
         opacity: 1;

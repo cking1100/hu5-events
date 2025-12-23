@@ -1,11 +1,13 @@
-// server.js (ESM)
+// server.js (ESM) — HU5 Events API & Static Server
 import express from "express";
+import compression from "compression";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFile } from "node:child_process";
 import { writeFile, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 
+const START_TIME = Date.now();
 console.log("[server] booting…");
 
 const __filename = fileURLToPath(import.meta.url);
@@ -80,14 +82,55 @@ app.get("/events.json", async (_req, _res, next) => {
   }
 });
 
-// Static files
-app.use(express.static(path.join(__dirname, "public"), {
-  etag: true, lastModified: true, maxAge: 0,
-  setHeaders(res, filePath) { if (filePath.endsWith("events.json")) res.setHeader("Cache-Control", "no-store"); }
+// Security & performance headers middleware
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+  next();
+});
+
+// Enable gzip compression for performance
+app.use(compression({
+  level: 6,
+  threshold: 1024,
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  }
 }));
 
-// Healthcheck
-app.get("/healthz", (_req, res) => res.json({ ok: true }));
+// Static files with intelligent caching
+app.use(express.static(path.join(__dirname, "public"), {
+  etag: true,
+  lastModified: true,
+  maxAge: 0, // Don't cache by default
+  setHeaders(res, filePath) {
+    // Cache immutable assets longer
+    if (/\.(js|css|woff2|png|svg)$/.test(filePath)) {
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    }
+    // Don't cache JSON and HTML
+    if (filePath.endsWith("events.json") || filePath.endsWith(".html")) {
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
+    }
+  }
+}));
+
+// Healthcheck with uptime tracking
+app.get("/healthz", (_req, res) => {
+  const uptime = Date.now() - START_TIME;
+  res.json({
+    ok: true,
+    uptime,
+    timestamp: new Date().toISOString(),
+    version: "1.0.0"
+  });
+});
 
 // Manual refresh (protected)
 const ADMIN_KEY = process.env.ADMIN_KEY || "";
@@ -109,7 +152,34 @@ app.get("*", (req, res, next) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`HU5 Events running at http://localhost:${PORT}`);
-  if (!ADMIN_KEY) console.log("Tip: set ADMIN_KEY env var to protect /api/refresh");
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error("[server] error:", err.message);
+  res.status(err.status || 500).json({
+    ok: false,
+    error: process.env.NODE_ENV === "production" ? "Internal server error" : err.message
+  });
 });
+
+const server = app.listen(PORT, () => {
+  console.log(`[server] HU5 Events running at http://localhost:${PORT}`);
+  console.log(`[server] Environment: ${process.env.NODE_ENV || "development"}`);
+  if (!ADMIN_KEY) console.log("[server] Tip: set ADMIN_KEY env var to protect /api/refresh");
+});
+
+// Graceful shutdown handlers
+const gracefulShutdown = () => {
+  console.log("[server] shutting down gracefully…");
+  server.close(() => {
+    console.log("[server] server closed");
+    process.exit(0);
+  });
+  // Force shutdown after 10 seconds
+  setTimeout(() => {
+    console.error("[server] forced shutdown after 10s");
+    process.exit(1);
+  }, 10000);
+};
+
+process.on("SIGTERM", gracefulShutdown);
+process.on("SIGINT", gracefulShutdown);

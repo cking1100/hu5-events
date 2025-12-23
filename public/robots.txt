@@ -1,9 +1,41 @@
-# Allow search engines to crawl everything
+# HU5 Events robots.txt - Allow search engines to crawl everything
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /.git/
+Disallow: /node_modules/
 
-# Point crawlers to your sitemap
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Point crawlers to sitemap
 Sitemap: https://www.findhu5.events/sitemap.xml
 
-# Crawl-delay helps avoid overload (optional)
-Crawl-delay: 10
+# Crawl-delay and request-rate for responsible crawling
+Crawl-delay: 5
+Request-rate: 1/5s
+
+# Specific rules for major search engines (faster crawling for good bots)
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+Request-rate: 10/1s
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+Request-rate: 5/1s
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 2

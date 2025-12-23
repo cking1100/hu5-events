@@ -1,4 +1,4 @@
-// scrape-hull-venues.js
+﻿// scrape-hull-venues.js
 /* ----------------------------- Imports ----------------------------- */
 import * as cheerio from "cheerio";
 import he from "he"; // decode HTML entities like &#8211; and &#8217;
@@ -26,7 +26,7 @@ const SHEETS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv";
 
 /* ---------------------- Small general utilities -------------------- */
-const log = (...a) => console.error(...a); // All logs → stderr
+const log = (...a) => console.error(...a); // All logs to stderr
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const unique = (arr) => [...new Set((arr || []).filter(Boolean))];
 const nowISO = () => new Date().toISOString();
@@ -93,7 +93,7 @@ function isFreeEntry(str) {
   );
 }
 /* Dayjs→ISO wrapper that won’t throw */
-// Dayjs→ISO (and general) safe converter that never throws
+// Dayjs to ISO (and general) safe converter that never throws
 function toISO(d) {
   try {
     if (d && typeof d === "object" && typeof d.isValid === "function") {
@@ -947,7 +947,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
   const tixCol = findCol(TIX_HEADERS);
   if (tixCol === -1) {
     log(
-      `${TAG} ⚠️ tickets column not found (looked for: ${TIX_HEADERS.join(
+      `${TAG} [WARN] tickets column not found (looked for: ${TIX_HEADERS.join(
         " | "
       )})`
     );
@@ -981,7 +981,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
     const startRaw = pick(r, START_HEADERS);
     const endRaw = pick(r, END_HEADERS);
 
-    log(`${rowTag} → date='${dateText}' time='${timeText}' title='${title}'`);
+    log(`${rowTag} | date='${dateText}' time='${timeText}' title='${title}'`);
 
     // 🎟️ Tickets URL(s)
     let ticketsRaw = readCell(r, tixCol);
@@ -1040,7 +1040,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
           startISO || "(null)"
         } from date='${dateWithYear}' time='${timeWithDefault}'`
       );
-      if (!startISO) log(`${rowTag} ⚠️ still undated after inference`);
+      if (!startISO) log(`${rowTag} [WARN] still undated after inference`);
 
       const ev = buildEvent({
         source: name,
@@ -1075,10 +1075,10 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
 
       out.push(ev);
       kept++;
-      log(`${rowTag} ✅ kept | ${ev.title?.slice(0, 80) || ""}`);
+      log(`${rowTag} [OK] kept | ${ev.title?.slice(0, 80) || ""}`);
     } catch (e) {
       errors++;
-      log(`${rowTag} ❌ row-level error: ${e.message}`);
+      log(`${rowTag} [ERR] row-level error: ${e.message}`);
       continue;
     }
   }
@@ -1324,7 +1324,7 @@ async function scrapeAdelphi() {
     });
     html = await res.text();
   } catch (err) {
-    log("[adelphi] ❌ failed to fetch event list:", err.message);
+    log("[adelphi] [ERR] failed to fetch event list:", err.message);
     return [];
   }
 
@@ -1439,19 +1439,25 @@ async function scrapeAdelphi() {
             if (fromLD.startISO) {
               startISO = toISO(fromLD.startISO);
             } else if (dateText && t24) {
-              const d = dayjs.tz(
-                `${dateText} ${t24}`,
-                "D MMM YYYY HH:mm",
-                TZ,
-                true
-              );
-              if (d.isValid()) startISO = toISO(d);
+              // Both date and time provided
+              if (typeof dateText === 'string' && dateText.trim() && typeof t24 === 'string' && t24.trim()) {
+                const d = dayjs.tz(
+                  `${dateText.trim()} ${t24.trim()}`,
+                  "D MMM YYYY HH:mm",
+                  TZ,
+                  true
+                );
+                if (d && d.isValid && d.isValid()) startISO = toISO(d);
+              }
             } else if (dateText) {
-              const d = dayjs.tz(dateText, "D MMM YYYY", TZ, true);
-              if (d.isValid()) startISO = toISO(d);
+              // Date only
+              if (typeof dateText === 'string' && dateText.trim()) {
+                const d = dayjs.tz(dateText.trim(), "D MMM YYYY", TZ, true);
+                if (d && d.isValid && d.isValid()) startISO = toISO(d);
+              }
             }
           } catch (err) {
-            log(`[adelphi] ❌ invalid date for "${title}": ${err.message}`);
+            log(`[adelphi] [ERR] invalid date for "${title}": ${err.message}`);
             return null;
           }
 
@@ -1468,7 +1474,7 @@ async function scrapeAdelphi() {
                 CUTOFF.diff(d, "year") < 2 &&
                 pastSkipCount < PAST_SKIP_LIMIT
               ) {
-                log(`[adelphi] ⏩ skipping past: ${title} → ${startISO}`);
+                log(`[adelphi] [SKIP] skipping past: ${title} | ${startISO}`);
               }
               pastSkipCount++;
               return null;
@@ -1476,10 +1482,10 @@ async function scrapeAdelphi() {
           }
 
           if (!dateText) {
-            log(`[adelphi] ⚠️ missing date for "${title}"`);
+            log(`[adelphi] [WARN] missing date for "${title}"`);
           }
           if (timeUndefined) {
-            log(`[adelphi] ⚠️ no explicit time for "${title}"`);
+            log(`[adelphi] [WARN] no explicit time for "${title}"`);
           }
 
           const address =
@@ -1527,7 +1533,7 @@ async function scrapeAdelphi() {
 
           return ev;
         } catch (err) {
-          log(`[adelphi] ❌ error: ${err.message}`);
+          log(`[adelphi] [ERR] error: ${err.message}`);
           return null;
         }
       })
@@ -1541,7 +1547,7 @@ async function scrapeAdelphi() {
   }
 
   log(
-    `[adelphi] ✅ done. Events: ${results.length}, Skipped past: ${pastSkipCount}`
+    `[adelphi] [OK] done. Events: ${results.length}, Skipped past: ${pastSkipCount}`
   );
   return results;
 }

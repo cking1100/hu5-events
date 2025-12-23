@@ -1,15 +1,83 @@
 {
-  "name": "HU5 Finder",
-  "short_name": "HU5",
-  "start_url": "/",
+  "name": "Find HU5 Events - Gigs, Pubs & Live Music in Hull",
+  "short_name": "HU5 Events",
+  "description": "Event discovery platform for Hull's HU5 postcode area - live music, gigs, comedy, quizzes and pub nights updated daily.",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#050507",
-  "theme_color": "#050507",
+  "orientation": "portrait-primary",
+  "dir": "ltr",
+  "lang": "en-GB",
+  "background_color": "#050818",
+  "theme_color": "#00d4ff",
+  "prefer_related_applications": false,
+  "categories": ["entertainment", "event"],
+  "screenshots": [
+    {
+      "src": "/og-preview.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "purpose": "any"
+    }
+  ],
   "icons": [
     {
       "src": "/logo.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Events This Week",
+      "short_name": "This Week",
+      "description": "View upcoming HU5 events for this week",
+      "url": "/?range=next7&utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "View Today's Events",
+      "short_name": "Today",
+      "description": "View HU5 events happening today",
+      "url": "/?range=today&utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Search Events",
+      "short_name": "Search",
+      "description": "Search for HU5 events",
+      "url": "/?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

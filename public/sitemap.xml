@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Main homepage (updated daily with events) -->
   <url>
     <loc>https://www.findhu5.events/</loc>
-    <lastmod>2025-10-08</lastmod>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
-  </url>
-
-  <!-- Example additional URLs -->
-  <url>
-    <loc>https://www.findhu5.events/about</loc>
-    <lastmod>2025-10-08</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.findhu5.events/contact</loc>
-    <lastmod>2025-10-08</lastmod>
-    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.findhu5.events/og-preview.png</image:loc>
+      <image:title>Find HU5 Events - Hull gigs, pub nights & open mics</image:title>
+    </image:image>
   </url>
 </urlset>
