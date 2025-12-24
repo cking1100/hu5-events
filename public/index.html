@@ -1794,38 +1794,54 @@
         /* ============================== FETCH =============================== */
         async function fetchEventsJson() {
           const t0 = performance.now();
-          const res = await fetch("events.json?ts=" + Date.now(), {
-            cache: "no-store",
-          });
-          if (!res.ok)
-            throw new Error(`Failed to load events.json (${res.status})`);
-          const txt = await res.text();
-          let data;
-          try {
-            data = JSON.parse(txt);
-          } catch {
-            throw new Error("Invalid JSON in events.json");
-          }
-          let updated = null;
-          if (Array.isArray(data)) {
+          const maxRetries = 3;
+          let lastError;
+          
+          for (let attempt = 0; attempt < maxRetries; attempt++) {
             try {
-              const most = data.reduce(
-                (m, e) =>
-                  Math.max(m, e?.scrapedAt ? +new Date(e.scrapedAt) : 0),
-                0
-              );
-              if (most) updated = new Date(most);
-            } catch {}
+              const res = await fetch("events.json?ts=" + Date.now(), {
+                cache: "no-store",
+              });
+              if (!res.ok)
+                throw new Error(`Failed to load events.json (${res.status})`);
+              const txt = await res.text();
+              let data;
+              try {
+                data = JSON.parse(txt);
+              } catch {
+                throw new Error("Invalid JSON in events.json");
+              }
+              let updated = null;
+              if (Array.isArray(data)) {
+                try {
+                  const most = data.reduce(
+                    (m, e) =>
+                      Math.max(m, e?.scrapedAt ? +new Date(e.scrapedAt) : 0),
+                    0
+                  );
+                  if (most) updated = new Date(most);
+                } catch {}
+              }
+              if (!updated) {
+                const hdr =
+                  res.headers.get("Last-Modified") || res.headers.get("Date");
+                if (hdr) updated = new Date(hdr);
+              }
+              state.lastUpdated = updated || new Date();
+              state.stats.loads += 1;
+              state.stats.lastLoadMs = Math.round(performance.now() - t0);
+              return Array.isArray(data) ? data : [];
+            } catch (e) {
+              lastError = e;
+              if (attempt < maxRetries - 1) {
+                const delayMs = Math.pow(2, attempt) * 1000;
+                console.warn(`[fetch] Attempt ${attempt + 1} failed, retrying in ${delayMs}ms…`, e.message);
+                await new Promise(resolve => setTimeout(resolve, delayMs));
+              }
+            }
           }
-          if (!updated) {
-            const hdr =
-              res.headers.get("Last-Modified") || res.headers.get("Date");
-            if (hdr) updated = new Date(hdr);
-          }
-          state.lastUpdated = updated || new Date();
-          state.stats.loads += 1;
-          state.stats.lastLoadMs = Math.round(performance.now() - t0);
-          return Array.isArray(data) ? data : [];
+          
+          throw lastError || new Error("Failed to fetch events.json after 3 attempts");
         }
 
         /* ============================ RENDERING ============================= */
