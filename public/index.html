@@ -2594,28 +2594,39 @@
                   } else if (showTicket) {
                     // For paid events with ticket link: show blue Tickets button
                     // Extract price from ticket label if available
-                    let priceDisplay = '';
+                    let priceDisplay = "";
                     if (Array.isArray(ev.tickets) && ev.tickets[0]?.label) {
                       const ticketLabel = ev.tickets[0].label;
                       // Extract price pattern like "£7.00", "£7.70 (£7.00)", etc.
-                      const priceMatch = ticketLabel.match(/£\d+(?:\.\d{2})?(?:\s*\([^)]*\))?/);
+                      const priceMatch = ticketLabel.match(
+                        /£\d+(?:\.\d{2})?(?:\s*\([^)]*\))?/
+                      );
                       if (priceMatch) {
-                        priceDisplay = `<span class="price">${escapeHTML(priceMatch[0])}</span>`;
+                        priceDisplay = `<span class="price">${escapeHTML(
+                          priceMatch[0]
+                        )}</span>`;
                       }
                     }
                     // Fallback to other price fields if not found in tickets
                     if (!priceDisplay) {
-                      const priceInfo = ev.price || ev.priceText || ev.admission || ev.cost;
+                      const priceInfo =
+                        ev.price || ev.priceText || ev.admission || ev.cost;
                       if (priceInfo) {
-                        priceDisplay = `<span class="price">${escapeHTML(String(priceInfo))}</span>`;
+                        priceDisplay = `<span class="price">${escapeHTML(
+                          String(priceInfo)
+                        )}</span>`;
                       }
                     }
                     // Final fallback: look for price in description or meta
                     if (!priceDisplay && (ev.description || ev.meta)) {
-                      const text = `${ev.description || ''} ${ev.meta || ''}`;
-                      const priceMatch = text.match(/£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/);
+                      const text = `${ev.description || ""} ${ev.meta || ""}`;
+                      const priceMatch = text.match(
+                        /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+                      );
                       if (priceMatch) {
-                        priceDisplay = `<span class="price">${escapeHTML(priceMatch[0])}</span>`;
+                        priceDisplay = `<span class="price">${escapeHTML(
+                          priceMatch[0]
+                        )}</span>`;
                       }
                     }
                     actions += `<a class="btn"
