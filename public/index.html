@@ -2463,6 +2463,26 @@
             return null;
           };
 
+          // Extract closing time for NYE events (Dec 31)
+          const getClosingTime = (ev) => {
+            if (!ev.end) return null;
+            const endDate = new Date(ev.end);
+            if (isNaN(endDate)) return null;
+            // Check if event is on Dec 31 or closing time is on Jan 1 (NYE)
+            const startDate =
+              ev._startEff || (ev.start ? new Date(ev.start) : null);
+            if (!startDate || isNaN(startDate)) return null;
+            if (startDate.getMonth() !== 11 || startDate.getDate() !== 31)
+              return null;
+
+            // Format closing time in 24h format
+            const closingHour = endDate.getUTCHours();
+            const closingMin = endDate.getUTCMinutes();
+            return `${String(closingHour).padStart(2, "0")}:${String(
+              closingMin
+            ).padStart(2, "0")}`;
+          };
+
           const q = els.q.value.trim();
           const sections = groupByDate(state.view, state.sort)
             .map(([key, items]) => {
@@ -2526,6 +2546,7 @@
                         )}</time>`
                       : escapeHTML(time24);
                   }
+
                   const meta = [timeHTML, ev.venue && highlight(ev.venue, q)]
                     .filter(Boolean)
                     .join(" · ");
@@ -2716,7 +2737,67 @@
 
               return `<section class="section" id="${escapeHTML(
                 key === "Undated" ? "undated" : key
-              )}"><h3>${label}</h3><div class="grid">${grid}</div></section>`;
+              )}"><h3>${label}</h3>${
+                // Check if this is NYE (Dec 31) and add closing times card
+                key === "2025-12-31"
+                  ? `<div class="grid">
+                      <article class="event" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 170, 0, 0.05) 100%); border: 2px solid var(--accent); position: relative; margin-bottom: 16px;">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 170, 0, 0.05) 0%, transparent 50%); pointer-events: none;"></div>
+                        <div style="padding: 24px; position: relative; z-index: 1;">
+                          <div style="text-align: center; margin-bottom: 20px;">
+                            <h2 class="title" style="color: var(--accent); margin: 0 0 4px 0; font-size: 18px; letter-spacing: 0.5px;">🍾 HU5 NYE Closing Times</h2>
+                            <div style="height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin-top: 8px;"></div>
+                          </div>
+                          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;">
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Molly Mangan's</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">3am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Polar Bear</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">2:30am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">The Welly</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">3am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">TPR</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">1am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Queens Hotel</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">1am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Späti</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">2am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Hoi</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">1am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">St John's</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">2am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Dive</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">1:30am</div>
+                            </div>
+                            <div style="padding: 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px;">Mr Moody's</div>
+                              <div style="font-size: 20px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">11pm</div>
+                            </div>
+                          </div>
+                          <div style="text-align: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0, 212, 255, 0.2); font-size: 12px; color: var(--muted);">
+                            <span style="color: var(--accent);">*</span> If times are incorrect, please <a href="mailto:contact@findhu5.events" style="color: var(--accent); text-decoration: none; font-weight: 600;">email us</a>
+                          </div>
+                        </div>
+                      </article>
+                    </div>`
+                  : ""
+              }<div class="grid">${grid}</div></section>`;
             })
             .join("");
 
