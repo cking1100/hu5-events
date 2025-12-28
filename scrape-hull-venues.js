@@ -26,7 +26,41 @@ const SHEETS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv";
 
 /* ---------------------- Small general utilities -------------------- */
-const log = (...a) => console.error(...a); // All logs to stderr
+// Enhanced logging with timestamps and better formatting
+const log = (...args) => {
+  const timestamp = new Date().toISOString().split("T")[1].split(".")[0];
+  const levelMatch = args[0]?.match?.(
+    /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv)\]/i
+  );
+  const level = levelMatch ? levelMatch[1] : "info";
+  const prefix = `[${timestamp}]`;
+
+  // Color codes for better visibility (ANSI)
+  const colors = {
+    start: "\x1b[1;36m", // cyan bold
+    cfg: "\x1b[36m", // cyan
+    boot: "\x1b[35m", // magenta
+    err: "\x1b[1;31m", // red bold
+    warn: "\x1b[1;33m", // yellow bold
+    ok: "\x1b[1;32m", // green bold
+    info: "\x1b[37m", // white
+    polar: "\x1b[34m", // blue
+    adelphi: "\x1b[34m", // blue
+    tpr: "\x1b[34m", // blue
+    welly: "\x1b[34m", // blue
+    vox: "\x1b[34m", // blue
+    umu: "\x1b[34m", // blue
+    dive: "\x1b[34m", // blue
+    csv: "\x1b[33m", // yellow
+  };
+
+  const color = colors[level?.toLowerCase()] || colors.info;
+  const reset = "\x1b[0m";
+
+  // Format output with color
+  console.error(`${color}${prefix}${reset}`, ...args);
+};
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const unique = (arr) => [...new Set((arr || []).filter(Boolean))];
 const nowISO = () => new Date().toISOString();
@@ -73,6 +107,7 @@ function isPostponed(ev) {
 }
 
 const isSoldOut = (text = "") =>
+  // Check if event description indicates tickets are sold out
   /\b(sold\s*out|tickets?\s*sold\s*out|no\s*tickets\s*left|fully\s*booked)\b/i.test(
     text
   );
@@ -85,12 +120,61 @@ function offersIndicateSoldOut(offers = []) {
 }
 
 function isFreeEntry(str) {
+  // Detect if event is advertised as free entry using various common phrasings
   if (!str) return false;
+  const s = String(str).toLowerCase();
   return (
-    /\bfree\s+(entry|admission|show|gig|event)\b/i.test(str) ||
-    /\bno\s+cover\b/i.test(str) ||
-    /\bentry\s*[:\-]?\s*£?\s*0\b/i.test(str)
+    /\bfree\s+(entry|admission|show|gig|event)\b/i.test(s) ||
+    /\bno\s+cover\b/i.test(s) ||
+    /\bentry\s*[:\-]?\s*£?\s*0\b/i.test(s) ||
+    /\bfree\s*admission\b/i.test(s) ||
+    /\bfree\s*entry\b/i.test(s) ||
+    /\bfree\s*gig\b/i.test(s) ||
+    /\b£\s*0\b/i.test(s) ||
+    /\bcomplimentary\b/i.test(s)
   );
+}
+
+// Detect event type/category from title and description
+function detectEventType(title = "", description = "") {
+  const text = `${title} ${description}`.toLowerCase();
+  const types = [];
+
+  if (/\b(live\s+)?music|gig|band|concert|dj\b/i.test(text))
+    types.push("Live Music");
+  if (/\bquiz\b/i.test(text)) types.push("Quiz");
+  if (/\b(stand.?up\s+)?comedy|comic\b/i.test(text)) types.push("Comedy");
+  if (/\bopen\s+mic\b/i.test(text)) types.push("Open Mic");
+  if (/\b(karaoke|sing|singing)\b/i.test(text)) types.push("Karaoke");
+  if (/\b(poetry|spoken\s+word|slam)\b/i.test(text)) types.push("Poetry");
+  if (/\b(trivia|bingo|games?\s+night)\b/i.test(text)) types.push("Games");
+  if (/\b(theatre|play|production|show)\b/i.test(text)) types.push("Theatre");
+  if (/\b(lunch|dinner|brunch|food|eating)\b/i.test(text)) types.push("Food");
+  if (/\b(party|dance|club|clubbing)\b/i.test(text)) types.push("Party");
+  if (/\b(stand.?up|drag)\b/i.test(text)) types.push("Drag");
+
+  return types.length > 0 ? types : null;
+}
+
+// Deduplicate events by title, date, and venue (keeps first occurrence)
+function deduplicateEvents(events) {
+  const seen = new Map();
+  const kept = [];
+
+  for (const ev of events) {
+    // Create a dedup key from normalized title, start date, and venue
+    const normalizedTitle = (ev.title || "").toLowerCase().trim();
+    const dateKey = ev.start ? new Date(ev.start).toDateString() : "undated";
+    const venueKey = (ev.venue || "").toLowerCase().trim();
+    const key = `${normalizedTitle}|${dateKey}|${venueKey}`;
+
+    if (!seen.has(key)) {
+      seen.set(key, ev);
+      kept.push(ev);
+    }
+  }
+
+  return kept;
 }
 /* Dayjs→ISO wrapper that won’t throw */
 // Dayjs to ISO (and general) safe converter that never throws
@@ -826,7 +910,41 @@ log("[boot] inferYearAndTime available =", typeof inferYearAndTime);
 
 /* ============================= SCRAPERS ============================ */
 
-/* -------- MR MOODYS VIA GOOGLE SHEET ----------------------- */
+// Venue coordinates (lat, lon) for distance calculation from city center
+const VENUE_COORDS = {
+  "Polar Bear Music Club": { lat: 53.7656, lon: -0.3364 },
+  "The New Adelphi Club": { lat: 53.7762, lon: -0.3406 },
+  "The Welly Club": { lat: 53.7709, lon: -0.3413 },
+  "Molly Mangan's": { lat: 53.7673, lon: -0.3391 },
+  "Union Mash Up": { lat: 53.7697, lon: -0.3375 },
+  "DIVE HU5": { lat: 53.7701, lon: -0.337 },
+  "The People's Republic": { lat: 53.7677, lon: -0.3404 },
+  "Mr Moody's Tavern": { lat: 53.7671, lon: -0.3407 },
+  "Commun'ull": { lat: 53.7648, lon: -0.3375 },
+  "Vox Box": { lat: 53.7673, lon: -0.3391 },
+  "Späti Bar": { lat: 53.7683, lon: -0.3403 },
+  Hoi: { lat: 53.7697, lon: -0.3375 },
+  "Newland Tap": { lat: 53.769, lon: -0.34 },
+};
+
+// Calculate distance between two lat/lon points (in km)
+function getDistance(coord1, coord2) {
+  if (!coord1 || !coord2) return null;
+  const R = 6371; // Earth radius in km
+  const dLat = ((coord2.lat - coord1.lat) * Math.PI) / 180;
+  const dLon = ((coord2.lon - coord1.lon) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((coord1.lat * Math.PI) / 180) *
+      Math.cos((coord2.lat * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+// Hull city center coordinates
+const HULL_CENTER = { lat: 53.7431, lon: -0.337 };
 // ------- Reusable CSV scraper for a single venue -------
 /* -------- CSV-driven single-venue scraper (patched) -------- */
 async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
@@ -1440,7 +1558,12 @@ async function scrapeAdelphi() {
               startISO = toISO(fromLD.startISO);
             } else if (dateText && t24) {
               // Both date and time provided
-              if (typeof dateText === 'string' && dateText.trim() && typeof t24 === 'string' && t24.trim()) {
+              if (
+                typeof dateText === "string" &&
+                dateText.trim() &&
+                typeof t24 === "string" &&
+                t24.trim()
+              ) {
                 const d = dayjs.tz(
                   `${dateText.trim()} ${t24.trim()}`,
                   "D MMM YYYY HH:mm",
@@ -1451,7 +1574,7 @@ async function scrapeAdelphi() {
               }
             } else if (dateText) {
               // Date only
-              if (typeof dateText === 'string' && dateText.trim()) {
+              if (typeof dateText === "string" && dateText.trim()) {
                 const d = dayjs.tz(dateText.trim(), "D MMM YYYY", TZ, true);
                 if (d && d.isValid && d.isValid()) startISO = toISO(d);
               }
@@ -2391,6 +2514,166 @@ async function scrapeWelly() {
   return results;
 }
 
+/* -------- MOLLY MANGAN'S ------------------------------------------- */
+// Scrapes Molly Mangan's Irish Bar events from their website
+// URL: https://mollymangans.com/whats-on/
+// Hardcoded address: 64-70 Newland Avenue (known reliable address)
+// Default: Free entry (added to DEFAULT_FREE_VENUES in frontend)
+async function scrapeMollyMangans() {
+  log("[molly] list");
+  const base = "https://mollymangans.com";
+  const listURL = `${base}/whats-on/`;
+  const baseHost = new URL(base).hostname;
+
+  let html;
+  try {
+    const res = await fetch(listURL, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+    });
+    html = await res.text();
+  } catch (e) {
+    log("[molly] list fetch failed:", e.message);
+    return [];
+  }
+
+  const $ = cheerio.load(html);
+  const rawLinks = $("a[href]")
+    .map((_, a) => $(a).attr("href"))
+    .get();
+
+  const eventLinks = unique(
+    rawLinks
+      .map((h) => safeNewURL(h, base))
+      .filter(Boolean)
+      .filter((u) => {
+        try {
+          const uu = new URL(u);
+          if (uu.hostname !== baseHost) return false;
+          if (/^mailto:|^tel:/i.test(u)) return false;
+          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(uu.pathname))
+            return false;
+          return true;
+        } catch {
+          return false;
+        }
+      })
+      .map((u) => {
+        const x = new URL(u);
+        x.hash = "";
+        return x.toString();
+      })
+  );
+
+  log(`[molly] candidate links: ${eventLinks.length}`);
+
+  const results = [];
+  const BATCH = 6;
+
+  for (let i = 0; i < eventLinks.length; i += BATCH) {
+    const batch = eventLinks.slice(i, i + BATCH);
+    const settled = await Promise.allSettled(
+      batch.map(async (url) => {
+        try {
+          const r2 = await fetch(url, {
+            headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+          });
+          const html2 = await r2.text();
+          const $$ = cheerio.load(html2);
+
+          const fromLD = extractEventFromJSONLD($$, url) || {};
+
+          let title =
+            fromLD.title ||
+            $$("h1").first().text().trim() ||
+            $$("title").text().trim();
+
+          const big = normalizeWhitespace(
+            $$("main, article, .event, .content, .entry-content, body")
+              .first()
+              .text()
+          );
+
+          // Date/time extraction
+          const dateWordy =
+            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            big.match(
+              /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i
+            )?.[0] ||
+            "";
+
+          const timeWordy =
+            big.match(/\b\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0] ||
+            big
+              .match(/\bat\s+\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0]
+              ?.replace(/^at\s+/i, "") ||
+            "";
+
+          let startISO =
+            fromLD.startISO ||
+            parseDMYWithTime(dateWordy, timeWordy) ||
+            tryParseDateFromText(stripOrdinals(`${dateWordy} ${timeWordy}`)) ||
+            null;
+
+          // Past filter (keep undated)
+          if (startISO) {
+            const d = dayjs(startISO);
+            if (d.isValid() && d.isBefore(CUTOFF)) return null;
+          }
+
+          // Address
+          const address =
+            "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB";
+
+          // Tickets
+          const tickets = $$("a[href]")
+            .filter((_, a) =>
+              /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
+                $$(a).attr("href") || ""
+              )
+            )
+            .map((_, a) => ({
+              label: $$(a).text().trim() || "Tickets",
+              url: safeNewURL($$(a).attr("href"), url),
+            }))
+            .get()
+            .filter((t) => t && t.url);
+
+          // Sold out?
+          const soldOut =
+            isSoldOut(big) ||
+            (fromLD.offers ? offersIndicateSoldOut(fromLD.offers) : false);
+          const freeEntry = isFreeEntry([title, big].join(" "));
+
+          return buildEvent({
+            source: "Molly Mangan's",
+            venue: "Molly Mangan's",
+            url,
+            title,
+            dateText: dateWordy,
+            timeText: timeWordy,
+            startISO,
+            endISO: fromLD.endISO || null,
+            address,
+            tickets,
+            soldOut,
+            freeEntry,
+          });
+        } catch (e) {
+          log("[molly] event error:", e.message);
+          return null;
+        }
+      })
+    );
+
+    for (const r of settled)
+      if (r.status === "fulfilled" && r.value) results.push(r.value);
+    await sleep(60);
+  }
+
+  log(`[molly] done, events: ${results.length}`);
+  return results;
+}
+
 /* -------- VOX BOX -------------------------------------------------- */
 // Source list: https://voxboxbar.co.uk/upcoming-events/
 async function scrapeVoxBox() {
@@ -2661,7 +2944,7 @@ async function scrapeVoxBox() {
     await sleep(60);
   }
 
-  log(`[vox] done, events: ${results.length}`);
+  log(`[molly] done, events: ${results.length}`);
   return results;
 }
 
@@ -3247,7 +3530,7 @@ async function main() {
       // 🔹 Normal “all venues” mode
       tasks = [scrapePolarBear(), scrapeAdelphi()];
       if (!skipWelly) tasks.push(scrapeWelly());
-      if (!skipVox) tasks.push(scrapeVoxBox());
+      tasks.push(scrapeMollyMangans());
       if (!skipUMU) tasks.push(scrapeUnionMashUp());
       if (!skipDive) tasks.push(scrapeDiveHU5());
       if (!skipTPR) tasks.push(scrapeTPR());
@@ -3266,6 +3549,13 @@ async function main() {
           csvUrl:
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSCD7I-nOLa2eid-RpWpdWpigTRSS0riXKET2IIZyq6NIWpSrKyE3n1AzBsMzNPQDgwtFnPKTgkUg9/pub?output=csv",
           address: "178 Chanterlands Avenue, Hull HU5 3TR",
+          tz: TZ,
+        }),
+        scrapeCsvVenue({
+          name: "Späti Bar",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiN9k_aWj0tv7KMXFbLbWC3rsxPspA1xAllXr9uQShRSTGw8qDbVH6lOcuyADixNKi3W9IeI1G5aZF/pub?output=csv",
+          address: "27 Newland Ave, Hull HU5 3BE",
           tz: TZ,
         }),
         scrapeCsvVenue({
@@ -3296,6 +3586,13 @@ async function main() {
       else log("[scrape] failed:", r.reason?.message || r.reason);
     }
 
+    // ⭐ Add event types and distance info to each event
+    events = events.map((ev) => ({
+      ...ev,
+      type: detectEventType(ev.title || "", ev.description || ""),
+      distance: getDistance(HULL_CENTER, VENUE_COORDS[ev.venue]),
+    }));
+
     // ⭐ Force Newland Tap events to be free entry
     events = events.map((ev) => {
       const blob = `${ev.venue || ""} ${ev.source || ""}`.toLowerCase();
@@ -3315,8 +3612,17 @@ async function main() {
         : ev
     );
 
-    // Sort: dated first (asc), then undated
+    // ⭐ DEDUPLICATE events (removes exact title + date + venue duplicates)
+    events = deduplicateEvents(events);
+
+    // Sort: by distance (closer first), then by date (earlier first)
     events.sort((a, b) => {
+      // Primary: sort by distance (null distances go last)
+      const distA = a.distance ?? Infinity;
+      const distB = b.distance ?? Infinity;
+      if (distA !== distB) return distA - distB;
+
+      // Secondary: sort by date (undated last)
       const ta = Date.parse(a?.start || "");
       const tb = Date.parse(b?.start || "");
       const aValid = Number.isFinite(ta);
@@ -3327,23 +3633,30 @@ async function main() {
       return ta - tb;
     });
 
-    // Keep today+future (TZ), keep undated
-    const cutoffMs = +CUTOFF;
+    // ⭐ Filter: Keep NOW+future (not just today's start), keep undated
+    const nowMs = Date.now();
     const futureEvents = events.filter((ev) => {
       const t = Date.parse(ev.start || "");
-      return Number.isNaN(t) ? true : t >= cutoffMs;
+      return Number.isNaN(t) ? true : t >= nowMs;
     });
 
+    // Summary logging
+    const venues = Array.from(new Set(events.map((e) => e.venue))).sort();
+    const datedEvents = events.filter((e) => e.start).length;
+    const undatedEvents = events.length - datedEvents;
+
+    log(`[ok] Processing complete`);
     log(
-      "[ui] raw venues:",
-      Array.from(new Set(events.map((e) => e.venue))).sort()
+      `[info] Total events: ${events.length} (${datedEvents} dated, ${undatedEvents} undated)`
     );
-    log("[ui] total events loaded:", events.length);
-    log("[ui] first 5 events:", events.slice(0, 5));
+    log(`[info] Deduped: ${events.length} unique`);
+    log(`[info] Future events: ${futureEvents.length}`);
+    log(`[info] Venues: ${venues.length} unique`);
+    log(`[info] Venue list: ${venues.join(", ")}`);
 
     process.stdout.write(JSON.stringify(futureEvents, null, 2));
   } catch (e) {
-    console.error("[fatal scraper]", e);
+    console.error("[fatal] Scraper crashed:", e.message);
     process.exit(1);
   }
 }

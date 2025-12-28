@@ -19,7 +19,8 @@ const PORT = process.env.PORT || 5173;
 // --- Scraper single-flight + runner ---
 let scrapeInFlight = null;
 
-function runScraper() {
+// Run scraper with retry logic for resilience
+function runScraper(retryCount = 0, maxRetries = 2) {
   if (scrapeInFlight) return scrapeInFlight;
   scrapeInFlight = new Promise((resolve, reject) => {
     const child = execFile(
@@ -30,12 +31,27 @@ function runScraper() {
         windowsHide: true,
         env: { ...process.env },
         maxBuffer: 10 * 1024 * 1024,
-        timeout: 60_000,
+        timeout: 90_000, // Increased timeout to 90s
       },
       async (err, stdout, stderr) => {
         scrapeInFlight = null;
-        if (stderr) console.error(stderr.trim());
-        if (err) return reject(err);
+        if (stderr) console.error("[scrape] stderr:", stderr.trim());
+        if (err) {
+          // Retry on timeout or network errors
+          if (
+            retryCount < maxRetries &&
+            (err.killed || err.code === "ETIMEDOUT")
+          ) {
+            console.log(
+              `[scraper] Retry ${retryCount + 1}/${maxRetries} after error: ${
+                err.message
+              }`
+            );
+            await new Promise((r) => setTimeout(r, 1000 * (retryCount + 1))); // Exponential backoff
+            return runScraper(retryCount + 1, maxRetries);
+          }
+          return reject(err);
+        }
         try {
           const data = JSON.parse(stdout); // stdout must be pure JSON
           await writeFile(
@@ -46,7 +62,10 @@ function runScraper() {
           resolve({ count: Array.isArray(data) ? data.length : 0 });
         } catch (e) {
           console.error("[server] Failed to parse scraper JSON:", e.message);
-          console.error("[server] First 200 chars of stdout:", String(stdout).slice(0, 200));
+          console.error(
+            "[server] First 200 chars of stdout:",
+            String(stdout).slice(0, 200)
+          );
           reject(e);
         }
       }
@@ -72,8 +91,11 @@ app.get("/events.json", async (_req, _res, next) => {
       }
     }
     if (needsScrape) {
-      try { await runScraper(); }
-      catch (e) { console.warn("[server] on-demand scrape failed:", e.message); }
+      try {
+        await runScraper();
+      } catch (e) {
+        console.warn("[server] on-demand scrape failed:", e.message);
+      }
     }
   } catch (e) {
     console.warn("[server] pre-serve check failed:", e.message);
@@ -88,38 +110,48 @@ app.use((req, res, next) => {
   res.setHeader("X-Frame-Options", "SAMEORIGIN");
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  res.setHeader("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+  res.setHeader(
+    "Permissions-Policy",
+    "geolocation=(), microphone=(), camera=()"
+  );
   next();
 });
 
 // Enable gzip compression for performance
-app.use(compression({
-  level: 6,
-  threshold: 1024,
-  filter: (req, res) => {
-    if (req.headers['x-no-compression']) return false;
-    return compression.filter(req, res);
-  }
-}));
+app.use(
+  compression({
+    level: 6,
+    threshold: 1024,
+    filter: (req, res) => {
+      if (req.headers["x-no-compression"]) return false;
+      return compression.filter(req, res);
+    },
+  })
+);
 
 // Static files with intelligent caching
-app.use(express.static(path.join(__dirname, "public"), {
-  etag: true,
-  lastModified: true,
-  maxAge: 0, // Don't cache by default
-  setHeaders(res, filePath) {
-    // Cache immutable assets longer
-    if (/\.(js|css|woff2|png|svg)$/.test(filePath)) {
-      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    }
-    // Don't cache JSON and HTML
-    if (filePath.endsWith("events.json") || filePath.endsWith(".html")) {
-      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-      res.setHeader("Pragma", "no-cache");
-      res.setHeader("Expires", "0");
-    }
-  }
-}));
+app.use(
+  express.static(path.join(__dirname, "public"), {
+    etag: true,
+    lastModified: true,
+    maxAge: 0, // Don't cache by default
+    setHeaders(res, filePath) {
+      // Cache immutable assets longer
+      if (/\.(js|css|woff2|png|svg)$/.test(filePath)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      }
+      // Don't cache JSON and HTML
+      if (filePath.endsWith("events.json") || filePath.endsWith(".html")) {
+        res.setHeader(
+          "Cache-Control",
+          "no-store, no-cache, must-revalidate, proxy-revalidate"
+        );
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+      }
+    },
+  })
+);
 
 // Healthcheck with uptime tracking
 app.get("/healthz", (_req, res) => {
@@ -128,7 +160,7 @@ app.get("/healthz", (_req, res) => {
     ok: true,
     uptime,
     timestamp: new Date().toISOString(),
-    version: "1.0.0"
+    version: "1.0.0",
   });
 });
 
@@ -157,14 +189,18 @@ app.use((err, req, res, next) => {
   console.error("[server] error:", err.message);
   res.status(err.status || 500).json({
     ok: false,
-    error: process.env.NODE_ENV === "production" ? "Internal server error" : err.message
+    error:
+      process.env.NODE_ENV === "production"
+        ? "Internal server error"
+        : err.message,
   });
 });
 
 const server = app.listen(PORT, () => {
   console.log(`[server] HU5 Events running at http://localhost:${PORT}`);
   console.log(`[server] Environment: ${process.env.NODE_ENV || "development"}`);
-  if (!ADMIN_KEY) console.log("[server] Tip: set ADMIN_KEY env var to protect /api/refresh");
+  if (!ADMIN_KEY)
+    console.log("[server] Tip: set ADMIN_KEY env var to protect /api/refresh");
 });
 
 // Graceful shutdown handlers

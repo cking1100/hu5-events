@@ -3,7 +3,7 @@
   <head>
     <!-- Preload critical resources -->
     <link rel="preload" href="/site.webmanifest" as="fetch" crossorigin />
-    
+
     <link rel="manifest" href="/site.webmanifest" />
     <!-- Google tag (gtag.js) -->
     <link
@@ -28,7 +28,10 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-Q98ES83PZK", { anonymize_ip: true, send_page_view: false });
+      gtag("config", "G-Q98ES83PZK", {
+        anonymize_ip: true,
+        send_page_view: false,
+      });
     </script>
 
     <meta charset="utf-8" />
@@ -42,11 +45,25 @@
       name="description"
       content="What’s on in Hull’s HU5: live music, quizzes, comedy nights and open mics at Polar Bear, Adelphi, Welly, The People’s Republic, UMU and more — updated daily."
     />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
+      name="googlebot"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#050818" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f0f8ff" media="(prefers-color-scheme: light)" />
+    <meta
+      name="theme-color"
+      content="#050818"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#f0f8ff"
+      media="(prefers-color-scheme: light)"
+    />
     <meta name="language" content="en-GB" />
     <meta name="author" content="Find HU5 Events" />
     <meta name="creator" content="Find HU5 Events" />
@@ -75,7 +92,10 @@
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Find HU5 Events - Event discovery for Hull" />
+    <meta
+      property="og:image:alt"
+      content="Find HU5 Events - Event discovery for Hull"
+    />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Find HU5 Events" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -91,7 +111,10 @@
       name="twitter:image"
       content="https://www.findhu5.events/og-preview.png"
     />
-    <meta name="twitter:image:alt" content="Find HU5 Events - Event discovery for Hull" />
+    <meta
+      name="twitter:image:alt"
+      content="Find HU5 Events - Event discovery for Hull"
+    />
 
     <!-- Structured data (helps Google understand the site + site search) -->
     <script type="application/ld+json">
@@ -112,7 +135,12 @@
     <style>
       :root {
         --bg: #050818;
-        --bg-gradient: linear-gradient(135deg, #050818 0%, #0a1128 50%, #0f1f45 100%);
+        --bg-gradient: linear-gradient(
+          135deg,
+          #050818 0%,
+          #0a1128 50%,
+          #0f1f45 100%
+        );
         --card: #0d1b35;
         --card-gradient: linear-gradient(135deg, #0d1b35 0%, #091429 100%);
         --text: #e8f2ff;
@@ -138,7 +166,12 @@
       @media (prefers-color-scheme: light) {
         :root {
           --bg: #f0f8ff;
-          --bg-gradient: linear-gradient(135deg, #f0f8ff 0%, #e0efff 50%, #d0e8ff 100%);
+          --bg-gradient: linear-gradient(
+            135deg,
+            #f0f8ff 0%,
+            #e0efff 50%,
+            #d0e8ff 100%
+          );
           --card: #ffffff;
           --card-gradient: linear-gradient(135deg, #ffffff 0%, #f5faff 100%);
           --text: #0a1f4f;
@@ -181,27 +214,37 @@
         position: relative;
       }
       body::before {
-        content: '';
+        content: "";
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: 
-          radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.12) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.12) 0%, transparent 50%);
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(0, 212, 255, 0.12) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(0, 240, 255, 0.12) 0%,
+            transparent 50%
+          );
         pointer-events: none;
         z-index: -1;
       }
       body::after {
-        content: '';
+        content: "";
         position: fixed;
         top: -50%;
         left: -20%;
         width: 140%;
         height: 200%;
-        background: 
-          radial-gradient(circle at 30% 40%, rgba(0, 102, 255, 0.08) 0%, transparent 40%);
+        background: radial-gradient(
+          circle at 30% 40%,
+          rgba(0, 102, 255, 0.08) 0%,
+          transparent 40%
+        );
         pointer-events: none;
         z-index: -2;
         animation: drift 15s ease-in-out infinite;
@@ -215,20 +258,32 @@
         }
       }
       @keyframes drift {
-        0%, 100% { transform: translate(0, 0); }
-        50% { transform: translate(20px, 30px); }
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(20px, 30px);
+        }
       }
       @keyframes glow-pulse {
-        0%, 100% { 
-          box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), inset 0 0 20px rgba(0, 212, 255, 0.1);
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(0, 212, 255, 0.4),
+            inset 0 0 20px rgba(0, 212, 255, 0.1);
         }
-        50% { 
-          box-shadow: 0 0 40px rgba(0, 240, 255, 0.6), inset 0 0 30px rgba(0, 212, 255, 0.2);
+        50% {
+          box-shadow: 0 0 40px rgba(0, 240, 255, 0.6),
+            inset 0 0 30px rgba(0, 212, 255, 0.2);
         }
       }
       @keyframes shine {
-        0% { background-position: -1000px 0; }
-        100% { background-position: 1000px 0; }
+        0% {
+          background-position: -1000px 0;
+        }
+        100% {
+          background-position: 1000px 0;
+        }
       }
       .hidden {
         display: none !important;
@@ -265,6 +320,12 @@
         align-items: center;
         justify-content: space-between;
       }
+      .topbar-social {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
       .lead {
         font-weight: 900;
         font-size: 13px;
@@ -284,6 +345,60 @@
         background: color-mix(in oklab, var(--accent) 20%, transparent);
         border-color: var(--accent2);
         box-shadow: 0 0 15px var(--glow);
+      }
+      .topbar a.social-link {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          #f58529 0%,
+          #dd2a7b 50%,
+          #8134af 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 6px 12px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+      .topbar a.social-link::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.3) 50%,
+          transparent 70%
+        );
+        transform: rotate(45deg);
+        animation: shimmer 3s infinite;
+        pointer-events: none;
+      }
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+      .topbar a.social-link:hover {
+        border-color: #fff;
+        box-shadow: 0 0 20px rgba(245, 133, 41, 0.5),
+          inset 0 0 20px rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px) scale(1.05);
+      }
+      .topbar a.social-link:hover::before {
+        animation: shimmer 1s;
+      }
+      .insta-icon {
+        display: inline-block;
+        margin-right: 4px;
+        vertical-align: middle;
       }
       header {
         position: static;
@@ -334,7 +449,8 @@
         font-weight: 900;
         font-size: 18px;
         color: #fff;
-        box-shadow: 0 0 20px var(--glow-strong), inset 0 0 20px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 20px var(--glow-strong),
+          inset 0 0 20px rgba(255, 255, 255, 0.1);
         animation: glow-pulse 3s ease-in-out infinite;
       }
       h1 {
@@ -372,7 +488,9 @@
       select:focus {
         border-color: var(--accent);
         background: color-mix(in oklab, var(--card) 95%, var(--bg));
-        box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 25%, transparent), 0 0 15px var(--glow);
+        box-shadow: 0 0 0 4px
+            color-mix(in oklab, var(--accent) 25%, transparent),
+          0 0 15px var(--glow);
       }
       .btn,
       .seg {
@@ -433,7 +551,11 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: linear-gradient(135deg, color-mix(in oklab, var(--chip) 110%, var(--border)), var(--chip));
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklab, var(--chip) 110%, var(--border)),
+          var(--chip)
+        );
         padding: 8px 12px;
         border-radius: 6px;
         border: 1px solid var(--border);
@@ -442,7 +564,11 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
       .chip:hover {
-        background: linear-gradient(135deg, color-mix(in oklab, var(--chip) 130%, var(--accent)), color-mix(in oklab, var(--chip) 120%, var(--accent)));
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklab, var(--chip) 130%, var(--accent)),
+          color-mix(in oklab, var(--chip) 120%, var(--accent))
+        );
         border-color: var(--accent);
         box-shadow: 0 0 20px var(--glow);
         transform: translateY(-1px);
@@ -453,8 +579,13 @@
         border-radius: 50%;
       }
       @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.6; }
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.6;
+        }
       }
       .dot.good {
         background: var(--good);
@@ -523,8 +654,7 @@
         color: var(--muted);
         text-align: center;
         background: color-mix(in oklab, var(--card) 60%, var(--bg));
-        box-shadow: 
-          0 0 20px rgba(0, 212, 255, 0.1),
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.1),
           inset 0 0 20px rgba(0, 212, 255, 0.05);
       }
       .section {
@@ -537,22 +667,35 @@
         color: var(--accent);
         text-transform: uppercase;
         letter-spacing: 0.12em;
-        background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+        background: linear-gradient(
+          90deg,
+          var(--accent),
+          var(--accent2),
+          var(--accent)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         position: relative;
         padding-bottom: 8px;
-        filter: drop-shadow(0 0 2px rgba(0, 212, 255, 0.2)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 0 2px rgba(0, 212, 255, 0.2))
+          drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
       }
       .section h3::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
         height: 3px;
-        background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), var(--accent), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent),
+          var(--accent2),
+          var(--accent),
+          transparent
+        );
         border-radius: 2px;
         box-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
       }
@@ -575,13 +718,18 @@
         overflow: hidden;
       }
       .event::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.05),
+          transparent
+        );
         transition: left 0.5s ease;
       }
       .event:hover::before {
@@ -600,7 +748,11 @@
       .pill {
         min-width: 68px;
         border: 1.5px solid var(--accent);
-        background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 18%, var(--pill)), color-mix(in oklab, var(--accent) 10%, var(--pill)));
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklab, var(--accent) 18%, var(--pill)),
+          color-mix(in oklab, var(--accent) 10%, var(--pill))
+        );
         border-radius: 8px;
         text-align: center;
         padding: 8px 6px;
@@ -608,8 +760,7 @@
         flex-direction: column;
         gap: 2px;
         justify-content: center;
-        box-shadow: 
-          0 0 12px rgba(0, 212, 255, 0.15),
+        box-shadow: 0 0 12px rgba(0, 212, 255, 0.15),
           inset 0 1px 2px rgba(255, 255, 255, 0.2),
           inset 0 -2px 4px rgba(0, 0, 0, 0.2);
         position: relative;
@@ -617,19 +768,23 @@
         transition: all 0.3s ease;
       }
       .pill::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%);
+        background: linear-gradient(
+          45deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.15) 50%,
+          transparent 60%
+        );
         pointer-events: none;
         animation: shimmer 12s infinite;
       }
       .pill:hover {
-        box-shadow: 
-          0 0 18px rgba(0, 212, 255, 0.25),
+        box-shadow: 0 0 18px rgba(0, 212, 255, 0.25),
           inset 0 1px 3px rgba(255, 255, 255, 0.3),
           inset 0 -2px 4px rgba(0, 0, 0, 0.2);
         transform: translateY(-2px);
@@ -672,7 +827,7 @@
         position: relative;
       }
       .title a::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -2px;
         left: 0;
@@ -709,6 +864,8 @@
         justify-content: flex-end;
       }
       .btn.free {
+        padding: 10px 16px;
+        font-size: 13px;
         background: color-mix(in oklab, var(--good) 20%, var(--chip));
         border-color: var(--good);
         color: var(--good);
@@ -718,8 +875,11 @@
         background: color-mix(in oklab, var(--good) 30%, var(--chip));
         border-color: var(--good);
         box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        transform: translateY(-1px);
       }
       .btn.sold {
+        padding: 10px 16px;
+        font-size: 13px;
         background: color-mix(in oklab, var(--error) 20%, var(--chip));
         border-color: var(--error);
         color: var(--error);
@@ -729,6 +889,59 @@
         background: color-mix(in oklab, var(--error) 30%, var(--chip));
         border-color: var(--error);
         box-shadow: 0 0 20px rgba(255, 68, 102, 0.4);
+        transform: translateY(-1px);
+      }
+      .btn.nobook {
+        padding: 10px 16px;
+        font-size: 13px;
+        background: color-mix(in oklab, var(--warn) 20%, var(--chip));
+        border-color: var(--warn);
+        color: var(--warn);
+        box-shadow: 0 0 12px rgba(255, 170, 0, 0.2);
+      }
+      .btn.nobook:hover {
+        background: color-mix(in oklab, var(--warn) 30%, var(--chip));
+        border-color: var(--warn);
+        box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);
+        transform: translateY(-1px);
+      }
+      .btn.post {
+        padding: 10px 16px;
+        font-size: 13px;
+        background: color-mix(in oklab, var(--accent) 20%, var(--chip));
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+      }
+      .btn.post:hover {
+        background: color-mix(in oklab, var(--accent) 30%, var(--chip));
+        border-color: var(--accent);
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        transform: translateY(-1px);
+      }
+      .btn[data-kind="tickets"] {
+        padding: 10px 16px;
+        font-size: 13px;
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklab, var(--accent) 20%, var(--chip)) 0%,
+          color-mix(in oklab, var(--accent) 10%, var(--chip)) 100%
+        );
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 16px rgba(0, 212, 255, 0.25),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+      .btn[data-kind="tickets"]:hover {
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklab, var(--accent) 30%, var(--chip)) 0%,
+          color-mix(in oklab, var(--accent) 20%, var(--chip)) 100%
+        );
+        border-color: var(--accent);
+        box-shadow: 0 0 28px rgba(0, 212, 255, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
       }
       mark {
         background: color-mix(in oklab, var(--accent) 35%, transparent);
@@ -844,16 +1057,40 @@
   </head>
 
   <body>
-    <!-- Top: email -->
+    <!-- Top: email & socials -->
     <div class="topbar">
       <div class="wrap">
         <div class="lead">Bugs? Suggestions? Venue owner?</div>
-        <a
-          id="contactEmail"
-          href="mailto:hu5eventsfinder@gmail.com"
-          aria-label="Email HU5 Events Finder"
-          >hu5eventsfinder@gmail.com</a
-        >
+        <div class="topbar-social">
+          <a
+            id="contactEmail"
+            href="mailto:hu5eventsfinder@gmail.com"
+            aria-label="Email HU5 Events Finder"
+            >hu5eventsfinder@gmail.com</a
+          >
+          <a
+            id="instagramLink"
+            href="https://www.instagram.com/hu5events/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow HU5 Events on Instagram"
+            class="social-link instagram"
+            title="Follow us on Instagram"
+          >
+            <svg
+              class="insta-icon"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="currentColor"
+            >
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"
+              />
+            </svg>
+            Instagram
+          </a>
+        </div>
       </div>
     </div>
 
@@ -1179,15 +1416,18 @@
         const isFacebookUrl = (url = "") =>
           /^(https?:\/\/)?(www\.)?(m\.)?facebook\.com\//i.test(String(url));
 
+        // Venues that are known to be free entry by default (unless scraper detects paid/sold out)
         const DEFAULT_FREE_VENUES = new Set([
           "The People's Republic",
           "Commun'ull",
           "Hoi",
           "Vox Box",
           "Mr Moody's Tavern",
+          "Molly Mangan's",
         ]);
 
         // Normalise venue labels across sources (for filtering chip)
+        // Normalize venue names from scraper data to canonical labels for consistent display/filtering
         function venueLabel(ev) {
           const raw = (ev.venue || ev.source || "")
             .toLowerCase()
@@ -1796,7 +2036,7 @@
           const t0 = performance.now();
           const maxRetries = 3;
           let lastError;
-          
+
           for (let attempt = 0; attempt < maxRetries; attempt++) {
             try {
               const res = await fetch("events.json?ts=" + Date.now(), {
@@ -1835,13 +2075,21 @@
               lastError = e;
               if (attempt < maxRetries - 1) {
                 const delayMs = Math.pow(2, attempt) * 1000;
-                console.warn(`[fetch] Attempt ${attempt + 1} failed, retrying in ${delayMs}ms…`, e.message);
-                await new Promise(resolve => setTimeout(resolve, delayMs));
+                console.warn(
+                  `[fetch] Attempt ${
+                    attempt + 1
+                  } failed, retrying in ${delayMs}ms…`,
+                  e.message
+                );
+                await new Promise((resolve) => setTimeout(resolve, delayMs));
               }
             }
           }
-          
-          throw lastError || new Error("Failed to fetch events.json after 3 attempts");
+
+          throw (
+            lastError ||
+            new Error("Failed to fetch events.json after 3 attempts")
+          );
         }
 
         /* ============================ RENDERING ============================= */
@@ -2268,11 +2516,7 @@
                         )}</time>`
                       : escapeHTML(time24);
                   }
-                  const meta = [
-                    timeHTML,
-                    ev.venue && highlight(ev.venue, q),
-                    ev.address && highlight(ev.address, q),
-                  ]
+                  const meta = [timeHTML, ev.venue && highlight(ev.venue, q)]
                     .filter(Boolean)
                     .join(" · ");
                   const src = escapeHTML(vLabel || "Unknown");
@@ -2300,10 +2544,13 @@
                     showTicket = false;
                   }
 
+                  // Determine event status for badge/button display
                   const sold = isSoldOut(ev);
                   const postponed = isPostponed(ev);
                   const noBookings = isNoBookingsEvent(ev);
+                  const isFree = isFreeEvent(ev);
 
+                  // Build action button based on event status priority: Sold > No Bookings > Postponed > Free > Tickets > Details TBC
                   let actions = "";
                   if (sold) {
                     actions += `<button class="btn sold" type="button" disabled aria-disabled="true">
@@ -2317,8 +2564,9 @@
                     actions += `<button class="btn post" type="button" disabled aria-disabled="true">
     Postponed
   </button>`;
-                  } else if (showTicket) {
-                    if (isFreeEvent(ev)) {
+                  } else if (isFree) {
+                    // For free events: show Free Entry button with link if tickets URL exists, otherwise disabled button
+                    if (showTicket) {
                       actions += `<a class="btn free"
       data-kind="tickets"
       data-eid="${eid}"
@@ -2329,7 +2577,13 @@
       Free Entry
     </a>`;
                     } else {
-                      actions += `<a class="btn"
+                      actions += `<button class="btn free" type="button" disabled aria-disabled="true">
+    Free entry
+  </button>`;
+                    }
+                  } else if (showTicket) {
+                    // For paid events with ticket link: show blue Tickets button
+                    actions += `<a class="btn"
       data-kind="tickets"
       data-eid="${eid}"
       href="${escapeHTML(ticketUrl)}"
@@ -2337,10 +2591,10 @@
       rel="noopener noreferrer">
       Tickets
     </a>`;
-                    }
-                  } else if (isFreeEvent(ev)) {
-                    actions += `<button class="btn free" type="button" disabled aria-disabled="true">
-    Free entry
+                  } else {
+                    // Fallback for events with no status/ticket info: show Details TBC button
+                    actions += `<button class="btn" type="button" disabled aria-disabled="true" style="color: var(--muted); border-color: var(--muted); background: transparent;">
+    Details TBC
   </button>`;
                   }
 
@@ -2374,7 +2628,16 @@
               <div class="meta">${
                 meta || "<span class='muty'>Details TBC</span>"
               }</div>
-              <div class="source">Source: ${src}</div>
+              <div class="source" style="display: flex; gap: 4px; font-size: 13px; color: var(--muted); align-items: center;">
+                <span>📍</span>
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${
+                  ev.address
+                    ? escapeHTML(ev.address)
+                    : ev.venue
+                    ? escapeHTML(ev.venue)
+                    : ""
+                }</span>
+              </div>
             </div>
 <div class="card-actions">
   ${actions}
