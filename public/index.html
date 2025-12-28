@@ -922,6 +922,10 @@
       .btn[data-kind="tickets"] {
         padding: 10px 16px;
         font-size: 13px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
         background: linear-gradient(
           135deg,
           color-mix(in oklab, var(--accent) 20%, var(--chip)) 0%,
@@ -942,6 +946,12 @@
         box-shadow: 0 0 28px rgba(0, 212, 255, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.2);
         transform: translateY(-1px);
+      }
+      .btn[data-kind="tickets"] .price {
+        font-size: 10px;
+        font-weight: 600;
+        opacity: 0.9;
+        letter-spacing: 0.5px;
       }
       mark {
         background: color-mix(in oklab, var(--accent) 35%, transparent);
@@ -2583,14 +2593,37 @@
                     }
                   } else if (showTicket) {
                     // For paid events with ticket link: show blue Tickets button
+                    // Extract price from ticket label if available
+                    let priceDisplay = '';
+                    if (Array.isArray(ev.tickets) && ev.tickets[0]?.label) {
+                      const ticketLabel = ev.tickets[0].label;
+                      // Extract price pattern like "£7.00", "£7.70 (£7.00)", etc.
+                      const priceMatch = ticketLabel.match(/£\d+(?:\.\d{2})?(?:\s*\([^)]*\))?/);
+                      if (priceMatch) {
+                        priceDisplay = `<span class="price">${escapeHTML(priceMatch[0])}</span>`;
+                      }
+                    }
+                    // Fallback to other price fields if not found in tickets
+                    if (!priceDisplay) {
+                      const priceInfo = ev.price || ev.priceText || ev.admission || ev.cost;
+                      if (priceInfo) {
+                        priceDisplay = `<span class="price">${escapeHTML(String(priceInfo))}</span>`;
+                      }
+                    }
+                    // Final fallback: look for price in description or meta
+                    if (!priceDisplay && (ev.description || ev.meta)) {
+                      const text = `${ev.description || ''} ${ev.meta || ''}`;
+                      const priceMatch = text.match(/£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/);
+                      if (priceMatch) {
+                        priceDisplay = `<span class="price">${escapeHTML(priceMatch[0])}</span>`;
+                      }
+                    }
                     actions += `<a class="btn"
       data-kind="tickets"
       data-eid="${eid}"
       href="${escapeHTML(ticketUrl)}"
       target="_blank"
-      rel="noopener noreferrer">
-      Tickets
-    </a>`;
+      rel="noopener noreferrer">Tickets${priceDisplay}</a>`;
                   } else {
                     // Fallback for events with no status/ticket info: show Details TBC button
                     actions += `<button class="btn" type="button" disabled aria-disabled="true" style="color: var(--muted); border-color: var(--muted); background: transparent;">
