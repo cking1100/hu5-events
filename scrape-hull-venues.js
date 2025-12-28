@@ -1,14 +1,16 @@
 ﻿// scrape-hull-venues.js
 /* ----------------------------- Polyfills ----------------------------- */
 // Polyfill for File global (required for undici in Node.js environments)
+// MUST run before any imports that use fetch/undici
 if (typeof File === "undefined") {
-  global.File = class File extends Blob {
-    constructor(bits, filename, options) {
+  class FilePolyfill extends Blob {
+    constructor(bits, filename, options = {}) {
       super(bits, options);
       this.name = filename;
-      this.lastModified = options?.lastModified || Date.now();
+      this.lastModified = options.lastModified || Date.now();
     }
-  };
+  }
+  globalThis.File = FilePolyfill;
 }
 
 /* ----------------------------- Imports ----------------------------- */
