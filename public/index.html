@@ -723,6 +723,7 @@
         padding-bottom: 8px;
         filter: drop-shadow(0 0 2px rgba(0, 212, 255, 0.2))
           drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+        width: 100%;
       }
       .section h3::after {
         content: "";
@@ -793,7 +794,7 @@
         outline-offset: 2px;
       }
       .pill {
-        min-width: 68px;
+        width: 100%;
         border: 1.5px solid var(--accent);
         background: linear-gradient(
           135deg,
@@ -813,7 +814,6 @@
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
-        flex-shrink: 0;
       }
       .pill::before {
         content: "";
@@ -2919,8 +2919,8 @@
               )}"><h3>${label}</h3>${
                 // Check if this is NYE (Dec 31) and add closing times card
                 key === "2025-12-31"
-                  ? `<div class="grid">
-                      <article class="event" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 170, 0, 0.05) 100%); border: 2px solid var(--accent); position: relative; margin-bottom: 16px;">
+                  ? `<div class="grid" style="grid-column: 1 / -1;">
+                      <article class="event" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 170, 0, 0.05) 100%); border: 2px solid var(--accent); position: relative; margin-bottom: 16px; grid-column: 1 / -1;">
                         <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 170, 0, 0.05) 0%, transparent 50%); pointer-events: none;"></div>
                         <div style="padding: 24px; position: relative; z-index: 1;">
                           <div style="text-align: center; margin-bottom: 20px;">
@@ -2962,6 +2962,10 @@
                             </div>
                             <div style="padding: 12px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
                               <div style="font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;">Dive</div>
+                              <div style="font-size: 16px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">1:30am</div>
+                            </div>
+                            <div style="padding: 12px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
+                              <div style="font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;">Adelphi</div>
                               <div style="font-size: 16px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">1:30am</div>
                             </div>
                             <div style="padding: 12px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
