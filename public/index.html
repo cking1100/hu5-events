@@ -2,9 +2,6 @@
 <html lang="en-GB">
   <head>
     <!-- Preload critical resources -->
-    <link rel="preload" href="/site.webmanifest" as="fetch" crossorigin />
-
-    <link rel="manifest" href="/site.webmanifest" />
     <!-- Google tag (gtag.js) -->
     <link
       rel="preconnect"
@@ -40,17 +37,19 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
 
-    <title>Events Tonight Hull | Live Music, Comedy & Gigs in HU5</title>
+    <title>
+      Events Tonight Hull | Live Music, Comedy & Gigs in HU5 | Find HU5 Events
+    </title>
     <meta
       name="description"
       content="Find events tonight in Hull HU5: live music gigs, comedy nights, Irish bar events, quizzes & open mics at 9+ venues. Updated daily. What's on this weekend?"
     />
     <meta
-      name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+      name="keywords"
+      content="events Hull, Hull events tonight, live music Hull, comedy Hull, gigs Hull HU5, events HU5, Irish bar Hull, open mic Hull, quiz night Hull, what's on Hull, entertainment Hull"
     />
     <meta
-      name="googlebot"
+      name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
     <meta name="color-scheme" content="dark light" />
@@ -66,7 +65,9 @@
     />
     <meta name="language" content="en-GB" />
     <meta name="author" content="Find HU5 Events" />
-    <meta name="creator" content="Find HU5 Events" />
+    <meta name="geo.region" content="GB-ERY" />
+    <meta name="geo.placename" content="Hull, East Riding of Yorkshire" />
+    <meta name="geo.position" content="53.7431;-0.337" />
     <link rel="canonical" href="https://www.findhu5.events/" />
 
     <!-- Icons / PWA -->
@@ -78,11 +79,11 @@
     <!-- Social sharing (Open Graph) -->
     <meta
       property="og:title"
-      content="Events Tonight Hull | Live Music & Comedy in HU5"
+      content="Find HU5 Events | Hull Live Music, Comedy & Entertainment Tonight"
     />
     <meta
       property="og:description"
-      content="Find live events tonight in Hull HU5: gigs, comedy nights, Irish bar events, quizzes & more. What's on this weekend?"
+      content="Discover live events in Hull HU5: DJs, live music, comedy, gigs, quizzes & entertainment. Find what's on tonight and this weekend at local venues."
     />
     <meta property="og:url" content="https://www.findhu5.events/" />
     <meta property="og:type" content="website" />
@@ -101,11 +102,11 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Events Tonight Hull | Live Music & Comedy in HU5"
+      content="Find HU5 Events | Whats On in Hull Tonight"
     />
     <meta
       name="twitter:description"
-      content="What’s on in HU5 tonight and this week."
+      content="Discover live music, comedy, gigs, DJs and entertainment events in Hull HU5. Find whats happening tonight and this week."
     />
     <meta
       name="twitter:image"
@@ -115,7 +116,6 @@
       name="twitter:image:alt"
       content="Find HU5 Events - Event discovery for Hull"
     />
-
     <!-- Structured data (helps Google understand the site + site search) -->
     <script type="application/ld+json">
       {
@@ -123,11 +123,137 @@
         "@type": "WebSite",
         "name": "Find HU5 Events",
         "url": "https://www.findhu5.events/",
-        "description": "Listings for gigs, pub nights and open mics around Hull’s HU5.",
+        "description": "Listings for gigs, pub nights and open mics around Hull's HU5.",
         "potentialAction": {
           "@type": "SearchAction",
           "target": "https://www.findhu5.events/?q={search_term_string}",
           "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Find HU5 Events",
+        "url": "https://www.findhu5.events",
+        "logo": "https://www.findhu5.events/logo.png",
+        "description": "Event discovery platform for Hull's HU5 postcode area - aggregating gigs, pub nights, comedy and open mics",
+        "sameAs": ["https://www.instagram.com/hu5events"],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Customer Support",
+          "email": "hu5eventsfinder@gmail.com"
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Hull",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "UK",
+            "postalCode": "HU5"
+          }
+        }
+      }
+    </script>
+
+    <!-- LocalBusiness Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Find HU5 Events",
+        "image": "https://www.findhu5.events/og-preview.png",
+        "description": "Event discovery platform for live music, comedy, and entertainment in Hull HU5",
+        "url": "https://www.findhu5.events",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "East Riding of Yorkshire",
+          "addressCountry": "UK",
+          "postalCode": "HU5"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Hull"
+          }
+        ],
+        "priceRange": "£0-£30",
+        "knowsAbout": [
+          "Live Music",
+          "Comedy",
+          "Open Mic",
+          "Quiz Nights",
+          "Irish Bar Events",
+          "Entertainment"
+        ]
+      }
+    </script>
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.findhu5.events/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Events",
+            "item": "https://www.findhu5.events/"
+          }
+        ]
+      }''
+    </script>
+
+    <!-- Aggregate Event Schema for rich snippets -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Live Events in Hull HU5",
+        "description": "Find upcoming live music, comedy, DJs, gigs and entertainment events happening in Hull's HU5 area",
+        "url": "https://www.findhu5.events/",
+        "mainEntity": {
+          "@type": "AggregateEvent",
+          "name": "Live Events in Hull",
+          "description": "Discover events happening in Hull HU5: DJs, live music bands, comedy nights, quizzes, open mics and more entertainment",
+          "url": "https://www.findhu5.events/",
+          "location": [
+            {
+              "@type": "Place",
+              "name": "Polar Bear, Hull",
+              "address": "25 Anlaby Road, Hull, HU1 3RH"
+            },
+            {
+              "@type": "Place",
+              "name": "Adelphi, Hull",
+              "address": "5 Chapel Lane, Hull, HU1 3UF"
+            },
+            {
+              "@type": "Place",
+              "name": "The Welly Club, Hull",
+              "address": "43 Russell Street, Hull"
+            },
+            {
+              "@type": "Place",
+              "name": "The People's Republic, Hull",
+              "address": "88 Freetown Way, Hull, HU1 3SE"
+            },
+            {
+              "@type": "Place",
+              "name": "UMU, Hull",
+              "address": "35 Newland Avenue, Hull"
+            }
+          ]
         }
       }
     </script>
@@ -1366,7 +1492,7 @@
               Filters
             </button>
             <button id="share" class="seg" title="Copy link to this view">
-              🔗 Share
+              ?? Share
             </button>
           </div>
         </div>
@@ -1375,7 +1501,7 @@
           <input
             id="q"
             class="field"
-            placeholder="Search artist, venue, keyword…"
+            placeholder="Search artist, venue, keyword'"
             autocomplete="off"
             spellcheck="false"
             aria-label="Search (press / to focus)"
@@ -1385,7 +1511,7 @@
           <select id="sort" class="field" aria-label="Sort">
             <option value="date-asc">Soonest first</option>
             <option value="date-desc">Latest first</option>
-            <option value="title">Title A→Z</option>
+            <option value="title">Title A?Z</option>
           </select>
           <select id="venue" class="field" aria-label="Venue">
             <option value="">All venues</option>
@@ -1423,7 +1549,7 @@
             >
             <span class="chip" title="Last updated"
               ><span class="dot warn"></span
-              ><span id="updatedText">—</span></span
+              ><span id="updatedText">'</span></span
             >
             <span id="nextRefresh" class="chip" title="Auto-refresh"
               ><span class="dot good"></span
@@ -1496,10 +1622,10 @@
         </p>
       </div>
 
-      <div id="status" class="empty" hidden>Loading…</div>
+      <div id="status" class="empty" hidden>Loading'</div>
       <div id="list" aria-live="polite"></div>
       <button id="fabTop" class="seg" aria-label="Back to filters">
-        ↑ Filters
+        ? Filters
       </button>
     </main>
 
@@ -1538,7 +1664,7 @@
               gtag("event", eventName, params);
             }
           } catch (e) {
-            // Safe fallback – don't crash the app if analytics fails
+            // Safe fallback ' don't crash the app if analytics fails
             console.warn("track error", e);
           }
         }
@@ -1621,7 +1747,7 @@
           return isNaN(d.getTime()) ? null : d;
         };
         const timeAgo = (d) => {
-          if (!d) return "—";
+          if (!d) return "'";
           const ms = Date.now() - d.getTime(),
             m = Math.round(ms / 60000);
           if (m < 1) return "just now";
@@ -1705,8 +1831,8 @@
             const u = new URL(url, location.href);
             if (!/^https?:$/.test(u.protocol)) return false; // no mailto:, tel:, etc
             const sameOrigin = u.origin === location.origin;
-            if (sameOrigin) return false; // don’t link back to the finder itself
-            // if it’s clearly an anchor or empty-ish path, also skip
+            if (sameOrigin) return false; // don't link back to the finder itself
+            // if it's clearly an anchor or empty-ish path, also skip
             if (!u.hostname || u.pathname === "/") return true; // external homepages allowed
             return true;
           } catch {
@@ -1734,7 +1860,7 @@
         function venueLabel(ev) {
           const raw = (ev.venue || ev.source || "")
             .toLowerCase()
-            .replace(/[’']/g, "'");
+            .replace(/['']/g, "'");
           if (/\bwelly\b|giveitsomewelly/.test(raw)) return "The Welly Club";
           if (/\badelphi\b/.test(raw)) return "The New Adelphi Club";
           if (/\bpolar\b/.test(raw)) return "Polar Bear Music Club";
@@ -1921,20 +2047,20 @@
           const freeTight =
             /\bfree(?:\s*(entry|admission|tickets?))?\b/.test(tight) ||
             /\bno\s*cover\b/.test(tight) ||
-            /(?:^|\b)(£|\$|€)\s*0(?:\.00)?\b/.test(tight) ||
+            /(?:^|\b)('|\$|')\s*0(?:\.00)?\b/.test(tight) ||
             /\b0(?:\.00)?\s*(gbp|usd|eur)?\b/.test(tight);
 
           const freeWide =
             !isAdelphi && // stay strict for Adelphi
             (/\bfree(?:\s*(entry|admission|tickets?))?\b/.test(wide) ||
-              /(?:^|\b)(£|\$|€)\s*0(?:\.00)?\b/.test(wide));
+              /(?:^|\b)('|\$|')\s*0(?:\.00)?\b/.test(wide));
 
           const hasFreeSignal = freeTight || freeWide;
 
           // paid-ish signals
           const anyPriceOverZero =
-            /\b(£|\$|€)\s*\d{1,3}(?:\.\d{2})?\b/.test(tight + " " + wide) &&
-            !/(?:^|\b)(£|\$|€)\s*0(?:\.00)?\b/.test(tight + " " + wide);
+            /\b('|\$|')\s*\d{1,3}(?:\.\d{2})?\b/.test(tight + " " + wide) &&
+            !/(?:^|\b)('|\$|')\s*0(?:\.00)?\b/.test(tight + " " + wide);
 
           const hasPaidCue =
             /\b(adv|advance|otd|door|on\s*the\s*door|tickets?\s*from)\b/i.test(
@@ -1949,7 +2075,7 @@
           if (anyPriceOverZero || hasPaidCue || soldish) return false;
           if (hasFreeSignal) return true;
 
-          // ✅ default-to-free for TPR & Commun’ull when we have no ticket/cost info
+          // ? default-to-free for TPR & Commun'ull when we have no ticket/cost info
           if (DEFAULT_FREE_VENUES.has(vName) && !hasTicketOrCostInfo(ev)) {
             return true;
           }
@@ -2034,14 +2160,14 @@
             return true;
           }
 
-          // Text scan …
+          // Text scan '
           const big = [ev.title, ev.description, ev.notes, ev.meta, ev.badges]
             .filter(Boolean)
             .map((x) => (Array.isArray(x) ? x.join(" ") : String(x)))
             .join(" ")
             .toLowerCase();
 
-          if (/[£$€]\s*\d/.test(big)) return true;
+          if (/['$']\s*\d/.test(big)) return true;
           if (/\b\d{1,3}\s*(gbp|eur|usd|pounds?|quid)\b/.test(big)) return true;
           if (
             /\btickets?\s*(?:on\s*sale|available|adv|otd|door|entry|buy|book)\b/.test(
@@ -2254,8 +2380,8 @@
             ev.displayTime24 || ev.timeText || ev.time || ev.time_text || "";
           const dateTextField =
             ev.dateText || // old path
-            ev.date || // ✨ spreadsheet "date"
-            ev.dateOnly || // ✨ spreadsheet "dateOnly" (YYYY-MM-DD)
+            ev.date || // ? spreadsheet "date"
+            ev.dateOnly || // ? spreadsheet "dateOnly" (YYYY-MM-DD)
             ev.when ||
             ev.day || // loose fallbacks
             "";
@@ -2275,7 +2401,7 @@
         // Email mailto pre-fill
         function updateMailto() {
           if (!els.contactEmail) return;
-          const subject = "HU5 Events Finder — Idea / Bug / Venue request";
+          const subject = "HU5 Events Finder ' Idea / Bug / Venue request";
           const bodyLines = [
             "Hello,",
             "",
@@ -2380,7 +2506,7 @@
                 console.warn(
                   `[fetch] Attempt ${
                     attempt + 1
-                  } failed, retrying in ${delayMs}ms…`,
+                  } failed, retrying in ${delayMs}ms'`,
                   e.message
                 );
                 await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -2604,7 +2730,7 @@
             ? `Updated ${timeAgo(
                 state.lastUpdated
               )} (${state.lastUpdated.toLocaleString()})`
-            : "—";
+            : "'";
 
           if (!n) {
             els.list.innerHTML = `<div class="empty">No events match your filters. <button class="seg" id="resetBtn">Reset</button></div>`;
@@ -2623,12 +2749,12 @@
 
             let s = String(raw).trim().toLowerCase();
 
-            // ---- Strip prices BEFORE any dot→colon conversion ----
-            // £10, £10.20, 10.20 adv, £10/£12, 10/12, etc.
+            // ---- Strip prices BEFORE any dot?colon conversion ----
+            // '10, '10.20, 10.20 adv, '10/'12, 10/12, etc.
             s = s
-              // £x.xx or £x (optionally with / £y.xx)
+              // 'x.xx or 'x (optionally with / 'y.xx)
               .replace(
-                /£\s*\d{1,3}(?:\.\d{2})?(?:\s*\/\s*£?\s*\d{1,3}(?:\.\d{2})?)*/g,
+                /'\s*\d{1,3}(?:\.\d{2})?(?:\s*\/\s*'?\s*\d{1,3}(?:\.\d{2})?)*/g,
                 ""
               )
               // bare decimals that are clearly prices when followed by fee/ticket words
@@ -2642,7 +2768,7 @@
                 ""
               );
 
-            // ---- Convert dotted times ONLY (e.g. "8.30" → "8:30") ----
+            // ---- Convert dotted times ONLY (e.g. "8.30" ? "8:30") ----
             s = s.replace(
               /\b(\d{1,2})\.(\d{2})(?:\s*\/\s*\d{1,2}(?::\d{2})?)?\b/g,
               "$1:$2"
@@ -2651,13 +2777,13 @@
             // ---- Strip jelly words & trailing range ends ----
             s = s
               .replace(
-                /\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?\s*/g,
+                /\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-']?\s*/g,
                 ""
               )
-              .replace(/\b(?:till|’?\s*til|til)\s*late\b/g, "")
+              .replace(/\b(?:till|'?\s*til|til)\s*late\b/g, "")
               .replace(/\blate\b/g, "")
-              // remove trailing "– 11pm" range ends so we keep the first time
-              .replace(/\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/g, "")
+              // remove trailing "' 11pm" range ends so we keep the first time
+              .replace(/\s*['-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/g, "")
               .trim();
 
             // 12h with minutes (e.g. "9:30 pm")
@@ -2683,7 +2809,7 @@
               return String(hh).padStart(2, "0") + ":00";
             }
 
-            // 24h (e.g. "21:00" or from earlier "8.30" → "8:30")
+            // 24h (e.g. "21:00" or from earlier "8.30" ? "8:30")
             m = s.match(/\b(\d{1,2}):(\d{2})\b/);
             if (m) {
               const hh = Math.min(23, Math.max(0, parseInt(m[1], 10)));
@@ -2693,7 +2819,7 @@
               );
             }
 
-            // Bare hour heuristic (evening bias 5–11 → PM)
+            // Bare hour heuristic (evening bias 5'11 ? PM)
             m = s.match(/(?:^|\b)(\d{1,2})(?:\b|$)/);
             if (m) {
               const hhNum = parseInt(m[1], 10);
@@ -2858,7 +2984,7 @@
                   let showOpen = isMeaningfulLink(openHref);
                   let showTicket = isMeaningfulLink(ticketUrl);
 
-                  // if Commun'ull and the “ticket” link is just Facebook, don't show a Tickets button
+                  // if Commun'ull and the 'ticket' link is just Facebook, don't show a Tickets button
                   const vName = venueLabel(ev);
                   if (
                     DEFAULT_FREE_VENUES.has(vName) &&
@@ -2910,9 +3036,9 @@
                     let priceDisplay = "";
                     if (Array.isArray(ev.tickets) && ev.tickets[0]?.label) {
                       const ticketLabel = ev.tickets[0].label;
-                      // Extract price pattern like "£7.00", "£7.70 (£7.00)", etc.
+                      // Extract price pattern like "'7.00", "'7.70 ('7.00)", etc.
                       const priceMatch = ticketLabel.match(
-                        /£\d+(?:\.\d{2})?(?:\s*\([^)]*\))?/
+                        /'\d+(?:\.\d{2})?(?:\s*\([^)]*\))?/
                       );
                       if (priceMatch) {
                         priceDisplay = `<span class="price">${escapeHTML(
@@ -2964,7 +3090,7 @@
                         day: String(d.getDate()).padStart(2, "0"),
                         mon: d.toLocaleDateString("en-GB", { month: "short" }),
                       }
-                    : { dow: "", day: "–", mon: "" };
+                    : { dow: "", day: "'", mon: "" };
 
                   return `
           <article class="event" role="article" aria-label="${escapeHTML(
@@ -2986,7 +3112,7 @@
                 meta || "<span class='muty'>Details TBC</span>"
               }</div>
               <div class="source">
-                <span>📍</span>
+                <span>??</span>
                 <span>${(() => {
                   const addr = ev.address ? escapeHTML(ev.address) : "";
                   const v = ev.venue ? escapeHTML(ev.venue) : "";
@@ -3042,7 +3168,7 @@
                         <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 170, 0, 0.05) 0%, transparent 50%); pointer-events: none;"></div>
                         <div style="padding: 24px; position: relative; z-index: 1;">
                           <div style="text-align: center; margin-bottom: 20px;">
-                            <h2 class="title" style="color: var(--accent); margin: 0 0 4px 0; font-size: 18px; letter-spacing: 0.5px;">🍾 HU5 NYE Closing Times</h2>
+                            <h2 class="title" style="color: var(--accent); margin: 0 0 4px 0; font-size: 18px; letter-spacing: 0.5px;">?? HU5 NYE Closing Times</h2>
                             <div style="height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin-top: 8px;"></div>
                           </div>
                           <div class="nye-grid">
@@ -3067,7 +3193,7 @@
                               <div style="font-size: 16px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">1am</div>
                             </div>
                             <div style="padding: 12px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
-                              <div style="font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;">Späti</div>
+                              <div style="font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;">Sp'ti</div>
                               <div style="font-size: 16px; font-weight: 800; color: var(--accent); text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);">2am</div>
                             </div>
                             <div style="padding: 12px; border-radius: 8px; background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.05) 100%); border: 1.5px solid rgba(0, 212, 255, 0.4); text-align: center; transition: all 0.3s; cursor: default;">
@@ -3246,7 +3372,7 @@
 
           let arr = [...state.all];
 
-          // Keep dated events from today (local) onwards; keep undated (we’ll hide if toggle off)
+          // Keep dated events from today (local) onwards; keep undated (we'll hide if toggle off)
           const today0 = startOfTodayLocal();
           arr = arr.filter((e) => {
             if (!e._hasDate) return true;
@@ -3345,7 +3471,7 @@
         function updateAdminPanel() {
           const s = state.stats;
           $("#adminSummary").textContent =
-            `Loads: ${s.loads} • Last load: ${s.lastLoadMs}ms • Render: ${s.lastRenderMs}ms • Filters used: ${s.filtersUsed}`;
+            `Loads: ${s.loads} ' Last load: ${s.lastLoadMs}ms ' Render: ${s.lastRenderMs}ms ' Filters used: ${s.filtersUsed}`;
           const venueRows = Object.entries(s.venues)
             .sort((a, b) => b[1] - a[1])
             .map(([v, c]) => `<tr><td>${escapeHTML(v)}</td><td>${c}</td></tr>`)
@@ -3355,9 +3481,9 @@
       <tr><th>Dated</th><td>${s.datedEvents}</td></tr>
       <tr><th>Undated</th><td>${s.undatedEvents}</td></tr>
       <tr><th>Last updated</th><td>${
-        state.lastUpdated ? state.lastUpdated.toLocaleString() : "—"
+        state.lastUpdated ? state.lastUpdated.toLocaleString() : "'"
       }</td></tr>
-      <tr><th>Last filters applied</th><td>${s.lastAppliedAt || "—"}</td></tr>
+      <tr><th>Last filters applied</th><td>${s.lastAppliedAt || "'"}</td></tr>
       <tr><th colspan="2"><strong>Events per venue</strong></th></tr>
       ${venueRows || '<tr><td colspan="2" class="muty">No data</td></tr>'}
     `;
@@ -3571,7 +3697,7 @@
           const dot = document.querySelector("#nextRefresh .dot");
           const ms = Math.max(0, state.nextTickAt - Date.now());
           if (ms === 0) {
-            els.refreshText.textContent = "Refreshing…";
+            els.refreshText.textContent = "Refreshing'";
           }
           const m = Math.floor(ms / 60000);
           const s = Math.floor((ms % 60000) / 1000);
@@ -3652,7 +3778,7 @@
           try {
             els.status.hidden = false;
             els.status.className = "empty";
-            els.status.textContent = initial ? "Loading…" : "Refreshing…";
+            els.status.textContent = initial ? "Loading'" : "Refreshing'";
             load();
             const data = await fetchEventsJson();
 
@@ -3731,7 +3857,7 @@
             els.status.className = "error";
             els.status.textContent =
               e.message ||
-              "Could not load events.json — run the fetcher first.";
+              "Could not load events.json ' run the fetcher first.";
           }
         }
 

@@ -44,7 +44,7 @@ const SHEETS_URL =
 const log = (...args) => {
   const timestamp = new Date().toISOString().split("T")[1].split(".")[0];
   const levelMatch = args[0]?.match?.(
-    /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv)\]/i
+    /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv|pave)\]/i
   );
   const level = levelMatch ? levelMatch[1] : "info";
   const prefix = `[${timestamp}]`;
@@ -66,6 +66,7 @@ const log = (...args) => {
     umu: "\x1b[34m", // blue
     dive: "\x1b[34m", // blue
     csv: "\x1b[33m", // yellow
+    pave: "\x1b[34m", // blue
   };
 
   const color = colors[level?.toLowerCase()] || colors.info;
@@ -77,7 +78,6 @@ const log = (...args) => {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const unique = (arr) => [...new Set((arr || []).filter(Boolean))];
-const nowISO = () => new Date().toISOString();
 
 /* Normalize + decode HTML entities; squash whitespace; strip NBSPs */
 const normalizeWhitespace = (s = "") =>
@@ -394,18 +394,6 @@ function cleanTimeCandidate(input = "") {
     .trim();
 
   return s;
-}
-
-function firstTimeSnippetGlobal(raw) {
-  if (!raw) return null;
-  const s = String(raw);
-  let m = s.match(/\b\d{1,2}(?::\d{2})?\s*(?:am|pm)\b/i);
-  if (m) return m[0];
-  m = s.match(/\b\d{1,2}:\d{2}\b/);
-  if (m) return m[0];
-  m = s.match(/\bdoors?\s*[:\-]?\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i);
-  if (m) return m[0];
-  return null;
 }
 
 /** Normalise many time-ish things to "HH:mm" (24h). Returns null if not parseable. */
@@ -941,6 +929,8 @@ const VENUE_COORDS = {
   "Späti Bar": { lat: 53.7683, lon: -0.3403 },
   Hoi: { lat: 53.7697, lon: -0.3375 },
   "Newland Tap": { lat: 53.769, lon: -0.34 },
+  Underdog: { lat: 53.7686, lon: -0.3375 },
+  "Pave Bar": { lat: 53.7686, lon: -0.3375 },
 };
 
 // Calculate distance between two lat/lon points (in km)
