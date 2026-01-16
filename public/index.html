@@ -1726,6 +1726,7 @@
           "Mr Moody's Tavern",
           "Molly Mangan's",
           "Underdog",
+          "Pave Bar",
         ]);
 
         // Normalise venue labels across sources (for filtering chip)
@@ -1746,6 +1747,7 @@
           if (/\bmr\s*moody'?s\b/.test(raw)) return "Mr Moody's Tavern";
           if (/\bhoi\b/.test(raw)) return "Hoi";
           if (/\bunderdog\b/.test(raw)) return "Underdog";
+          if (/\bpave\b/.test(raw)) return "Pave Bar";
           if (/\bdive\b.*hu5|skiddle\.com\/whats-on\/hull\/dive-hu5/i.test(raw))
             return "DIVE HU5";
           return ev.venue || ev.source || "Other";
@@ -1761,6 +1763,7 @@
           "Mr Moody's Tavern": /\bmoody'?s\b/i,
           Hoi: /\bhoi\b/i,
           Underdog: /\bunderdog\b/i,
+          "Pave Bar": /\bpave\b/i,
           "DIVE HU5": /\bdive\b.*\bhu5\b/i,
         };
 
