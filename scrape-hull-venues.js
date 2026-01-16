@@ -576,8 +576,8 @@ function extractEventFromJSONLD($$, pageUrl) {
               const offersRaw = Array.isArray(g.offers)
                 ? g.offers
                 : g.offers
-                ? [g.offers]
-                : [];
+                  ? [g.offers]
+                  : [];
 
               const tickets = offersRaw
                 .map((o) => ({
@@ -704,6 +704,7 @@ const VENUE_ADDR = {
   "mr moodys tavern": "6 Newland Ave, Hull HU5 3AF",
   "commun'ull": "178 Chanterlands Avenue, Hull HU5 3TR",
   "commun’ull": "178 Chanterlands Avenue, Hull HU5 3TR",
+  underdog: "12a Princes Ave, Hull HU5 3QA",
 
   // Common aliases / signage
   "polar bear": "229 Spring Bank, Hull, HU3 1LR",
@@ -3675,6 +3676,7 @@ async function main() {
     const skipDive = process.env.SKIP_DIVE === "1";
     const skipTPR = process.env.SKIP_TPR === "1";
     const skipMoodys = process.env.SKIP_MOODYS === "1";
+    const skipUnderdog = process.env.SKIP_UNDERDOG === "1";
     const onlyNewland = process.env.ONLY_NEWLAND_TAP === "1";
 
     log("[cfg] SKIP_WELLY =", skipWelly ? "1" : "0");
@@ -3683,6 +3685,7 @@ async function main() {
     log("[cfg] SKIP_DIVE  =", skipDive ? "1" : "0");
     log("[cfg] SKIP_TPR   =", skipTPR ? "1" : "0");
     log("[cfg] SKIP_MOODYS =", skipMoodys ? "1" : "0");
+    log("[cfg] SKIP_UNDERDOG =", skipUnderdog ? "1" : "0");
     log("[cfg] ONLY_NEWLAND_TAP =", onlyNewland ? "1" : "0");
 
     let tasks;
@@ -3735,6 +3738,13 @@ async function main() {
           csvUrl:
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0-Kc66mqUugdCaxTW9IPMSrMuRhbiWkkIRvlOY1s1hWMSDdi1FM9C7vrDvENgb6L6jCM_Ji3UUqL0/pub?output=csv",
           address: "22-24 Princes Ave, Hull HU5 3QA",
+          tz: TZ,
+        }),
+        scrapeCsvVenue({
+          name: "Underdog",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQDgKYBCow0Z54ZRIAFI4Otzt4jgK9S-fX02ZcX_3VrqGiMlQlujvqL_agFyA5UQR5p50hCy0nQOBx5/pub?output=csv",
+          address: "12a Princes Ave, Hull HU5 3QA",
           tz: TZ,
         }),
         // ⭐ Newland Tap also included in normal mode

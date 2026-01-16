@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en-GB">
   <head>
     <!-- Preload critical resources -->
@@ -40,10 +40,10 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
 
-    <title>Find HU5 Events — Hull gigs, pub nights & open mics</title>
+    <title>Events Tonight Hull | Live Music, Comedy & Gigs in HU5</title>
     <meta
       name="description"
-      content="What’s on in Hull’s HU5: live music, quizzes, comedy nights and open mics at Polar Bear, Adelphi, Welly, The People’s Republic, UMU and more — updated daily."
+      content="Find events tonight in Hull HU5: live music gigs, comedy nights, Irish bar events, quizzes & open mics at 9+ venues. Updated daily. What's on this weekend?"
     />
     <meta
       name="robots"
@@ -78,11 +78,11 @@
     <!-- Social sharing (Open Graph) -->
     <meta
       property="og:title"
-      content="Find HU5 Events — Hull gigs, pub nights & open mics"
+      content="Events Tonight Hull | Live Music & Comedy in HU5"
     />
     <meta
       property="og:description"
-      content="All HU5 events in one place: gigs, quizzes, comedy, and more — updated daily."
+      content="Find live events tonight in Hull HU5: gigs, comedy nights, Irish bar events, quizzes & more. What's on this weekend?"
     />
     <meta property="og:url" content="https://www.findhu5.events/" />
     <meta property="og:type" content="website" />
@@ -101,7 +101,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Find HU5 Events — Hull gigs, pub nights & open mics"
+      content="Events Tonight Hull | Live Music & Comedy in HU5"
     />
     <meta
       name="twitter:description"
@@ -129,6 +129,47 @@
           "target": "https://www.findhu5.events/?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What events are on tonight in Hull?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Browse live music gigs, comedy nights, quizzes and more happening in Hull's HU5 area. Our site aggregates events from 9+ venues including Polar Bear, Adelphi, Welly, The People's Republic and UMU."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where can I find live music in Hull?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Find live music events at Hull venues like Polar Bear, Adelphi, The Welly Club, UMU, The People's Republic and more. Search by date, venue or artist."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What Irish bar events are in Hull?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Browse Irish bar events and traditional pub nights in Hull's HU5 postcode area. Filter by venue to find specific bars and their upcoming events."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where are comedy nights in Hull?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Find comedy nights and open mic events happening in Hull. Check what's on this weekend or search for specific comedy shows."
+            }
+          }
+        ]
       }
     </script>
 
@@ -207,8 +248,12 @@
         margin: 0;
         background: var(--bg-gradient);
         color: var(--text);
-        font: clamp(14px, 1.9vw, 16px) / 1.55 system-ui, -apple-system, Segoe UI,
-          Roboto, Arial;
+        font:
+          clamp(14px, 1.9vw, 16px) / 1.55 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial;
         overflow-x: hidden;
         text-rendering: optimizeLegibility;
         position: relative;
@@ -220,7 +265,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(
+        background:
+          radial-gradient(
             circle at 20% 50%,
             rgba(0, 212, 255, 0.12) 0%,
             transparent 50%
@@ -269,11 +315,13 @@
       @keyframes glow-pulse {
         0%,
         100% {
-          box-shadow: 0 0 20px rgba(0, 212, 255, 0.4),
+          box-shadow:
+            0 0 20px rgba(0, 212, 255, 0.4),
             inset 0 0 20px rgba(0, 212, 255, 0.1);
         }
         50% {
-          box-shadow: 0 0 40px rgba(0, 240, 255, 0.6),
+          box-shadow:
+            0 0 40px rgba(0, 240, 255, 0.6),
             inset 0 0 30px rgba(0, 212, 255, 0.2);
         }
       }
@@ -394,7 +442,8 @@
       }
       .topbar a.social-link:hover {
         border-color: #fff;
-        box-shadow: 0 0 20px rgba(245, 133, 41, 0.5),
+        box-shadow:
+          0 0 20px rgba(245, 133, 41, 0.5),
           inset 0 0 20px rgba(255, 255, 255, 0.2);
         transform: translateY(-2px) scale(1.05);
       }
@@ -458,7 +507,8 @@
         font-weight: 900;
         font-size: 18px;
         color: #fff;
-        box-shadow: 0 0 20px var(--glow-strong),
+        box-shadow:
+          0 0 20px var(--glow-strong),
           inset 0 0 20px rgba(255, 255, 255, 0.1);
         animation: glow-pulse 3s ease-in-out infinite;
       }
@@ -498,8 +548,8 @@
       select:focus {
         border-color: var(--accent);
         background: color-mix(in oklab, var(--card) 95%, var(--bg));
-        box-shadow: 0 0 0 4px
-            color-mix(in oklab, var(--accent) 25%, transparent),
+        box-shadow:
+          0 0 0 4px color-mix(in oklab, var(--accent) 25%, transparent),
           0 0 15px var(--glow);
       }
       .btn,
@@ -693,7 +743,8 @@
         color: var(--muted);
         text-align: center;
         background: color-mix(in oklab, var(--card) 60%, var(--bg));
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.1),
+        box-shadow:
+          0 0 20px rgba(0, 212, 255, 0.1),
           inset 0 0 20px rgba(0, 212, 255, 0.05);
         width: 100%;
         box-sizing: border-box;
@@ -794,7 +845,9 @@
         outline-offset: 2px;
       }
       .pill {
-        width: 100%;
+        width: auto;
+        aspect-ratio: 1;
+        min-width: 80px;
         border: 1.5px solid var(--accent);
         background: linear-gradient(
           135deg,
@@ -808,7 +861,8 @@
         flex-direction: column;
         gap: 2px;
         justify-content: center;
-        box-shadow: 0 0 12px rgba(0, 212, 255, 0.15),
+        box-shadow:
+          0 0 12px rgba(0, 212, 255, 0.15),
           inset 0 1px 2px rgba(255, 255, 255, 0.2),
           inset 0 -2px 4px rgba(0, 0, 0, 0.2);
         position: relative;
@@ -818,21 +872,22 @@
       .pill::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
         background: linear-gradient(
           45deg,
-          transparent 40%,
-          rgba(255, 255, 255, 0.15) 50%,
-          transparent 60%
+          transparent 30%,
+          rgba(255, 255, 255, 0.2) 50%,
+          transparent 70%
         );
         pointer-events: none;
-        animation: shimmer 12s infinite;
+        animation: shimmer 3s ease-in-out infinite;
       }
       .pill:hover {
-        box-shadow: 0 0 18px rgba(0, 212, 255, 0.25),
+        box-shadow:
+          0 0 18px rgba(0, 212, 255, 0.25),
           inset 0 1px 3px rgba(255, 255, 255, 0.3),
           inset 0 -2px 4px rgba(0, 0, 0, 0.2);
         transform: translateY(-2px);
@@ -847,12 +902,13 @@
         z-index: 1;
       }
       .pill .day {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 900;
         color: var(--accent2);
         position: relative;
         z-index: 1;
-        text-shadow: 0 0 4px rgba(0, 240, 255, 0.2);
+        text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+        line-height: 1;
       }
       .pill .mon {
         font-size: 12px;
@@ -1006,7 +1062,8 @@
         );
         border-color: var(--accent);
         color: var(--accent);
-        box-shadow: 0 0 16px rgba(0, 212, 255, 0.25),
+        box-shadow:
+          0 0 16px rgba(0, 212, 255, 0.25),
           inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
       .btn[data-kind="tickets"]:hover {
@@ -1016,7 +1073,8 @@
           color-mix(in oklab, var(--accent) 20%, var(--chip)) 100%
         );
         border-color: var(--accent);
-        box-shadow: 0 0 28px rgba(0, 212, 255, 0.5),
+        box-shadow:
+          0 0 28px rgba(0, 212, 255, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.2);
         transform: translateY(-1px);
       }
@@ -1215,7 +1273,9 @@
         box-shadow: 0 8px 32px var(--glow);
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.24s ease, transform 0.24s ease;
+        transition:
+          opacity 0.24s ease,
+          transform 0.24s ease;
         z-index: 80;
         font-weight: 700;
       }
@@ -1292,7 +1352,7 @@
             <div>
               <h1>HU5 Events Finder</h1>
               <div class="tag">
-                HU5 Venues all in one place - built for the community
+                Find live events, gigs & what's on tonight in Hull
               </div>
             </div>
           </div>
@@ -1384,6 +1444,58 @@
     </header>
 
     <main class="wrap">
+      <!-- SEO-optimized intro content (visually hidden, but indexed) -->
+      <div
+        style="
+          position: absolute;
+          left: -9999px;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+        "
+      >
+        <h2>Events Tonight in Hull</h2>
+        <p>
+          Find what's on tonight in Hull with our comprehensive event finder.
+          Browse live music gigs, comedy nights, Irish bar events, quizzes, open
+          mics and more at venues across Hull's HU5 postcode area. Updated daily
+          with events from Polar Bear, Adelphi, Welly, The People's Republic,
+          UMU and many more.
+        </p>
+
+        <h3>Live Music Hull</h3>
+        <p>
+          Discover live music events and gigs happening in Hull. Find acoustic
+          sets, rock bands, tribute acts, DJ nights and more at your favourite
+          venues.
+        </p>
+
+        <h3>Comedy Nights in Hull</h3>
+        <p>
+          Looking for comedy nights in Hull? Browse stand-up comedy shows, open
+          mic events and comedy club nights happening this week and weekend.
+        </p>
+
+        <h3>Irish Bar Events Hull</h3>
+        <p>
+          Find traditional Irish bar events, live traditional music sessions,
+          ceili nights and Irish-themed pub events across Hull.
+        </p>
+
+        <h3>What's On This Weekend in Hull</h3>
+        <p>
+          See our complete guide to weekend events in Hull including gigs, pub
+          nights, quizzes, dance nights and more.
+        </p>
+
+        <h3>Search Events by Venue</h3>
+        <p>
+          Filter events by Hull venue including The Polar Bear, Adelphi, Welly
+          Club, The People's Republic, UMU and more establishments hosting live
+          events.
+        </p>
+      </div>
+
       <div id="status" class="empty" hidden>Loading…</div>
       <div id="list" aria-live="polite"></div>
       <button id="fabTop" class="seg" aria-label="Back to filters">
@@ -1613,6 +1725,7 @@
           "Vox Box",
           "Mr Moody's Tavern",
           "Molly Mangan's",
+          "Underdog",
         ]);
 
         // Normalise venue labels across sources (for filtering chip)
@@ -1632,6 +1745,7 @@
           if (/\bcommun'ull\b/.test(raw)) return "Commun'ull";
           if (/\bmr\s*moody'?s\b/.test(raw)) return "Mr Moody's Tavern";
           if (/\bhoi\b/.test(raw)) return "Hoi";
+          if (/\bunderdog\b/.test(raw)) return "Underdog";
           if (/\bdive\b.*hu5|skiddle\.com\/whats-on\/hull\/dive-hu5/i.test(raw))
             return "DIVE HU5";
           return ev.venue || ev.source || "Other";
@@ -1646,31 +1760,27 @@
           "The People's Republic": /\bpeople'?s\s*republic\b|\btpr\b/i,
           "Mr Moody's Tavern": /\bmoody'?s\b/i,
           Hoi: /\bhoi\b/i,
+          Underdog: /\bunderdog\b/i,
           "DIVE HU5": /\bdive\b.*\bhu5\b/i,
         };
 
-        // Append venue to title unless the title already obviously contains it
+        // Append venue to title unless the title already ends with it
         function ensureVenueInTitle(title, venue) {
-          const t = String(title || "");
+          const t = String(title || "").trim();
           const v = String(venue || "").trim();
-          if (!v) return t;
+          if (!v || !t) return t;
 
-          // If we have a known alias/regex and it matches the title, don't append
-          const alias = VENUE_ALIASES[v];
-          if (alias && alias.test(t)) return t;
+          // If title already ends with " - Venue" pattern, don't append
+          const endPattern = new RegExp(
+            `\\s*-\\s*${v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*$`,
+            "i"
+          );
+          if (endPattern.test(t)) {
+            return t;
+          }
 
-          // Generic fuzzy match fallback
-          const norm = (s) =>
-            s
-              .toLowerCase()
-              .replace(/the\s+/g, "")
-              .replace(/\b(club|bar|venue)\b/g, "")
-              .replace(/[^a-z0-9]+/g, " ")
-              .trim();
-
-          if (norm(t).includes(norm(v))) return t;
-
-          return `${t} — ${v}`;
+          // Otherwise append it
+          return `${t} - ${v}`;
         }
 
         // ICS-like URLs? then link to listings page instead
@@ -1728,8 +1838,8 @@
             ev && ev.end
               ? parseMaybe(ev.end)
               : start
-              ? new Date(start.getTime() + 2 * 60 * 60 * 1000)
-              : null;
+                ? new Date(start.getTime() + 2 * 60 * 60 * 1000)
+                : null;
           if (!start || !end) return null;
 
           const s = toGCalDateISO(start),
@@ -2874,13 +2984,18 @@
               }</div>
               <div class="source">
                 <span>📍</span>
-                <span>${
-                  ev.address
-                    ? escapeHTML(ev.address)
-                    : ev.venue
-                    ? escapeHTML(ev.venue)
-                    : ""
-                }</span>
+                <span>${(() => {
+                  const addr = ev.address ? escapeHTML(ev.address) : "";
+                  const v = ev.venue ? escapeHTML(ev.venue) : "";
+                  if (addr) {
+                    // Only prepend venue if it's not already in the address
+                    if (v && !addr.toLowerCase().includes(v.toLowerCase())) {
+                      return `${v} - ${addr}`;
+                    }
+                    return addr;
+                  }
+                  return v || "";
+                })()}</span>
               </div>
             </div>
 <div class="card-actions">
@@ -3226,9 +3341,8 @@
         /* ============================== ADMIN ============================== */
         function updateAdminPanel() {
           const s = state.stats;
-          $(
-            "#adminSummary"
-          ).textContent = `Loads: ${s.loads} • Last load: ${s.lastLoadMs}ms • Render: ${s.lastRenderMs}ms • Filters used: ${s.filtersUsed}`;
+          $("#adminSummary").textContent =
+            `Loads: ${s.loads} • Last load: ${s.lastLoadMs}ms • Render: ${s.lastRenderMs}ms • Filters used: ${s.filtersUsed}`;
           const venueRows = Object.entries(s.venues)
             .sort((a, b) => b[1] - a[1])
             .map(([v, c]) => `<tr><td>${escapeHTML(v)}</td><td>${c}</td></tr>`)
