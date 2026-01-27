@@ -44,7 +44,7 @@ const SHEETS_URL =
 const log = (...args) => {
   const timestamp = new Date().toISOString().split("T")[1].split(".")[0];
   const levelMatch = args[0]?.match?.(
-    /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv|pave)\]/i
+    /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv|pave)\]/i,
   );
   const level = levelMatch ? levelMatch[1] : "info";
   const prefix = `[${timestamp}]`;
@@ -123,13 +123,13 @@ function isPostponed(ev) {
 const isSoldOut = (text = "") =>
   // Check if event description indicates tickets are sold out
   /\b(sold\s*out|tickets?\s*sold\s*out|no\s*tickets\s*left|fully\s*booked)\b/i.test(
-    text
+    text,
   );
 
 function offersIndicateSoldOut(offers = []) {
   const arr = Array.isArray(offers) ? offers : [offers].filter(Boolean);
   return arr.some((o) =>
-    /SoldOut|OutOfStock/i.test(String(o?.availability || ""))
+    /SoldOut|OutOfStock/i.test(String(o?.availability || "")),
   );
 }
 
@@ -178,7 +178,8 @@ function deduplicateEvents(events) {
   for (const ev of events) {
     // Create a dedup key from normalized title, start date, and venue
     const normalizedTitle = (ev.title || "").toLowerCase().trim();
-    const dateKey = ev.start ? new Date(ev.start).toDateString() : "undated";
+    // Use ISO date string part directly to avoid timezone-related issues with toDateString()
+    const dateKey = ev.start ? dayjs(ev.start).format("YYYY-MM-DD") : "undated";
     const venueKey = (ev.venue || "").toLowerCase().trim();
     const key = `${normalizedTitle}|${dateKey}|${venueKey}`;
 
@@ -220,7 +221,7 @@ async function fetchWithTimeout(
     timeoutMs = 15000, // 15s per request
     retries = 1, // retry once on network/timeouts
     retryDelayMs = 500, // backoff baseline
-  } = {}
+  } = {},
 ) {
   let lastErr;
   for (let attempt = 0; attempt <= retries; attempt++) {
@@ -251,7 +252,7 @@ async function fetchWithTimeout(
 function collectSkiddleEventLinks(
   $,
   pageUrl,
-  base = "https://www.skiddle.com"
+  base = "https://www.skiddle.com",
 ) {
   const links = new Set();
 
@@ -342,7 +343,7 @@ function extractTimeFrom(text = "") {
   const m24 = t.match(/\b\d{1,2}[:.]\d{2}\b/)?.[0];
   const m12b = t.match(/\b\d{1,2}\s*(am|pm)\b/i)?.[0];
   const mDoors = t.match(
-    /\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?(?:\s*(am|pm))?)\b/i
+    /\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?(?:\s*(am|pm))?)\b/i,
   )?.[1];
 
   let raw = m12a || m24 || m12b || mDoors || "";
@@ -368,12 +369,12 @@ function cleanTimeCandidate(input = "") {
     // £10, £10.25, £10/£12, £10.25/£12.50
     .replace(
       /£\s*\d{1,3}(?:\.\d{2})?(?:\s*\/\s*£?\s*\d{1,3}(?:\.\d{2})?)*/g,
-      ""
+      "",
     )
     // bare decimals that look like prices when followed by fee words
     .replace(
       /\b\d{1,3}\.\d{2}\b(?=\s*(?:adv|otd|door|entry|tickets?|\+?bf|\+?fee|\+?fees))/gi,
-      ""
+      "",
     )
     // price-like ranges without currency (10/12, 8/10 etc.)
     .replace(/\b\d{1,3}(?:\.\d{2})?\s*\/\s*\d{1,3}(?:\.\d{2})?\b/g, "");
@@ -385,7 +386,7 @@ function cleanTimeCandidate(input = "") {
   s = s
     .replace(
       /\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?\s*/g,
-      ""
+      "",
     )
     .replace(/\b(?:till|’?\s*til|til)\s*late\b/g, "")
     .replace(/\blate\b/g, "")
@@ -425,7 +426,7 @@ function to24h(raw) {
 
   // range like "7 pm – 11 pm" → take the first time
   m = s.match(
-    /\b(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i
+    /\b(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*[–-]\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?\b/i,
   );
   if (m) return to24h(m[1]);
 
@@ -511,10 +512,10 @@ function tryParseDateFromText(text) {
   const fragment =
     cleaned.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
     cleaned.match(
-      /\b\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}\b/i
+      /\b\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}\b/i,
     )?.[0] ||
     cleaned.match(
-      /\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}\s+\w+\s+\d{4}\b/i
+      /\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}\s+\w+\s+\d{4}\b/i,
     )?.[0];
 
   if (fragment) {
@@ -558,7 +559,7 @@ function extractEventFromJSONLD($$, pageUrl) {
                 g.location?.name ||
                   g.location?.address?.streetAddress ||
                   g.location?.address?.addressLocality ||
-                  ""
+                  "",
               );
 
               const offersRaw = Array.isArray(g.offers)
@@ -620,11 +621,11 @@ function inferYearAndTime(dateText = "", timeText = "", tz = TZ) {
       let cand = dayjs.tz(
         `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
           2,
-          "0"
+          "0",
         )}`,
         "YYYY-MM-DD",
         tz,
-        true
+        true,
       );
       if (cand.isBefore(CUTOFF)) cand = cand.add(1, "year");
       return {
@@ -636,7 +637,7 @@ function inferYearAndTime(dateText = "", timeText = "", tz = TZ) {
 
   // (B) month-name formats without year: "5 Nov", "Wed 5 November", etc.
   m = clean.match(
-    /\b(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*\s+)?(\d{1,2})\s+([A-Za-z]+)\b/i
+    /\b(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*\s+)?(\d{1,2})\s+([A-Za-z]+)\b/i,
   );
   if (m) {
     const d = parseInt(m[1], 10);
@@ -660,11 +661,11 @@ function inferYearAndTime(dateText = "", timeText = "", tz = TZ) {
       let cand = dayjs.tz(
         `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
           2,
-          "0"
+          "0",
         )}`,
         "YYYY-MM-DD",
         tz,
-        true
+        true,
       );
       if (cand.isBefore(CUTOFF)) cand = cand.add(1, "year");
       return {
@@ -776,7 +777,7 @@ function buildEvent({
           "D MMM YYYY HH:mm",
           "D MMMM YYYY HH:mm",
         ],
-        tz
+        tz,
       );
       start = toISO(strict);
     }
@@ -891,7 +892,7 @@ function parseCSV(text) {
     String(h || "")
       .toLowerCase()
       .trim()
-      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/[^a-z0-9]+/g, "_"),
   );
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
@@ -1080,8 +1081,8 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
   if (tixCol === -1) {
     log(
       `${TAG} [WARN] tickets column not found (looked for: ${TIX_HEADERS.join(
-        " | "
-      )})`
+        " | ",
+      )})`,
     );
   } else {
     log(`${TAG} tickets column = ${tixCol + 1}: "${headers[tixCol]}"`);
@@ -1091,8 +1092,8 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
   if (priceCol === -1) {
     log(
       `${TAG} [WARN] price column not found (looked for: ${PRICE_HEADERS.join(
-        " | "
-      )})`
+        " | ",
+      )})`,
     );
   } else {
     log(`${TAG} price column = ${priceCol + 1}: "${headers[priceCol]}"`);
@@ -1131,7 +1132,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
     let ticketUrls = findUrls(ticketsRaw);
 
     const rowText = normalizeWhitespace(
-      (Array.isArray(r) ? r.join(" ") : Object.values(r).join(" ")) || ""
+      (Array.isArray(r) ? r.join(" ") : Object.values(r).join(" ")) || "",
     );
 
     // mark sold out / free
@@ -1184,7 +1185,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
       log(
         `${rowTag} parsed startISO=${
           startISO || "(null)"
-        } from date='${dateWithYear}' time='${timeWithDefault}'`
+        } from date='${dateWithYear}' time='${timeWithDefault}'`,
       );
       if (!startISO) log(`${rowTag} [WARN] still undated after inference`);
 
@@ -1231,7 +1232,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
   }
 
   log(
-    `${TAG} done: kept=${kept}, skippedPast=${skippedPast}, skippedEmpty=${skippedEmpty}, errors=${errors}`
+    `${TAG} done: kept=${kept}, skippedPast=${skippedPast}, skippedEmpty=${skippedEmpty}, errors=${errors}`,
   );
   return out;
 }
@@ -1332,7 +1333,7 @@ async function scrapePolarBear() {
         x.search = "";
         x.hash = "";
         return x.toString();
-      })
+      }),
   );
 
   log(`[polar] candidate detail links: ${eventLinks.length}`);
@@ -1359,10 +1360,10 @@ async function scrapePolarBear() {
           " " +
           $h1.nextAll().slice(0, 4).text() +
           " " +
-          $h1.parent().next().text()
+          $h1.parent().next().text(),
       );
       const big = normalizeWhitespace(
-        $$("main, article, .event, body").first().text()
+        $$("main, article, .event, body").first().text(),
       );
 
       // Date (look in nearby first, then big sweep)
@@ -1370,12 +1371,12 @@ async function scrapePolarBear() {
         near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
         near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
         near.match(
-          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i
+          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i,
         )?.[0] ||
         big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
         big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
         big.match(
-          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i
+          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i,
         )?.[0] ||
         "";
 
@@ -1398,8 +1399,8 @@ async function scrapePolarBear() {
       const tickets = $$("a[href]")
         .filter((_, a) =>
           /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
-            $$(a).attr("href") || ""
-          )
+            $$(a).attr("href") || "",
+          ),
         )
         .map((_, a) => {
           const href = $$(a).attr("href") || "";
@@ -1417,7 +1418,7 @@ async function scrapePolarBear() {
 
       // Extract price from page text if available
       const priceMatch = pageText.match(
-        /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+        /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
       );
       const priceText = priceMatch ? priceMatch[0] : null;
 
@@ -1484,26 +1485,104 @@ async function scrapeAdelphi() {
 
   const $ = cheerio.load(html);
 
-  // Step 2: Extract candidate event URLs
-  const eventLinks = $("a[href]")
-    .map((_, a) => $(a).attr("href"))
-    .get()
-    .map((href) => safeNewURL(href, base))
-    .filter(Boolean)
-    .filter((u) => {
-      try {
-        const { hostname, pathname, search } = new URL(u);
-        if (hostname !== baseHost) return false;
-        if (/^mailto:|^tel:/i.test(u)) return false;
-        if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(pathname)) return false;
-        if (/eventDisplay=past/i.test(search)) return false;
-        return /^\/event\/[^/]+\/?$|^\/events\/[^/]+\/?$/i.test(pathname);
-      } catch {
-        return false;
-      }
-    });
+  // Step 2: Extract candidate event URLs - look for actual event listing elements
+  // The Adelphi website shows events in a list. Extract only URLs from event containers
+  let eventLinks = [];
 
-  const urls = eventLinks.length ? eventLinks : [listURL];
+  // Try to find event container elements and extract their links
+  // Look for common event listing patterns
+  const eventContainers = $(
+    '[class*="event"], [class*="post"], [class*="listing"], article, .tribe-events-list-event-title',
+  );
+
+  if (eventContainers.length > 0) {
+    // If we found event containers, extract links from them
+    eventLinks = eventContainers
+      .find("a[href]")
+      .map((_, a) => $(a).attr("href"))
+      .get()
+      .map((href) => safeNewURL(href, base))
+      .filter(Boolean)
+      .filter((u) => {
+        try {
+          const { hostname, pathname, search } = new URL(u);
+          if (hostname !== baseHost) return false;
+          if (/^mailto:|^tel:/i.test(u)) return false;
+          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(pathname))
+            return false;
+          if (/eventDisplay=past/i.test(search)) return false;
+          return /^\/events?\/[^/]+\/?$/i.test(pathname);
+        } catch {
+          return false;
+        }
+      });
+  }
+
+  // If we didn't find event containers, fall back to finding all event links
+  if (eventLinks.length === 0) {
+    eventLinks = $("a[href]")
+      .map((_, a) => $(a).attr("href"))
+      .get()
+      .map((href) => safeNewURL(href, base))
+      .filter(Boolean)
+      .filter((u) => {
+        try {
+          const { hostname, pathname, search } = new URL(u);
+          if (hostname !== baseHost) return false;
+          if (/^mailto:|^tel:/i.test(u)) return false;
+          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(pathname))
+            return false;
+          if (/eventDisplay=past/i.test(search)) return false;
+          // More specific pattern: must be /events/something or /event/something
+          return /^\/events\/[^/]+\/?$|^\/event\/[^/]+\/?$/i.test(pathname);
+        } catch {
+          return false;
+        }
+      });
+  }
+
+  // Remove duplicates from eventLinks
+  const uniqueLinks = [...new Set(eventLinks)];
+
+  let urls = uniqueLinks.length ? uniqueLinks : [listURL];
+
+  // Step 2.5: Filter out already-scraped URLs to speed up incremental updates
+  // Load existing events to get URLs we've already processed
+  const existingUrls = new Set();
+  try {
+    const fs = await import("fs");
+    const path = await import("path");
+    const jsonPath = path.join(
+      path.dirname(import.meta.url.replace("file://", "")),
+      "public",
+      "events.json",
+    );
+    const stat = fs.statSync(jsonPath);
+    if (stat && stat.isFile()) {
+      const existingData = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+      if (Array.isArray(existingData)) {
+        existingData.forEach((ev) => {
+          if (ev.source === "The Adelphi Club" && ev.url) {
+            existingUrls.add(ev.url);
+          }
+        });
+      }
+    }
+  } catch (err) {
+    // Existing file doesn't exist or can't be read, that's OK
+    log("[adelphi] [info] No existing events cache found (first run?)");
+  }
+
+  const newUrls = urls.filter((u) => !existingUrls.has(u));
+  const skippedCount = urls.length - newUrls.length;
+
+  if (skippedCount > 0) {
+    log(
+      `[adelphi] [info] Skipping ${skippedCount} already-cached URLs, fetching ${newUrls.length} new ones`,
+    );
+  }
+
+  urls = newUrls.length > 0 ? newUrls : urls;
 
   log(`[adelphi] scraping ${urls.length} page(s)...`);
 
@@ -1529,12 +1608,12 @@ async function scrapeAdelphi() {
 
           const $h1 = $$("h1, .entry-title").first();
           const near = normalizeWhitespace(
-            $h1.text() + " " + $h1.nextAll().slice(0, 6).text()
+            $h1.text() + " " + $h1.nextAll().slice(0, 6).text(),
           );
           const big = normalizeWhitespace(
             $$(
-              "main, article, .entry-content, .tribe-events-single, body"
-            ).text()
+              "main, article, .entry-content, .tribe-events-single, body",
+            ).text(),
           );
 
           // --- Date ---
@@ -1546,7 +1625,7 @@ async function scrapeAdelphi() {
 
           if (dateText) {
             dateText = normalizeWhitespace(
-              stripOrdinals(dateText).replace(/,/g, " ")
+              stripOrdinals(dateText).replace(/,/g, " "),
             );
           } else {
             const fallbackDate = tryParseDateFromText(near + " " + big);
@@ -1563,18 +1642,18 @@ async function scrapeAdelphi() {
 
           const doorsMatch =
             big.match(
-              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
             ) ||
             near.match(
-              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
             );
 
           const startMatch =
             big.match(
-              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
             ) ||
             near.match(
-              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i
+              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
             );
 
           if (doorsMatch) {
@@ -1604,7 +1683,7 @@ async function scrapeAdelphi() {
                   `${dateText.trim()} ${t24.trim()}`,
                   "D MMM YYYY HH:mm",
                   TZ,
-                  true
+                  true,
                 );
                 if (d && d.isValid && d.isValid()) startISO = toISO(d);
               }
@@ -1628,7 +1707,10 @@ async function scrapeAdelphi() {
           // --- Past event filter ---
           if (startISO) {
             const d = dayjs(startISO);
-            if (d.isValid() && d.isBefore(CUTOFF)) {
+            // Use a more inclusive cutoff: accept events from yesterday onwards
+            // This ensures we capture same-day events and recent events
+            const inclusiveCutoff = CUTOFF.subtract(1, "day");
+            if (d.isValid() && d.isBefore(inclusiveCutoff)) {
               if (
                 CUTOFF.diff(d, "year") < 2 &&
                 pastSkipCount < PAST_SKIP_LIMIT
@@ -1655,8 +1737,8 @@ async function scrapeAdelphi() {
           const tickets = $$("a[href]")
             .filter((_, a) =>
               /(seetickets|gigantic|eventbrite|wegottickets|ticketsource|eventim)/i.test(
-                $$(a).attr("href") || ""
-              )
+                $$(a).attr("href") || "",
+              ),
             )
             .map((_, a) => {
               const href = $$(a).attr("href");
@@ -1674,7 +1756,7 @@ async function scrapeAdelphi() {
 
           // Extract price from page text if available
           const priceMatch = text.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
           );
           const priceText = priceMatch ? priceMatch[0] : null;
 
@@ -1702,7 +1784,7 @@ async function scrapeAdelphi() {
           log(`[adelphi] [ERR] error: ${err.message}`);
           return null;
         }
-      })
+      }),
     );
 
     for (const r of settled) {
@@ -1713,7 +1795,7 @@ async function scrapeAdelphi() {
   }
 
   log(
-    `[adelphi] [OK] done. Events: ${results.length}, Skipped past: ${pastSkipCount}`
+    `[adelphi] [OK] done. Events: ${results.length}, Skipped past: ${pastSkipCount}`,
   );
   return results;
 }
@@ -1753,16 +1835,16 @@ async function scrapeTPR() {
     // remove “… hosted by The People's Republic” (with/without separators)
     const hostedBy = new RegExp(
       String.raw`\s*(?:[-–—•|·]\s*)?(?:\(?\s*)?hosted by\s+${escapeRegex(
-        VENUE_NAME
+        VENUE_NAME,
       )}\s*\)?\s*$`,
-      "i"
+      "i",
     );
     x = x.replace(hostedBy, "");
 
     // also remove trailing “@ The People's Republic” or “at The People’s Republic”
     const atVenue = new RegExp(
       String.raw`\s*(?:[-–—•|·]\s*)?(?:@|at)\s+${escapeRegex(VENUE_NAME)}\s*$`,
-      "i"
+      "i",
     );
     x = x.replace(atVenue, "");
 
@@ -1788,7 +1870,7 @@ async function scrapeTPR() {
       t.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0] ||
       t.match(/\b\d{1,2}\s*(am|pm)\b/i)?.[0] ||
       t.match(
-        /\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i
+        /\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i,
       )?.[1] ||
       t.match(/\b\d{1,2}:\d{2}\b/)?.[0] ||
       ""
@@ -1858,7 +1940,7 @@ async function scrapeTPR() {
 
       const dateText =
         text.match(
-          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i
+          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i,
         )?.[0] ||
         text.match(/\b\d{1,2}\s+\w+\s+\d{4}\b/i)?.[0] ||
         text.match(/\b\d{4}-\d{2}-\d{2}\b/)?.[0] ||
@@ -1920,7 +2002,7 @@ async function scrapeTPR() {
 
     // 4) (Optional) tightly-scoped epoch fallback near "start/date/time" labels only
     const scoped = rawHtml.match(
-      /(?:start|date|time|timestamp)["'\s:]{0,20}(\d{10,13})/i
+      /(?:start|date|time|timestamp)["'\s:]{0,20}(\d{10,13})/i,
     );
     if (scoped) {
       const n = scoped[1].length === 13 ? +scoped[1] : +scoped[1] * 1000;
@@ -1935,7 +2017,7 @@ async function scrapeTPR() {
     $$("script").each((_, s) => {
       const raw = $$(s).contents().text() || "";
       const a = raw.match(
-        /"(startDate|start|dateTime)"\s*:\s*"([\dT:+-]{10,})"/i
+        /"(startDate|start|dateTime)"\s*:\s*"([\dT:+-]{10,})"/i,
       );
       if (a && a[2]) cands.push(a[2]);
     });
@@ -1946,7 +2028,7 @@ async function scrapeTPR() {
 
     // 6) loose ISO text
     const isoText = (rawHtml.match(
-      /\b20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?\b/
+      /\b20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?\b/,
     ) || [])[0];
     if (isoText) {
       const iso = toISO(isoText);
@@ -2021,13 +2103,13 @@ async function scrapeTPR() {
             title = cleanTPRTitle(normalizeWhitespace(title || ""));
 
             const $h1 = $$(
-              "h1, .title, .page-title, [class*='header'] h1"
+              "h1, .title, .page-title, [class*='header'] h1",
             ).first();
             const near = normalizeWhitespace(
-              ($h1.text() || "") + " " + $h1.nextAll().slice(0, 12).text()
+              ($h1.text() || "") + " " + $h1.nextAll().slice(0, 12).text(),
             );
             const big = normalizeWhitespace(
-              $$("main, article, .content, body").first().text()
+              $$("main, article, .content, body").first().text(),
             );
             const labeled = $$("dt:contains('Date'), dt:contains('When')")
               .next("dd")
@@ -2043,7 +2125,7 @@ async function scrapeTPR() {
             // Date/time candidates from detail (may be empty)
             let dateText =
               labeled.match(
-                /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i
+                /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i,
               )?.[0] ||
               near.match(/\b\d{1,2}\s+\w+\s+\d{4}\b/i)?.[0] ||
               big.match(/\b\d{4}-\d{2}-\d{2}\b/)?.[0] ||
@@ -2084,20 +2166,20 @@ async function scrapeTPR() {
             }
             if (!startISO && hasYear && (dateText || timeText)) {
               const loose = tryParseDateFromText(
-                stripOrdinals(`${dateText} ${timeText}`)
+                stripOrdinals(`${dateText} ${timeText}`),
               );
               if (loose && isSaneYear(loose)) startISO = loose;
             }
 
             const occurrence = (url.match(
-              /[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/
+              /[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/,
             ) || [])[2];
             if (!startISO && occurrence) {
               const hhmm = to24h(timeText || "") || "20:00";
               const forced = dayjs.tz(
                 `${occurrence} ${hhmm}`,
                 "YYYY-MM-DD HH:mm",
-                TZ
+                TZ,
               );
               const iso = toISO(forced);
               if (iso && isSaneYear(iso)) startISO = iso;
@@ -2119,8 +2201,8 @@ async function scrapeTPR() {
             const tickets = $$("a[href]")
               .filter((_, a) =>
                 /(eventbrite|facebook\.com\/events|skiddle|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i.test(
-                  $$(a).attr("href") || ""
-                )
+                  $$(a).attr("href") || "",
+                ),
               )
               .map((_, a) => {
                 const href = $$(a).attr("href") || "";
@@ -2135,7 +2217,7 @@ async function scrapeTPR() {
             // Extract price from page text if available
             const pageTextTPR = [labeled, near, big].join(" ");
             const priceMatchTPR = pageTextTPR.match(
-              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
             );
             const priceTextTPR = priceMatchTPR ? priceMatchTPR[0] : null;
 
@@ -2174,7 +2256,7 @@ async function scrapeTPR() {
                   "[tpr] dropping bogus date <2020",
                   ev.title || url,
                   "→",
-                  ev.start
+                  ev.start,
                 );
                 ev.start = null;
                 delete ev.displayDateTime24;
@@ -2189,7 +2271,7 @@ async function scrapeTPR() {
                   "[tpr] skip past (post-build):",
                   ev.title || url,
                   "→",
-                  ev.start
+                  ev.start,
                 );
                 return null;
               }
@@ -2200,7 +2282,7 @@ async function scrapeTPR() {
             log("TPR event error:", e.message, url);
             return null;
           }
-        })
+        }),
       );
       for (const r of settled)
         if (r.status === "fulfilled" && r.value) results.push(r.value);
@@ -2238,7 +2320,7 @@ async function scrapeTPR() {
 
       const dateText =
         text.match(
-          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i
+          /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i,
         )?.[0] ||
         text.match(/\b\d{1,2}\s+\w+\s+\d{4}\b/i)?.[0] ||
         text.match(/\b\d{4}-\d{2}-\d{2}\b/)?.[0] ||
@@ -2367,7 +2449,7 @@ async function scrapeWelly() {
     $$("script").each((_, s) => {
       const raw = $$(s).contents().text() || "";
       const m = raw.match(
-        /"(startDate|start|dateTime)"\s*:\s*"([\dT:+-]{10,})"/i
+        /"(startDate|start|dateTime)"\s*:\s*"([\dT:+-]{10,})"/i,
       );
       if (m && m[2]) jsonCandidates.push(m[2]);
     });
@@ -2378,7 +2460,7 @@ async function scrapeWelly() {
 
     // 5) Loose ISO in text
     const isoText = (html.match(
-      /\b20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?\b/
+      /\b20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?\b/,
     ) || [])[0];
     if (isoText) {
       const iso = toISO(isoText);
@@ -2431,7 +2513,7 @@ async function scrapeWelly() {
           x.search = ""; // normalise
           x.hash = "";
           return x.toString();
-        })
+        }),
     );
   }
 
@@ -2477,14 +2559,14 @@ async function scrapeWelly() {
           const big = normalizeWhitespace(
             $$("main, article, .event, .content, .entry-content, body")
               .first()
-              .text()
+              .text(),
           );
 
           // Date/time: prefer page words; fallback to JSON-LD or a heuristic ISO search
           const dateWordy =
             big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
             big.match(
-              /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i
+              /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i,
             )?.[0] ||
             "";
 
@@ -2519,8 +2601,8 @@ async function scrapeWelly() {
           const tickets = $$("a[href]")
             .filter((_, a) =>
               /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
-                $$(a).attr("href") || ""
-              )
+                $$(a).attr("href") || "",
+              ),
             )
             .map((_, a) => ({
               label: $$(a).text().trim() || "Tickets",
@@ -2543,7 +2625,7 @@ async function scrapeWelly() {
             priceText = parenPriceMatch[0].slice(1, -1); // Remove parens
           } else {
             const priceMatch = big.match(
-              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
             );
             if (priceMatch) {
               priceText = priceMatch[0];
@@ -2564,11 +2646,11 @@ async function scrapeWelly() {
                 priceText = ticketParenPrice[0].slice(1, -1);
                 log(
                   "[welly] price extracted from ticket URL (paren):",
-                  priceText
+                  priceText,
                 );
               } else {
                 const ticketPrice = ticketHtml.match(
-                  /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+                  /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
                 );
                 if (ticketPrice) {
                   priceText = ticketPrice[0];
@@ -2599,7 +2681,7 @@ async function scrapeWelly() {
           log("Welly event error:", e.message, url);
           return null;
         }
-      })
+      }),
     );
 
     for (const r of settled)
@@ -2658,7 +2740,7 @@ async function scrapeMollyMangans() {
         const x = new URL(u);
         x.hash = "";
         return x.toString();
-      })
+      }),
   );
 
   log(`[molly] candidate links: ${eventLinks.length}`);
@@ -2687,14 +2769,14 @@ async function scrapeMollyMangans() {
           const big = normalizeWhitespace(
             $$("main, article, .event, .content, .entry-content, body")
               .first()
-              .text()
+              .text(),
           );
 
           // Date/time extraction
           const dateWordy =
             big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
             big.match(
-              /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i
+              /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i,
             )?.[0] ||
             "";
 
@@ -2725,8 +2807,8 @@ async function scrapeMollyMangans() {
           const tickets = $$("a[href]")
             .filter((_, a) =>
               /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
-                $$(a).attr("href") || ""
-              )
+                $$(a).attr("href") || "",
+              ),
             )
             .map((_, a) => ({
               label: $$(a).text().trim() || "Tickets",
@@ -2749,7 +2831,7 @@ async function scrapeMollyMangans() {
             priceText = parenPriceMatch[0].slice(1, -1); // Remove parens
           } else {
             const priceMatch = big.match(
-              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
             );
             if (priceMatch) {
               priceText = priceMatch[0];
@@ -2770,11 +2852,11 @@ async function scrapeMollyMangans() {
                 priceText = ticketParenPrice[0].slice(1, -1);
                 log(
                   "[molly] price extracted from ticket URL (paren):",
-                  priceText
+                  priceText,
                 );
               } else {
                 const ticketPrice = ticketHtml.match(
-                  /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+                  /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
                 );
                 if (ticketPrice) {
                   priceText = ticketPrice[0];
@@ -2805,7 +2887,7 @@ async function scrapeMollyMangans() {
           log("[molly] event error:", e.message);
           return null;
         }
-      })
+      }),
     );
 
     for (const r of settled)
@@ -2863,7 +2945,7 @@ async function scrapeVoxBox() {
         x.hash = "";
         // Keep query because some builders store the occurrence date there
         return x.toString();
-      })
+      }),
   );
 
   log(`[vox] candidate links: ${eventLinks.length}`);
@@ -2877,7 +2959,7 @@ async function scrapeVoxBox() {
     s = s
       .replace(
         /\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?/g,
-        " "
+        " ",
       )
       .trim();
 
@@ -2901,7 +2983,7 @@ async function scrapeVoxBox() {
   function parseDateOnlyVox(text) {
     if (!text) return null;
     const cleaned = normalizeWhitespace(
-      stripOrdinals(text).replace(/,/g, " ")
+      stripOrdinals(text).replace(/,/g, " "),
     ).trim();
     if (!cleaned) return null;
     const fmts = [
@@ -2958,10 +3040,10 @@ async function scrapeVoxBox() {
           // Search around H1 and the main content for date/time
           const $h1 = $$("h1, .entry-title, .event-title").first();
           const near = normalizeWhitespace(
-            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text()
+            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text(),
           );
           const big = normalizeWhitespace(
-            $$("main, article, .content, .entry-content, body").first().text()
+            $$("main, article, .content, .entry-content, body").first().text(),
           );
 
           const rawDateText =
@@ -3013,7 +3095,7 @@ async function scrapeVoxBox() {
           if (!startISO) {
             try {
               const candidate = tryParseDateFromText(
-                stripOrdinals(`${dateText} ${timeText}`)
+                stripOrdinals(`${dateText} ${timeText}`),
               );
               // candidate might be a string, Date, or Dayjs depending on your helper — normalize:
               const iso = safeToISO(dayjs(candidate));
@@ -3023,14 +3105,14 @@ async function scrapeVoxBox() {
 
           // 4) Query occurrence override (?date=YYYY-MM-DD or ?occurrence=YYYY-MM-DD)
           const occurrence = (url.match(
-            /[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/
+            /[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/,
           ) || [])[2];
           if (occurrence) {
             const t = t24 || "20:00";
             const forced = dayjs.tz(
               `${occurrence} ${t}`,
               "YYYY-MM-DD HH:mm",
-              TZ
+              TZ,
             );
             const iso = safeToISO(forced);
             if (iso) startISO = iso;
@@ -3048,8 +3130,8 @@ async function scrapeVoxBox() {
           const tickets = $$("a[href]")
             .filter((_, a) =>
               /(eventbrite|skiddle|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i.test(
-                $$(a).attr("href") || ""
-              )
+                $$(a).attr("href") || "",
+              ),
             )
             .map((_, a) => {
               const href = $$(a).attr("href") || "";
@@ -3063,7 +3145,7 @@ async function scrapeVoxBox() {
 
           // Extract price from page text if available
           const priceMatch = big.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
           );
           const priceText = priceMatch ? priceMatch[0] : null;
 
@@ -3086,7 +3168,7 @@ async function scrapeVoxBox() {
           log("Vox Box event error:", e.message);
           return null;
         }
-      })
+      }),
     );
 
     for (const r of settled)
@@ -3150,11 +3232,11 @@ async function scrapeUnionMashUp() {
     let candidate = dayjs.tz(
       `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
         2,
-        "0"
+        "0",
       )}`,
       "YYYY-MM-DD",
       tz,
-      true
+      true,
     );
     if (!candidate.isValid()) return { dateText: clean, timeText };
 
@@ -3209,7 +3291,7 @@ async function scrapeUnionMashUp() {
         x.hash = "";
         // Keep ?occurrence=YYYY-MM-DD because UMU uses it
         return x.toString();
-      })
+      }),
   );
 
   // De-dupe by pathname (ignore differing ?occurrence=)
@@ -3262,12 +3344,12 @@ async function scrapeUnionMashUp() {
           const near = normalizeWhitespace(
             ($$("h1, .entry-title").first().text() || "") +
               " " +
-              $$("h1, .entry-title").first().nextAll().slice(0, 6).text()
+              $$("h1, .entry-title").first().nextAll().slice(0, 6).text(),
           );
           const big = normalizeWhitespace(
             $$("main, article, .tribe-events-single-event-description, body")
               .first()
-              .text()
+              .text(),
           );
 
           // 🚫 Skip private events by body text
@@ -3290,7 +3372,7 @@ async function scrapeUnionMashUp() {
             near.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0] ||
             near.match(/\b\d{1,2}\s*(am|pm)\b/i)?.[0] ||
             near.match(
-              /\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i
+              /\bdoors?\s*[:\-]?\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\b/i,
             )?.[1] ||
             big.match(/\b\d{1,2}[:.]\d{2}\s*(am|pm)\b/i)?.[0] ||
             "";
@@ -3312,7 +3394,7 @@ async function scrapeUnionMashUp() {
             const forced = dayjs.tz(
               `${occurrence} ${t24}`,
               "YYYY-MM-DD HH:mm",
-              TZ
+              TZ,
             );
             if (forced.isValid()) {
               const iso = toISOOrNull(forced);
@@ -3332,8 +3414,8 @@ async function scrapeUnionMashUp() {
           const tickets = $$("a[href]")
             .filter((_, a) =>
               /(eventbrite|skiddle|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i.test(
-                $$(a).attr("href") || ""
-              )
+                $$(a).attr("href") || "",
+              ),
             )
             .map((_, a) => {
               const href = $$(a).attr("href") || "";
@@ -3348,7 +3430,7 @@ async function scrapeUnionMashUp() {
           // iCal link (optional)
           const ical =
             $$(
-              "a:contains('iCal'), a:contains('iCalendar'), a[href$='.ics']"
+              "a:contains('iCal'), a:contains('iCalendar'), a[href$='.ics']",
             ).attr("href") || null;
           if (ical) tickets.push({ label: "iCal", url: safeNewURL(ical, url) });
 
@@ -3356,7 +3438,7 @@ async function scrapeUnionMashUp() {
 
           // Extract price from page text if available
           const priceMatch = pageText.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
           );
           const priceText = priceMatch ? priceMatch[0] : null;
 
@@ -3379,7 +3461,7 @@ async function scrapeUnionMashUp() {
           log("UMU event error:", e.message);
           return null;
         }
-      })
+      }),
     );
 
     for (const r of settled)
@@ -3435,7 +3517,7 @@ async function scrapeDiveHU5() {
             x.hash = "";
             x.search = "";
             return x.toString();
-          })
+          }),
       ),
     ];
   }
@@ -3472,10 +3554,10 @@ async function scrapeDiveHU5() {
 
           const $h1 = $$("h1, .event-title, .headline").first();
           const near = normalizeWhitespace(
-            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text()
+            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text(),
           );
           const big = normalizeWhitespace(
-            $$("main, article, .content, .entry-content, body").first().text()
+            $$("main, article, .content, .entry-content, body").first().text(),
           );
 
           const dateText =
@@ -3509,8 +3591,8 @@ async function scrapeDiveHU5() {
           const tickets = $$("a[href]")
             .filter((_, a) =>
               /(skiddle|eventbrite|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i.test(
-                $$(a).attr("href") || ""
-              )
+                $$(a).attr("href") || "",
+              ),
             )
             .map((_, a) => {
               const href = $$(a).attr("href") || "";
@@ -3524,7 +3606,7 @@ async function scrapeDiveHU5() {
 
           // Extract price from page text if available
           const priceMatch = pageText.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/
+            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
           );
           const priceText = priceMatch ? priceMatch[0] : null;
 
@@ -3550,7 +3632,7 @@ async function scrapeDiveHU5() {
           log("Dive HU5 event error:", e.message, url);
           return null;
         }
-      })
+      }),
     );
 
     for (const r of settled)
@@ -3590,7 +3672,7 @@ function mergeMoodysSundayDuplicates(events, tz = TZ) {
     (e) =>
       normalizeCanonName(e?.venue) === CANON &&
       isSundayLunchTitle(e?.title || "") &&
-      e?.start
+      e?.start,
   );
 
   // Group by local date
@@ -3617,7 +3699,7 @@ function mergeMoodysSundayDuplicates(events, tz = TZ) {
       arr.find(
         (e) =>
           (e.url && /^https?:\/\//i.test(e.url)) ||
-          (e.tickets && e.tickets.length)
+          (e.tickets && e.tickets.length),
       ) || arr[0];
 
     // Merge ticket URLs
@@ -3729,7 +3811,7 @@ async function scrapePaveBar() {
         const x = new URL(u);
         x.hash = "";
         return x.toString();
-      })
+      }),
   );
 
   log(`[pave] candidate links: ${eventLinks.length}`);
@@ -3768,12 +3850,12 @@ async function scrapePaveBar() {
           const big = normalizeWhitespace(
             $$("main, article, .event, .content, .entry-content, body")
               .first()
-              .text()
+              .text(),
           );
 
           // Check for recurring events (e.g., "every Friday at 8pm")
           const recurringMatch = big.match(
-            /every\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\s+(?:at\s+)?(\d{1,2}):?(\d{2})?\s*(am|pm)?/i
+            /every\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\s+(?:at\s+)?(\d{1,2}):?(\d{2})?\s*(am|pm)?/i,
           );
 
           let dateWordy = "";
@@ -3826,7 +3908,7 @@ async function scrapePaveBar() {
             dateWordy =
               big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
               big.match(
-                /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i
+                /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i,
               )?.[0] ||
               "";
 
@@ -3841,7 +3923,7 @@ async function scrapePaveBar() {
               fromLD.startISO ||
               parseDMYWithTime(dateWordy, timeWordy) ||
               tryParseDateFromText(
-                stripOrdinals(`${dateWordy} ${timeWordy}`)
+                stripOrdinals(`${dateWordy} ${timeWordy}`),
               ) ||
               null;
           }
@@ -3859,8 +3941,8 @@ async function scrapePaveBar() {
           const tickets = $$("a[href]")
             .filter((_, a) =>
               /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
-                $$(a).attr("href") || ""
-              )
+                $$(a).attr("href") || "",
+              ),
             )
             .map((_, a) => ({
               label: $$(a).text().trim() || "Tickets",
@@ -3892,7 +3974,7 @@ async function scrapePaveBar() {
           log(`[pave] scrape failed for ${url}:`, e.message);
           return null;
         }
-      })
+      }),
     );
 
     for (const r of settled) {
@@ -4000,7 +4082,7 @@ async function main() {
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
           address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
           tz: TZ,
-        })
+        }),
       );
 
       if (!skipMoodys) tasks.push(synthMrMoodysSundayLunch({ weeks: 15 }));
@@ -4038,11 +4120,51 @@ async function main() {
     events = events.map((ev) =>
       normalizeCanonName(ev.venue) === "Mr Moody's Tavern"
         ? { ...ev, venue: "Mr Moody's Tavern", source: "Mr Moody's Tavern" }
-        : ev
+        : ev,
     );
 
     // ⭐ DEDUPLICATE events (removes exact title + date + venue duplicates)
     events = deduplicateEvents(events);
+
+    // ⭐ MERGE with existing events from previous runs (to keep old events we didn't re-scrape)
+    // Load existing events.json and add back events we didn't re-scrape
+    try {
+      const fs = await import("fs");
+      const path = await import("path");
+      const jsonPath = path.join(
+        path.dirname(import.meta.url.replace("file://", "")),
+        "public",
+        "events.json",
+      );
+      const stat = fs.statSync(jsonPath);
+      if (stat && stat.isFile()) {
+        const existingData = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+        if (Array.isArray(existingData)) {
+          // Create set of URLs from newly scraped events
+          const newEventUrls = new Set(
+            events.map((e) => e.url).filter(Boolean),
+          );
+
+          // Add back existing events whose URLs weren't re-scraped
+          const maintainedEvents = existingData.filter((ev) => {
+            // Keep events we didn't just re-scrape
+            // (they're old but we didn't have time to refresh them)
+            return !newEventUrls.has(ev.url);
+          });
+
+          events = [...events, ...maintainedEvents];
+          log(
+            `[info] Merged ${maintainedEvents.length} cached events with ${events.length - maintainedEvents.length} newly scraped events`,
+          );
+
+          // Deduplicate again after merging
+          events = deduplicateEvents(events);
+        }
+      }
+    } catch (err) {
+      // If merging fails, just use newly scraped events
+      log("[info] Could not merge with existing events (OK on first run)");
+    }
 
     // Sort: by distance (closer first), then by date (earlier first)
     events.sort((a, b) => {
@@ -4076,7 +4198,7 @@ async function main() {
 
     log(`[ok] Processing complete`);
     log(
-      `[info] Total events: ${events.length} (${datedEvents} dated, ${undatedEvents} undated)`
+      `[info] Total events: ${events.length} (${datedEvents} dated, ${undatedEvents} undated)`,
     );
     log(`[info] Deduped: ${events.length} unique`);
     log(`[info] Future events: ${futureEvents.length}`);

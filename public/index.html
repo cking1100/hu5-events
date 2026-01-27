@@ -46,7 +46,7 @@
     />
     <meta
       name="keywords"
-      content="events Hull, Hull events tonight, live music Hull, comedy Hull, gigs Hull HU5, events HU5, Irish bar Hull, open mic Hull, quiz night Hull, what's on Hull, entertainment Hull"
+      content="events Hull, Hull events tonight, live music Hull, comedy Hull, gigs Hull HU5, events HU5, Irish bar Hull, open mic Hull, quiz night Hull, what's on Hull, entertainment Hull, tonight in Hull, this weekend Hull, what's on tonight, events this weekend, tonight events, weekend events"
     />
     <meta
       name="robots"
@@ -296,6 +296,81 @@
             }
           }
         ]
+      }
+    </script>
+
+    <!-- Enhanced FAQ Schema with Tonight & Weekend SEO hooks -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What's happening tonight in Hull?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Check Find HU5 Events for live events happening tonight in Hull. Browse tonight's gigs, comedy shows, pub events and entertainment across HU5 venues. Our platform is updated daily with tonight's events."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What events are this weekend in Hull?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "This weekend in Hull offers live music, comedy nights, Irish bar events, quizzes and more. Filter by 'This weekend' to see all weekend events happening at Hull HU5 venues."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where are events tonight and this weekend?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Events tonight and this weekend happen at venues across Hull HU5 including The Polar Bear, Adelphi, Welly Club, The People's Republic, UMU and more. Search by venue or date on Find HU5 Events."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there live music tonight in Hull?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! Find live music tonight in Hull including acoustic sets, rock bands, DJs and tribute acts. Check the 'Today' filter to see tonight's live music performances."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What's on tonight and this weekend in HU5?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Browse tonight's events and this weekend's entertainment in HU5. Filter by date range to see what's happening tonight, tomorrow, or this entire weekend."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- EventSeries Schema for recurring tonight/weekend events -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EventSeries",
+        "name": "Hull HU5 Live Events - Tonight & This Weekend",
+        "description": "Daily updated live events and entertainment happening tonight and this weekend in Hull HU5. Browse music gigs, comedy, quizzes, and pub events.",
+        "url": "https://www.findhu5.events/",
+        "sameAs": "https://www.findhu5.events/",
+        "organizer": {
+          "@type": "Organization",
+          "name": "Find HU5 Events"
+        },
+        "location": {
+          "@type": "City",
+          "name": "Hull",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "UK",
+            "postalCode": "HU5"
+          }
+        }
       }
     </script>
 
@@ -751,17 +826,17 @@
         border: 1px solid var(--border);
         color: var(--text);
         transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 20px var(--glow);
       }
       .chip:hover {
         background: linear-gradient(
           135deg,
-          color-mix(in oklab, var(--chip) 130%, var(--accent)),
-          color-mix(in oklab, var(--chip) 120%, var(--accent))
+          color-mix(in oklab, var(--chip) 110%, var(--border)),
+          var(--chip)
         );
-        border-color: var(--accent);
+        border-color: var(--border);
         box-shadow: 0 0 20px var(--glow);
-        transform: translateY(-1px);
+        transform: none;
       }
       .dot {
         width: 8px;
@@ -879,6 +954,7 @@
         margin: 18px 0 26px;
         width: 100%;
         box-sizing: border-box;
+        contain: layout style paint;
       }
       .section h3 {
         margin: 0 0 16px;
@@ -925,6 +1001,7 @@
         gap: 12px;
         width: 100%;
         box-sizing: border-box;
+        contain: layout;
       }
       .event {
         background: var(--card-gradient);
@@ -941,6 +1018,8 @@
         overflow: hidden;
         width: 100%;
         box-sizing: border-box;
+        contain: content;
+        will-change: transform, box-shadow;
       }
       .event::before {
         content: "";
@@ -1427,6 +1506,29 @@
           gap: 8px;
         }
       }
+      /* Performance optimizations */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        header {
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          background: var(--bg) !important;
+        }
+      }
+      /* Disable expensive effects on low-power devices */
+      @media (max-width: 768px) {
+        header {
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+        }
+        .event::before {
+          display: none;
+        }
+      }
     </style>
     <script id="events-ld" type="application/ld+json"></script>
   </head>
@@ -1612,6 +1714,42 @@
         <p>
           See our complete guide to weekend events in Hull including gigs, pub
           nights, quizzes, dance nights and more.
+        </p>
+
+        <h3>Events Tonight in Hull HU5</h3>
+        <p>
+          What's happening tonight in Hull? Browse tonight's live events,
+          entertainment, and gigs happening right now at HU5 venues. From live
+          music to comedy shows, find everything on tonight in Hull.
+        </p>
+
+        <h3>This Weekend in Hull - Events & Entertainment</h3>
+        <p>
+          What's on this weekend in Hull? This weekend offers exciting events
+          across Hull HU5. Check out this weekend's live music gigs, comedy
+          nights, Irish bar events and entertainment for something to do this
+          weekend. Plan your weekend activities now.
+        </p>
+
+        <h3>Tonight's Live Music & Gigs in Hull</h3>
+        <p>
+          Looking for live music tonight in Hull? Find acoustic sets, DJ nights,
+          tribute bands and local musicians performing tonight. Discover live
+          entertainment happening tonight at Hull venues.
+        </p>
+
+        <h3>Comedy Tonight & This Weekend in Hull</h3>
+        <p>
+          Stand-up comedy, open mic nights and comedy shows tonight and this
+          weekend in Hull. Find funny things to do tonight and weekend comedy
+          events at Hull HU5 venues.
+        </p>
+
+        <h3>Quiz Nights & Pub Events This Weekend</h3>
+        <p>
+          Pub quizzes, karaoke nights and pub events this weekend in Hull. Check
+          what's on at your favourite local pubs this weekend with
+          entertainment, food and drink specials.
         </p>
 
         <h3>Search Events by Venue</h3>
@@ -3784,12 +3922,14 @@
 
             // IMPORTANT: compute effective start BEFORE apply()
             state.all = (Array.isArray(data) ? data : []).map((ev, idx) => {
-              // (existing title sanitise)
-              try {
-                const div = document.createElement("div");
-                div.innerHTML = ev.title || "";
-                ev.title = div.textContent || div.innerText || ev.title || "";
-              } catch {}
+              // (existing title sanitise) - optimized: use regex instead of DOM
+              if (ev.title) {
+                ev.title = String(ev.title)
+                  .replace(/<[^>]*>/g, "")
+                  .replace(/&lt;/g, "<")
+                  .replace(/&gt;/g, ">")
+                  .replace(/&amp;/g, "&");
+              }
 
               // (existing effective start calc)
               let eff = computeEffectiveStart(ev);
