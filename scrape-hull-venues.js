@@ -145,7 +145,8 @@ function isFreeEntry(str) {
     /\bfree\s*entry\b/i.test(s) ||
     /\bfree\s*gig\b/i.test(s) ||
     /\b£\s*0\b/i.test(s) ||
-    /\bcomplimentary\b/i.test(s)
+    /\bcomplimentary\b/i.test(s) ||
+    /\bno\s+bookings?\b/i.test(s)
   );
 }
 
@@ -450,12 +451,18 @@ function parseDMYWithTime(dateText = "", timeText = "") {
   const s = t ? `${d} ${t}` : d;
 
   const fmts = [
+    "DD/MM/YYYY HH:mm:ss",
+    "D/M/YYYY HH:mm:ss",
     "DD/MM/YYYY HH:mm",
     "D/M/YYYY HH:mm",
+    "DD/MM/YYYY h:mm:ss a",
+    "D/M/YYYY h:mm:ss a",
     "DD/MM/YYYY h:mm a",
     "D/M/YYYY h:mm a",
     "D MMMM YYYY HH:mm",
     "D MMM YYYY HH:mm",
+    "D MMMM YYYY h:mm:ss a",
+    "D MMM YYYY h:mm:ss a",
     "D MMMM YYYY h:mm a",
     "D MMM YYYY h:mm a",
     "DD/MM/YYYY",
@@ -750,6 +757,7 @@ function buildEvent({
   tz = "Europe/London",
   soldOut = false,
   freeEntry,
+  priceText, // optional: raw price text from page
 }) {
   // ---------- Clean / normalise text ----------
   const src = normalizeWhitespace(source || "");
@@ -841,6 +849,7 @@ function buildEvent({
     tickets: cleanTickets,
     scrapedAt: new Date().toISOString(),
     soldOut,
+    ...(priceText && { priceText: normalizeWhitespace(priceText) }),
     freeEntry: !!freeEntry,
   };
 
@@ -1110,8 +1119,9 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
     const rowTag = `${TAG} row ${i + 1}/${rows.length}`;
 
     const title = normalizeWhitespace(pick(r, TITLE_HEADERS));
+    const dateText = stripOrdinals(pick(r, DATE_HEADERS));
+
     let url = pick(r, URL_HEADERS);
-    let dateText = stripOrdinals(pick(r, DATE_HEADERS));
 
     if (!dateText) {
       const dayStr = pick(r, ["day"]);
@@ -1137,7 +1147,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
 
     // mark sold out / free
     const soldOut = isSoldOut(`${title} ${rowText}`);
-    const freeEntry = isFreeEntry(`${title} ${rowText}`);
+    const freeEntry = isFreeEntry(`${title} ${rowText} ${ticketsRaw}`);
 
     // fallback: scan whole row if needed
     if (!ticketUrls.length) {
@@ -1617,7 +1627,10 @@ async function scrapeAdelphi() {
           );
 
           // --- Date ---
+          // First check for explicit "Date:" label which is most reliable
           let dateText =
+            near.match(/\bDate:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i)?.[1] ||
+            big.match(/\bDate:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i)?.[1] ||
             near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
             big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
             near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
@@ -1640,6 +1653,11 @@ async function scrapeAdelphi() {
           let timeUndefined = false;
           let timeEstimated = false;
 
+          // First check for explicit "Time:" label which is most reliable
+          const timeMatch =
+            near.match(/\bTime:\s*\d{4}\/\d{2}\/\d{2}\s+(\d{1,2}:\d{2})/i) ||
+            big.match(/\bTime:\s*\d{4}\/\d{2}\/\d{2}\s+(\d{1,2}:\d{2})/i);
+
           const doorsMatch =
             big.match(
               /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
@@ -1656,7 +1674,9 @@ async function scrapeAdelphi() {
               /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
             );
 
-          if (doorsMatch) {
+          if (timeMatch) {
+            timeText = cleanTimeCandidate(timeMatch[1]);
+          } else if (doorsMatch) {
             timeText = cleanTimeCandidate(doorsMatch[1]);
           } else if (startMatch) {
             timeText = cleanTimeCandidate(startMatch[2]);
@@ -1679,18 +1699,49 @@ async function scrapeAdelphi() {
                 typeof t24 === "string" &&
                 t24.trim()
               ) {
-                const d = dayjs.tz(
-                  `${dateText.trim()} ${t24.trim()}`,
-                  "D MMM YYYY HH:mm",
+                const dateStr = dateText.trim();
+                const timeStr = t24.trim();
+                // Try DD/MM/YYYY HH:mm first
+                let d = dayjs.tz(
+                  `${dateStr} ${timeStr}`,
+                  "DD/MM/YYYY HH:mm",
                   TZ,
                   true,
                 );
+                // Fall back to D/M/YYYY HH:mm
+                if (!d || !d.isValid || !d.isValid()) {
+                  d = dayjs.tz(
+                    `${dateStr} ${timeStr}`,
+                    "D/M/YYYY HH:mm",
+                    TZ,
+                    true,
+                  );
+                }
+                // Fall back to D MMM YYYY HH:mm
+                if (!d || !d.isValid || !d.isValid()) {
+                  d = dayjs.tz(
+                    `${dateStr} ${timeStr}`,
+                    "D MMM YYYY HH:mm",
+                    TZ,
+                    true,
+                  );
+                }
                 if (d && d.isValid && d.isValid()) startISO = toISO(d);
               }
             } else if (dateText) {
-              // Date only
+              // Date only - try multiple formats
               if (typeof dateText === "string" && dateText.trim()) {
-                const d = dayjs.tz(dateText.trim(), "D MMM YYYY", TZ, true);
+                const trimmedDate = dateText.trim();
+                // Try DD/MM/YYYY format first
+                let d = dayjs.tz(trimmedDate, "DD/MM/YYYY", TZ, true);
+                // Fall back to D/M/YYYY
+                if (!d || !d.isValid || !d.isValid()) {
+                  d = dayjs.tz(trimmedDate, "D/M/YYYY", TZ, true);
+                }
+                // Fall back to D MMM YYYY
+                if (!d || !d.isValid || !d.isValid()) {
+                  d = dayjs.tz(trimmedDate, "D MMM YYYY", TZ, true);
+                }
                 if (d && d.isValid && d.isValid()) startISO = toISO(d);
               }
             }
@@ -1755,8 +1806,9 @@ async function scrapeAdelphi() {
           const freeEntry = isFreeEntry(text);
 
           // Extract price from page text if available
+          // Look for patterns like "£1", "£5 OTD", "£1 ON THE DOOR", "£10 adv", "£5/£7", etc.
           const priceMatch = text.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
+            /£\d+(?:\.\d{2})?(?:\s*(?:OTD|ON THE DOOR|adv|advance|door|on the door))?(?:\s*\/\s*£\d+(?:\.\d{2})?(?:\s*(?:OTD|ON THE DOOR|adv|advance|door))?)?/i,
           );
           const priceText = priceMatch ? priceMatch[0] : null;
 
@@ -4081,6 +4133,13 @@ async function main() {
           csvUrl:
             "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
           address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
+          tz: TZ,
+        }),
+        scrapeCsvVenue({
+          name: "Garbutts Bar",
+          csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vRP2OJywOwdda4vxMvMT7uBSNav4B_pssfRlQLUCVCsyYXZhWpHWFNMxDu27-lVHpcwkkGwSBK2hmJX/pub?output=csv",
+          address: "50-54 Princes Avenue, Hull, United Kingdom",
           tz: TZ,
         }),
       );
