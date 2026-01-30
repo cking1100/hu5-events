@@ -935,7 +935,6 @@ const VENUE_COORDS = {
   "The People's Republic": { lat: 53.7677, lon: -0.3404 },
   "Mr Moody's Tavern": { lat: 53.7671, lon: -0.3407 },
   "Commun'ull": { lat: 53.7648, lon: -0.3375 },
-  "Vox Box": { lat: 53.7673, lon: -0.3391 },
   "Späti Bar": { lat: 53.7683, lon: -0.3403 },
   Hoi: { lat: 53.7697, lon: -0.3375 },
   "Newland Tap": { lat: 53.769, lon: -0.34 },
@@ -2951,287 +2950,6 @@ async function scrapeMollyMangans() {
   return results;
 }
 
-/* -------- VOX BOX -------------------------------------------------- */
-// Source list: https://voxboxbar.co.uk/upcoming-events/
-async function scrapeVoxBox() {
-  log("[vox] list");
-  const base = "https://voxboxbar.co.uk";
-  const listURL = `${base}/upcoming-events/`;
-  const baseHost = new URL(base).hostname;
-
-  let html;
-  try {
-    const res = await fetch(listURL, {
-      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-    });
-    html = await res.text();
-  } catch (e) {
-    log("[vox] list fetch failed:", e.message);
-    return [];
-  }
-
-  const $ = cheerio.load(html);
-
-  // Grab all links under the list; filter to this host; ignore obvious non-detail links
-  const rawLinks = $("a[href]")
-    .map((_, a) => $(a).attr("href"))
-    .get();
-
-  const eventLinks = unique(
-    rawLinks
-      .map((h) => safeNewURL(h, base))
-      .filter(Boolean)
-      .filter((u) => {
-        try {
-          const uu = new URL(u);
-          if (uu.hostname !== baseHost) return false;
-          if (/^mailto:|^tel:/i.test(u)) return false;
-          if (/\.(pdf|jpg|jpeg|png|webp)$/i.test(uu.pathname)) return false;
-          return true;
-        } catch {
-          return false;
-        }
-      })
-      .map((u) => {
-        const x = new URL(u);
-        x.hash = "";
-        // Keep query because some builders store the occurrence date there
-        return x.toString();
-      }),
-  );
-
-  log(`[vox] candidate links: ${eventLinks.length}`);
-
-  // --- Helpers (local, VoxBox-specific hardening) ---
-  function sanitizeTimeCandidate(raw) {
-    // Normalize & strip junk words like "late", "’til", "till", "doors", "from"
-    let s = normalizeWhitespace(String(raw || "").toLowerCase());
-
-    // Remove common leading labels
-    s = s
-      .replace(
-        /\b(doors?|from|start(?:s)?|show(?:time)?|music)\b\s*[:\-–]?/g,
-        " ",
-      )
-      .trim();
-
-    // Kill "late" / "til/’til/till late" suffixes
-    s = s
-      .replace(/\b(?:till|’?til|til)\b\s*late\b/g, " ")
-      .replace(/\blate\b/g, " ")
-      .trim();
-
-    // Collapse ranges like "8pm – 3am" -> take the first time token
-    // Capture 12h times (with optional minutes) or 24h times
-    const timeToken =
-      s.match(/\b\d{1,2}[:.]\d{2}\s*(?:am|pm)\b/i)?.[0] ||
-      s.match(/\b\d{1,2}\s*(?:am|pm)\b/i)?.[0] ||
-      s.match(/\b\d{1,2}[:.]\d{2}\b/)?.[0] ||
-      "";
-
-    return normalizeWhitespace(timeToken).trim();
-  }
-
-  function parseDateOnlyVox(text) {
-    if (!text) return null;
-    const cleaned = normalizeWhitespace(
-      stripOrdinals(text).replace(/,/g, " "),
-    ).trim();
-    if (!cleaned) return null;
-    const fmts = [
-      "YYYY-MM-DD",
-      "D/M/YYYY",
-      "DD/M/YYYY",
-      "D/MM/YYYY",
-      "DD/MM/YYYY",
-      "D MMMM YYYY",
-      "DD MMMM YYYY",
-      "D MMM YYYY",
-      "DD MMM YYYY",
-      "ddd D MMMM YYYY",
-      "dddd D MMMM YYYY",
-      "ddd D MMM YYYY",
-      "dddd D MMM YYYY",
-    ];
-    for (const f of fmts) {
-      const d = dayjs(cleaned, f, true);
-      if (d.isValid()) return d.format("YYYY-MM-DD");
-    }
-    return null;
-  }
-
-  function safeToISO(djs) {
-    // Only call toISOString on a valid Dayjs
-    if (djs && dayjs.isDayjs?.(djs) ? djs.isValid() : dayjs(djs).isValid()) {
-      return (dayjs.isDayjs?.(djs) ? djs : dayjs(djs)).toISOString();
-    }
-    return null;
-  }
-
-  const results = [];
-  const BATCH = 6;
-
-  for (let i = 0; i < eventLinks.length; i += BATCH) {
-    const batch = eventLinks.slice(i, i + BATCH);
-    const settled = await Promise.allSettled(
-      batch.map(async (url) => {
-        try {
-          const r2 = await fetch(url, {
-            headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-          });
-          const html2 = await r2.text();
-          const $$ = cheerio.load(html2);
-
-          const fromLD = extractEventFromJSONLD($$, url) || {};
-
-          const title =
-            fromLD.title ||
-            $$("h1, .entry-title, .event-title").first().text().trim() ||
-            $$("title").text().trim();
-
-          // Search around H1 and the main content for date/time
-          const $h1 = $$("h1, .entry-title, .event-title").first();
-          const near = normalizeWhitespace(
-            ($h1.text() || "") + " " + $h1.nextAll().slice(0, 8).text(),
-          );
-          const big = normalizeWhitespace(
-            $$("main, article, .content, .entry-content, body").first().text(),
-          );
-
-          const rawDateText =
-            near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
-            near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-            big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
-            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-            "";
-
-          const dateText = rawDateText
-            ? normalizeWhitespace(stripOrdinals(rawDateText).replace(/,/g, " "))
-            : "";
-
-          const rawTime = extractTimeFrom(near) || extractTimeFrom(big) || "";
-
-          const timeText = sanitizeTimeCandidate(rawTime);
-          const t24 = to24h(timeText || ""); // may be null
-
-          const pageText = [near, big, title, timeText].join(" ");
-          const soldOut =
-            isSoldOut(pageText) || offersIndicateSoldOut(fromLD.offers);
-          const freeEntry = isFreeEntry([title, near, big].join(" "));
-
-          // Build startISO safely
-          let startISO = null;
-
-          // 1) Try LD first, but validate
-          if (fromLD.startISO) {
-            const d = dayjs(fromLD.startISO);
-            if (d.isValid()) startISO = d.toISOString();
-          }
-
-          // 2) If we have a date, combine with page time (or leave time off if none)
-          if (!startISO && dateText) {
-            const dateOnly = parseDateOnlyVox(dateText);
-            if (dateOnly && t24) {
-              const d = dayjs.tz(`${dateOnly} ${t24}`, "YYYY-MM-DD HH:mm", TZ);
-              const iso = safeToISO(d);
-              if (iso) startISO = iso;
-            } else if (dateOnly) {
-              // fallback to 20:00 if time truly missing (safer default than crashing)
-              const d = dayjs.tz(`${dateOnly} 20:00`, "YYYY-MM-DD HH:mm", TZ);
-              const iso = safeToISO(d);
-              if (iso) startISO = iso;
-            }
-          }
-
-          // 3) Fallback: your generic text parser (but guard its output)
-          if (!startISO) {
-            try {
-              const candidate = tryParseDateFromText(
-                stripOrdinals(`${dateText} ${timeText}`),
-              );
-              // candidate might be a string, Date, or Dayjs depending on your helper — normalize:
-              const iso = safeToISO(dayjs(candidate));
-              if (iso) startISO = iso;
-            } catch {}
-          }
-
-          // 4) Query occurrence override (?date=YYYY-MM-DD or ?occurrence=YYYY-MM-DD)
-          const occurrence = (url.match(
-            /[?&](date|occurrence)=(\d{4}-\d{2}-\d{2})/,
-          ) || [])[2];
-          if (occurrence) {
-            const t = t24 || "20:00";
-            const forced = dayjs.tz(
-              `${occurrence} ${t}`,
-              "YYYY-MM-DD HH:mm",
-              TZ,
-            );
-            const iso = safeToISO(forced);
-            if (iso) startISO = iso;
-          }
-
-          // Past filter
-          if (startISO) {
-            const d = dayjs(startISO);
-            if (d.isValid() && d.isBefore(CUTOFF)) return null;
-          }
-
-          const address =
-            fromLD.address || big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] || ""; // fallback map will fill the rest
-
-          const tickets = $$("a[href]")
-            .filter((_, a) =>
-              /(eventbrite|skiddle|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma)/i.test(
-                $$(a).attr("href") || "",
-              ),
-            )
-            .map((_, a) => {
-              const href = $$(a).attr("href") || "";
-              const u = safeNewURL(href, url);
-              return u
-                ? { label: $$(a).text().trim() || "Tickets", url: u }
-                : null;
-            })
-            .get()
-            .filter(Boolean);
-
-          // Extract price from page text if available
-          const priceMatch = big.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-          );
-          const priceText = priceMatch ? priceMatch[0] : null;
-
-          return buildEvent({
-            source: "Vox Box",
-            venue: "Vox Box",
-            url,
-            title,
-            dateText,
-            timeText, // keep original (sanitized) for reference
-            startISO,
-            endISO: null,
-            address,
-            tickets,
-            soldOut,
-            freeEntry,
-            ...(priceText && { priceText }),
-          });
-        } catch (e) {
-          log("Vox Box event error:", e.message);
-          return null;
-        }
-      }),
-    );
-
-    for (const r of settled)
-      if (r.status === "fulfilled" && r.value) results.push(r.value);
-    await sleep(60);
-  }
-
-  log(`[molly] done, events: ${results.length}`);
-  return results;
-}
-
 /* -------- UNION MASH UP (UMU) ------------------------------------- */
 // Source List: https://unionmashup.co.uk/umu-events/
 
@@ -4044,12 +3762,26 @@ async function scrapePaveBar() {
 // - Run venue scrapers concurrently (env toggles skip specific ones)
 // - Keep today+future (dated), include undated
 // - Output *only* JSON to stdout
+function wrapScrape(tag, fn) {
+  return (async () => {
+    const label = String(tag || "scrape");
+    log(`[${label}] start`);
+    try {
+      const res = await fn();
+      log(`[${label}] done, events: ${Array.isArray(res) ? res.length : 0}`);
+      return res || [];
+    } catch (e) {
+      log(`[${label}] [ERR] ${e?.message || e}`);
+      return [];
+    }
+  })();
+}
+
 async function main() {
   try {
     log("[start] hull scrapers");
 
     const skipWelly = process.env.SKIP_WELLY === "1";
-    const skipVox = process.env.SKIP_VOX === "1";
     const skipUMU = process.env.SKIP_UMU === "1";
     const skipDive = process.env.SKIP_DIVE === "1";
     const skipTPR = process.env.SKIP_TPR === "1";
@@ -4059,7 +3791,6 @@ async function main() {
     const onlyNewland = process.env.ONLY_NEWLAND_TAP === "1";
 
     log("[cfg] SKIP_WELLY =", skipWelly ? "1" : "0");
-    log("[cfg] SKIP_VOX   =", skipVox ? "1" : "0");
     log("[cfg] SKIP_UMU   =", skipUMU ? "1" : "0");
     log("[cfg] SKIP_DIVE  =", skipDive ? "1" : "0");
     log("[cfg] SKIP_TPR   =", skipTPR ? "1" : "0");
@@ -4073,79 +3804,105 @@ async function main() {
     if (onlyNewland) {
       // 🔹 Newland Tap ONLY mode
       tasks = [
-        scrapeCsvVenue({
-          name: "Newland Tap",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
-          address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
-          tz: TZ,
-        }),
+        wrapScrape("csv:Newland Tap", () =>
+          scrapeCsvVenue({
+            name: "Newland Tap",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
+            address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
+            tz: TZ,
+          }),
+        ),
       ];
     } else {
       // 🔹 Normal “all venues” mode
-      tasks = [scrapePolarBear(), scrapeAdelphi()];
-      if (!skipWelly) tasks.push(scrapeWelly());
-      tasks.push(scrapeMollyMangans());
-      if (!skipUMU) tasks.push(scrapeUnionMashUp());
-      if (!skipDive) tasks.push(scrapeDiveHU5());
-      if (!skipTPR) tasks.push(scrapeTPR());
+      tasks = [
+        wrapScrape("polar", scrapePolarBear),
+        wrapScrape("adelphi", scrapeAdelphi),
+      ];
+      if (!skipWelly) tasks.push(wrapScrape("welly", scrapeWelly));
+      tasks.push(wrapScrape("molly", scrapeMollyMangans));
+      if (!skipUMU) tasks.push(wrapScrape("umu", scrapeUnionMashUp));
+      if (!skipDive) tasks.push(wrapScrape("dive", scrapeDiveHU5));
+      if (!skipTPR) tasks.push(wrapScrape("tpr", scrapeTPR));
 
       // CSV-driven venues (NOW including Newland Tap too)
       tasks.push(
-        scrapeCsvVenue({
-          name: "Mr Moody's Tavern",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv",
-          address: "6 Newland Ave, Hull HU5 3AF",
-          tz: TZ,
-        }),
-        scrapeCsvVenue({
-          name: "Commun'ull",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSCD7I-nOLa2eid-RpWpdWpigTRSS0riXKET2IIZyq6NIWpSrKyE3n1AzBsMzNPQDgwtFnPKTgkUg9/pub?output=csv",
-          address: "178 Chanterlands Avenue, Hull HU5 3TR",
-          tz: TZ,
-        }),
-        scrapeCsvVenue({
-          name: "Späti Bar",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiN9k_aWj0tv7KMXFbLbWC3rsxPspA1xAllXr9uQShRSTGw8qDbVH6lOcuyADixNKi3W9IeI1G5aZF/pub?output=csv",
-          address: "27 Newland Ave, Hull HU5 3BE",
-          tz: TZ,
-        }),
-        scrapeCsvVenue({
-          name: "Hoi",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0-Kc66mqUugdCaxTW9IPMSrMuRhbiWkkIRvlOY1s1hWMSDdi1FM9C7vrDvENgb6L6jCM_Ji3UUqL0/pub?output=csv",
-          address: "22-24 Princes Ave, Hull HU5 3QA",
-          tz: TZ,
-        }),
-        scrapeCsvVenue({
-          name: "Underdog",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQDgKYBCow0Z54ZRIAFI4Otzt4jgK9S-fX02ZcX_3VrqGiMlQlujvqL_agFyA5UQR5p50hCy0nQOBx5/pub?output=csv",
-          address: "12a Princes Ave, Hull HU5 3QA",
-          tz: TZ,
-        }),
+        wrapScrape("csv:Mr Moody's Tavern", () =>
+          scrapeCsvVenue({
+            name: "Mr Moody's Tavern",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv",
+            address: "6 Newland Ave, Hull HU5 3AF",
+            tz: TZ,
+          }),
+        ),
+        wrapScrape("csv:Commun'ull", () =>
+          scrapeCsvVenue({
+            name: "Commun'ull",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSCD7I-nOLa2eid-RpWpdWpigTRSS0riXKET2IIZyq6NIWpSrKyE3n1AzBsMzNPQDgwtFnPKTgkUg9/pub?output=csv",
+            address: "178 Chanterlands Avenue, Hull HU5 3TR",
+            tz: TZ,
+          }),
+        ),
+        wrapScrape("csv:Späti Bar", () =>
+          scrapeCsvVenue({
+            name: "Späti Bar",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiN9k_aWj0tv7KMXFbLbWC3rsxPspA1xAllXr9uQShRSTGw8qDbVH6lOcuyADixNKi3W9IeI1G5aZF/pub?output=csv",
+            address: "27 Newland Ave, Hull HU5 3BE",
+            tz: TZ,
+          }),
+        ),
+        wrapScrape("csv:Hoi", () =>
+          scrapeCsvVenue({
+            name: "Hoi",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0-Kc66mqUugdCaxTW9IPMSrMuRhbiWkkIRvlOY1s1hWMSDdi1FM9C7vrDvENgb6L6jCM_Ji3UUqL0/pub?output=csv",
+            address: "22-24 Princes Ave, Hull HU5 3QA",
+            tz: TZ,
+          }),
+        ),
+        ...(!skipUnderdog
+          ? [
+              wrapScrape("csv:Underdog", () =>
+                scrapeCsvVenue({
+                  name: "Underdog",
+                  csvUrl:
+                    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQDgKYBCow0Z54ZRIAFI4Otzt4jgK9S-fX02ZcX_3VrqGiMlQlujvqL_agFyA5UQR5p50hCy0nQOBx5/pub?output=csv",
+                  address: "12a Princes Ave, Hull HU5 3QA",
+                  tz: TZ,
+                }),
+              ),
+            ]
+          : []),
         // ⭐ Newland Tap also included in normal mode
-        scrapeCsvVenue({
-          name: "Newland Tap",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
-          address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
-          tz: TZ,
-        }),
-        scrapeCsvVenue({
-          name: "Garbutts Bar",
-          csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vRP2OJywOwdda4vxMvMT7uBSNav4B_pssfRlQLUCVCsyYXZhWpHWFNMxDu27-lVHpcwkkGwSBK2hmJX/pub?output=csv",
-          address: "50-54 Princes Avenue, Hull, United Kingdom",
-          tz: TZ,
-        }),
+        wrapScrape("csv:Newland Tap", () =>
+          scrapeCsvVenue({
+            name: "Newland Tap",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEVo4GiJ3CczBH1tC4C1jfjGpCzLbJvPeu-FET5bJKFr7TcFtZYihTwtQGviD18KjtwxuhXg7eQf9Q/pub?output=csv",
+            address: "135 Newland Ave, Kingston upon Hull HU5 2ES",
+            tz: TZ,
+          }),
+        ),
+        wrapScrape("csv:Garbutts Bar", () =>
+          scrapeCsvVenue({
+            name: "Garbutts Bar",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vRP2OJywOwdda4vxMvMT7uBSNav4B_pssfRlQLUCVCsyYXZhWpHWFNMxDu27-lVHpcwkkGwSBK2hmJX/pub?output=csv",
+            address: "50-54 Princes Avenue, Hull, United Kingdom",
+            tz: TZ,
+          }),
+        ),
       );
 
-      if (!skipMoodys) tasks.push(synthMrMoodysSundayLunch({ weeks: 15 }));
-      if (!skipPave) tasks.push(scrapePaveBar());
+      if (!skipMoodys)
+        tasks.push(
+          wrapScrape("moodys", () => synthMrMoodysSundayLunch({ weeks: 15 })),
+        );
+      if (!skipPave) tasks.push(wrapScrape("pave", scrapePaveBar));
     }
 
     const settled = await Promise.allSettled(tasks);
