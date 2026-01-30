@@ -10,8 +10,8 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "scrape": "node ./scrape-hull-venues.js > ./public/events.json",
-    "scrape:debug": "node ./scrape-hull-venues.js 2>&1",
+    "scrape": "node -r ./polyfills.cjs ./scrape-hull-venues.js > ./public/events.json",
+    "scrape:debug": "node -r ./polyfills.cjs ./scrape-hull-venues.js 2>&1",
     "fetch": "npm run scrape",
     "start": "node ./server.js",
     "dev": "nodemon --watch server.js --watch public --ext js,json,html --exec \"node ./server.js\"",
