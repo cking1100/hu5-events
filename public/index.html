@@ -2682,6 +2682,12 @@
             if (has("venue")) els.venue.value = val("venue");
             if (has("range")) state.range = val("range");
             if (has("undated")) state.showUndated = val("undated") !== "0";
+
+            // If URL explicitly sets range=all without from/to, clear stale dates
+            if (has("range") && val("range") === "all" && !has("from") && !has("to")) {
+              els.from.value = "";
+              els.to.value = "";
+            }
           } catch (e) {
             console.warn("paramsToFilters failed:", e);
           }
@@ -3681,16 +3687,20 @@
         function load() {
           const saved = localStorage.getItem(STORAGE_KEY);
           let data = saved ? JSON.parse(saved) : {};
+
+          // 1) Apply saved filters first
+          els.q.value = data.q || "";
+          els.from.value = data.from || "";
+          els.to.value = data.to || "";
+          els.sort.value = data.sort || "date-asc";
+          els.venue.value = data.venue || "";
+          state.range = data.range || "all";
+          if (typeof data.showUndated === "boolean")
+            state.showUndated = data.showUndated;
+
+          // 2) Then override with URL params (shareable filters)
           paramsToFilters(location.href);
-          els.q.value = els.q.value || data.q || "";
-          els.from.value = els.from.value || data.from || "";
-          els.to.value = els.to.value || data.to || "";
-          els.sort.value = els.sort.value || data.sort || "date-asc";
-          els.venue.value = els.venue.value || data.venue || "";
-          state.range = state.range || data.range || "all";
-          if (typeof state.showUndated !== "boolean")
-            state.showUndated =
-              typeof data.showUndated === "boolean" ? data.showUndated : true;
+
           syncRangeButtons();
           els.toggleUndated.setAttribute(
             "aria-pressed",
