@@ -2684,7 +2684,12 @@
             if (has("undated")) state.showUndated = val("undated") !== "0";
 
             // If URL explicitly sets range=all without from/to, clear stale dates
-            if (has("range") && val("range") === "all" && !has("from") && !has("to")) {
+            if (
+              has("range") &&
+              val("range") === "all" &&
+              !has("from") &&
+              !has("to")
+            ) {
               els.from.value = "";
               els.to.value = "";
             }
