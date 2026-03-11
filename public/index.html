@@ -3147,7 +3147,43 @@
           };
 
           const q = els.q.value.trim();
-          const sections = groupByDate(state.view, state.sort)
+          let grouped = groupByDate(state.view, state.sort);
+
+          // Inject special dates (like Paddy's Night) if they're not already present
+          // and if they're within a reasonable time range (current year ± 1 year)
+          const now = new Date();
+          const currentYear = now.getFullYear();
+          const specialDates = [
+            { key: `${currentYear}-03-14`, name: "Paddy's Night Sat" },
+            { key: `${currentYear}-03-17`, name: "Paddy's Night" },
+            { key: `${currentYear + 1}-03-14`, name: "Paddy's Night Sat" },
+            { key: `${currentYear + 1}-03-17`, name: "Paddy's Night" },
+          ];
+
+          for (const specialDate of specialDates) {
+            const hasDate = grouped.some(([key]) => key === specialDate.key);
+            if (!hasDate) {
+              // Check if this date is within reasonable range (not too far past or future)
+              const dateToCheck = new Date(specialDate.key + "T00:00:00");
+              const daysDiff = Math.abs(
+                (dateToCheck - now) / (1000 * 60 * 60 * 24),
+              );
+
+              // Only inject if within 180 days (roughly 6 months) and in the future or recent past
+              if (
+                daysDiff <= 180 &&
+                dateToCheck >= now - 30 * 24 * 60 * 60 * 1000
+              ) {
+                grouped.push([specialDate.key, []]);
+                // Re-sort if needed
+                if (state.sort === "date-desc")
+                  grouped.sort(([a], [b]) => b.localeCompare(a));
+                else grouped.sort(([a], [b]) => a.localeCompare(b));
+              }
+            }
+          }
+
+          const sections = grouped
             .map(([key, items]) => {
               const label =
                 key === "Undated"
@@ -3405,7 +3441,38 @@
 
               return `<section class="section" id="${escapeHTML(
                 key === "Undated" ? "undated" : key,
-              )}"><h3>${label}</h3>${
+              )}"${
+                // Add special styling for Paddy's Night (March 14th & 17th)
+                key.endsWith("-03-14") || key.endsWith("-03-17")
+                  ? ` style="background: linear-gradient(135deg, rgba(40, 180, 99, 0.08) 0%, rgba(255, 215, 0, 0.05) 100%); border-radius: 12px; padding: 16px; margin-bottom: 24px; border: 2px solid rgba(40, 180, 99, 0.3);"`
+                  : ""
+              }><h3${
+                // Add green styling to the header for Paddy's Night
+                key.endsWith("-03-14") || key.endsWith("-03-17")
+                  ? ` style="color: #28b463; text-shadow: 0 0 10px rgba(40, 180, 99, 0.3); margin-bottom: 8px; text-align: center;"`
+                  : ""
+              }>${
+                // Add shamrock emoji for Paddy's Night
+                key.endsWith("-03-14")
+                  ? "🍀 " + label + " - Paddy's Night Saturday! 🍀"
+                  : key.endsWith("-03-17")
+                    ? "🍀 " + label + " - Paddy's Night! 🍀"
+                    : label
+              }</h3>${
+                // Add special banner for Paddy's Night Tuesday (March 17th)
+                key.endsWith("-03-17")
+                  ? `<div style="grid-column: 1 / -1; margin-bottom: 20px;">
+                      <article style="background: linear-gradient(135deg, rgba(40, 180, 99, 0.15) 0%, rgba(255, 215, 0, 0.1) 100%); border: 2px solid #28b463; position: relative; margin-bottom: 0; grid-column: 1 / -1; box-shadow: 0 4px 12px rgba(40, 180, 99, 0.2); border-radius: 12px; width: 100%;">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(40, 180, 99, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%); pointer-events: none;"></div>
+                        <div style="padding: 24px; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%;">
+                          <div style="font-size: 48px; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(40, 180, 99, 0.3); text-align: center; width: 100%;">☘️🍺🎉</div>
+                          <h2 style="color: #28b463; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; text-shadow: 0 0 15px rgba(40, 180, 99, 0.4); text-align: center; width: 100%;">Paddys night celebration</h2>
+                          <div style="height: 2px; width: 100%; max-width: 400px; background: linear-gradient(90deg, transparent, #28b463, #ffd700, #28b463, transparent); margin-top: 16px;"></div>
+                        </div>
+                      </article>
+                    </div>`
+                  : ""
+              }${
                 // Check if this is NYE (Dec 31) and add closing times card
                 key === "2025-12-31"
                   ? `<div class="grid" style="grid-column: 1 / -1;">
@@ -3413,7 +3480,7 @@
                         <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 170, 0, 0.05) 0%, transparent 50%); pointer-events: none;"></div>
                         <div style="padding: 24px; position: relative; z-index: 1;">
                           <div style="text-align: center; margin-bottom: 20px;">
-                            <h2 class="title" style="color: var(--accent); margin: 0 0 4px 0; font-size: 18px; letter-spacing: 0.5px;">?? HU5 NYE Closing Times</h2>
+                            <h2 class="title" style="color: var(--accent); margin: 0 0 4px 0; font-size: 18px; letter-spacing: 0.5px;">🎊 HU5 NYE Closing Times</h2>
                             <div style="height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin-top: 8px;"></div>
                           </div>
                           <div class="nye-grid">
@@ -3469,7 +3536,40 @@
                       </article>
                     </div>`
                   : ""
-              }<div class="grid">${grid}</div></section>`;
+              }<div class="grid">${
+                // Add Buckfast tramp event card for March 17th
+                key.endsWith("-03-17")
+                  ? `<article class="event" role="article" aria-label="Buckfast tramp - Queens Hotel">
+            <div class="pill" aria-hidden="true">
+              <div class="dow">Mon</div>
+              <div class="day">17</div>
+              <div class="mon">Mar</div>
+            </div>
+            <div class="event-content">
+<h2 class="title">Buckfast Tramp - Queens Hotel</h2>
+              <div class="meta"><time>20:00</time> · Queens Hotel</div>
+              <div class="source">
+                <span>📍</span>
+                <span>Queens hotel, Queens road, HU5 2RG</span>
+              </div>
+            </div>
+<div class="card-actions">
+  <button class="btn free" type="button" disabled aria-disabled="true">
+    Free entry
+  </button>
+</div>
+          </article>`
+                  : ""
+              }${
+                // Add message if it's a special day with no events yet
+                items.length === 0 &&
+                (key.endsWith("-03-14") || key.endsWith("-03-17"))
+                  ? `<div style="grid-column: 1 / -1; text-align: center; padding: 32px; color: var(--muted); font-size: 14px;">
+                      <span style="font-size: 24px; display: block; margin-bottom: 8px;">🎉</span>
+                      <p style="margin: 0;">Events for this special night haven't fully been announced yet.<br>Check back soon!</p>
+                    </div>`
+                  : grid
+              }</div></section>`;
             })
             .join("");
 

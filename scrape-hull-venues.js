@@ -214,6 +214,22 @@ function toISO(d) {
   }
 }
 
+// Extract a sane price token from page text
+function extractPriceText(text = "") {
+  const t = normalizeWhitespace(text || "");
+  if (!t) return null;
+
+  // Prefer parenthesized face value: (£14.00)
+  const paren = t.match(/\(£\d+(?:\.\d{2})?\)/);
+  if (paren) return paren[0].slice(1, -1);
+
+  // Common patterns: "£5", "£5 adv", "£5/£7", "£5 OTD / £7"
+  const match = t.match(
+    /£\d+(?:\.\d{2})?(?:\s*(?:adv|advance|otd|on the door|door))?(?:\s*\/\s*£\d+(?:\.\d{2})?(?:\s*(?:adv|advance|otd|on the door|door))?)?/i,
+  );
+  return match ? match[0] : null;
+}
+
 async function fetchWithTimeout(
   url,
   {
@@ -247,6 +263,29 @@ async function fetchWithTimeout(
     }
   }
   throw lastErr;
+}
+
+// Cache ticket price lookups to avoid repeated fetches
+const ticketPriceCache = new Map();
+
+async function fetchPriceFromTicketUrl(url, { timeoutMs = 10000 } = {}) {
+  if (!url) return null;
+  if (ticketPriceCache.has(url)) return ticketPriceCache.get(url);
+
+  try {
+    const res = await fetchWithTimeout(url, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+      timeoutMs,
+      retries: 1,
+    });
+    const html = await res.text();
+    const price = extractPriceText(html);
+    ticketPriceCache.set(url, price || null);
+    return price || null;
+  } catch {
+    ticketPriceCache.set(url, null);
+    return null;
+  }
 }
 
 // Collect Skiddle event links from anchors, JSON-LD and data-* attributes
@@ -1118,7 +1157,7 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
     const rowTag = `${TAG} row ${i + 1}/${rows.length}`;
 
     const title = normalizeWhitespace(pick(r, TITLE_HEADERS));
-    const dateText = stripOrdinals(pick(r, DATE_HEADERS));
+    let dateText = stripOrdinals(pick(r, DATE_HEADERS));
 
     let url = pick(r, URL_HEADERS);
 
@@ -1426,10 +1465,7 @@ async function scrapePolarBear() {
       const freeEntry = isFreeEntry([title, near, big].join(" "));
 
       // Extract price from page text if available
-      const priceMatch = pageText.match(
-        /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-      );
-      const priceText = priceMatch ? priceMatch[0] : null;
+      const priceText = extractPriceText(pageText);
 
       const ev = buildEvent({
         source: "Polar Bear Music Club",
@@ -1805,11 +1841,7 @@ async function scrapeAdelphi() {
           const freeEntry = isFreeEntry(text);
 
           // Extract price from page text if available
-          // Look for patterns like "£1", "£5 OTD", "£1 ON THE DOOR", "£10 adv", "£5/£7", etc.
-          const priceMatch = text.match(
-            /£\d+(?:\.\d{2})?(?:\s*(?:OTD|ON THE DOOR|adv|advance|door|on the door))?(?:\s*\/\s*£\d+(?:\.\d{2})?(?:\s*(?:OTD|ON THE DOOR|adv|advance|door))?)?/i,
-          );
-          const priceText = priceMatch ? priceMatch[0] : null;
+          const priceText = extractPriceText(text);
 
           const ev = buildEvent({
             source: "The Adelphi Club",
@@ -2267,10 +2299,7 @@ async function scrapeTPR() {
 
             // Extract price from page text if available
             const pageTextTPR = [labeled, near, big].join(" ");
-            const priceMatchTPR = pageTextTPR.match(
-              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-            );
-            const priceTextTPR = priceMatchTPR ? priceMatchTPR[0] : null;
+            const priceTextTPR = extractPriceText(pageTextTPR);
 
             const ev = buildEvent({
               source: "The People's Republic",
@@ -2669,48 +2698,14 @@ async function scrapeWelly() {
           const freeEntry = isFreeEntry([title, big].join(" "));
 
           // Extract price from page text if available
-          // Prioritize parenthesized face value prices like (£14.00) over total prices
-          let priceText = null;
-          const parenPriceMatch = big.match(/\(£\d+(?:\.\d{2})?\)/);
-          if (parenPriceMatch) {
-            priceText = parenPriceMatch[0].slice(1, -1); // Remove parens
-          } else {
-            const priceMatch = big.match(
-              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-            );
-            if (priceMatch) {
-              priceText = priceMatch[0];
-            }
-          }
+          let priceText = extractPriceText(big);
 
           // If no price found on Welly page, try to fetch first ticket URL to extract price
           if (!priceText && tickets.length > 0) {
-            try {
-              const ticketUrl = tickets[0].url;
-              const ticketRes = await fetch(ticketUrl, {
-                headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-              });
-              const ticketHtml = await ticketRes.text();
-              // Try parenthesized price first, then regular price
-              const ticketParenPrice = ticketHtml.match(/\(£\d+(?:\.\d{2})?\)/);
-              if (ticketParenPrice) {
-                priceText = ticketParenPrice[0].slice(1, -1);
-                log(
-                  "[welly] price extracted from ticket URL (paren):",
-                  priceText,
-                );
-              } else {
-                const ticketPrice = ticketHtml.match(
-                  /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-                );
-                if (ticketPrice) {
-                  priceText = ticketPrice[0];
-                  log("[welly] price extracted from ticket URL:", priceText);
-                }
-              }
-            } catch (e) {
-              // Silently fail if ticket URL fetch fails
-            }
+            const ticketUrl = tickets[0].url;
+            priceText = await fetchPriceFromTicketUrl(ticketUrl);
+            if (priceText)
+              log("[welly] price extracted from ticket URL:", priceText);
           }
 
           return buildEvent({
@@ -2875,48 +2870,14 @@ async function scrapeMollyMangans() {
           const freeEntry = isFreeEntry([title, big].join(" "));
 
           // Extract price from page text if available
-          // Prioritize parenthesized face value prices like (£14.00) over total prices
-          let priceText = null;
-          const parenPriceMatch = big.match(/\(£\d+(?:\.\d{2})?\)/);
-          if (parenPriceMatch) {
-            priceText = parenPriceMatch[0].slice(1, -1); // Remove parens
-          } else {
-            const priceMatch = big.match(
-              /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-            );
-            if (priceMatch) {
-              priceText = priceMatch[0];
-            }
-          }
+          let priceText = extractPriceText(big);
 
           // If no price found on page, try to fetch first ticket URL to extract price
           if (!priceText && Array.isArray(tickets) && tickets.length > 0) {
-            try {
-              const ticketUrl = tickets[0].url;
-              const ticketRes = await fetch(ticketUrl, {
-                headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-              });
-              const ticketHtml = await ticketRes.text();
-              // Try parenthesized price first, then regular price
-              const ticketParenPrice = ticketHtml.match(/\(£\d+(?:\.\d{2})?\)/);
-              if (ticketParenPrice) {
-                priceText = ticketParenPrice[0].slice(1, -1);
-                log(
-                  "[molly] price extracted from ticket URL (paren):",
-                  priceText,
-                );
-              } else {
-                const ticketPrice = ticketHtml.match(
-                  /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-                );
-                if (ticketPrice) {
-                  priceText = ticketPrice[0];
-                  log("[molly] price extracted from ticket URL:", priceText);
-                }
-              }
-            } catch (e) {
-              // Silently fail if ticket URL fetch fails
-            }
+            const ticketUrl = tickets[0].url;
+            priceText = await fetchPriceFromTicketUrl(ticketUrl);
+            if (priceText)
+              log("[molly] price extracted from ticket URL:", priceText);
           }
 
           return buildEvent({
@@ -3207,10 +3168,7 @@ async function scrapeUnionMashUp() {
           const address = fromLD.address || ""; // fallback map covers if blank
 
           // Extract price from page text if available
-          const priceMatch = pageText.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-          );
-          const priceText = priceMatch ? priceMatch[0] : null;
+          const priceText = extractPriceText(pageText);
 
           return buildEvent({
             source: "Union Mash Up",
@@ -3375,10 +3333,7 @@ async function scrapeDiveHU5() {
             .filter(Boolean);
 
           // Extract price from page text if available
-          const priceMatch = pageText.match(
-            /£\d+(?:\.\d{2})?(?:\s*\/\s*£\d+(?:\.\d{2})?)?/,
-          );
-          const priceText = priceMatch ? priceMatch[0] : null;
+          const priceText = extractPriceText(pageText);
 
           const ev = buildEvent({
             source: "DIVE HU5",
