@@ -498,6 +498,11 @@
         z-index: -2;
         animation: drift 15s ease-in-out infinite;
       }
+      @media (max-width: 1024px) {
+        body::after {
+          animation: none;
+        }
+      }
       @keyframes shimmer {
         0% {
           transform: translateX(-100%) translateY(-100%) rotate(45deg);
@@ -1033,6 +1038,10 @@
         border-radius: 2px;
         box-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
       }
+      .section {
+        content-visibility: auto;
+        contain-intrinsic-size: 640px;
+      }
       .grid {
         display: grid;
         gap: 12px;
@@ -1066,7 +1075,8 @@
         width: 100%;
         box-sizing: border-box;
         contain: content;
-        will-change: transform, box-shadow;
+        content-visibility: auto;
+        contain-intrinsic-size: 180px;
       }
       .event::before {
         content: "";
@@ -1621,6 +1631,10 @@
           backdrop-filter: none;
           -webkit-backdrop-filter: none;
         }
+        .topbar {
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+        }
         .event::before {
           display: none;
         }
@@ -1931,6 +1945,7 @@
           },
           isAdmin: false,
         };
+        let refreshDotEl = null;
         Object.defineProperty(window, "state", { get: () => state });
 
         const els = {
@@ -4011,9 +4026,10 @@
 
           if (!state.autoRefresh) {
             state.nextTickAt = null;
-            // Stop the rAF loop and set UI text/state
+            // Stop countdown loop and set UI text/state
             tickUIStop();
-            const dot = document.querySelector("#nextRefresh .dot");
+            const dot = refreshDotEl || document.querySelector("#nextRefresh .dot");
+            refreshDotEl = dot || refreshDotEl;
             if (dot) dot.className = "dot warn";
             els.refreshText.textContent = "Auto refresh off";
             return;
@@ -4026,15 +4042,16 @@
             scheduleTick(); // schedule the next tick
           }, state.refreshMs);
 
-          // Ensure we have exactly one rAF loop running
-          if (!tickUI._raf) tickUI();
+          // Ensure we have exactly one countdown loop running
+          if (!tickUI._t) tickUI();
         }
 
         function tickUI() {
           // If disabled or no next tick, stop the loop and set UI appropriately
           if (!state.autoRefresh || !state.nextTickAt) {
             tickUIStop();
-            const dot = document.querySelector("#nextRefresh .dot");
+            const dot = refreshDotEl || document.querySelector("#nextRefresh .dot");
+            refreshDotEl = dot || refreshDotEl;
             if (dot)
               dot.className = "dot " + (state.autoRefresh ? "good" : "warn");
             els.refreshText.textContent = state.autoRefresh
@@ -4043,7 +4060,8 @@
             return;
           }
 
-          const dot = document.querySelector("#nextRefresh .dot");
+          const dot = refreshDotEl || document.querySelector("#nextRefresh .dot");
+          refreshDotEl = dot || refreshDotEl;
           const ms = Math.max(0, state.nextTickAt - Date.now());
           if (ms === 0) {
             els.refreshText.textContent = "Refreshing…";
@@ -4056,13 +4074,13 @@
             s,
           ).padStart(2, "0")}`;
 
-          tickUI._raf = requestAnimationFrame(tickUI);
+          tickUI._t = setTimeout(tickUI, 1000);
         }
 
         function tickUIStop() {
-          if (tickUI._raf) {
-            cancelAnimationFrame(tickUI._raf);
-            tickUI._raf = null;
+          if (tickUI._t) {
+            clearTimeout(tickUI._t);
+            tickUI._t = null;
           }
         }
 
