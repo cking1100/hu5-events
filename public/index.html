@@ -4028,7 +4028,8 @@
             state.nextTickAt = null;
             // Stop countdown loop and set UI text/state
             tickUIStop();
-            const dot = refreshDotEl || document.querySelector("#nextRefresh .dot");
+            const dot =
+              refreshDotEl || document.querySelector("#nextRefresh .dot");
             refreshDotEl = dot || refreshDotEl;
             if (dot) dot.className = "dot warn";
             els.refreshText.textContent = "Auto refresh off";
@@ -4050,7 +4051,8 @@
           // If disabled or no next tick, stop the loop and set UI appropriately
           if (!state.autoRefresh || !state.nextTickAt) {
             tickUIStop();
-            const dot = refreshDotEl || document.querySelector("#nextRefresh .dot");
+            const dot =
+              refreshDotEl || document.querySelector("#nextRefresh .dot");
             refreshDotEl = dot || refreshDotEl;
             if (dot)
               dot.className = "dot " + (state.autoRefresh ? "good" : "warn");
@@ -4060,7 +4062,8 @@
             return;
           }
 
-          const dot = refreshDotEl || document.querySelector("#nextRefresh .dot");
+          const dot =
+            refreshDotEl || document.querySelector("#nextRefresh .dot");
           refreshDotEl = dot || refreshDotEl;
           const ms = Math.max(0, state.nextTickAt - Date.now());
           if (ms === 0) {
