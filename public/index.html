@@ -3167,6 +3167,7 @@
           // Inject special dates (like Paddy's Night) if they're not already present
           // and if they're within a reasonable time range (current year ± 1 year)
           const now = new Date();
+          const today0 = startOfTodayLocal();
           const currentYear = now.getFullYear();
           const specialDates = [
             { key: `${currentYear}-03-14`, name: "Paddy's Night Sat" },
@@ -3184,11 +3185,8 @@
                 (dateToCheck - now) / (1000 * 60 * 60 * 24),
               );
 
-              // Only inject if within 180 days (roughly 6 months) and in the future or recent past
-              if (
-                daysDiff <= 180 &&
-                dateToCheck >= now - 30 * 24 * 60 * 60 * 1000
-              ) {
+              // Only inject if within 180 days (roughly 6 months) and today/future
+              if (daysDiff <= 180 && dateToCheck >= today0) {
                 grouped.push([specialDate.key, []]);
                 // Re-sort if needed
                 if (state.sort === "date-desc")
