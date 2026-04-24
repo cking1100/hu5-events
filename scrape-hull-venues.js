@@ -510,9 +510,13 @@ function parseDMYWithTime(dateText = "", timeText = "") {
     "D MMM YYYY",
   ];
   for (const f of fmts) {
-    const parsed = dayjs.tz(s, f, TZ, true);
-    const iso = toISO(parsed);
-    if (iso) return iso;
+    try {
+      const parsed = dayjs.tz(s, f, TZ, true);
+      const iso = toISO(parsed);
+      if (iso) return iso;
+    } catch {
+      // keep trying alternative formats
+    }
   }
   return null;
 }
@@ -549,9 +553,13 @@ function tryParseDateFromText(text) {
   ];
 
   for (const f of formats) {
-    const d = dayjs.tz(cleaned, f, TZ);
-    const iso = toISO(d);
-    if (iso) return iso;
+    try {
+      const d = dayjs.tz(cleaned, f, TZ);
+      const iso = toISO(d);
+      if (iso) return iso;
+    } catch {
+      // try next format
+    }
   }
 
   // Try date fragments inside the text
@@ -566,17 +574,29 @@ function tryParseDateFromText(text) {
 
   if (fragment) {
     for (const f of formats) {
-      const d = dayjs.tz(fragment, f, TZ);
-      const iso = toISO(d);
-      if (iso) return iso;
+      try {
+        const d = dayjs.tz(fragment, f, TZ);
+        const iso = toISO(d);
+        if (iso) return iso;
+      } catch {
+        // try next format
+      }
     }
-    const d2 = dayjs.tz(fragment, TZ);
-    const iso2 = toISO(d2);
-    if (iso2) return iso2;
+    try {
+      const d2 = dayjs.tz(fragment, TZ);
+      const iso2 = toISO(d2);
+      if (iso2) return iso2;
+    } catch {
+      // continue to final fallback
+    }
   }
 
-  const d3 = dayjs.tz(cleaned, TZ);
-  return toISO(d3) || null;
+  try {
+    const d3 = dayjs.tz(cleaned, TZ);
+    return toISO(d3) || null;
+  } catch {
+    return null;
+  }
 }
 
 /* --------------------- JSON-LD Event extractor --------------------- */
