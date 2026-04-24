@@ -48,13 +48,30 @@ jobs:
 
       - name: Commit and push
         run: |
+          BRANCH="${{ github.ref_name }}"
+          REMOTE_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add public/events.json
-          git diff --cached --exit-code || (
-            git commit -m "chore: auto-scrape events ($(date -u +'%Y-%m-%d %H:%M:%S') UTC)"
-            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
-          )
+
+          if git diff --cached --quiet; then
+            echo "No changes in events.json; nothing to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: auto-scrape events ($(date -u +'%Y-%m-%d %H:%M:%S') UTC)"
+
+          if git push "$REMOTE_URL" "HEAD:$BRANCH"; then
+            echo "Push succeeded on first attempt."
+            exit 0
+          fi
+
+          echo "Push rejected (non-fast-forward). Fetching latest and rebasing..."
+          git fetch origin "$BRANCH"
+          git rebase "origin/$BRANCH"
+          git push "$REMOTE_URL" "HEAD:$BRANCH"
 
       - name: Report failure
         if: failure()
