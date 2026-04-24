@@ -2,395 +2,29 @@
   {
     "source": "Polar Bear Music Club",
     "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/music-lab-160326",
-    "title": "MUSIC LAB — Polar Bear Music Club",
-    "start": "2026-03-16T18:00:00.000Z",
-    "end": "2026-03-16T20:00:00.000Z",
-    "dateText": "16 March 2026",
-    "timeText": "1:008:00",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:48.088Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "18:00",
-    "displayDateTime24": "2026-03-16 18:00",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-sesh-17-03-26-live-music-every-tuesday-hull",
-    "title": "THE SESH - Live Music Every Tuesday — Polar Bear Music Club",
-    "start": "2026-03-17T19:30:00.000Z",
-    "end": "2026-03-18T02:30:00.000Z",
-    "dateText": "17 March 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.435Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-17 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/bruise-control-hull-2026",
-    "title": "Bruise Control — Polar Bear Music Club",
-    "start": "2026-03-19T19:30:00.000Z",
-    "end": "2026-03-19T23:00:00.000Z",
-    "dateText": "19 March 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.697Z",
-    "soldOut": false,
-    "priceText": "£12.00",
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-19 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/sunbeam-21-march-2026",
-    "title": "Sunbeam — Polar Bear Music Club",
-    "start": "2026-03-21T19:30:00.000Z",
-    "end": "2026-03-21T22:30:00.000Z",
-    "dateText": "21 March 2026",
-    "timeText": "7:30 pm",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-basstrix-twisteds-birthday-bash-2026",
+    "title": "The Basstrix: Twisted's Birthday Bash — Polar Bear Music Club",
+    "start": "2026-04-24T19:00:00.000Z",
+    "end": "2026-04-25T01:00:00.000Z",
+    "dateText": "24 April 2026",
+    "timeText": "8:00 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [
       {
-        "label": "BUY TICKETS - £10 + BF",
-        "url": "https://www.seetickets.com/event/sunbeam/the-polar-bear-music-club/3595488"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:50.184Z",
-    "soldOut": false,
-    "priceText": "£10",
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-21 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-21march26",
-    "title": "WIRED - DJS EVERY SATURDAY NIGHT — Polar Bear Music Club",
-    "start": "2026-03-21T22:30:00.000Z",
-    "end": "2026-03-22T02:30:00.000Z",
-    "dateText": "21 March 2026",
-    "timeText": "2:30 am",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.626Z",
-    "soldOut": false,
-    "priceText": "£12",
-    "freeEntry": true,
-    "displayTime24": "22:30",
-    "displayDateTime24": "2026-03-21 22:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-sesh-slag-hull-240326",
-    "title": "THE SESH - Live Music Every Tuesday — Polar Bear Music Club",
-    "start": "2026-03-24T19:30:00.000Z",
-    "end": "2026-03-25T02:30:00.000Z",
-    "dateText": "24 March 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.883Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-24 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/polar-bear-jazz-club-28-03-26-hull",
-    "title": "Polar Bear Jazz Club — Polar Bear Music Club",
-    "start": "2026-03-28T19:30:00.000Z",
-    "end": "2026-03-28T22:30:00.000Z",
-    "dateText": "28 March 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [
-      {
-        "label": "FREE ENTRY",
-        "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:51.288Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-28 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-21march26-ym7gw",
-    "title": "WIRED - DJS EVERY SATURDAY NIGHT — Polar Bear Music Club",
-    "start": "2026-03-28T22:30:00.000Z",
-    "end": "2026-03-29T01:30:00.000Z",
-    "dateText": "28 March 2026",
-    "timeText": "2:30 am",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:51.689Z",
-    "soldOut": false,
-    "priceText": "£12",
-    "freeEntry": true,
-    "displayTime24": "22:30",
-    "displayDateTime24": "2026-03-28 22:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-sesh-31-03-26-live-music-every-tuesday-hull",
-    "title": "THE SESH - Live Music Every Tuesday — Polar Bear Music Club",
-    "start": "2026-03-31T18:30:00.000Z",
-    "end": "2026-04-01T01:30:00.000Z",
-    "dateText": "31 March 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.110Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-31 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/sulcut-house-drum-and-bass-tech-house-prog-house-minimal",
-    "title": "Sulcut — Polar Bear Music Club",
-    "start": "2026-04-03T19:30:00.000Z",
-    "end": "2026-04-04T00:30:00.000Z",
-    "dateText": "3 April 2026",
-    "timeText": "8:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [
-      {
-        "label": "BUY TICKETS - £5.00 + BF",
-        "url": "https://www.skiddle.com/whats-on/Hull/Polar-Bear-Music-Club/Sulcut-Events-at-Polar-Bear-Music-Club/41653712/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:52.525Z",
-    "soldOut": false,
-    "priceText": "£5.00",
-    "freeEntry": false,
-    "displayTime24": "20:30",
-    "displayDateTime24": "2026-04-03 20:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-sesh-070426-live-music-every-tuesday-hull",
-    "title": "THE SESH — Polar Bear Music Club",
-    "start": "2026-04-07T18:30:00.000Z",
-    "end": "2026-04-08T01:30:00.000Z",
-    "dateText": "7 April 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.969Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-04-07 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-guest-list-hull-2026",
-    "title": "The Guest List — Polar Bear Music Club",
-    "start": "2026-04-10T18:30:00.000Z",
-    "end": "2026-04-10T22:00:00.000Z",
-    "dateText": "10 April 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [
-      {
-        "label": "BUY TICKETS - £14 + BF",
-        "url": "https://www.seetickets.com/event/the-guest-list/polar-bear-music-club/3545199"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:53.209Z",
-    "soldOut": false,
-    "priceText": "£14",
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-04-10 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/nontaines-sc-polar-bear-hull-april-2026",
-    "title": "Nontaines S.C. — Polar Bear Music Club",
-    "start": "2026-04-11T18:30:00.000Z",
-    "end": "2026-04-11T21:30:00.000Z",
-    "dateText": "11 April 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [
-      {
-        "label": "BOOK NOW - £12.50 + BF",
-        "url": "https://www.seetickets.com/event/nontaines-s-c-/polar-bear-music-club/3556554"
+        "label": "BUY TICKETS - £4 FIRST RELEASE",
+        "url": "https://www.skiddle.com/whats-on/Hull/Polar-Bear/The-Basstrix-Twisteds-Birthday-Bash/42164509/#tickets"
       },
       {
         "label": "Tickets",
-        "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
+        "url": "https://www.skiddle.com/whats-on/Hull/Polar-Bear/The-Basstrix-Twisteds-Birthday-Bash/42164509/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:53.633Z",
+    "scrapedAt": "2026-04-22T06:35:29.896Z",
     "soldOut": false,
-    "priceText": "£12.50",
+    "priceText": "£4",
     "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-04-11 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-sesh-14-04-26",
-    "title": "THE SESH — Polar Bear Music Club",
-    "start": "2026-04-14T18:30:00.000Z",
-    "end": "2026-04-15T01:30:00.000Z",
-    "dateText": "14 April 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.051Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-04-14 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/mouth-culture-april-hull-2026",
-    "title": "Mouth Culture — Polar Bear Music Club",
-    "start": "2026-04-18T18:30:00.000Z",
-    "end": "2026-04-18T21:30:00.000Z",
-    "dateText": "18 April 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [
-      {
-        "label": "BUY NOW! - £16 + BF",
-        "url": "https://www.seetickets.com/event/mouth-culture/polar-bear-music-club/3564883"
-      },
-      {
-        "label": "Tickets",
-        "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:54.295Z",
-    "soldOut": false,
-    "priceText": "£16",
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-04-18 19:30",
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-sesh-220426-live-music-every-tuesday-hull",
-    "title": "THE SESH — Polar Bear Music Club",
-    "start": "2026-04-21T18:30:00.000Z",
-    "end": "2026-04-22T01:30:00.000Z",
-    "dateText": "21 April 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.521Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-04-21 19:30",
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-04-24 20:00",
     "type": [
       "Live Music",
       "Party"
@@ -413,12 +47,57 @@
         "url": "https://www.seetickets.com/event/the-fire-doors-a-tribute-to-the-doors/polar-bear-music-club/3452708"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.905Z",
+    "scrapedAt": "2026-04-22T06:35:30.944Z",
     "soldOut": false,
     "priceText": "£15",
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-04-25 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-21march26-ym7gw-3pxtc-86ane-ht42w-cks27",
+    "title": "WIRED - DJS EVERY SATURDAY NIGHT — Polar Bear Music Club",
+    "start": "2026-04-25T21:30:00.000Z",
+    "end": "2026-04-26T01:30:00.000Z",
+    "dateText": "25 April 2026",
+    "timeText": "2:30 am",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.389Z",
+    "soldOut": false,
+    "priceText": "£12",
+    "freeEntry": true,
+    "displayTime24": "22:30",
+    "displayDateTime24": "2026-04-25 22:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/music-lab-27-april-hull",
+    "title": "MUSIC LAB — Polar Bear Music Club",
+    "start": "2026-04-27T17:00:00.000Z",
+    "end": "2026-04-27T19:00:00.000Z",
+    "dateText": "27 April 2026",
+    "timeText": "1:008:00",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.745Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-04-27 18:00",
     "type": [
       "Live Music",
       "Party"
@@ -436,7 +115,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:55.324Z",
+    "scrapedAt": "2026-04-22T06:35:32.103Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -463,7 +142,7 @@
         "url": "https://www.seetickets.com/event/frankly-the-smiths/polar-bear-music-club/3587650"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:55.712Z",
+    "scrapedAt": "2026-04-22T06:35:32.442Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": false,
@@ -491,12 +170,90 @@
         "url": "https://www.seetickets.com/event/chasing-mumford/polar-bear-music-club/3549647"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:56.128Z",
+    "scrapedAt": "2026-04-22T06:35:32.817Z",
     "soldOut": false,
     "priceText": "£18.50",
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-05-02 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/techno-all-night-long-hull-polar-bear",
+    "title": "TECHNO (ALL NIGHT LONG) — Polar Bear Music Club",
+    "start": "2026-05-03T17:00:00.000Z",
+    "end": "2026-05-04T01:00:00.000Z",
+    "dateText": "3 May 2026",
+    "timeText": "6:00 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [
+      {
+        "label": "BUY TICKETS - £7.00 + BF",
+        "url": "https://www.seetickets.com/event/techno-all-night-long-/polar-bear-music-club/3624200"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.232Z",
+    "soldOut": false,
+    "priceText": "£7.00",
+    "freeEntry": false,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-05-03 18:00",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/music-lab-04-may-hull",
+    "title": "MUSIC LAB — Polar Bear Music Club",
+    "start": "2026-05-04T17:00:00.000Z",
+    "end": "2026-05-04T19:00:00.000Z",
+    "dateText": "4 May 2026",
+    "timeText": "1:008:00",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:33.573Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-05-04 18:00",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/hive-mind-spring-send-off-polar-bear-hull",
+    "title": "Hive Mind: Spring Send Off — Polar Bear Music Club",
+    "start": "2026-05-08T17:00:00.000Z",
+    "end": "2026-05-09T01:00:00.000Z",
+    "dateText": "8 May 2026",
+    "timeText": "8:00 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [
+      {
+        "label": "BUY TICKETS - £3 EARLY BIRD // £5 STANDARD",
+        "url": "https://www.skiddle.com/whats-on/Hull/Polar-Bear-Music-Club/Hive-Mind-Spring-Send-Off/42258144/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.746Z",
+    "soldOut": false,
+    "priceText": "£3",
+    "freeEntry": false,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-05-08 18:00",
     "type": [
       "Live Music",
       "Party"
@@ -519,12 +276,62 @@
         "url": "https://www.seetickets.com/event/hey-pixies-pixies-tribute-/polar-bear-music-club/3565724"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:56.363Z",
+    "scrapedAt": "2026-04-22T06:35:33.964Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-05-09 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/music-lab-11-may-hull",
+    "title": "MUSIC LAB — Polar Bear Music Club",
+    "start": "2026-05-11T17:00:00.000Z",
+    "end": "2026-05-11T19:00:00.000Z",
+    "dateText": "11 May 2026",
+    "timeText": "1:008:00",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:34.441Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-05-11 18:00",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/en-cryptid-the-exorcism-of-ed-wood-hull-2026",
+    "title": "En-Cryptid & The Exorcism of Ed Wood — Polar Bear Music Club",
+    "start": "2026-05-14T18:00:00.000Z",
+    "end": "2026-05-14T21:30:00.000Z",
+    "dateText": "14 May 2026",
+    "timeText": "7:00 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [
+      {
+        "label": "BUY TICKETS - £15 + BF",
+        "url": "https://www.seetickets.com/event/en-cryptid-the-exorcism-of-ed-wood/polar-bear-music-club/3628469"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:34.573Z",
+    "soldOut": false,
+    "priceText": "£15",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-05-14 19:00",
     "type": [
       "Live Music",
       "Party"
@@ -547,12 +354,34 @@
         "url": "https://www.fatsoma.com/e/dejhoea0/panic-at-the-emo-at-polar-bear-music-club-hull"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:56.804Z",
+    "scrapedAt": "2026-04-22T06:35:35.010Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
     "displayTime24": "22:00",
     "displayDateTime24": "2026-05-15 22:00",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/music-lab-18-may-hull",
+    "title": "MUSIC LAB — Polar Bear Music Club",
+    "start": "2026-05-18T17:00:00.000Z",
+    "end": "2026-05-18T19:00:00.000Z",
+    "dateText": "18 May 2026",
+    "timeText": "1:008:00",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:35.167Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-05-18 18:00",
     "type": [
       "Live Music",
       "Party"
@@ -575,12 +404,62 @@
         "url": "https://www.seetickets.com/event/martin-gallagher-the-413/polar-bear-music-club/3609026"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:57.214Z",
+    "scrapedAt": "2026-04-22T06:35:35.583Z",
     "soldOut": false,
     "priceText": "£3.00",
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-05-22 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/legit-free-party-a-folk-history-film-screening-hull",
+    "title": "LEG~IT! Free Party: A Folk History — Polar Bear Music Club",
+    "start": "2026-05-24T18:30:00.000Z",
+    "end": "2026-05-25T01:00:00.000Z",
+    "dateText": "24 May 2026",
+    "timeText": "7:30 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [
+      {
+        "label": "BUY TICKETS - £4.50 - £8.50",
+        "url": "https://www.skiddle.com/whats-on/Hull/Polar-Bear-Music-Club/LEGIT-Presents---Free-Party-A-Folk-History/42171831/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:35.918Z",
+    "soldOut": false,
+    "priceText": "£4.50",
+    "freeEntry": false,
+    "displayTime24": "19:30",
+    "displayDateTime24": "2026-05-24 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/music-lab-25-may-hull",
+    "title": "MUSIC LAB — Polar Bear Music Club",
+    "start": "2026-05-25T17:00:00.000Z",
+    "end": "2026-05-25T19:00:00.000Z",
+    "dateText": "25 May 2026",
+    "timeText": "1:008:00",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:36.286Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-05-25 18:00",
     "type": [
       "Live Music",
       "Party"
@@ -603,11 +482,33 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:57.615Z",
+    "scrapedAt": "2026-04-22T06:35:36.410Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-05-29 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/warren-records-takeover-may-2026",
+    "title": "Warren Records Takeover — Polar Bear Music Club",
+    "start": "2026-05-30T17:00:00.000Z",
+    "end": "2026-05-30T21:30:00.000Z",
+    "dateText": "30 May 2026",
+    "timeText": "1:000:30 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:36.588Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "18:00",
+    "displayDateTime24": "2026-05-30 18:00",
     "type": [
       "Live Music",
       "Party"
@@ -630,12 +531,40 @@
         "url": "https://www.seetickets.com/event/duke-special/the-polar-bear-music-club/3598959"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:58.034Z",
+    "scrapedAt": "2026-04-22T06:35:36.683Z",
     "soldOut": false,
     "priceText": "£28",
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-06-05 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/andrew-cushin-polar-bear-hull-june-2026",
+    "title": "Andrew Cushin — Polar Bear Music Club",
+    "start": "2026-06-10T18:30:00.000Z",
+    "end": "2026-06-10T21:30:00.000Z",
+    "dateText": "10 June 2026",
+    "timeText": "7:30 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [
+      {
+        "label": "£17.50 TICKETS ON SALE FRIDAY 17 APRIL",
+        "url": "https://futuresound.seetickets.com/event/andrew-cushin/the-polar-bear-music-club/3625639"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:36.848Z",
+    "soldOut": false,
+    "priceText": "£17.50",
+    "freeEntry": false,
+    "displayTime24": "19:30",
+    "displayDateTime24": "2026-06-10 19:30",
     "type": [
       "Live Music",
       "Party"
@@ -658,12 +587,44 @@
         "url": "https://www.seetickets.com/event/cq-wrestling/polar-bear-music-club/3597891"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:58.538Z",
+    "scrapedAt": "2026-04-22T06:35:36.951Z",
     "soldOut": false,
     "priceText": "£14",
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-06-12 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/john-frum-cargo-cult-the-four-horsemen-tour-polar-bear-hull-2026",
+    "title": "John Frum Cargo Cult: The Four Horsemen Tour — Polar Bear Music Club",
+    "start": "2026-07-11T18:30:00.000Z",
+    "end": "2026-07-11T22:00:00.000Z",
+    "dateText": "11 July 2026",
+    "timeText": "7:30 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [
+      {
+        "label": "BUY TICKETS - £7.00 + BF",
+        "url": "https://www.seetickets.com/event/john-frum-cargo-cult-the-four-horsemen-tour/polar-bear-music-club/3620106"
+      },
+      {
+        "label": "Tickets",
+        "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:37.118Z",
+    "soldOut": false,
+    "priceText": "£7.00",
+    "freeEntry": false,
+    "displayTime24": "19:30",
+    "displayDateTime24": "2026-07-11 19:30",
     "type": [
       "Live Music",
       "Party"
@@ -690,7 +651,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:58.957Z",
+    "scrapedAt": "2026-04-22T06:35:37.281Z",
     "soldOut": false,
     "priceText": "£12.50",
     "freeEntry": false,
@@ -718,7 +679,7 @@
         "url": "https://www.seetickets.com/event/catfishing-the-bottlemen/polar-bear-music-club/3601521"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:59.339Z",
+    "scrapedAt": "2026-04-22T06:35:37.383Z",
     "soldOut": false,
     "priceText": "£12.50",
     "freeEntry": false,
@@ -746,12 +707,63 @@
         "url": "https://www.seetickets.com/event/the-b-hives/polar-bear-music-club/3554469"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:59.726Z",
+    "scrapedAt": "2026-04-22T06:35:37.724Z",
     "soldOut": false,
     "priceText": "£12.50",
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-10-10 19:30",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/highway-to-hull-acdc-tribute-polar-bear-october-2026",
+    "title": "Highway to Hull - ACDC Tribute — Polar Bear Music Club",
+    "start": "2026-10-16T18:00:00.000Z",
+    "end": "2026-10-16T21:30:00.000Z",
+    "dateText": "16 October 2026",
+    "timeText": "7:00 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:37.890Z",
+    "soldOut": false,
+    "priceText": "£12",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-10-16 19:00",
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 2.502196797612888
+  },
+  {
+    "source": "Polar Bear Music Club",
+    "venue": "Polar Bear Music Club",
+    "url": "https://www.polarbearmusicclub.co.uk/whatson/the-uk-strokes-polar-bear-hull-oct-2026",
+    "title": "The UK Strokes — Polar Bear Music Club",
+    "start": "2026-10-17T18:30:00.000Z",
+    "end": "2026-10-17T21:30:00.000Z",
+    "dateText": "17 October 2026",
+    "timeText": "7:30 pm",
+    "address": "229 Spring Bank, Hull, HU3 1LR",
+    "tickets": [
+      {
+        "label": "BUY TICKETS - £10 + BF",
+        "url": "https://www.seetickets.com/event/the-uk-strokes/polar-bear-music-club/3620407"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:38.231Z",
+    "soldOut": false,
+    "priceText": "£10",
+    "freeEntry": false,
+    "displayTime24": "19:30",
+    "displayDateTime24": "2026-10-17 19:30",
     "type": [
       "Live Music",
       "Party"
@@ -774,7 +786,7 @@
         "url": "https://www.seetickets.com/event/moments-of-pleasure-the-music-of-kate-bush/polar-bear-music-club/3592506"
       }
     ],
-    "scrapedAt": "2026-03-16T07:07:00.125Z",
+    "scrapedAt": "2026-04-22T06:35:38.400Z",
     "soldOut": false,
     "priceText": "£15",
     "freeEntry": false,
@@ -802,7 +814,7 @@
         "url": "https://www.seetickets.com/event/wheezer-performing-the-music-of-weezer/polar-bear-music-club/3588045"
       }
     ],
-    "scrapedAt": "2026-03-16T07:07:00.521Z",
+    "scrapedAt": "2026-04-22T06:35:38.615Z",
     "soldOut": false,
     "priceText": "£12.50",
     "freeEntry": false,
@@ -819,122 +831,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-03-22T12:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "22/3/2026",
-    "timeText": "12:00",
-    "address": "6 Newland Ave, Hull HU5 3AF",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.468Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "12:00",
-    "displayDateTime24": "2026-03-22 12:00",
-    "type": [
-      "Food"
-    ],
-    "distance": 2.679741225601127
-  },
-  {
-    "source": "Mr Moody's Tavern",
-    "venue": "Mr Moody's Tavern",
-    "url": "",
-    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-03-29T12:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "29/3/2026",
-    "timeText": "12:00",
-    "address": "6 Newland Ave, Hull HU5 3AF",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.469Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-03-29 13:00",
-    "type": [
-      "Food"
-    ],
-    "distance": 2.679741225601127
-  },
-  {
-    "source": "Mr Moody's Tavern",
-    "venue": "Mr Moody's Tavern",
-    "url": "",
-    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-04-05T12:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "5/4/2026",
-    "timeText": "12:00",
-    "address": "6 Newland Ave, Hull HU5 3AF",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.470Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-04-05 13:00",
-    "type": [
-      "Food"
-    ],
-    "distance": 2.679741225601127
-  },
-  {
-    "source": "Mr Moody's Tavern",
-    "venue": "Mr Moody's Tavern",
-    "url": "",
-    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-04-12T12:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "12/4/2026",
-    "timeText": "12:00",
-    "address": "6 Newland Ave, Hull HU5 3AF",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.470Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-04-12 13:00",
-    "type": [
-      "Food"
-    ],
-    "distance": 2.679741225601127
-  },
-  {
-    "source": "Mr Moody's Tavern",
-    "venue": "Mr Moody's Tavern",
-    "url": "",
-    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-04-19T12:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "19/4/2026",
-    "timeText": "12:00",
-    "address": "6 Newland Ave, Hull HU5 3AF",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.470Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-04-19 13:00",
-    "type": [
-      "Food"
-    ],
-    "distance": 2.679741225601127
-  },
-  {
-    "source": "Mr Moody's Tavern",
-    "venue": "Mr Moody's Tavern",
-    "url": "",
-    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-04-26T12:00:00.000Z",
+    "start": "2026-04-26T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "26/4/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.471Z",
+    "scrapedAt": "2026-04-22T06:35:29.007Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-04-26 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-04-26 12:00",
     "type": [
       "Food"
     ],
@@ -945,17 +852,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-05-03T12:00:00.000Z",
+    "start": "2026-05-03T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "3/5/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.471Z",
+    "scrapedAt": "2026-04-22T06:35:29.007Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-05-03 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-05-03 12:00",
     "type": [
       "Food"
     ],
@@ -966,17 +873,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-05-10T12:00:00.000Z",
+    "start": "2026-05-10T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "10/5/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.471Z",
+    "scrapedAt": "2026-04-22T06:35:29.010Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-05-10 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-05-10 12:00",
     "type": [
       "Food"
     ],
@@ -987,17 +894,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-05-17T12:00:00.000Z",
+    "start": "2026-05-17T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "17/5/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.471Z",
+    "scrapedAt": "2026-04-22T06:35:29.010Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-05-17 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-05-17 12:00",
     "type": [
       "Food"
     ],
@@ -1008,17 +915,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-05-24T12:00:00.000Z",
+    "start": "2026-05-24T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "24/5/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.472Z",
+    "scrapedAt": "2026-04-22T06:35:29.011Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-05-24 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-05-24 12:00",
     "type": [
       "Food"
     ],
@@ -1029,17 +936,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-05-31T12:00:00.000Z",
+    "start": "2026-05-31T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "31/5/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.472Z",
+    "scrapedAt": "2026-04-22T06:35:29.011Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-05-31 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-05-31 12:00",
     "type": [
       "Food"
     ],
@@ -1050,17 +957,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-06-07T12:00:00.000Z",
+    "start": "2026-06-07T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "7/6/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.472Z",
+    "scrapedAt": "2026-04-22T06:35:29.012Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-06-07 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-06-07 12:00",
     "type": [
       "Food"
     ],
@@ -1071,17 +978,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-06-14T12:00:00.000Z",
+    "start": "2026-06-14T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "14/6/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.472Z",
+    "scrapedAt": "2026-04-22T06:35:29.012Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-06-14 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-06-14 12:00",
     "type": [
       "Food"
     ],
@@ -1092,17 +999,17 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-06-21T12:00:00.000Z",
+    "start": "2026-06-21T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "21/6/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.473Z",
+    "scrapedAt": "2026-04-22T06:35:29.012Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-06-21 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-06-21 12:00",
     "type": [
       "Food"
     ],
@@ -1113,17 +1020,122 @@
     "venue": "Mr Moody's Tavern",
     "url": "",
     "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
-    "start": "2026-06-28T12:00:00.000Z",
+    "start": "2026-06-28T11:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "28/6/2026",
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:47.473Z",
+    "scrapedAt": "2026-04-22T06:35:29.013Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "13:00",
-    "displayDateTime24": "2026-06-28 13:00",
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-06-28 12:00",
+    "type": [
+      "Food"
+    ],
+    "distance": 2.679741225601127
+  },
+  {
+    "source": "Mr Moody's Tavern",
+    "venue": "Mr Moody's Tavern",
+    "url": "",
+    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
+    "start": "2026-07-05T11:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "5/7/2026",
+    "timeText": "12:00",
+    "address": "6 Newland Ave, Hull HU5 3AF",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:29.013Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-07-05 12:00",
+    "type": [
+      "Food"
+    ],
+    "distance": 2.679741225601127
+  },
+  {
+    "source": "Mr Moody's Tavern",
+    "venue": "Mr Moody's Tavern",
+    "url": "",
+    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
+    "start": "2026-07-12T11:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "12/7/2026",
+    "timeText": "12:00",
+    "address": "6 Newland Ave, Hull HU5 3AF",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:29.013Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-07-12 12:00",
+    "type": [
+      "Food"
+    ],
+    "distance": 2.679741225601127
+  },
+  {
+    "source": "Mr Moody's Tavern",
+    "venue": "Mr Moody's Tavern",
+    "url": "",
+    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
+    "start": "2026-07-19T11:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "19/7/2026",
+    "timeText": "12:00",
+    "address": "6 Newland Ave, Hull HU5 3AF",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:29.014Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-07-19 12:00",
+    "type": [
+      "Food"
+    ],
+    "distance": 2.679741225601127
+  },
+  {
+    "source": "Mr Moody's Tavern",
+    "venue": "Mr Moody's Tavern",
+    "url": "",
+    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
+    "start": "2026-07-26T11:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "26/7/2026",
+    "timeText": "12:00",
+    "address": "6 Newland Ave, Hull HU5 3AF",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:29.014Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-07-26 12:00",
+    "type": [
+      "Food"
+    ],
+    "distance": 2.679741225601127
+  },
+  {
+    "source": "Mr Moody's Tavern",
+    "venue": "Mr Moody's Tavern",
+    "url": "",
+    "title": "Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)",
+    "start": "2026-08-02T11:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "2/8/2026",
+    "timeText": "12:00",
+    "address": "6 Newland Ave, Hull HU5 3AF",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:29.014Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-08-02 12:00",
     "type": [
       "Food"
     ],
@@ -1132,434 +1144,235 @@
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/paddys-day-eve-connor-penson/",
-    "title": "🍀 Paddy’s Day Eve: Connor Penson",
-    "start": "2026-03-16T20:00:00.000Z",
-    "end": "2026-03-16T22:00:00.000Z",
-    "dateText": "16th March 2026",
+    "url": "https://mollymangans.com/event/dylan-ward-18/",
+    "title": "Dylan Ward",
+    "start": "2026-04-22T19:00:00.000Z",
+    "end": "2026-04-22T21:00:00.000Z",
+    "dateText": "22nd April 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.433Z",
+    "scrapedAt": "2026-04-22T06:35:32.547Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-16 20:00",
+    "displayDateTime24": "2026-04-22 20:00",
     "type": null,
     "distance": 2.6944565058735668
   },
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-st-patricks-day-freddie-ellis/",
-    "title": "🍀 St Patrick’s Day: Freddie Ellis",
-    "start": "2026-03-17T18:00:00.000Z",
-    "end": "2026-03-17T18:30:00.000Z",
-    "dateText": "17th March 2026",
-    "timeText": "6:30PM",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.528Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "18:00",
-    "displayDateTime24": "2026-03-17 18:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-st-patricks-day-nick-rooke-paul-blackburn/",
-    "title": "🍀 St Patrick’s Day: Nick Rooke & Paul Blackburn",
-    "start": "2026-03-17T19:30:00.000Z",
-    "end": "2026-03-17T20:30:00.000Z",
-    "dateText": "17th March 2026",
-    "timeText": "7:30PM",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.724Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-17 19:30",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-st-patricks-day-hillbilly-troupe/",
-    "title": "🍀 St Patrick’s Day: Hillbilly Troupe",
-    "start": "2026-03-17T20:30:00.000Z",
-    "end": "2026-03-17T22:30:00.000Z",
-    "dateText": "17th March 2026",
-    "timeText": "8:30PM",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.604Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "20:30",
-    "displayDateTime24": "2026-03-17 20:30",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-st-patricks-after-party-jack-robertson/",
-    "title": "🍀 St Patrick’s After-Party: Jack Robertson",
-    "start": "2026-03-17T23:00:00.000Z",
-    "end": "2026-03-18T01:00:00.000Z",
-    "dateText": "17th March 2026",
+    "url": "https://mollymangans.com/event/kings-o-blarney-8/",
+    "title": "Kings O’ Blarney",
+    "start": "2026-04-23T19:00:00.000Z",
+    "end": "2026-04-23T21:00:00.000Z",
+    "dateText": "23rd April 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:57.264Z",
+    "scrapedAt": "2026-04-22T06:35:32.089Z",
     "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "23:00",
-    "displayDateTime24": "2026-03-17 23:00",
-    "type": [
-      "Party"
-    ],
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-04-23 20:00",
+    "type": null,
     "distance": 2.6944565058735668
   },
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80paddys-week-wednesday-musical-bingo-with-adam-lynch/",
-    "title": "🍀Paddy’s Week Wednesday: Musical Bingo with Adam Lynch",
-    "start": "2026-03-18T07:00:00.000Z",
-    "end": "2026-03-18T22:00:00.000Z",
-    "dateText": "18th March 2026",
+    "url": "https://mollymangans.com/event/evansmacbarton-2/",
+    "title": "EvansMacBarton",
+    "start": "2026-04-24T18:00:00.000Z",
+    "end": "2026-04-24T20:00:00.000Z",
+    "dateText": "24th April 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:57.294Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "07:00",
-    "displayDateTime24": "2026-03-18 07:00",
-    "type": [
-      "Live Music",
-      "Games"
-    ],
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-paddys-week-thursday-ryan-mosleh/",
-    "title": "🍀 Paddy’s Week Thursday – Ryan Mosleh",
-    "start": "2026-03-19T19:00:00.000Z",
-    "end": "2026-03-19T22:00:00.000Z",
-    "dateText": "19th March 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:57.227Z",
+    "scrapedAt": "2026-04-22T06:35:32.530Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-19 19:00",
+    "displayDateTime24": "2026-04-24 19:00",
     "type": null,
     "distance": 2.6944565058735668
   },
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-paddys-week-friday-spare-hands/",
-    "title": "🍀 Paddy’s Week Friday – Spare Hands",
-    "start": "2026-03-20T19:00:00.000Z",
-    "end": "2026-03-20T21:00:00.000Z",
-    "dateText": "20th March 2026",
+    "url": "https://mollymangans.com/event/james-wood-11/",
+    "title": "James Wood",
+    "start": "2026-04-24T22:00:00.000Z",
+    "end": "2026-04-25T00:00:00.000Z",
+    "dateText": "24th April 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:57.243Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-20 19:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-paddys-week-friday-connor-penson/",
-    "title": "🍀 Paddy’s Week Friday – Connor Penson",
-    "start": "2026-03-20T21:00:00.000Z",
-    "end": "2026-03-20T23:00:00.000Z",
-    "dateText": "20th March 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:57.281Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-03-20 21:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80-paddys-week-friday-dylan-ward/",
-    "title": "🍀 Paddy’s Week Friday – Dylan Ward",
-    "start": "2026-03-20T23:00:00.000Z",
-    "end": "2026-03-21T01:00:00.000Z",
-    "dateText": "20th March 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:57.250Z",
+    "scrapedAt": "2026-04-22T06:35:32.524Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "23:00",
-    "displayDateTime24": "2026-03-20 23:00",
+    "displayDateTime24": "2026-04-24 23:00",
     "type": null,
     "distance": 2.6944565058735668
   },
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/paddys-week-saturday-special-sing-around-hosted-by-lloyd-dobbs-andy-buckton/",
-    "title": "🍀Paddy’s Week Finale: Special Sing-Around – hosted by Lloyd Dobbs & Andy Buckton",
-    "start": "2026-03-21T12:00:00.000Z",
-    "end": "2026-03-21T16:00:00.000Z",
-    "dateText": "21st March 2026",
-    "timeText": "",
+    "url": "https://mollymangans.com/event/2773/",
+    "title": "Charlton Athletic vs Hull City",
+    "start": "2026-04-25T11:30:00.000Z",
+    "end": "2026-04-25T13:30:00.000Z",
+    "dateText": "25th April 2026",
+    "timeText": "12:30PM",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:58.595Z",
+    "scrapedAt": "2026-04-22T06:35:34.185Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "12:00",
-    "displayDateTime24": "2026-03-21 12:00",
-    "type": [
-      "Karaoke"
-    ],
+    "displayTime24": "12:30",
+    "displayDateTime24": "2026-04-25 12:30",
+    "type": null,
     "distance": 2.6944565058735668
   },
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/%f0%9f%8d%80paddys-week-finale-special-guest-set-2/",
-    "title": "🍀Paddy’s Week Finale: Special Guest Set",
-    "start": "2026-03-21T16:00:00.000Z",
-    "end": "2026-03-21T18:00:00.000Z",
-    "dateText": "21st March 2026",
+    "url": "https://mollymangans.com/event/beth-pilling-8/",
+    "title": "Beth Pilling",
+    "start": "2026-04-25T15:00:00.000Z",
+    "end": "2026-04-25T17:00:00.000Z",
+    "dateText": "25th April 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:58.611Z",
+    "scrapedAt": "2026-04-22T06:35:34.192Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "16:00",
-    "displayDateTime24": "2026-03-21 16:00",
+    "displayDateTime24": "2026-04-25 16:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/ellie-pollard-8/",
+    "title": "Ellie Pollard",
+    "start": "2026-04-25T18:00:00.000Z",
+    "end": "2026-04-25T20:00:00.000Z",
+    "dateText": "25th April 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:33.728Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-04-25 19:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/connor-penson-11/",
+    "title": "Connor Penson",
+    "start": "2026-04-25T20:00:00.000Z",
+    "end": "2026-04-25T22:00:00.000Z",
+    "dateText": "25th April 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:34.163Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "21:00",
+    "displayDateTime24": "2026-04-25 21:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/dylan-ward-19/",
+    "title": "Dylan Ward",
+    "start": "2026-04-25T22:00:00.000Z",
+    "end": "2026-04-26T00:00:00.000Z",
+    "dateText": "25th April 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:34.146Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "23:00",
+    "displayDateTime24": "2026-04-25 23:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/lydia-odowd-7/",
+    "title": "Lydia O’Dowd",
+    "start": "2026-04-26T15:00:00.000Z",
+    "end": "2026-04-26T17:00:00.000Z",
+    "dateText": "26th April 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:34.170Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "16:00",
+    "displayDateTime24": "2026-04-26 16:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/adam-lynch-15/",
+    "title": "Adam Lynch",
+    "start": "2026-04-26T18:00:00.000Z",
+    "end": "2026-04-26T20:00:00.000Z",
+    "dateText": "26th April 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:35.258Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-04-26 19:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/dylan-ward-20/",
+    "title": "Dylan Ward",
+    "start": "2026-04-27T19:00:00.000Z",
+    "end": "2026-04-27T21:00:00.000Z",
+    "dateText": "27th April 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:34.866Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-04-27 20:00",
     "type": null,
     "distance": 2.6944565058735668
   },
   {
     "source": "The People's Republic",
     "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/935376",
-    "title": "Open Decks",
-    "start": "2026-03-17T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "7:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.597Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-17 19:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/936634",
-    "title": "Live: The 4 Johns",
-    "start": "2026-03-19T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "8:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.486Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-19 20:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/936635",
-    "title": "A Latin Love Affair - TPR's 10th Birthday",
-    "start": "2026-03-20T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "8:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.652Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-20 20:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/936636",
-    "title": "DJs Mat, Lyds & Erik - TPR's 10th Birthday",
-    "start": "2026-03-21T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "8:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.679Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-21 20:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/936637",
-    "title": "Wheel of 4 Tunes - TPR's 10th Birthday",
-    "start": "2026-03-22T15:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "3:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.033Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "15:00",
-    "displayDateTime24": "2026-03-22 15:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/936638",
-    "title": "Bob's Big Brain Quiz - TPR's 10th Birthday",
-    "start": "2026-03-22T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "8:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.704Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-22 20:00",
-    "type": [
-      "Quiz"
-    ],
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/935377",
-    "title": "Open Decks",
-    "start": "2026-03-24T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "7:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.715Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-24 19:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/935378",
-    "title": "Open Decks",
-    "start": "2026-03-31T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "8:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.547Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-31 20:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/935359",
-    "title": "Hip Hop Hooray!",
-    "start": "2026-04-03T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "9:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.609Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-04-03 21:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/936639",
-    "title": "Live: Joe Solo & American Daughters",
-    "start": "2026-04-09T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "",
-    "timeText": "8:00 PM",
-    "address": "112 Newland Avenue, Hull, HU5 3AA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.476Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-09 20:00",
-    "type": null,
-    "distance": 2.7445126321197235
-  },
-  {
-    "source": "The People's Republic",
-    "venue": "The People's Republic",
-    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/944653",
+    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/944654",
     "title": "Live: Complete Control, Buckfast Tramp & Zoo Disco",
     "start": "2026-05-22T19:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
@@ -1567,7 +1380,7 @@
     "timeText": "8:00 PM",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.667Z",
+    "scrapedAt": "2026-04-22T06:35:31.160Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -1586,7 +1399,7 @@
     "timeText": "8:00 PM",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:51.294Z",
+    "scrapedAt": "2026-04-22T06:35:31.303Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -1595,194 +1408,78 @@
     "distance": 2.7445126321197235
   },
   {
+    "source": "The People's Republic",
+    "venue": "The People's Republic",
+    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/935361",
+    "title": "Hip Hop Hooray!",
+    "start": "2026-08-07T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "",
+    "timeText": "8:00 PM",
+    "address": "112 Newland Avenue, Hull, HU5 3AA",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.251Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-08-07 20:00",
+    "type": null,
+    "distance": 2.7445126321197235
+  },
+  {
+    "source": "The People's Republic",
+    "venue": "The People's Republic",
+    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/935362",
+    "title": "Hip Hop Hooray!",
+    "start": "2026-10-02T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "",
+    "timeText": "8:00 PM",
+    "address": "112 Newland Avenue, Hull, HU5 3AA",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.202Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-10-02 20:00",
+    "type": null,
+    "distance": 2.7445126321197235
+  },
+  {
+    "source": "The People's Republic",
+    "venue": "The People's Republic",
+    "url": "https://untappd.com/v/the-peoples-republic/4588756/event/935363",
+    "title": "Hip Hop Hooray!",
+    "start": "2026-12-18T20:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "",
+    "timeText": "8:00 PM",
+    "address": "112 Newland Avenue, Hull, HU5 3AA",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.441Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-12-18 20:00",
+    "type": null,
+    "distance": 2.7445126321197235
+  },
+  {
     "source": "Pave Bar",
     "venue": "Pave Bar",
     "url": "https://www.pavebar.co.uk/",
     "title": "↓ (every friday)",
-    "start": "2026-03-20T20:00:00.000Z",
+    "start": "2026-04-24T19:00:00.000Z",
     "end": null,
-    "dateText": "20 March 2026",
+    "dateText": "24 April 2026",
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:53.997Z",
+    "scrapedAt": "2026-04-22T06:35:36.049Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-20 20:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Common People",
-    "start": "2026-03-20T21:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "20/03/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.495Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-03-20 21:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Atomic – 80s Night",
-    "start": "2026-03-21T21:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "21/03/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.509Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-03-21 21:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Common People",
-    "start": "2026-03-27T21:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "27/03/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.496Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-03-27 21:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Live Music Night",
-    "start": "2026-03-28T21:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "28/03/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.513Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-03-28 21:00",
-    "type": [
-      "Live Music"
-    ],
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Common People",
-    "start": "2026-04-03T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "03/04/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.497Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-04-03 21:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Common People",
-    "start": "2026-04-10T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "10/04/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.497Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-04-10 21:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Mod Night",
-    "start": "2026-04-11T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "11/04/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.506Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-04-11 21:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Common People",
-    "start": "2026-04-17T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "17/04/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.498Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-04-17 21:00",
-    "type": null,
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Underdog",
-    "venue": "Underdog",
-    "url": "",
-    "title": "Atomic – 80s Night",
-    "start": "2026-04-18T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "18/04/2026",
-    "timeText": "21:00:00",
-    "address": "12a Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.510Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "21:00",
-    "displayDateTime24": "2026-04-18 21:00",
+    "displayDateTime24": "2026-04-24 20:00",
     "type": null,
     "distance": 2.8356611531925404
   },
@@ -1797,7 +1494,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.499Z",
+    "scrapedAt": "2026-04-22T06:35:31.333Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1816,7 +1513,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.513Z",
+    "scrapedAt": "2026-04-22T06:35:31.346Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1837,7 +1534,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.499Z",
+    "scrapedAt": "2026-04-22T06:35:31.333Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1856,7 +1553,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.500Z",
+    "scrapedAt": "2026-04-22T06:35:31.334Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1875,7 +1572,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.507Z",
+    "scrapedAt": "2026-04-22T06:35:31.340Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1894,7 +1591,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.501Z",
+    "scrapedAt": "2026-04-22T06:35:31.334Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1913,7 +1610,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.510Z",
+    "scrapedAt": "2026-04-22T06:35:31.343Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1932,7 +1629,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.501Z",
+    "scrapedAt": "2026-04-22T06:35:31.335Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1951,7 +1648,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.514Z",
+    "scrapedAt": "2026-04-22T06:35:31.347Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1972,7 +1669,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.502Z",
+    "scrapedAt": "2026-04-22T06:35:31.335Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -1991,7 +1688,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.502Z",
+    "scrapedAt": "2026-04-22T06:35:31.336Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -2010,7 +1707,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.503Z",
+    "scrapedAt": "2026-04-22T06:35:31.336Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -2029,7 +1726,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.507Z",
+    "scrapedAt": "2026-04-22T06:35:31.340Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -2048,7 +1745,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.504Z",
+    "scrapedAt": "2026-04-22T06:35:31.337Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -2067,7 +1764,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.511Z",
+    "scrapedAt": "2026-04-22T06:35:31.344Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -2086,7 +1783,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.504Z",
+    "scrapedAt": "2026-04-22T06:35:31.337Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -2105,7 +1802,7 @@
     "timeText": "21:00:00",
     "address": "12a Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.514Z",
+    "scrapedAt": "2026-04-22T06:35:31.347Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -2116,408 +1813,35 @@
     "distance": 2.8356611531925404
   },
   {
-    "source": "Union Mash Up",
-    "venue": "Union Mash Up",
-    "url": "https://unionmashup.co.uk/events/car-load-of-comics-45/?occurrence=2026-03-19",
-    "title": "Car Load of Comics",
-    "start": "2026-03-19T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "19 Mar 2026",
-    "timeText": "7pm",
-    "address": "22-24 Princes Ave, Hull, HU5 3QA",
-    "tickets": [
-      {
-        "label": "iCal",
-        "url": "https://unionmashup.co.uk/?method=ical&id=7223&occurrence=2026-03-19"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:52.060Z",
-    "soldOut": false,
-    "priceText": "£5",
-    "freeEntry": true,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-19 19:00",
-    "type": null,
-    "distance": 2.9579676894117712
-  },
-  {
-    "source": "Union Mash Up",
-    "venue": "Union Mash Up",
-    "url": "https://unionmashup.co.uk/events/book-launch-2/?occurrence=2026-03-20",
-    "title": "Book Launch",
-    "start": "2026-03-20T15:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "20 Mar 2026",
-    "timeText": "3:00 pm",
-    "address": "22-24 Princes Ave, Hull, HU5 3QA",
-    "tickets": [
-      {
-        "label": "iCal",
-        "url": "https://unionmashup.co.uk/?method=ical&id=7165&occurrence=2026-03-20"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:52.994Z",
-    "soldOut": false,
-    "priceText": "£5",
-    "freeEntry": false,
-    "displayTime24": "15:00",
-    "displayDateTime24": "2026-03-20 15:00",
-    "type": null,
-    "distance": 2.9579676894117712
-  },
-  {
-    "source": "Union Mash Up",
-    "venue": "Union Mash Up",
-    "url": "https://unionmashup.co.uk/events/disco-made-me-do-it-6/?occurrence=2026-03-21",
-    "title": "Disco Made Me Do It",
-    "start": "2026-03-22T18:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "21 Mar 2026",
-    "timeText": "9.30pm",
-    "address": "22-24 Princes Ave, Hull, HU5 3QA",
-    "tickets": [
-      {
-        "label": "+ Add to Google Calendar",
-        "url": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Disco+Made+Me+Do+It&dates=20260321T180000Z/20260321T180000Z&details=House+Beats%2C+Disco+Edits+and+Dance+Grooves+all+night+long....+Music+you+didn%27t+know+you+wanted+to+hear...%0D%0A%0D%0AWe+return+to+Union+Mashup%2C+22+Princes+Avenue%2C+Hull+on+Saturday+March+21st+2026+following+our+sell-out+Christmas+Party.+Expect+the+usual+high+quality+sound+and+lighting.+21%3A00+-+00%3A30.+Pre+party%2C+as+usual+at+the+fantastic+Arthouse%2C+next+door+but+one+from+18%3A00.+Limited+tickets+at+%C2%A35+%2B+BF.+Limited+Early+bird+FREE+tickets+available.+More+on+the+door+if+there+are+any+left.+See+you+on+the+dancefloor%21%21%21+DMMDIx%0D%0A%0D%0A%0D%0ATICKETS+%0D%0Ahttps%3A%2F%2Fwww.eventbrite.co.uk%2Fe%2Fdisco-made-me-do-it-tickets-1982458915984%3Faff%3Defbevent%26fbclid%3DIwY2xjawQaqyVleHRuA2FlbQIxMQBzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeuqs_o6MogS1sRGZLih_zjhqJlbfOZpsjjwfTlIoVFGmtz1_pb7CfaJ9JU0s_aem_OdiyDLSqLHvbf7bw2hg5Qg"
-      },
-      {
-        "label": "iCal",
-        "url": "https://unionmashup.co.uk/?method=ical&id=7190&occurrence=2026-03-21"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:53.011Z",
-    "soldOut": false,
-    "priceText": "£5",
-    "freeEntry": false,
-    "displayTime24": "18:00",
-    "displayDateTime24": "2026-03-22 18:00",
-    "type": null,
-    "distance": 2.9579676894117712
-  },
-  {
-    "source": "Union Mash Up",
-    "venue": "Union Mash Up",
-    "url": "https://unionmashup.co.uk/events/private-event-323/?occurrence=2026-03-28",
-    "title": "And Friends DJ night",
-    "start": "2026-03-28T18:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "28 Mar 2026",
-    "timeText": "6:00 pm",
-    "address": "22-24 Princes Ave, Hull, HU5 3QA",
-    "tickets": [
-      {
-        "label": "iCal",
-        "url": "https://unionmashup.co.uk/?method=ical&id=7171&occurrence=2026-03-28"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:53.018Z",
-    "soldOut": false,
-    "priceText": "£5",
-    "freeEntry": true,
-    "displayTime24": "18:00",
-    "displayDateTime24": "2026-03-28 18:00",
-    "type": [
-      "Live Music"
-    ],
-    "distance": 2.9579676894117712
-  },
-  {
     "source": "The Welly Club",
     "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/st-patricks-day-special/",
-    "title": "St. Patrick’s Day Special",
-    "start": "2026-03-17T23:00:00.000Z",
-    "end": "2026-03-18T03:00:00.000Z",
-    "dateText": "Tue 17th Mar",
-    "timeText": "11:00 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "St. Patrick’s Day Special",
-        "url": "https://www.fatsoma.com/e/vhenm3e0/st-patrick-s-day-special"
-      },
-      {
-        "label": "Buy from Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/st-patrick-s-day-special/the-welly/3613461"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:50.103Z",
-    "soldOut": false,
-    "priceText": "£6",
-    "freeEntry": false,
-    "displayTime24": "23:00",
-    "displayDateTime24": "2026-03-17 23:00",
-    "type": null,
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/jelly-the-weekly-indie-disco-19-03-26/",
-    "title": "Jelly – The Weekly Indie Disco – 19.03.26",
-    "start": "2026-03-19T22:30:00.000Z",
-    "end": "2026-03-20T03:00:00.000Z",
-    "dateText": "Thu 19th Mar",
+    "url": "https://www.giveitsomewelly.com/event/jelly-the-weekly-indie-disco-23-04-26/",
+    "title": "Jelly – The Weekly Indie Disco – 23.04.26",
+    "start": "2026-04-23T21:30:00.000Z",
+    "end": "2026-04-24T02:00:00.000Z",
+    "dateText": "Thu 23rd Apr",
     "timeText": "10:30 pm",
     "address": "105-107 Beverley Rd, Hull, HU3 1TS",
     "tickets": [
       {
-        "label": "Jelly – The Weekly Indie Disco – 19.03.26",
-        "url": "https://www.fatsoma.com/e/g60qbced/jelly-the-weekly-indie-disco-19-03-26"
+        "label": "Jelly – The Weekly Indie Disco – 23.04.26",
+        "url": "https://www.fatsoma.com/e/1a28iied/jelly-the-weekly-indie-disco-23-04-26"
       },
       {
         "label": "Buy from Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/jelly-the-weekly-indie-disco/the-welly/3612825"
+        "url": "https://www.seetickets.com/event/jelly-the-weekly-indie-disco/the-welly/3622383"
       },
       {
         "label": "Built by Fatsoma",
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:50.709Z",
+    "scrapedAt": "2026-04-22T06:35:32.152Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
     "displayTime24": "22:30",
-    "displayDateTime24": "2026-03-19 22:30",
-    "type": null,
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/nirvana-tribute/",
-    "title": "Nirvana Tribute",
-    "start": "2026-03-20T19:30:00.000Z",
-    "end": "2026-03-20T23:00:00.000Z",
-    "dateText": "Fri 20th Mar",
-    "timeText": "7:30 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "Nirvana Tribute",
-        "url": "https://www.fatsoma.com/e/z7fh2eqv/nirvana-tribute"
-      },
-      {
-        "label": "Buy from Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/nirvana-tribute/the-welly/3593402"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:51.830Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-03-20 19:30",
-    "type": null,
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/the-lancashire-hotpots/",
-    "title": "The Lancashire Hotpots",
-    "start": "2026-03-21T18:30:00.000Z",
-    "end": "2026-03-21T23:00:00.000Z",
-    "dateText": "Sat 21st Mar",
-    "timeText": "6:30 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "The Lancashire Hotpots",
-        "url": "https://www.fatsoma.com/e/hqv5sggh/the-lancashire-hotpots"
-      },
-      {
-        "label": "Buy from Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/the-lancashire-hotpots-party-party-party-tour/the-welly/3517482"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:51.857Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "18:30",
-    "displayDateTime24": "2026-03-21 18:30",
-    "type": null,
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/thanks-for-the-memories/",
-    "title": "THANKS FOR THE MEMORIES",
-    "start": "2026-03-21T19:00:00.000Z",
-    "end": "2026-03-21T22:00:00.000Z",
-    "dateText": "Sat 21st Mar",
-    "timeText": "7:00 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "THANKS FOR THE MEMORIES",
-        "url": "https://www.fatsoma.com/e/aei2qtcm/thanks-for-the-memories"
-      },
-      {
-        "label": "Buy from SEE TICKETS",
-        "url": "https://www.seetickets.com/event/thanks-for-the-memories/the-welly-2/3561977"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:52.151Z",
-    "soldOut": false,
-    "priceText": "£15.00",
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-21 19:00",
-    "type": null,
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/jelly-the-weekly-indie-disco-26-03-26/",
-    "title": "Jelly – The Weekly Indie Disco – 26.03.26",
-    "start": "2026-03-26T22:30:00.000Z",
-    "end": "2026-03-27T03:00:00.000Z",
-    "dateText": "Thu 26th Mar",
-    "timeText": "10:30 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "Jelly – The Weekly Indie Disco – 26.03.26",
-        "url": "https://www.fatsoma.com/e/3d7xgh4t/jelly-the-weekly-indie-disco-26-03-26"
-      },
-      {
-        "label": "Buy from Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/jelly-the-weekly-indie-disco/the-welly/3612842"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:51.419Z",
-    "soldOut": false,
-    "priceText": "£10",
-    "freeEntry": false,
-    "displayTime24": "22:30",
-    "displayDateTime24": "2026-03-26 22:30",
-    "type": null,
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/country-day-party-hull/",
-    "title": "Country Day Party: Hull",
-    "start": "2026-04-04T14:00:00.000Z",
-    "end": "2026-04-04T19:00:00.000Z",
-    "dateText": "Sat 4th Apr",
-    "timeText": "3:00 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "Country Day Party: Hull",
-        "url": "https://www.fatsoma.com/e/6qnbnxg5/country-day-party-hull"
-      },
-      {
-        "label": "Buy from Our Official Ticketing Platform",
-        "url": "https://www.seetickets.com/event/country-day-party-hull/the-welly/3568775"
-      },
-      {
-        "label": "https://support.fatsoma.com/support/home",
-        "url": "https://support.fatsoma.com/support/home"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:52.660Z",
-    "soldOut": true,
-    "freeEntry": false,
-    "displayTime24": "15:00",
-    "displayDateTime24": "2026-04-04 15:00",
-    "type": [
-      "Party"
-    ],
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/absolute-bowie/",
-    "title": "Absolute Bowie",
-    "start": "2026-04-11T18:30:00.000Z",
-    "end": "2026-04-11T21:30:00.000Z",
-    "dateText": "Sat 11th Apr",
-    "timeText": "7:30 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "Absolute Bowie",
-        "url": "https://www.fatsoma.com/e/fjubz0ic/absolute-bowie"
-      },
-      {
-        "label": "Buy from Buy From Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/absolute-bowie/the-welly/3598228"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:52.654Z",
-    "soldOut": false,
-    "priceText": "£20.00",
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-04-11 19:30",
-    "type": null,
-    "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/the-monochrome-set/",
-    "title": "The Monochrome Set",
-    "start": "2026-04-18T18:00:00.000Z",
-    "end": "2026-04-18T22:00:00.000Z",
-    "dateText": "Sat 18th Apr",
-    "timeText": "7:00 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "The Monochrome Set",
-        "url": "https://www.fatsoma.com/e/glph6dq3/the-monochrome-set"
-      },
-      {
-        "label": "Buy from See Tickets",
-        "url": "https://www.seetickets.com/event/the-monochrome-set/the-welly/3504276"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:53.293Z",
-    "soldOut": false,
-    "priceText": "£17.00",
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-04-18 19:00",
+    "displayDateTime24": "2026-04-23 22:30",
     "type": null,
     "distance": 3.1041171016001994
   },
@@ -2545,12 +1869,45 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:53.595Z",
+    "scrapedAt": "2026-04-22T06:35:33.802Z",
     "soldOut": false,
     "priceText": "£23.00",
     "freeEntry": false,
     "displayTime24": "19:00",
     "displayDateTime24": "2026-04-25 19:00",
+    "type": null,
+    "distance": 3.1041171016001994
+  },
+  {
+    "source": "The Welly Club",
+    "venue": "The Welly Club",
+    "url": "https://www.giveitsomewelly.com/event/jelly-the-weekly-indie-disco-30-04-26/",
+    "title": "Jelly – The Weekly Indie Disco – 30.04.26",
+    "start": "2026-04-30T21:30:00.000Z",
+    "end": "2026-05-01T02:00:00.000Z",
+    "dateText": "Thu 30th Apr",
+    "timeText": "10:30 pm",
+    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
+    "tickets": [
+      {
+        "label": "Jelly – The Weekly Indie Disco – 30.04.26",
+        "url": "https://www.fatsoma.com/e/5ymvccgi/jelly-the-weekly-indie-disco-30-04-26"
+      },
+      {
+        "label": "Buy from Our Official Ticketing Partner",
+        "url": "https://www.seetickets.com/event/jelly-the-weekly-indie-disco/the-welly/3622385"
+      },
+      {
+        "label": "Built by Fatsoma",
+        "url": "https://www.fatsoma.com/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:32.630Z",
+    "soldOut": false,
+    "priceText": "£10",
+    "freeEntry": false,
+    "displayTime24": "22:30",
+    "displayDateTime24": "2026-04-30 22:30",
     "type": null,
     "distance": 3.1041171016001994
   },
@@ -2582,7 +1939,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:53.800Z",
+    "scrapedAt": "2026-04-22T06:35:33.969Z",
     "soldOut": true,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -2614,12 +1971,47 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.944Z",
+    "scrapedAt": "2026-04-22T06:35:34.024Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
     "displayDateTime24": "2026-05-23 19:30",
     "type": null,
+    "distance": 3.1041171016001994
+  },
+  {
+    "source": "The Welly Club",
+    "venue": "The Welly Club",
+    "url": "https://www.giveitsomewelly.com/event/the-reggae-brunch-hull%f0%9f%8e%b6%f0%9f%8d%b9%f0%9f%8c%b4/",
+    "title": "The Reggae Brunch HULL🎶🍹🌴",
+    "start": "2026-05-24T13:00:00.000Z",
+    "end": "2026-05-24T18:00:00.000Z",
+    "dateText": "Sun 24th May",
+    "timeText": "2:00 pm",
+    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
+    "tickets": [
+      {
+        "label": "The Reggae Brunch HULL🎶🍹🌴",
+        "url": "https://www.fatsoma.com/e/zl62kcv8/the-reggae-brunch-hull"
+      },
+      {
+        "label": "Buy from The Promoters Ticket Link",
+        "url": "https://www.fatsoma.com/e/dxw7hjpw/the-reggae-brunch-hull-sun-24-may"
+      },
+      {
+        "label": "Built by Fatsoma",
+        "url": "https://www.fatsoma.com/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.446Z",
+    "soldOut": false,
+    "priceText": "£15",
+    "freeEntry": false,
+    "displayTime24": "14:00",
+    "displayDateTime24": "2026-05-24 14:00",
+    "type": [
+      "Food"
+    ],
     "distance": 3.1041171016001994
   },
   {
@@ -2650,7 +2042,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.818Z",
+    "scrapedAt": "2026-04-22T06:35:35.922Z",
     "soldOut": true,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -2684,7 +2076,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:55.295Z",
+    "scrapedAt": "2026-04-22T06:35:35.534Z",
     "soldOut": false,
     "priceText": "£15.00",
     "freeEntry": false,
@@ -2717,7 +2109,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:55.195Z",
+    "scrapedAt": "2026-04-22T06:35:35.462Z",
     "soldOut": true,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -2725,6 +2117,72 @@
     "type": [
       "Party"
     ],
+    "distance": 3.1041171016001994
+  },
+  {
+    "source": "The Welly Club",
+    "venue": "The Welly Club",
+    "url": "https://www.giveitsomewelly.com/event/the-smyths-2/",
+    "title": "The Smyths",
+    "start": "2026-07-25T18:00:00.000Z",
+    "end": "2026-07-25T21:00:00.000Z",
+    "dateText": "Sat 25th Jul",
+    "timeText": "7:00 pm",
+    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
+    "tickets": [
+      {
+        "label": "The Smyths",
+        "url": "https://www.fatsoma.com/e/hya9ulcg/the-smyths"
+      },
+      {
+        "label": "Buy from See Tickets",
+        "url": "https://www.seetickets.com/event/the-smyths/the-welly/3625709"
+      },
+      {
+        "label": "Built by Fatsoma",
+        "url": "https://www.fatsoma.com/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:35.262Z",
+    "soldOut": false,
+    "priceText": "£20.00",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-07-25 19:00",
+    "type": null,
+    "distance": 3.1041171016001994
+  },
+  {
+    "source": "The Welly Club",
+    "venue": "The Welly Club",
+    "url": "https://www.giveitsomewelly.com/event/tragedy-all-metal-tribute-to-the-bee-gees-beyond/",
+    "title": "Tragedy: All Metal Tribute to the Bee Gees & Beyond.",
+    "start": "2026-07-28T18:30:00.000Z",
+    "end": "2026-07-29T22:00:00.000Z",
+    "dateText": "Tue 28th Jul",
+    "timeText": "7:30 pm",
+    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
+    "tickets": [
+      {
+        "label": "Tragedy: All Metal Tribute to the Bee Gees & Beyond.",
+        "url": "https://www.fatsoma.com/e/tsny2wwb/tragedy-all-metal-tribute-to-the-bee-gees-beyond"
+      },
+      {
+        "label": "Buy from Our Official Ticketing Platform",
+        "url": "https://www.seetickets.com/event/tragedy-all-metal-tribute-to-the-bee-gees-beyond/the-welly/3619421"
+      },
+      {
+        "label": "Built by Fatsoma",
+        "url": "https://www.fatsoma.com/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:34.872Z",
+    "soldOut": false,
+    "priceText": "£18.00",
+    "freeEntry": false,
+    "displayTime24": "19:30",
+    "displayDateTime24": "2026-07-28 19:30",
+    "type": null,
     "distance": 3.1041171016001994
   },
   {
@@ -2751,7 +2209,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.717Z",
+    "scrapedAt": "2026-04-22T06:35:34.885Z",
     "soldOut": true,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -2759,6 +2217,105 @@
     "type": [
       "Party"
     ],
+    "distance": 3.1041171016001994
+  },
+  {
+    "source": "The Welly Club",
+    "venue": "The Welly Club",
+    "url": "https://www.giveitsomewelly.com/event/trance-day-party-hull/",
+    "title": "Trance Day Party: Hull",
+    "start": "2026-10-03T14:00:00.000Z",
+    "end": "2026-10-03T19:00:00.000Z",
+    "dateText": "Sat 3rd Oct",
+    "timeText": "3:00 pm",
+    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
+    "tickets": [
+      {
+        "label": "Trance Day Party: Hull",
+        "url": "https://www.fatsoma.com/e/jslumxyk/trance-day-party-hull"
+      },
+      {
+        "label": "Buy from Our Official Ticketing Partner",
+        "url": "https://www.seetickets.com/event/trance-day-party-hull/the-welly/3621597"
+      },
+      {
+        "label": "Built by Fatsoma",
+        "url": "https://www.fatsoma.com/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:37.170Z",
+    "soldOut": true,
+    "freeEntry": false,
+    "displayTime24": "15:00",
+    "displayDateTime24": "2026-10-03 15:00",
+    "type": [
+      "Party"
+    ],
+    "distance": 3.1041171016001994
+  },
+  {
+    "source": "The Welly Club",
+    "venue": "The Welly Club",
+    "url": "https://www.giveitsomewelly.com/event/ferocious-dog/",
+    "title": "Ferocious Dog",
+    "start": "2026-10-15T18:00:00.000Z",
+    "end": "2026-10-15T21:00:00.000Z",
+    "dateText": "Thu 15th Oct",
+    "timeText": "7:00 pm",
+    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
+    "tickets": [
+      {
+        "label": "Ferocious Dog",
+        "url": "https://www.fatsoma.com/e/gg18dw08/ferocious-dog"
+      },
+      {
+        "label": "Buy from Our Official Ticketing Partner",
+        "url": "https://www.seetickets.com/event/ferocious-dog/the-welly/3624384"
+      },
+      {
+        "label": "Built by Fatsoma",
+        "url": "https://www.fatsoma.com/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:36.904Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-10-15 19:00",
+    "type": null,
+    "distance": 3.1041171016001994
+  },
+  {
+    "source": "The Welly Club",
+    "venue": "The Welly Club",
+    "url": "https://www.giveitsomewelly.com/event/high-fade/",
+    "title": "High Fade",
+    "start": "2026-10-24T18:00:00.000Z",
+    "end": "2026-10-24T22:00:00.000Z",
+    "dateText": "Sat 24th Oct",
+    "timeText": "7:00 pm",
+    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
+    "tickets": [
+      {
+        "label": "High Fade",
+        "url": "https://www.fatsoma.com/e/vx9ad8x1/high-fade"
+      },
+      {
+        "label": "Buy from See Tickets",
+        "url": "https://www.seetickets.com/event/high-fade/the-welly-2/3620508"
+      },
+      {
+        "label": "Built by Fatsoma",
+        "url": "https://www.fatsoma.com/"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:36.963Z",
+    "soldOut": true,
+    "priceText": "£20.00",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-10-24 19:00",
+    "type": null,
     "distance": 3.1041171016001994
   },
   {
@@ -2785,7 +2342,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.715Z",
+    "scrapedAt": "2026-04-22T06:35:36.867Z",
     "soldOut": false,
     "priceText": "£20.00",
     "freeEntry": false,
@@ -2818,7 +2375,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.816Z",
+    "scrapedAt": "2026-04-22T06:35:36.850Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -2850,7 +2407,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:56.111Z",
+    "scrapedAt": "2026-04-22T06:35:37.235Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -2875,562 +2432,20 @@
       },
       {
         "label": "Buy from Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/l1nkn-p4rk-the-linkin-park-experience/the-welly/3613618"
+        "url": "https://www.seetickets.com/event/l1nk1n-p4rk/the-welly/3613671"
       },
       {
         "label": "Built by Fatsoma",
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:55.966Z",
+    "scrapedAt": "2026-04-22T06:35:38.675Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
     "displayDateTime24": "2026-12-10 18:30",
     "type": null,
     "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/musicians-night-446/",
-    "title": "Musicians Night – The Adelphi Club in Hull",
-    "start": "2026-03-16T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "16/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.362Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-16 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/chicaloyoh-fun-fun-funeral-barnabaie/",
-    "title": "Chicaloyoh + Fun Fun Funeral + Barnabaie – The Adelphi Club in Hull",
-    "start": "2026-03-18T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "18/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.350Z",
-    "soldOut": false,
-    "priceText": "£5 on the door",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-18 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/mr-irish-bastard/",
-    "title": "Mr. Irish Bastard + Shanghai Treason + The Pintmen – The Adelphi Club in Hull",
-    "start": "2026-03-19T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "19/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [
-      {
-        "label": "Click Here",
-        "url": "https://www.seetickets.com/event/mr-irish-bastard/the-new-adelphi-club/3492422"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:49.332Z",
-    "soldOut": false,
-    "priceText": "£16",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-19 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/sambroso-all-stars-perform-the-buena-vista/",
-    "title": "Sambroso All Stars Perform: The Buena Vista – The Adelphi Club in Hull",
-    "start": "2026-03-20T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "20/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.345Z",
-    "soldOut": true,
-    "priceText": "£22.50",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-20 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/the-woolverstones-bucktooth-bryony-spier/",
-    "title": "The Woolverstones + Bucktooth + Toni Oliver – The Adelphi Club in Hull",
-    "start": "2026-03-21T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "21/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.582Z",
-    "soldOut": false,
-    "priceText": "£8",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-21 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/brutal-sphincter-mystery-meat-fupa-goddess/",
-    "title": "Brutal Sphincter + Mystery Meat + Fupa Goddess – The Adelphi Club in Hull",
-    "start": "2026-03-22T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "22/03/2026",
-    "timeText": "19:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.615Z",
-    "soldOut": false,
-    "priceText": "£10",
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-22 19:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/musicians-night-447/",
-    "title": "Musicians Night – The Adelphi Club in Hull",
-    "start": "2026-03-23T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "23/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.618Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-23 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/good-health-good-wealth-special-guests/",
-    "title": "Good Health Good Wealth + Special Guests – The Adelphi Club in Hull",
-    "start": "2026-03-26T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "26/03/2026",
-    "timeText": "19:00",
-    "address": "HU5 2RU",
-    "tickets": [
-      {
-        "label": "Click for Pre Sale",
-        "url": "https://futuresound.seetickets.com/event/good-health-good-wealth/the-new-adelphi-club/3564346"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:49.609Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-03-26 19:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/the-residents-association-93/",
-    "title": "The Residents Association – The Adelphi Club in Hull",
-    "start": "2026-03-27T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "27/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.613Z",
-    "soldOut": false,
-    "priceText": "£5 OTD",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-27 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/rothco-stockholm-invane/",
-    "title": "Rothco + Stockholm + Invane – The Adelphi Club in Hull",
-    "start": "2026-03-28T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "28/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [
-      {
-        "label": "Buy Now",
-        "url": "https://www.seetickets.com/event/rothco-stockholm-invane/the-new-adelphi-club/3611095"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:49.779Z",
-    "soldOut": false,
-    "priceText": "£8 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-28 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/musicians-night-448/",
-    "title": "Musicians Night – The Adelphi Club in Hull",
-    "start": "2026-03-30T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "30/03/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.786Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-30 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/mindfields-a-cyberfunk-90s-dance-experience/",
-    "title": "Mindfields: A Cyberfunk 90’s Dance Experience – The Adelphi Club in Hull",
-    "start": "2026-04-03T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "03/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.793Z",
-    "soldOut": false,
-    "priceText": "£5",
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-03 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/eggs/",
-    "title": "Fast & Bulbous Mini-Eggs Festival – Easter Weekender – The Adelphi Club in Hull",
-    "start": "2026-04-04T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "04/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.789Z",
-    "soldOut": false,
-    "priceText": "£5 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-04 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/magnolia-foolish-atoms/",
-    "title": "Fast & Bulbous Mini-Eggs Festival – Easter Weekender – The Adelphi Club in Hull",
-    "start": "2026-04-05T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "05/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.674Z",
-    "soldOut": false,
-    "priceText": "£5 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-05 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/the-jackets-garage-rock-more/",
-    "title": "The Jackets (Garage Rock) + Velvet Tuxedo + The Fame – The Adelphi Club in Hull",
-    "start": "2026-04-08T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "08/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.696Z",
-    "soldOut": false,
-    "priceText": "£12 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-08 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/toby-hay-holly-blackshaw-2/",
-    "title": "Toby Hay + Holly Blackshaw – The Adelphi Club in Hull",
-    "start": "2026-04-09T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "09/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.682Z",
-    "soldOut": false,
-    "priceText": "£8 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-09 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/class-of-79/",
-    "title": "Class of ’79 – The Adelphi Club in Hull",
-    "start": "2026-04-10T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "10/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [
-      {
-        "label": "Tickets Here",
-        "url": "https://www.seetickets.com/event/class-of-79/the-new-adelphi-club/3568680"
-      },
-      {
-        "label": "£15 Adv from seetickets",
-        "url": "https://www.seetickets.com/event/class-of-79/the-new-adelphi-club/3568680?fbclid=IwY2xjawOoqgFleHRuA2FlbQIxMABicmlkETB4ZGZSeVFwallDbDVBbHJMc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHvnsPr_HzFB_68BQ1YVMxax2sIE8o9_cuAf1i3kgf3c9PLbU7Z7KvhZZtigt_aem_H80rxVkMHgilfBibyahPlg"
-      },
-      {
-        "label": "https://www.seetickets.com/…/the-new-adelphi-club/3568680",
-        "url": "https://www.seetickets.com/event/class-of-79/the-new-adelphi-club/3568680?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBEweGRmUnlRcGpZQ2w1QWxyTHNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR757D6_x8xQf-vAUNWFTMWsdrCBPKPf3LgH9Yt5IH93PTy21O2eyr4WWbYoLQ_aem_H80rxVkMHgilfBibyahPlg"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:50.678Z",
-    "soldOut": false,
-    "priceText": "£15 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-10 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/makk-more/",
-    "title": "MAKK + The Hillbilly Troupe + Sam Yelac – The Adelphi Club in Hull",
-    "start": "2026-04-11T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "11/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.692Z",
-    "soldOut": false,
-    "priceText": "£8 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-11 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/gabriel-moreno-the-quivering-poets-pavey-ark-ace-double-bill/",
-    "title": "Gabriel Moreno & The Quivering Poets + Pavey Ark – ACE DOUBLE BILL – The Adelphi Club in Hull",
-    "start": "2026-04-16T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "16/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:50.850Z",
-    "soldOut": false,
-    "priceText": "£8.00 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-16 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/y-volk-soup-brunnhilde/",
-    "title": "Y + Volk Soup + Brünnhilde – The Adelphi Club in Hull",
-    "start": "2026-04-17T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "17/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [
-      {
-        "label": "Click Here to Buy",
-        "url": "https://www.seetickets.com/event/y-volk-soup-brunnhilde/the-new-adelphi-club/3561562"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:50.860Z",
-    "soldOut": false,
-    "priceText": "£11.50 Adv",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-17 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Party"
-    ],
-    "distance": 3.6881520812774635
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/heavens-waltzer/",
-    "title": "Heaven’s Waltzer – 90’s Rave witrh DJ’s Fast T & Shepdog – The Adelphi Club in Hull",
-    "start": "2026-04-18T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "18/04/2026",
-    "timeText": "20:00",
-    "address": "HU5 2RU",
-    "tickets": [
-      {
-        "label": "Buy Now",
-        "url": "https://www.eventbrite.co.uk/e/heavens-waltzer-90s-rave-with-djs-fast-t-shepdog-tickets-1984284350909"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:50.873Z",
-    "soldOut": false,
-    "priceText": "£5",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-18 20:00",
-    "timeUndefined": false,
-    "timeEstimated": false,
-    "type": [
-      "Live Music",
-      "Party"
-    ],
-    "distance": 3.6881520812774635
   },
   {
     "source": "The Adelphi Club",
@@ -3448,12 +2463,36 @@
         "url": "https://www.seetickets.com/event/dave-mccabe-the-zutons-james-jay-lewis/the-new-adelphi-club/3569398"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:50.858Z",
+    "scrapedAt": "2026-04-22T06:35:31.238Z",
     "soldOut": false,
     "priceText": "£20",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-04-23 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/the-residents-association-94/",
+    "title": "The Residents Association – The Adelphi Club in Hull",
+    "start": "2026-04-24T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "24/04/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.318Z",
+    "soldOut": false,
+    "priceText": "£5 OTD",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-04-24 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -3477,7 +2516,7 @@
         "url": "https://futuresound.seetickets.com/event/fiona-lee/the-new-adelphi-club/3600685"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:50.863Z",
+    "scrapedAt": "2026-04-22T06:35:31.324Z",
     "soldOut": false,
     "priceText": "£11 Adv",
     "freeEntry": false,
@@ -3501,7 +2540,7 @@
     "timeText": "19:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:51.027Z",
+    "scrapedAt": "2026-04-22T06:35:31.228Z",
     "soldOut": false,
     "priceText": "£8.80 Adv",
     "freeEntry": false,
@@ -3517,23 +2556,23 @@
   {
     "source": "The Adelphi Club",
     "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/joose-keskitalo-rich-pennington-more/",
-    "title": "Joose Keskitalo + James Waudby +Rich Pennington – The Adelphi Club in Hull",
-    "start": "2026-04-26T18:00:00.000Z",
+    "url": "https://www.theadelphi.com/events/musicians-night-452/",
+    "title": "Musicians Night – The Adelphi Club in Hull",
+    "start": "2026-04-27T19:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "26/04/2026",
-    "timeText": "19:00",
+    "dateText": "27/04/2026",
+    "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.236Z",
+    "scrapedAt": "2026-04-22T06:35:31.355Z",
     "soldOut": false,
-    "priceText": "£6 Adv",
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-04-26 19:00",
+    "freeEntry": true,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-04-27 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
+      "Live Music",
       "Party"
     ],
     "distance": 3.6881520812774635
@@ -3541,22 +2580,16 @@
   {
     "source": "The Adelphi Club",
     "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/erotic-secrets-of-pompeii/",
-    "title": "Erotic Secrets of Pompeii – The Adelphi Club in Hull",
+    "url": "https://www.theadelphi.com/events/pauljacksonfuneral/",
+    "title": "One for the Road – The Adelphi Club in Hull",
     "start": "2026-05-01T19:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "01/05/2026",
     "timeText": "20:00",
     "address": "HU5 2RU",
-    "tickets": [
-      {
-        "label": "Tickets Here",
-        "url": "https://www.seetickets.com/event/erotic-secrets-of-pompeii/the-new-adelphi-club/3594757"
-      }
-    ],
-    "scrapedAt": "2026-03-16T07:06:51.035Z",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.584Z",
     "soldOut": false,
-    "priceText": "£11 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-05-01 20:00",
@@ -3583,7 +2616,7 @@
         "url": "https://www.ticketsource.co.uk/diddie-hair/diddie-hair-special-guests/2026-05-02/19:00/t-aavkzqz"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:51.032Z",
+    "scrapedAt": "2026-04-22T06:35:31.574Z",
     "soldOut": false,
     "priceText": "£10 Adv",
     "freeEntry": false,
@@ -3607,7 +2640,7 @@
     "timeText": "19:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:51.038Z",
+    "scrapedAt": "2026-04-22T06:35:31.923Z",
     "soldOut": false,
     "priceText": "£5 on the door",
     "freeEntry": false,
@@ -3623,8 +2656,32 @@
   {
     "source": "The Adelphi Club",
     "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/musicians-night-453/",
+    "title": "Musicians Night – The Adelphi Club in Hull",
+    "start": "2026-05-04T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "04/05/2026",
+    "timeText": "20:00",
+    "address": "HU5 2DD",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:31.557Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-05-04 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
     "url": "https://www.theadelphi.com/events/naked-soft-men-sickino-more/",
-    "title": "Naked Soft Men + Sickino + More – The Adelphi Club in Hull",
+    "title": "Naked Soft Men + Sickino – The Adelphi Club in Hull",
     "start": "2026-05-06T19:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "06/05/2026",
@@ -3633,17 +2690,148 @@
     "tickets": [
       {
         "label": "Buy Now",
-        "url": "https://www.seetickets.com/event/naked-soft-men-france-sickcino-more/the-new-adelphi-club/3612189?fbclid=IwY2xjawQPpdBleHRuA2FlbQIxMABicmlkETBjTVVqYlNVdXlBc1NKSG15c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHgdySCON_vt4Gbmmnki7-oo8jKz5jcrsNfSrQB88Ae0lkaNtnHX_UNrbAuDr_aem_68DB97mJnJm79Kc0WOD3gQ"
+        "url": "https://www.seetickets.com/event/naked-soft-men-france-sickcino-more/the-new-adelphi-club/3612189"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.391Z",
+    "scrapedAt": "2026-04-22T06:35:31.927Z",
     "soldOut": false,
+    "priceText": "£11",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-05-06 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/cool-4-cats-benefit-show-for-9-lives-cat-charity/",
+    "title": "Cool 4 Cats – Benefit Show for 9 Lives Cat Charity – The Adelphi Club in Hull",
+    "start": "2026-05-07T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "07/05/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.131Z",
+    "soldOut": false,
+    "priceText": "£7 on the door",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-05-07 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Theatre",
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/sworn-amongst-anti-clone-more/",
+    "title": "Sworn Amongst + Anti Clone + Defector – The Adelphi Club in Hull",
+    "start": "2026-05-08T18:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "08/05/2026",
+    "timeText": "19:00",
+    "address": "HU5 2RU",
+    "tickets": [
+      {
+        "label": "Tickets Here",
+        "url": "https://www.eventbrite.co.uk/e/sworn-amongst-hull-may-8th-tickets-1985200782982?aff=oddtdtcreator"
+      },
+      {
+        "label": "Tickets £8.30 from eventbrite",
+        "url": "https://www.eventbrite.co.uk/e/sworn-amongst-hull-may-8th-tickets-1985200782982"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:32.126Z",
+    "soldOut": false,
+    "priceText": "£8.30",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-05-08 19:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/eclectic-all-dayer/",
+    "title": "Eclectic All Dayer – Funk, Soul, Reggae & Jungle, DNB, Ska, House & Global Rhythms – The Adelphi Club in Hull",
+    "start": "2026-05-09T15:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "09/05/2026",
+    "timeText": "16:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.136Z",
+    "soldOut": false,
+    "priceText": "£10",
+    "freeEntry": false,
+    "displayTime24": "16:00",
+    "displayDateTime24": "2026-05-09 16:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/parachute-france-more/",
+    "title": "Parachute (France) + Horizon – The Adelphi Club in Hull",
+    "start": "2026-05-10T18:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "10/05/2026",
+    "timeText": "19:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.115Z",
+    "soldOut": false,
+    "priceText": "£5 Adv",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-05-10 19:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/49129/",
+    "title": "Musicians Night – The Adelphi Club in Hull",
+    "start": "2026-05-11T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "11/05/2026",
+    "timeText": "20:00",
+    "address": "HU5 2DD",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.139Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-05-11 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Live Music",
       "Party"
     ],
     "distance": 3.6881520812774635
@@ -3659,7 +2847,7 @@
     "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.407Z",
+    "scrapedAt": "2026-04-22T06:35:32.339Z",
     "soldOut": false,
     "priceText": "£8 Adv",
     "freeEntry": false,
@@ -3675,6 +2863,30 @@
   {
     "source": "The Adelphi Club",
     "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/musicians-night-454/",
+    "title": "Musicians Night – The Adelphi Club in Hull",
+    "start": "2026-05-18T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "18/05/2026",
+    "timeText": "20:00",
+    "address": "HU5 2DD",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.348Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-05-18 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Live Music",
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
     "url": "https://www.theadelphi.com/events/the-utopia-strong-bruise-blood-more/",
     "title": "The Utopia Strong + Bruise Blood – The Adelphi Club in Hull",
     "start": "2026-05-19T19:00:00.000Z",
@@ -3683,12 +2895,36 @@
     "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.400Z",
+    "scrapedAt": "2026-04-22T06:35:32.352Z",
     "soldOut": false,
     "priceText": "£15 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-05-19 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/loudhailer-electric-company-friends-jody-mckenna-martin-clappison/",
+    "title": "Loudhailer & Friends + Jody Mckenna + Martin Clappison – The Adelphi Club in Hull",
+    "start": "2026-05-21T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "21/05/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.323Z",
+    "soldOut": false,
+    "priceText": "£8 Adv",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-05-21 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -3707,7 +2943,7 @@
     "timeText": "14:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.397Z",
+    "scrapedAt": "2026-04-22T06:35:32.355Z",
     "soldOut": false,
     "priceText": "£15 Adv",
     "freeEntry": false,
@@ -3732,13 +2968,13 @@
     "address": "HU5 2RU",
     "tickets": [
       {
-        "label": "Join Us",
+        "label": "Tickets Here",
         "url": "https://www.seetickets.com/event/the-last-vinci-x-terminals-co-headline-uk-tour/the-new-adelphi-club/3609434?fbclid=IwY2xjawQPrjVleHRuA2FlbQIxMABicmlkETBjTVVqYlNVdXlBc1NKSG15c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHodr1Bdc7ujYZMU5OknIFZ6O36iFDAAdjwUuStuswwlNErfeNsiHfomexoea_aem_dAxPwK7mLjxNG3z4CD6eMQ"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.403Z",
+    "scrapedAt": "2026-04-22T06:35:32.556Z",
     "soldOut": false,
-    "priceText": "£8.00 Adv",
+    "priceText": "£8 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-05-28 20:00",
@@ -3761,12 +2997,36 @@
     "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.582Z",
+    "scrapedAt": "2026-04-22T06:35:32.576Z",
     "soldOut": true,
     "priceText": "£22.50 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-05-30 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/bizzle-fest-2026-a-celebration-of-jake-bizzle-coward/",
+    "title": "BIZZLE FEST 2026 – A Celebration of Jake ‘Bizzle’ Coward – The Adelphi Club in Hull",
+    "start": "2026-06-05T18:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "05/06/2026",
+    "timeText": "19:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.570Z",
+    "soldOut": false,
+    "priceText": "£10.00 Adv",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-06-05 19:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -3794,7 +3054,7 @@
         "url": "https://www.seetickets.com/event/hot-right-now-fest/the-new-adelphi-club/3612472?pre=pre&fbclid=IwY2xjawQaLQlleHRuA2FlbQIxMABicmlkETBmcjZhODNEeVpWeDBha0p6c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHgqMYcULSywTjesQDjexoh3iCnAqDDo89sjsvvydQEeMYn0vMQtYJPSLnItW_aem_pFusaO6iSLOfNVVW98F6-A"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.628Z",
+    "scrapedAt": "2026-04-22T06:35:32.551Z",
     "soldOut": true,
     "priceText": "£20 Adv",
     "freeEntry": false,
@@ -3818,7 +3078,7 @@
     "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.615Z",
+    "scrapedAt": "2026-04-22T06:35:32.582Z",
     "soldOut": false,
     "priceText": "£10 Adv",
     "freeEntry": false,
@@ -3835,19 +3095,116 @@
     "source": "The Adelphi Club",
     "venue": "The New Adelphi Club",
     "url": "https://www.theadelphi.com/events/silk-supports/",
-    "title": "Silk + Supports – The Adelphi Club in Hull",
+    "title": "Silk + Support – The Adelphi Club in Hull",
     "start": "2026-06-17T19:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "17/06/2026",
     "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:52.571Z",
+    "scrapedAt": "2026-04-22T06:35:32.825Z",
     "soldOut": false,
-    "priceText": "£6.00 Adv",
+    "priceText": "£6 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-06-17 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/spoken-word-friday/",
+    "title": "Spoken Word Friday – The Adelphi Club in Hull",
+    "start": "2026-06-19T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "19/06/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.831Z",
+    "soldOut": false,
+    "priceText": "£6 Adv",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-06-19 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Poetry",
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/everywhere-at-once-festival/",
+    "title": "EVERYWHERE AT ONCE – The Adelphi Club in Hull",
+    "start": "2026-06-26T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "26/06/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.828Z",
+    "soldOut": false,
+    "priceText": "£5 on the door",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-06-26 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/everywhere-at-once/",
+    "title": "EVERYWHERE AT ONCE – The Adelphi Club in Hull",
+    "start": "2026-06-27T18:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "27/06/2026",
+    "timeText": "19:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.766Z",
+    "soldOut": false,
+    "priceText": "£10 Adv",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-06-27 19:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/48810/",
+    "title": "EVERYWHERE AT ONCE – The Adelphi Club in Hull",
+    "start": "2026-06-28T14:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "28/06/2026",
+    "timeText": "15:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:32.834Z",
+    "soldOut": false,
+    "priceText": "£5 Adv",
+    "freeEntry": false,
+    "displayTime24": "15:00",
+    "displayDateTime24": "2026-06-28 15:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -3871,12 +3228,36 @@
         "url": "https://www.seetickets.com/event/the-march-violets/the-new-adelphi-club/3599822"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.623Z",
+    "scrapedAt": "2026-04-22T06:35:33.041Z",
     "soldOut": false,
     "priceText": "£20 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-07-02 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/fire-the-unstoppable-force/",
+    "title": "Fire (The Unstoppable Force) – The Adelphi Club in Hull",
+    "start": "2026-07-11T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "11/07/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:33.037Z",
+    "soldOut": false,
+    "priceText": "£5 Adv",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-07-11 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -3900,7 +3281,7 @@
         "url": "https://www.ticketsource.co.uk/terraphile-promotions/d-r-i-dirty-rotten-imbeciles-under-the-influence-shreds/2026-07-14/19:00/t-qmjvgle"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.782Z",
+    "scrapedAt": "2026-04-22T06:35:33.033Z",
     "soldOut": false,
     "priceText": "£18",
     "freeEntry": false,
@@ -3925,12 +3306,13 @@
     "address": "HU5 2RU",
     "tickets": [
       {
-        "label": "Tickets Here from Friday 10am",
+        "label": "Tickets Here",
         "url": "https://www.gigantic.com/ulltra-festival-tickets/hull-the-new-adelphi-club/2026-07-18-15-30"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.790Z",
+    "scrapedAt": "2026-04-22T06:35:33.018Z",
     "soldOut": false,
+    "priceText": "£19 Adv",
     "freeEntry": false,
     "displayTime24": "16:00",
     "displayDateTime24": "2026-07-18 16:00",
@@ -3952,12 +3334,60 @@
     "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:53.603Z",
+    "scrapedAt": "2026-04-22T06:35:33.044Z",
     "soldOut": false,
     "priceText": "£6 OTD",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-07-25 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/rosellas-more/",
+    "title": "Rosellas + Support – The Adelphi Club in Hull",
+    "start": "2026-08-01T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "01/08/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:33.253Z",
+    "soldOut": true,
+    "priceText": "£10 Adv",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-08-01 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/the-courettes-2/",
+    "title": "The Courettes + Support – The Adelphi Club in Hull",
+    "start": "2026-08-13T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "13/08/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:33.260Z",
+    "soldOut": false,
+    "priceText": "£17.50",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-08-13 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -3976,7 +3406,7 @@
     "timeText": "20:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.065Z",
+    "scrapedAt": "2026-04-22T06:35:33.265Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -3993,7 +3423,7 @@
     "source": "The Adelphi Club",
     "venue": "The New Adelphi Club",
     "url": "https://www.theadelphi.com/events/lucca-mae/",
-    "title": "Lucca Mae – The Adelphi Club in Hull",
+    "title": "Lucca Mae + Support – The Adelphi Club in Hull",
     "start": "2026-09-04T19:00:00.000Z",
     "end": "1970-01-01T00:00:00.000Z",
     "dateText": "04/09/2026",
@@ -4001,19 +3431,49 @@
     "address": "HU5 2RU",
     "tickets": [
       {
-        "label": "TICKETS ON SALE FRIDAY AT 10AM",
+        "label": "Tickets Here",
         "url": "https://www.seetickets.com/.../the-new-adelphi-club/3572078"
       },
       {
-        "label": "https://www.seetickets.com/…/the-new-adelphi-club/3572078",
-        "url": "https://www.seetickets.com/event/lucca-mae/the-new-adelphi-club/3572078?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExN1d6ekxJZm4waktSTGJyQXNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR47sjKfCCfD3nLqxXUHnp3SleJal3ZXWVExhfg-umeqScmxnJkr-NOSK64lqQ_aem_yZU3Vn4HgKiKdtXjhXII-Q"
+        "label": "Tickets £15 Adv from seetickets Click here",
+        "url": "https://www.seetickets.com/event/lucca-mae/the-new-adelphi-club/3572078"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:52.793Z",
+    "scrapedAt": "2026-04-22T06:35:33.256Z",
     "soldOut": false,
+    "priceText": "£15 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-09-04 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/discharge-poundaflesh-shreds-couture/",
+    "title": "Discharge + Poundaflesh + Shreds + Couture – The Adelphi Club in Hull",
+    "start": "2026-09-18T18:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "18/09/2026",
+    "timeText": "19:00",
+    "address": "HU5 2RU",
+    "tickets": [
+      {
+        "label": "Buy Now",
+        "url": "https://www.ticketsource.co.uk/terraphile-promotions/t-pllyrvr?fbclid=IwY2xjawQovfJleHRuA2FlbQIxMABicmlkETA5MllPN1VpNnhlTXh2VW5ac3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHn0QEoZKrIQZUJNoZk_w6z5H1x7Ep01dR780JMIXTa0DF5FL6fdNrzt4sd_z_aem_GMqTKzbxaWceud8jSKspaw"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.269Z",
+    "soldOut": false,
+    "priceText": "£20 Adv",
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-09-18 19:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -4032,7 +3492,7 @@
     "timeText": "19:00",
     "address": "HU5 2RU",
     "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:54.219Z",
+    "scrapedAt": "2026-04-22T06:35:33.472Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -4041,6 +3501,35 @@
     "timeEstimated": false,
     "type": [
       "Live Music",
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/the-meteors-support/",
+    "title": "The Meteors + Support – The Adelphi Club in Hull",
+    "start": "2026-09-23T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "23/09/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [
+      {
+        "label": "£22.50 Buy Now",
+        "url": "https://www.seetickets.com/event/the-meteors/the-new-adelphi-club/3627988"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.468Z",
+    "soldOut": false,
+    "priceText": "£22.50",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-09-23 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
       "Party"
     ],
     "distance": 3.6881520812774635
@@ -4065,7 +3554,7 @@
         "url": "https://www.gigantic.com/helicon-/-velvet-tuxedo-tickets/hull-the-new-adelphi-club/2026-10-03-20-00?fbclid=IwY2xjawQeOPVleHRuA2FlbQIxMABicmlkETBmcjZhODNEeVpWeDBha0p6c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHhck7h_vZ2SX8uBdrowsa2lUAMf8IiNiKSUbe0GH5IN2lLek7g3IoL41STlx_aem_m0VlaKlyHKAzoWv6zWVaNA"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.230Z",
+    "scrapedAt": "2026-04-22T06:35:33.481Z",
     "soldOut": false,
     "priceText": "£12 Adv",
     "freeEntry": false,
@@ -4094,11 +3583,44 @@
         "url": "https://www.seetickets.com/event/bis/the-new-adelphi-club/3611586"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.233Z",
+    "scrapedAt": "2026-04-22T06:35:33.452Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-10-04 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/48638/",
+    "title": "The Hanging Stars + Sunstack Jones – The Adelphi Club in Hull",
+    "start": "2026-10-08T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "08/10/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [
+      {
+        "label": "Tickets Here",
+        "url": "https://www.seetickets.com/event/the-hanging-stars/the-new-adelphi-club/3621030?fbclid=IwY2xjawQwq69leHRuA2FlbQIxMABicmlkETBHeExzRTN1V3JEbkE1TkpYc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHntnVAZdY1sFfT0hEC7za2oYGXuTLkflps-i5w4BcYe57eONp1EF_ZvlLu85_aem_Og5fVIsatOgxi1_ZifvMwA"
+      },
+      {
+        "label": "Tickets £16.50 Adv from seetickets Click Here",
+        "url": "https://www.seetickets.com/event/the-hanging-stars/the-new-adelphi-club/3621030"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.484Z",
+    "soldOut": false,
+    "priceText": "£16.50 Adv",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-10-08 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -4122,12 +3644,97 @@
         "url": "https://www.seetickets.com/event/black-water-county/the-new-adelphi-club/3589196"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.225Z",
+    "scrapedAt": "2026-04-22T06:35:33.684Z",
     "soldOut": false,
     "priceText": "£17.50 Adv",
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-10-16 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/kelley-stoltz-more/",
+    "title": "Kelley Stoltz + Support – The Adelphi Club in Hull",
+    "start": "2026-10-17T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "17/10/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [
+      {
+        "label": "Tickets Here",
+        "url": "https://www.seetickets.com/event/kelley-stoltz/the-new-adelphi-club/3618045"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.873Z",
+    "soldOut": false,
+    "priceText": "£15 Adv",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-10-17 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/aziz-ibrahim-support/",
+    "title": "Aziz Ibrahim + Support – The Adelphi Club in Hull",
+    "start": "2026-10-22T19:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "22/10/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [],
+    "scrapedAt": "2026-04-22T06:35:33.688Z",
+    "soldOut": false,
+    "priceText": "£15 Adv",
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-10-22 20:00",
+    "timeUndefined": false,
+    "timeEstimated": false,
+    "type": [
+      "Party"
+    ],
+    "distance": 3.6881520812774635
+  },
+  {
+    "source": "The Adelphi Club",
+    "venue": "The New Adelphi Club",
+    "url": "https://www.theadelphi.com/events/mad-dog-mcrea-support/",
+    "title": "Mad Dog Mcrea + Support – The Adelphi Club in Hull",
+    "start": "2026-11-13T20:00:00.000Z",
+    "end": "1970-01-01T00:00:00.000Z",
+    "dateText": "13/11/2026",
+    "timeText": "20:00",
+    "address": "HU5 2RU",
+    "tickets": [
+      {
+        "label": "Tickets on sale from Friday",
+        "url": "https://www.seetickets.com/.../the-new-adelphi-club/3628705"
+      },
+      {
+        "label": "https://www.seetickets.com/…/the-new-adelphi-club/3628705",
+        "url": "https://www.seetickets.com/event/mad-dog-mcrea/the-new-adelphi-club/3628705"
+      }
+    ],
+    "scrapedAt": "2026-04-22T06:35:33.667Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-11-13 20:00",
     "timeUndefined": false,
     "timeEstimated": false,
     "type": [
@@ -4151,7 +3758,7 @@
         "url": "https://www.ticketsource.co.uk/whats-on/hull/the-new-adelphi-club/subhumans/2026-11-26/d-nqnoqbiebozqz"
       }
     ],
-    "scrapedAt": "2026-03-16T07:06:54.228Z",
+    "scrapedAt": "2026-04-22T06:35:33.691Z",
     "soldOut": false,
     "priceText": "£15 Adv",
     "freeEntry": false,
@@ -4163,62 +3770,5 @@
       "Party"
     ],
     "distance": 3.6881520812774635
-  },
-  {
-    "source": "Garbutts Bar",
-    "venue": "Garbutts Bar",
-    "url": "",
-    "title": "Candle Light Sessions - Danny Shenton",
-    "start": "2026-03-28T20:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "28/03/2026",
-    "timeText": "20:00:00",
-    "address": "50-54 Princes Avenue, Hull, United Kingdom",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.523Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-03-28 20:00",
-    "type": null,
-    "distance": null
-  },
-  {
-    "source": "Garbutts Bar",
-    "venue": "Garbutts Bar",
-    "url": "",
-    "title": "Candle Light Sessions - Dan Edwards & Paul Sargeson",
-    "start": "2026-04-04T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "04/04/2026",
-    "timeText": "20:00:00",
-    "address": "50-54 Princes Avenue, Hull, United Kingdom",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.524Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-04 20:00",
-    "type": null,
-    "distance": null
-  },
-  {
-    "source": "Garbutts Bar",
-    "venue": "Garbutts Bar",
-    "url": "",
-    "title": "Candle Light Sessions - Dan Spooner",
-    "start": "2026-04-18T19:00:00.000Z",
-    "end": "1970-01-01T00:00:00.000Z",
-    "dateText": "18/04/2026",
-    "timeText": "20:00:00",
-    "address": "50-54 Princes Avenue, Hull, United Kingdom",
-    "tickets": [],
-    "scrapedAt": "2026-03-16T07:06:49.524Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-04-18 20:00",
-    "type": null,
-    "distance": null
   }
 ]
