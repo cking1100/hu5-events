@@ -1251,6 +1251,14 @@
         text-overflow: ellipsis;
         flex: 1;
       }
+      .event-note {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+        margin-top: 4px;
+        word-break: break-word;
+        overflow-wrap: break-word;
+      }
       .event-content {
         display: flex;
         flex-direction: column;
@@ -2151,23 +2159,42 @@
           "DIVE HU5": /\bdive\b.*\bhu5\b/i,
         };
 
-        // Append venue to title unless the title already ends with it
+        // Ensure title ends with exactly one " - Venue" suffix
         function ensureVenueInTitle(title, venue) {
           const t = String(title || "").trim();
           const v = String(venue || "").trim();
-          if (!v || !t) return t;
+          if (!t) return t;
+          if (!v) return t;
 
-          // If title already ends with " - Venue" pattern, don't append
-          const endPattern = new RegExp(
-            `\\s*-\\s*${v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*$`,
-            "i",
+          const escapedVenue = v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const aliasPattern = VENUE_ALIASES[v] || null;
+          const aliasSource = aliasPattern ? aliasPattern.source : "";
+
+          let cleaned = t;
+          cleaned = cleaned.replace(
+            new RegExp(
+              `\\s*[\\-|–—|•·:,]\\s*${escapedVenue}(?:\\s+in\\s+hull)?\\s*$`,
+              "i",
+            ),
+            "",
           );
-          if (endPattern.test(t)) {
-            return t;
+
+          if (aliasSource) {
+            cleaned = cleaned.replace(
+              new RegExp(
+                `\\s*[\\-|–—|•·:,]\\s*(?:${aliasSource})(?:\\s+in\\s+hull)?\\s*$`,
+                "i",
+              ),
+              "",
+            );
           }
 
-          // Otherwise append it
-          return `${t} - ${v}`;
+          cleaned = cleaned.trim();
+          const baseTitle = cleaned || t;
+
+          if (baseTitle.toLowerCase() === v.toLowerCase()) return v;
+
+          return `${baseTitle} - ${v}`;
         }
 
         // ICS-like URLs? then link to listings page instead
@@ -3266,6 +3293,14 @@
                   const meta = [timeHTML, ev.venue && highlight(ev.venue, q)]
                     .filter(Boolean)
                     .join(" · ");
+                  const noteRaw = [ev.notes, ev.meta]
+                    .filter(Boolean)
+                    .join(" · ");
+                  const noteText = noteRaw
+                    ? noteRaw.length > 180
+                      ? `${noteRaw.slice(0, 177)}...`
+                      : noteRaw
+                    : "";
                   const src = escapeHTML(vLabel || "Unknown");
 
                   const ticketObj = Array.isArray(ev.tickets)
@@ -3424,6 +3459,11 @@
                   return v || "";
                 })()}</span>
               </div>
+              ${
+                noteText
+                  ? `<div class="event-note">${highlight(noteText, q)}</div>`
+                  : ""
+              }
             </div>
 <div class="card-actions">
   ${actions}

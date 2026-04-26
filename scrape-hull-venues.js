@@ -42,7 +42,7 @@ const SHEETS_URL =
 /* ---------------------- Small general utilities -------------------- */
 // Enhanced logging with timestamps and better formatting
 const log = (...args) => {
-  const timestamp = new Date().toISOString().split("T")[1].split(".")[0];
+  const timestamp = dayjs().tz(TZ).format("HH:mm:ss");
   const levelMatch = args[0]?.match?.(
     /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv|pave)\]/i,
   );
@@ -761,6 +761,9 @@ const VENUE_ADDR = {
   "commun’ull": "178 Chanterlands Avenue, Hull HU5 3TR",
   underdog: "12a Princes Ave, Hull HU5 3QA",
   "pave bar": "16-20 Princes Ave, Hull HU5 3QA",
+  "gardeners arms": "The Gardeners Arms, Hull HU5",
+  "gardeners arm": "The Gardeners Arms, Hull HU5",
+  "queens hotel": "Queens Hotel, Queens Road, Hull HU5 2RG",
 
   // Common aliases / signage
   "polar bear": "229 Spring Bank, Hull, HU3 1LR",
@@ -770,6 +773,8 @@ const VENUE_ADDR = {
   "union mashup": "22-24 Princes Ave, Hull, HU5 3QA",
   "dive bar": "Unit 1, 78 Princes Ave, Hull HU5 3QJ",
   "mr moody's tavern": "6 Newland Ave, Hull HU5 3AF",
+  "the gardeners arms": "The Gardeners Arms, Hull HU5",
+  "the queens hotel": "Queens Hotel, Queens Road, Hull HU5 2RG",
 };
 
 /** Resolve a postal address using:
@@ -799,6 +804,53 @@ function resolveAddress(rawAddress = "", venue = "", source = "") {
   return hit ? VENUE_ADDR[hit] : clean; // return clean (possibly empty) if no match
 }
 
+function escapeRegexForPattern(text = "") {
+  return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function stripVenueFromTitle(title = "", venue = "", source = "") {
+  const original = normalizeWhitespace(title);
+  if (!original) return original;
+
+  let cleaned = original;
+  const names = unique([
+    normalizeWhitespace(venue),
+    normalizeWhitespace(source),
+    "The Adelphi Club",
+    "The New Adelphi Club",
+    "Polar Bear",
+    "Polar Bear Music Club",
+  ]).filter(Boolean);
+
+  for (const name of names) {
+    const safeName = escapeRegexForPattern(name);
+
+    // Remove "Event - Venue" / "Event | Venue" style suffixes
+    cleaned = cleaned.replace(
+      new RegExp(
+        `\\s*[\\-|–—|•·:,]\\s*${safeName}(?:\\s+in\\s+hull)?\\s*$`,
+        "i",
+      ),
+      "",
+    );
+
+    // Remove "Venue - Event" style prefixes
+    cleaned = cleaned.replace(
+      new RegExp(`^${safeName}(?:\\s+in\\s+hull)?\\s*[\\-|–—|•·:,]\\s*`, "i"),
+      "",
+    );
+
+    // Remove trailing duplicate venue without separator (rare)
+    cleaned = cleaned.replace(
+      new RegExp(`\\s+${safeName}(?:\\s+in\\s+hull)?\\s*$`, "i"),
+      "",
+    );
+  }
+
+  cleaned = normalizeWhitespace(cleaned);
+  return cleaned || original;
+}
+
 /* ------------------------ Canonical event builder ------------------- */
 // - Decodes / normalizes all text
 // - Ensures an address using VENUE_ADDR when missing
@@ -822,7 +874,7 @@ function buildEvent({
   const src = normalizeWhitespace(source || "");
   const ven = normalizeWhitespace(venue || "");
   const href = String(url || "").trim(); // keep as-is; validated elsewhere
-  const ttl = normalizeWhitespace(title || "");
+  const ttl = stripVenueFromTitle(title || "", ven, src);
   const dTxt = normalizeWhitespace(dateText || "");
   const tTxt = normalizeWhitespace(timeText || "");
   const addr = normalizeWhitespace(address || "");
@@ -1346,6 +1398,56 @@ async function synthMrMoodysSundayLunch({ weeks = 15 } = {}) {
     });
 
     // Keep only future (>= today in London)
+    if (ev.start) {
+      const t = dayjs(ev.start);
+      if (t.isValid() && !t.isBefore(CUTOFF)) out.push(ev);
+    }
+  }
+
+  log(`${TAG} done, events: ${out.length}`);
+  return out;
+}
+
+/* -------- QUEENS HOTEL — Weekly Quiz (synthetic) ------------------ */
+// Generates Wednesday 19:30 events for the next N weeks
+async function synthQueensHotelQuiz({ weeks = 20 } = {}) {
+  const TAG = "[queens]";
+  log(`${TAG} generate for next ${weeks} Wednesdays`);
+
+  const out = [];
+  const titleBase = "Quiz Night";
+  const source = "Queens Hotel";
+  const venue = "Queens Hotel";
+  const address = "Queens Hotel, Queens Road, Hull HU5 2RG";
+
+  // Start from London start-of-today cutoff
+  let d = dayjs.tz(CUTOFF, TZ);
+
+  // Find upcoming Wednesday (3 = Wed)
+  const dow = d.day();
+  const addDays = (3 - dow + 7) % 7;
+  if (addDays > 0) d = d.add(addDays, "day");
+
+  // For k = 0..weeks-1: that Wednesday at 19:30
+  for (let k = 0; k < weeks; k++) {
+    const day = d.add(k, "week").hour(19).minute(30).second(0).millisecond(0);
+    const startISO = toISO(day);
+    if (!startISO) continue;
+
+    const ev = buildEvent({
+      source,
+      venue,
+      url: "",
+      title: titleBase,
+      dateText: day.format("D/M/YYYY"),
+      timeText: "19:30",
+      startISO,
+      endISO: null,
+      address,
+      tickets: [],
+      tz: TZ,
+    });
+
     if (ev.start) {
       const t = dayjs(ev.start);
       if (t.isValid() && !t.isBefore(CUTOFF)) out.push(ev);
@@ -2797,6 +2899,9 @@ async function scrapeMollyMangans() {
           if (/^mailto:|^tel:/i.test(u)) return false;
           if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(uu.pathname))
             return false;
+          if (!/\/events?\//i.test(uu.pathname)) return false;
+          if (/\/whats-on\/calendar-view\/?$/i.test(uu.pathname)) return false;
+          if (/\/event\/?$/i.test(uu.pathname)) return false;
           return true;
         } catch {
           return false;
@@ -2831,6 +2936,12 @@ async function scrapeMollyMangans() {
             fromLD.title ||
             $$("h1").first().text().trim() ||
             $$("title").text().trim();
+
+          if (
+            /^what(?:'|’)?s\s+on\s*-\s*molly\s+mangan(?:'|’)?s$/i.test(title)
+          ) {
+            return null;
+          }
 
           const big = normalizeWhitespace(
             $$("main, article, .event, .content, .entry-content, body")
@@ -3484,253 +3595,619 @@ function mergeMoodysSundayDuplicates(events, tz = TZ) {
 async function scrapePaveBar() {
   log("[pave] start");
   const base = "https://www.pavebar.co.uk";
-  const baseHost = new URL(base).hostname;
+  const address = "16-20 Princes Ave, Hull HU5 3QA";
 
   let html;
   try {
     const res = await fetchWithTimeout(base, {
       headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
       timeoutMs: 15000,
-      retries: 1,
+      retries: 2,
     });
     html = await res.text();
   } catch (e) {
     log("[pave] fetch failed:", e.message);
-    log("[pave] Creating synthetic recurring events as fallback");
-    // Fallback: Create known recurring events for Pave Bar
-    const results = [];
-
-    // Every Friday at 8pm - "Fridays with DJ Chris Von Trap"
-    const today = dayjs.tz(CUTOFF, TZ);
-    let friday = today.clone();
-    while (friday.day() !== 5) {
-      // Find next Friday
-      friday = friday.add(1, "day");
-    }
-
-    // Create events for next 8 weeks
-    for (let i = 0; i < 8; i++) {
-      const eventDate = friday.add(i, "week");
-      const ev = buildEvent({
-        source: "Pave Bar",
-        venue: "Pave Bar",
-        url: base,
-        title: "Every Friday - DJ Chris Von Trap",
-        dateText: eventDate.format("DD MMMM YYYY"),
-        timeText: "20:00",
-        startISO: eventDate.hour(20).minute(0).second(0).toISOString(),
-        address: "16-20 Princes Ave, Hull HU5 3QA",
-        tickets: [],
-        soldOut: false,
-        freeEntry: true,
-      });
-      if (ev) results.push(ev);
-    }
-
-    log(`[pave] done, events: ${results.length}`);
-    return results;
+    return [];
   }
 
   const $ = cheerio.load(html);
-  const rawLinks = $("a[href]")
-    .map((_, a) => $(a).attr("href"))
-    .get();
+  const results = [];
 
-  const eventLinks = unique(
-    rawLinks
+  // Pave Bar lists all events directly on the homepage.
+  // Each event block contains:
+  //   - a date line like "Wednesday 30 April 2025" (or "Fridays 2025" for recurring)
+  //   - a title (may be a link, but all links resolve back to the homepage)
+  //   - an optional time like "7.30pm" or "at 8pm"
+  //   - a description paragraph
+  //
+  // Strategy: walk every element, find those whose text starts with a weekday name
+  // followed by either a numeric day+month+year (one-off) or just a year (recurring).
+
+  const MONTHS =
+    "January|February|March|April|May|June|July|August|September|October|November|December";
+  const DAY_NAMES = "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday";
+  const PLURAL_DAYS =
+    "Mondays|Tuesdays|Wednesdays|Thursdays|Fridays|Saturdays|Sundays";
+
+  // Regex: "Wednesday 30 April 2025"
+  const ONE_OFF_RE = new RegExp(
+    `^(?:${DAY_NAMES})\\s+(\\d{1,2})\\s+(${MONTHS})\\s+(\\d{4})`,
+    "i",
+  );
+  // Regex: "Fridays 2025" (recurring)
+  const RECURRING_RE = new RegExp(`^(${PLURAL_DAYS})\\s+(\\d{4})`, "i");
+
+  const DAY_MAP = {
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
+    sunday: 0,
+  };
+
+  // Collect candidate container elements - look for text nodes that match
+  // the date header patterns. We scan all elements and pick the outermost
+  // block whose *direct* text (ignoring child elements) contains the pattern.
+  const seen = new Set();
+
+  $("*").each((_, el) => {
+    // We want block-level containers that hold an entire event
+    const tag = (el.tagName || "").toLowerCase();
+    if (!["div", "section", "article", "li", "p"].includes(tag)) return;
+
+    const rawText = normalizeWhitespace($(el).text());
+    if (!rawText || rawText.length < 10) return;
+
+    // Must match a date header
+    const isOneOff = ONE_OFF_RE.test(rawText);
+    const isRecurring = !isOneOff && RECURRING_RE.test(rawText);
+    if (!isOneOff && !isRecurring) return;
+
+    // Avoid processing the same text block via an ancestor
+    if (seen.has(rawText)) return;
+
+    // Skip if a child element matched the same text (prefer the innermost)
+    let hasChildMatch = false;
+    $(el)
+      .children()
+      .each((_, child) => {
+        const ct = normalizeWhitespace($(child).text());
+        if (ct === rawText) {
+          hasChildMatch = true;
+        }
+      });
+    if (hasChildMatch) return;
+
+    seen.add(rawText);
+
+    // --- Extract title ---
+    // Prefer the text of any <a> or <h2>/<h3>/<h4> inside the block
+    let title = "";
+    $(el)
+      .find("a, h1, h2, h3, h4, strong")
+      .each((_, n) => {
+        const t = normalizeWhitespace($(n).text());
+        if (
+          t &&
+          t.length > 3 &&
+          !ONE_OFF_RE.test(t) &&
+          !RECURRING_RE.test(t) &&
+          !/^\d/.test(t)
+        ) {
+          title = t;
+          return false; // break
+        }
+      });
+    // Fallback: strip the date prefix from raw text and use the next sentence
+    if (!title) {
+      const stripped = rawText
+        .replace(ONE_OFF_RE, "")
+        .replace(RECURRING_RE, "")
+        .trim();
+      title = stripped.split(/[.!?\n]/)[0].trim();
+    }
+    if (!title) return;
+
+    // --- Extract time ---
+    // Patterns: "7.30pm", "7:30pm", "at 8pm", "20:00"
+    const timeMatch = rawText.match(
+      /\b(\d{1,2})[.:](\d{2})\s*(am|pm)\b|\bat\s+(\d{1,2})\s*(am|pm)\b|\b(\d{2}):(\d{2})\b/i,
+    );
+    let timeWordy = "";
+    let hh = 0,
+      mm = 0;
+    if (timeMatch) {
+      if (timeMatch[1] !== undefined && timeMatch[3]) {
+        // "7.30pm"
+        hh = parseInt(timeMatch[1], 10);
+        mm = parseInt(timeMatch[2], 10);
+        const ampm = timeMatch[3].toLowerCase();
+        if (ampm === "pm" && hh !== 12) hh += 12;
+        if (ampm === "am" && hh === 12) hh = 0;
+      } else if (timeMatch[4] !== undefined) {
+        // "at 8pm"
+        hh = parseInt(timeMatch[4], 10);
+        mm = 0;
+        const ampm = timeMatch[5].toLowerCase();
+        if (ampm === "pm" && hh !== 12) hh += 12;
+        if (ampm === "am" && hh === 12) hh = 0;
+      } else if (timeMatch[6] !== undefined) {
+        // "20:00"
+        hh = parseInt(timeMatch[6], 10);
+        mm = parseInt(timeMatch[7] || "0", 10);
+      }
+      timeWordy = `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
+    }
+
+    // --- Parse date ---
+    let dateWordy = "";
+    let startISO = null;
+
+    if (isOneOff) {
+      const m = ONE_OFF_RE.exec(rawText);
+      const day = m[1];
+      const month = m[2];
+      const year = m[3];
+      dateWordy = `${day} ${month} ${year}`;
+      const base = dayjs.tz(`${day} ${month} ${year}`, "D MMMM YYYY", TZ);
+      if (base.isValid()) {
+        startISO = base
+          .hour(hh)
+          .minute(mm)
+          .second(0)
+          .millisecond(0)
+          .toISOString();
+      }
+    } else {
+      // Recurring — find next N occurrences (up to 8 weeks)
+      const m = RECURRING_RE.exec(rawText);
+      const pluralDay = m[1].toLowerCase().replace(/s$/, ""); // "fridays" → "friday"
+      const targetDay = DAY_MAP[pluralDay];
+      if (targetDay === undefined) return;
+
+      // For the description text extract time if mentioned ("every Friday at 8pm")
+      const recurTimeMatch = rawText.match(
+        /every\s+\w+\s+(?:at\s+)?(\d{1,2})[.:]?(\d{2})?\s*(am|pm)?/i,
+      );
+      if (recurTimeMatch) {
+        hh = parseInt(recurTimeMatch[1], 10);
+        mm = parseInt(recurTimeMatch[2] || "0", 10);
+        const ampm = (recurTimeMatch[3] || "").toLowerCase();
+        if (ampm === "pm" && hh !== 12) hh += 12;
+        if (ampm === "am" && hh === 12) hh = 0;
+        timeWordy = `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
+      }
+
+      const today = dayjs.tz(CUTOFF, TZ);
+      let d = today.clone();
+      while (d.day() !== targetDay) d = d.add(1, "day");
+
+      for (let i = 0; i < 8; i++) {
+        const eventDate = d
+          .add(i, "week")
+          .hour(hh)
+          .minute(mm)
+          .second(0)
+          .millisecond(0);
+        const ev = buildEvent({
+          source: "Pave Bar",
+          venue: "Pave Bar",
+          url: base,
+          title: title,
+          dateText: eventDate.format("DD MMMM YYYY"),
+          timeText: timeWordy || "",
+          startISO: eventDate.toISOString(),
+          address,
+          tickets: [],
+          soldOut: false,
+          freeEntry: isFreeEntry(rawText),
+        });
+        if (ev) results.push(ev);
+      }
+      return; // recurring events handled inline above
+    }
+
+    // Past filter
+    if (startISO) {
+      const d = dayjs(startISO);
+      if (d.isValid() && d.isBefore(CUTOFF)) return;
+    }
+
+    const freeEntry = isFreeEntry(rawText);
+    const soldOut = isSoldOut(rawText);
+
+    // Ticket links
+    const tickets = $(el)
+      .find("a[href]")
+      .filter((_, a) =>
+        /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
+          $(a).attr("href") || "",
+        ),
+      )
+      .map((_, a) => ({
+        label: $(a).text().trim() || "Tickets",
+        url: safeNewURL($(a).attr("href"), base),
+      }))
+      .get()
+      .filter((t) => t && t.url);
+
+    const ev = buildEvent({
+      source: "Pave Bar",
+      venue: "Pave Bar",
+      url: base,
+      title,
+      dateText: dateWordy,
+      timeText: timeWordy,
+      startISO,
+      address,
+      tickets,
+      soldOut,
+      freeEntry,
+    });
+    if (ev) results.push(ev);
+  });
+
+  log(`[pave] done, events: ${results.length}`);
+  return results;
+}
+
+/* -------- GARDENERS ARMS (DesignMyNight) -------------------------- */
+// Source list: https://gardeners-arms.designmynight.com/
+async function scrapeGardenersArms() {
+  log("[gardeners] list");
+
+  const base = "https://gardeners-arms.designmynight.com";
+  const listURL = `${base}/`;
+  const baseHost = new URL(base).hostname;
+
+  const dayMap = {
+    sunday: 0,
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
+  };
+
+  const toEventPath = (u) => /^\/[a-f0-9]{24}\/[^/?#]+\/?$/i.test(u);
+  const foldUnicodeText = (text = "") =>
+    normalizeWhitespace(text)
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "");
+  const toHourMinute = (raw = "", fallbackMeridiem = "") => {
+    const text = normalizeWhitespace(raw);
+    if (!text) return null;
+
+    const withMeridiem = text.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)$/i);
+    if (withMeridiem) {
+      let hh = parseInt(withMeridiem[1], 10);
+      const mm = withMeridiem[2] || "00";
+      const meridiem = withMeridiem[3].toLowerCase();
+      if (meridiem === "pm" && hh !== 12) hh += 12;
+      if (meridiem === "am" && hh === 12) hh = 0;
+      return `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
+    }
+
+    const bare = text.match(/^(\d{1,2})(?::(\d{2}))?$/);
+    if (bare) {
+      const hh = parseInt(bare[1], 10);
+      const mm = bare[2] || "00";
+      if (fallbackMeridiem && /^(am|pm)$/i.test(fallbackMeridiem)) {
+        return toHourMinute(`${hh}:${mm} ${fallbackMeridiem}`);
+      }
+      return `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
+    }
+
+    return to24h(text);
+  };
+
+  const extractDealsNote = (text = "") => {
+    const folded = foldUnicodeText(text);
+    const notes = [];
+
+    if (
+      /2-4-1\b/i.test(folded) &&
+      /until\s+\d{1,2}(?::\d{2})?\s*(?:am|pm)/i.test(folded)
+    ) {
+      const until = folded.match(
+        /until\s+(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i,
+      )?.[1];
+      const until24 = toHourMinute(until || "9 pm");
+      notes.push(
+        until24 ? `2-for-1 pizzas until ${until24}` : "2-for-1 pizzas",
+      );
+    }
+
+    const happyHour = folded.match(
+      /happy\s+hour[^.!?]*?from\s+(\d{1,2}(?::\d{2})?)\s*[-–]\s*(\d{1,2}(?::\d{2})?)\s*(am|pm)/i,
+    );
+    if (happyHour) {
+      const start24 = toHourMinute(happyHour[1], happyHour[3]);
+      const end24 = toHourMinute(happyHour[2], happyHour[3]);
+      if (start24 && end24) notes.push(`Happy hour ${start24}-${end24}`);
+      else notes.push("Happy hour");
+    } else if (
+      /happy\s+hour/i.test(folded) ||
+      /selected\s+drinks\s+just\s+£?3\.25/i.test(folded)
+    ) {
+      notes.push("Happy hour 17:00-20:00");
+    }
+
+    return notes.join(" · ");
+  };
+
+  const forceLocalTimeOnDate = (dateLike = "", hhmm = "") => {
+    const dayISO = tryParseDateFromText(stripOrdinals(dateLike));
+    if (!dayISO || !hhmm) return null;
+    const local = dayjs(dayISO).tz(TZ);
+    if (!local.isValid()) return null;
+    const parts = String(hhmm).split(":");
+    const hh = parseInt(parts[0], 10);
+    const mm = parseInt(parts[1] || "0", 10);
+    if (!Number.isFinite(hh) || !Number.isFinite(mm)) return null;
+    return toISO(local.hour(hh).minute(mm).second(0).millisecond(0));
+  };
+
+  const isUsefulGardenersTicket = (href = "", detailUrl = "") => {
+    if (!href) return false;
+    try {
+      const u = new URL(href, detailUrl || base);
+      const urlText = u.toString().toLowerCase();
+      if (u.hostname === baseHost) {
+        return (
+          toEventPath(u.pathname) ||
+          /\/(book|booking|tickets?)\b/i.test(u.pathname)
+        );
+      }
+      if (
+        /facebook\.com\/sharer|twitter\.com\/intent|pinterest\.com\/pin|wa\.me\//i.test(
+          urlText,
+        )
+      )
+        return false;
+      if (/designmynight\.com/i.test(u.hostname)) return false;
+      if (
+        /designmynight\.helpscoutdocs\.com|designmynight\.com\/(about|contact-us|frequently-asked-questions|careers-and-jobs|cookie-policy|privacy|terms|uk\/media|rewards|link-affiliate-program|work-with-us)/i.test(
+          urlText,
+        )
+      )
+        return false;
+      if (/content\.designmynight\.com\/dmn-admin/i.test(urlText)) return false;
+      return /eventbrite|skiddle|seetickets|ticketsource|ticketweb|gigantic|eventim|fatsoma/i.test(
+        urlText,
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  let html;
+  try {
+    const res = await fetchWithTimeout(listURL, {
+      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+      timeoutMs: 15000,
+      retries: 1,
+    });
+    html = await res.text();
+  } catch (e) {
+    log("[gardeners] list fetch failed:", e.message);
+    return [];
+  }
+
+  const $ = cheerio.load(html);
+
+  const hints = new Map(); // detailUrl -> { dateText, timeText }
+  const links = unique(
+    $("a[href]")
+      .map((_, a) => $(a).attr("href"))
+      .get()
       .map((h) => safeNewURL(h, base))
       .filter(Boolean)
       .filter((u) => {
         try {
           const uu = new URL(u);
-          if (uu.hostname !== baseHost) return false;
-          if (/^mailto:|^tel:/i.test(u)) return false;
-          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(uu.pathname))
-            return false;
-          return true;
+          return uu.hostname === baseHost && toEventPath(uu.pathname);
         } catch {
           return false;
         }
       })
       .map((u) => {
         const x = new URL(u);
+        x.search = "";
         x.hash = "";
         return x.toString();
       }),
   );
 
-  log(`[pave] candidate links: ${eventLinks.length}`);
+  $("a[href]").each((_, a) => {
+    const href = $(a).attr("href") || "";
+    const abs = safeNewURL(href, base);
+    if (!abs || !links.includes(abs)) return;
 
-  const results = [];
-  const BATCH = 3;
+    const cardText = normalizeWhitespace(
+      $(a).closest("article, li, section, .event, .card, div").text() || "",
+    );
+    const dateText =
+      cardText.match(
+        /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i,
+      )?.[0] ||
+      cardText.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+      cardText.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+      "";
+    const timeText = extractTimeFrom(cardText) || "";
 
-  for (let i = 0; i < eventLinks.length; i += BATCH) {
-    const batch = eventLinks.slice(i, i + BATCH);
+    if (dateText || timeText) hints.set(abs, { dateText, timeText });
+  });
+
+  log(`[gardeners] candidate links: ${links.length}`);
+  if (!links.length) return [];
+
+  const out = [];
+  const BATCH = 6;
+
+  for (let i = 0; i < links.length; i += BATCH) {
+    const batch = links.slice(i, i + BATCH);
     const settled = await Promise.allSettled(
       batch.map(async (url) => {
         try {
           const r2 = await fetchWithTimeout(url, {
             headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-            timeoutMs: 10000,
+            timeoutMs: 15000,
             retries: 1,
           });
           const html2 = await r2.text();
           const $$ = cheerio.load(html2);
-
           const fromLD = extractEventFromJSONLD($$, url) || {};
 
-          let title =
+          const hint = hints.get(url) || {};
+
+          const title =
             fromLD.title ||
-            $$("h1").first().text().trim() ||
+            $$("h1, .event-title, .headline").first().text().trim() ||
             $$("title").text().trim();
 
-          if (
-            !title ||
-            title.toLowerCase() === "home" ||
-            title.toLowerCase().includes("pave bar")
-          ) {
-            return null;
-          }
-
+          const near = normalizeWhitespace(
+            ($$("h1, .event-title, .headline").first().text() || "") +
+              " " +
+              $$("h1, .event-title, .headline")
+                .first()
+                .nextAll()
+                .slice(0, 8)
+                .text(),
+          );
           const big = normalizeWhitespace(
-            $$("main, article, .event, .content, .entry-content, body")
-              .first()
-              .text(),
+            $$("main, article, .content, .entry-content, body").first().text(),
           );
 
-          // Check for recurring events (e.g., "every Friday at 8pm")
-          const recurringMatch = big.match(
-            /every\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\s+(?:at\s+)?(\d{1,2}):?(\d{2})?\s*(am|pm)?/i,
-          );
+          let dateText =
+            hint.dateText ||
+            near.match(
+              /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i,
+            )?.[0] ||
+            near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
+            big.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
+            "";
 
-          let dateWordy = "";
-          let timeWordy = "";
-          let startISO = null;
+          let timeText =
+            hint.timeText ||
+            big.match(/\b\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}\b/)?.[0] ||
+            extractTimeFrom(near) ||
+            extractTimeFrom(big) ||
+            "";
 
-          if (recurringMatch) {
-            // Handle recurring event (e.g., "every Friday at 8pm")
-            const dayName = recurringMatch[1].toLowerCase();
-            const hour = parseInt(recurringMatch[2], 10);
-            const minute = parseInt(recurringMatch[3] || "0", 10);
-            const ampm = (recurringMatch[4] || "").toLowerCase();
+          const pageText = [title, near, big].join(" ");
+          const pageTextFolded = foldUnicodeText(pageText);
+          const dealsNote = extractDealsNote(pageText);
+          const isQuizNight = /\bquiz\b/i.test(foldUnicodeText(title || ""));
+          const quizStart24 = isQuizNight ? "20:00" : null;
 
-            // Convert 12h to 24h
-            let hh = hour;
-            if (ampm === "pm" && hour !== 12) hh += 12;
-            if (ampm === "am" && hour === 12) hh = 0;
+          let startISO =
+            fromLD.startISO ||
+            parseDMYWithTime(dateText, timeText) ||
+            tryParseDateFromText(stripOrdinals(`${dateText} ${timeText}`));
 
-            // Find the next occurrence of this day
-            const dayMap = {
-              monday: 1,
-              tuesday: 2,
-              wednesday: 3,
-              thursday: 4,
-              friday: 5,
-              saturday: 6,
-              sunday: 0,
-            };
-            const targetDay = dayMap[dayName];
-            const today = dayjs.tz(CUTOFF, TZ);
-            let d = today.clone();
+          const recurringDay = (near + " " + big).match(
+            /\bEvery\s+(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i,
+          )?.[1];
 
-            // Find next occurrence
-            while (d.day() !== targetDay) {
-              d = d.add(1, "day");
-            }
-
-            startISO = d
-              .hour(hh)
-              .minute(minute)
-              .second(0)
-              .millisecond(0)
-              .toISOString();
-            timeWordy = `${String(hh).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
-            dateWordy = d.format("DD MMMM YYYY");
-
-            title = `${title} (every ${dayName})`; // Mark as recurring
-          } else {
-            // Normal date/time extraction
-            dateWordy =
-              big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-              big.match(
-                /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d{1,2}(?:st|nd|rd|th)?\s+\w+\b/i,
-              )?.[0] ||
-              "";
-
-            timeWordy =
-              big.match(/\b\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0] ||
-              big
-                .match(/\bat\s+\d{1,2}:\d{2}\s*(am|pm)\b/i)?.[0]
-                ?.replace(/^at\s+/i, "") ||
-              "";
-
-            startISO =
-              fromLD.startISO ||
-              parseDMYWithTime(dateWordy, timeWordy) ||
-              tryParseDateFromText(
-                stripOrdinals(`${dateWordy} ${timeWordy}`),
-              ) ||
-              null;
+          // If this is recurring-only (e.g. "Every Monday") and no concrete date parsed,
+          // synthesize the next occurrence.
+          if (!startISO && recurringDay) {
+            const t24 = quizStart24 || to24h(timeText || "") || "19:00";
+            const [hh, mm] = t24.split(":").map((n) => parseInt(n, 10));
+            const now = dayjs.tz(dayjs(), TZ);
+            let next = now.startOf("day");
+            const target = dayMap[recurringDay.toLowerCase()];
+            while (next.day() !== target) next = next.add(1, "day");
+            next = next.hour(hh).minute(mm).second(0).millisecond(0);
+            if (next.isBefore(now)) next = next.add(1, "week");
+            startISO = toISO(next);
+            if (!dateText) dateText = next.format("D/M/YYYY");
+            if (!timeText) timeText = t24;
           }
 
-          // Past filter (keep undated)
+          if (quizStart24) {
+            const correctedStart =
+              forceLocalTimeOnDate(
+                dateText || fromLD.startISO || "",
+                quizStart24,
+              ) || null;
+            if (correctedStart) startISO = correctedStart;
+            timeText = quizStart24;
+          }
+
           if (startISO) {
             const d = dayjs(startISO);
             if (d.isValid() && d.isBefore(CUTOFF)) return null;
           }
 
-          // Address
-          const address = "16-20 Princes Ave, Hull HU5 3QA";
+          // DesignMyNight often shows "No tickets available" for free/non-booked events.
+          const soldOut =
+            /(sold\s*out|fully\s*booked|at\s*capacity)/i.test(pageText) ||
+            offersIndicateSoldOut(fromLD.offers);
+          const freeEntry =
+            isFreeEntry(pageTextFolded) ||
+            /\bno\s+tickets\s+available\b/i.test(pageTextFolded);
 
-          // Tickets
           const tickets = $$("a[href]")
             .filter((_, a) =>
-              /(seetickets|fatsoma|ticketweb|ticketmaster|gigantic|skiddle|eventbrite|ticketsource|eventim)/i.test(
-                $$(a).attr("href") || "",
-              ),
+              isUsefulGardenersTicket($$(a).attr("href") || "", url),
             )
-            .map((_, a) => ({
-              label: $$(a).text().trim() || "Tickets",
-              url: safeNewURL($$(a).attr("href"), url),
-            }))
+            .map((_, a) => {
+              const href = $$(a).attr("href") || "";
+              const u = safeNewURL(href, url);
+              return u
+                ? { label: $$(a).text().trim() || "Tickets", url: u }
+                : null;
+            })
             .get()
-            .filter((t) => t && t.url);
+            .filter(Boolean)
+            .filter((t) => t.url !== url);
 
-          // Sold out?
-          const soldOut =
-            isSoldOut(big) ||
-            (fromLD.offers ? offersIndicateSoldOut(fromLD.offers) : false);
-          const freeEntry = isFreeEntry([title, big].join(" "));
+          const priceText = extractPriceText(pageText);
+          const address =
+            fromLD.address ||
+            big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] ||
+            "The Gardeners Arms, Hull HU5";
 
-          return buildEvent({
-            source: "Pave Bar",
-            venue: "Pave Bar",
-            url: url,
-            title: title,
-            dateText: dateWordy,
-            timeText: timeWordy,
-            startISO: startISO,
-            address: address,
-            tickets: tickets,
-            soldOut: soldOut,
-            freeEntry: freeEntry,
+          const ev = buildEvent({
+            source: "Gardeners Arms",
+            venue: "Gardeners Arms",
+            url,
+            title,
+            dateText,
+            timeText,
+            startISO,
+            endISO: fromLD.endISO || null,
+            address,
+            tickets,
+            soldOut,
+            freeEntry,
+            ...(priceText && { priceText }),
           });
+
+          if (dealsNote) ev.notes = dealsNote;
+
+          return ev;
         } catch (e) {
-          log(`[pave] scrape failed for ${url}:`, e.message);
+          log("[gardeners] event error:", e.message, url);
           return null;
         }
       }),
     );
 
     for (const r of settled) {
-      if (r.status === "fulfilled" && r.value) {
-        results.push(r.value);
-      }
+      if (r.status === "fulfilled" && r.value) out.push(r.value);
     }
+    await sleep(50);
   }
 
-  log(`[pave] done, events: ${results.length}`);
-  return results;
+  log(`[gardeners] done, events: ${out.length}`);
+  return out;
 }
 
 /* ============================== MAIN =============================== */
@@ -3797,6 +4274,7 @@ async function main() {
       ];
       if (!skipWelly) tasks.push(wrapScrape("welly", scrapeWelly));
       tasks.push(wrapScrape("molly", scrapeMollyMangans));
+      tasks.push(wrapScrape("gardeners", scrapeGardenersArms));
       if (!skipUMU) tasks.push(wrapScrape("umu", scrapeUnionMashUp));
       if (!skipDive) tasks.push(wrapScrape("dive", scrapeDiveHU5));
       if (!skipTPR) tasks.push(wrapScrape("tpr", scrapeTPR));
@@ -3877,6 +4355,9 @@ async function main() {
         tasks.push(
           wrapScrape("moodys", () => synthMrMoodysSundayLunch({ weeks: 15 })),
         );
+      tasks.push(
+        wrapScrape("queens", () => synthQueensHotelQuiz({ weeks: 20 })),
+      );
       if (!skipPave) tasks.push(wrapScrape("pave", scrapePaveBar));
     }
 
