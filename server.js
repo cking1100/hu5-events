@@ -18,85 +18,107 @@ const PORT = process.env.PORT || 5173;
 
 // --- Scraper single-flight + runner ---
 let scrapeInFlight = null;
+let activeScrapeChild = null;
+let lastEventsCheckAt = 0;
+const EVENTS_CHECK_INTERVAL_MS = 30_000;
+
+const runExecFile = (file, args, options) =>
+  new Promise((resolve, reject) => {
+    activeScrapeChild = execFile(file, args, options, (err, stdout, stderr) => {
+      activeScrapeChild = null;
+      if (err) {
+        reject({ err, stdout, stderr });
+        return;
+      }
+      resolve({ stdout, stderr });
+    });
+  });
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Run scraper with retry logic for resilience
-function runScraper(retryCount = 0, maxRetries = 2) {
+function runScraper(maxRetries = 2) {
   if (scrapeInFlight) return scrapeInFlight;
-  scrapeInFlight = new Promise((resolve, reject) => {
-    const child = execFile(
-      "node",
-      ["scrape-hull-venues.js"],
-      {
-        cwd: __dirname,
-        windowsHide: true,
-        env: { ...process.env },
-        maxBuffer: 10 * 1024 * 1024,
-        timeout: 90_000, // Increased timeout to 90s
-      },
-      async (err, stdout, stderr) => {
-        scrapeInFlight = null;
+  scrapeInFlight = (async () => {
+    for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+      try {
+        const { stdout, stderr } = await runExecFile(
+          "node",
+          ["-r", "./polyfills.cjs", "./scrape-hull-venues.js"],
+          {
+            cwd: __dirname,
+            windowsHide: true,
+            env: { ...process.env },
+            maxBuffer: 10 * 1024 * 1024,
+            timeout: 90_000,
+          },
+        );
+
         if (stderr) console.error("[scrape] stderr:", stderr.trim());
-        if (err) {
-          // Retry on timeout or network errors
-          if (
-            retryCount < maxRetries &&
-            (err.killed || err.code === "ETIMEDOUT")
-          ) {
-            console.log(
-              `[scraper] Retry ${retryCount + 1}/${maxRetries} after error: ${
-                err.message
-              }`
-            );
-            await new Promise((r) => setTimeout(r, 1000 * (retryCount + 1))); // Exponential backoff
-            return runScraper(retryCount + 1, maxRetries);
-          }
-          return reject(err);
+
+        const data = JSON.parse(stdout);
+        await writeFile(
+          path.join(__dirname, "public", "events.json"),
+          JSON.stringify(data),
+          "utf8",
+        );
+        return { count: Array.isArray(data) ? data.length : 0 };
+      } catch (failure) {
+        const err = failure?.err || failure;
+        const stderr = failure?.stderr;
+
+        if (stderr) console.error("[scrape] stderr:", String(stderr).trim());
+
+        const shouldRetry =
+          attempt < maxRetries && (err?.killed || err?.code === "ETIMEDOUT");
+        if (!shouldRetry) {
+          throw err;
         }
-        try {
-          const data = JSON.parse(stdout); // stdout must be pure JSON
-          await writeFile(
-            path.join(__dirname, "public", "events.json"),
-            JSON.stringify(data, null, 2),
-            "utf8"
-          );
-          resolve({ count: Array.isArray(data) ? data.length : 0 });
-        } catch (e) {
-          console.error("[server] Failed to parse scraper JSON:", e.message);
-          console.error(
-            "[server] First 200 chars of stdout:",
-            String(stdout).slice(0, 200)
-          );
-          reject(e);
-        }
+
+        console.log(
+          `[scraper] Retry ${attempt + 1}/${maxRetries} after error: ${err.message}`,
+        );
+        await wait(1000 * (attempt + 1));
       }
-    );
-    process.on("exit", () => child.kill());
+    }
+    throw new Error("Scraper failed after retries");
+  })().finally(() => {
+    scrapeInFlight = null;
   });
+
   return scrapeInFlight;
+}
+
+process.on("exit", () => {
+  activeScrapeChild?.kill();
+});
+
+async function ensureEventsFileReady() {
+  const now = Date.now();
+  if (now - lastEventsCheckAt < EVENTS_CHECK_INTERVAL_MS) return;
+
+  lastEventsCheckAt = now;
+  const filePath = path.join(__dirname, "public", "events.json");
+
+  let needsScrape = false;
+  if (!existsSync(filePath)) {
+    console.log("[server] events.json missing — scraping now…");
+    needsScrape = true;
+  } else {
+    const txt = await readFile(filePath, "utf8");
+    if (!txt.trim() || txt.trim() === "[]") {
+      console.log("[server] events.json empty — scraping now…");
+      needsScrape = true;
+    }
+  }
+
+  if (needsScrape) await runScraper();
 }
 
 // Ensure events.json exists/has data BEFORE static serves it
 app.get("/events.json", async (_req, _res, next) => {
   try {
-    const p = path.join(__dirname, "public", "events.json");
-    let needsScrape = false;
-    if (!existsSync(p)) {
-      console.log("[server] events.json missing — scraping now…");
-      needsScrape = true;
-    } else {
-      const txt = await readFile(p, "utf8");
-      if (!txt.trim() || txt.trim() === "[]") {
-        console.log("[server] events.json empty — scraping now…");
-        needsScrape = true;
-      }
-    }
-    if (needsScrape) {
-      try {
-        await runScraper();
-      } catch (e) {
-        console.warn("[server] on-demand scrape failed:", e.message);
-      }
-    }
+    await ensureEventsFileReady();
   } catch (e) {
     console.warn("[server] pre-serve check failed:", e.message);
   } finally {
@@ -112,7 +134,7 @@ app.use((req, res, next) => {
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader(
     "Permissions-Policy",
-    "geolocation=(), microphone=(), camera=()"
+    "geolocation=(), microphone=(), camera=()",
   );
   next();
 });
@@ -126,7 +148,7 @@ app.use(
       if (req.headers["x-no-compression"]) return false;
       return compression.filter(req, res);
     },
-  })
+  }),
 );
 
 // Static files with intelligent caching
@@ -142,15 +164,14 @@ app.use(
       }
       // Don't cache JSON and HTML
       if (filePath.endsWith("events.json") || filePath.endsWith(".html")) {
-        res.setHeader(
-          "Cache-Control",
-          "no-store, no-cache, must-revalidate, proxy-revalidate"
-        );
-        res.setHeader("Pragma", "no-cache");
-        res.setHeader("Expires", "0");
+        if (filePath.endsWith("events.json")) {
+          res.setHeader("Cache-Control", "public, max-age=60, must-revalidate");
+        } else {
+          res.setHeader("Cache-Control", "no-cache, must-revalidate");
+        }
       }
     },
-  })
+  }),
 );
 
 // Healthcheck with uptime tracking
@@ -201,6 +222,10 @@ const server = app.listen(PORT, () => {
   console.log(`[server] Environment: ${process.env.NODE_ENV || "development"}`);
   if (!ADMIN_KEY)
     console.log("[server] Tip: set ADMIN_KEY env var to protect /api/refresh");
+
+  ensureEventsFileReady().catch((e) => {
+    console.warn("[server] startup warm-up failed:", e.message);
+  });
 });
 
 // Graceful shutdown handlers
