@@ -7,7 +7,7 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "scrape": "node -r ./polyfills.cjs ./scrape-hull-venues.js > ./public/events.json",

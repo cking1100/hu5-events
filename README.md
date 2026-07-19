@@ -9,11 +9,13 @@ A real-time event discovery platform for Hull's **HU5 postcode area**. Aggregate
 ## Features
 
 ✨ **Real-time Event Aggregation**
-- Scrapes events from 13+ Hull venues
+
+- Scrapes events from 14+ Hull venues
 - Updates daily automatically
 - Supports gigs, comedy, quizzes, open mics, and more
 
 🔍 **Advanced Search & Filter**
+
 - Text search across event titles and venues
 - Filter by date range (Today, Next 7 days, This weekend, Custom)
 - Filter by venue
@@ -21,37 +23,45 @@ A real-time event discovery platform for Hull's **HU5 postcode area**. Aggregate
 - Show/hide undated events
 
 📱 **Responsive & Installable**
+
 - Works on desktop, tablet, and mobile
 - Install as a PWA (add to home screen)
 - Dark/light mode support
 
 🎯 **SEO Optimized**
+
 - Comprehensive schema.org markup (Event, Organization, BreadcrumbList)
 - Dynamic meta tags
 - Sitemap with image metadata
 - Structured data for Google Rich Snippets
 
-⚡ **Performance**
+⚡ **Performance & Reliability**
+
 - Optimized caching strategy
-- Minimal JS footprint
-- Fast static serving
+- Minimal JS footprint (no frameworks)
+- Fast static serving with compression
+- Automated daily updates via GitHub Actions
+- Retry logic for resilient scraping
+- Security patches & dependency updates maintained
 
 ---
 
 ## Tech Stack
 
 - **Frontend:** Vanilla JavaScript, HTML5, CSS3
-- **Backend:** Node.js + Express
-- **Scraping:** Cheerio, `node:fetch`
-- **Date Handling:** Day.js
-- **Hosting:** Static hosting (GitHub Pages / CNAME)
+- **Backend:** Node.js 22 + Express 4.22
+- **Scraping:** Cheerio 1.2, `node:fetch`
+- **Date Handling:** Day.js 1.11
+- **Hosting:** GitHub Pages with custom CNAME
+- **CI/CD:** GitHub Actions (daily scraping & deployment)
 
 ---
 
 ## Setup & Installation
 
 ### Prerequisites
-- Node.js 18+
+
+- Node.js 22+ (recommended for compatibility with GitHub Actions)
 - npm
 
 ### Quick Start
@@ -142,21 +152,22 @@ hu5-events/
 
 ### Supported Venues
 
-| # | Venue | Source |
-|---|-------|--------|
-| 1 | Polar Bear Music Club | polarbearmusicclub.co.uk |
-| 2 | The New Adelphi Club | theadelphi.com |
-| 3 | The Welly Club | giveitsomewelly.com |
-| 4 | Molly Mangan's | mollymangans.com |
-| 5 | Union Mash Up (UMU) | unionmashup.co.uk |
-| 6 | DIVE HU5 | skiddle.com |
-| 7 | The People's Republic | Untappd |
-| 8 | Mr Moody's Tavern | Google Sheets CSV |
-| 9 | Pave Bar | pavebar.co.uk |
-| 10 | The Gardeners Arms | designmynight.com |
-| 11 | Queens Hotel | Synthetic (weekly quiz) |
-| 12 | Commun'ull | communull.co.uk |
-| 13 | Vox Box | voxboxhull.co.uk |
+| #   | Venue                 | Source                   |
+| --- | --------------------- | ------------------------ |
+| 1   | Polar Bear Music Club | polarbearmusicclub.co.uk |
+| 2   | The New Adelphi Club  | theadelphi.com           |
+| 3   | The Welly Club        | giveitsomewelly.com      |
+| 4   | Molly Mangan's        | mollymangans.com         |
+| 5   | Union Mash Up (UMU)   | unionmashup.co.uk        |
+| 6   | DIVE HU5              | skiddle.com              |
+| 7   | The People's Republic | Untappd                  |
+| 8   | Mr Moody's Tavern     | Google Sheets CSV        |
+| 9   | Pave Bar              | pavebar.co.uk            |
+| 10  | The Gardeners Arms    | designmynight.com        |
+| 11  | Queens Hotel          | Synthetic (weekly quiz)  |
+| 12  | Commun'ull            | communull.co.uk          |
+| 13  | Vox Box               | voxboxhull.co.uk         |
+| 14  | St John's             | Google Sheets CSV        |
 
 ### How It Works
 
@@ -170,6 +181,7 @@ hu5-events/
 ### Error Handling
 
 The scraper gracefully handles:
+
 - Invalid date/time formats
 - Missing venue information
 - Network timeouts and retries
@@ -180,12 +192,12 @@ The scraper gracefully handles:
 
 ## Server Endpoints
 
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/` | GET | Main SPA |
-| `/events.json` | GET | Event data (JSON) |
-| `/healthz` | GET | Server health check |
-| `/api/refresh` | POST | Manual scrape trigger (requires `ADMIN_KEY`) |
+| Endpoint       | Method | Purpose                                      |
+| -------------- | ------ | -------------------------------------------- |
+| `/`            | GET    | Main SPA                                     |
+| `/events.json` | GET    | Event data (JSON)                            |
+| `/healthz`     | GET    | Server health check                          |
+| `/api/refresh` | POST   | Manual scrape trigger (requires `ADMIN_KEY`) |
 
 ---
 
@@ -237,32 +249,75 @@ curl http://localhost:5173/healthz
 
 ## Deployment
 
-The site is deployed as a static site via GitHub Pages with a CNAME pointing to `findhu5.events`. The scraper runs on a schedule (e.g. GitHub Actions) to regenerate `events.json` and commit it.
+The site is deployed as a static site via GitHub Pages with a CNAME pointing to `findhu5.events`. Automated workflows handle both scraping and deployment.
 
-### Example GitHub Actions Workflow
+### GitHub Actions Workflows
+
+#### 1. Daily Event Scrape (`scrape-daily.yml`)
+
+Runs daily at 6 AM UTC to keep events fresh:
 
 ```yaml
-name: Scrape Events
+name: Daily Event Scrape
 on:
   schedule:
-    - cron: "0 6 * * *"   # Daily at 06:00 UTC
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: "22"
+          cache: "npm"
       - run: npm ci
       - run: npm run scrape
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update events.json"
-          file_pattern: public/events.json
+      - name: Commit and push
+        # ... commits events.json back to repo
 ```
+
+#### 2. Deploy to GitHub Pages (`deploy-pages.yml`)
+
+Deploys the site on push to main and every 6 hours:
+
+```yaml
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v5
+```
+
+### Recent Updates
+
+- ✅ **2025-01:** Updated to Node.js 24-compatible GitHub Actions
+- ✅ **Security:** All dependencies updated, 8 vulnerabilities patched
+- ✅ **Dependencies:** Cheerio 1.2, Express 4.22, Day.js 1.11, Nodemon 3.1
 
 ---
 
@@ -291,10 +346,29 @@ $env:PORT=3000; npm start
 
 ---
 
+## Changelog
+
+### 2025-01 - Infrastructure & Security Update
+
+- **Updated Node.js requirement:** v18+ → v22+ (aligns with GitHub Actions)
+- **GitHub Actions updates:**
+  - `actions/upload-pages-artifact@v3` → `v4` (Node.js 24 compatible)
+  - `actions/deploy-pages@v4` → `v5` (latest stable)
+- **Security:** Fixed 8 vulnerabilities (3 moderate, 5 high)
+  - Patched: `undici`, `qs`, `path-to-regexp`, `minimatch`, `brace-expansion`, `picomatch`
+- **Dependencies updated:**
+  - Cheerio: 1.1.2 → 1.2.0
+  - Day.js: 1.11.18 → 1.11.21
+  - Express: 4.21.2 → 4.22.2
+  - Nodemon: 3.1.10 → 3.1.14
+- **Configuration:** Now tracking `package-lock.json` for consistent installs
+
+---
+
 ## License
 
 MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
-*Built with ❤️ for the Hull community.*
+_Built with ❤️ for the Hull community._

@@ -20,6 +20,9 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 import timezone from "dayjs/plugin/timezone.js";
 import customParseFormat from "dayjs/plugin/customParseFormat.js";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 /* Enable Day.js plugins once */
 dayjs.extend(utc);
@@ -31,13 +34,10 @@ const TZ = "Europe/London";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36";
 const ACCEPT_LANG = "en-GB,en;q=0.9";
+const CSV_DEBUG = process.env.CSV_DEBUG === "1";
 
 /* Start-of-today cutoff in London. We keep today+future, allow undated. */
 const CUTOFF = dayjs.tz(dayjs(), TZ).startOf("day");
-
-// Mr Moodys Google Sheets
-const SHEETS_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCS2ie0QkaHd5Z3LMytIIEAEE4QVAKYse7gc7uCgev00omjKv560oSf9V2kPNOWmrO90cpzRISB88C/pub?output=csv";
 
 /* ---------------------- Small general utilities -------------------- */
 // Enhanced logging with timestamps and better formatting
@@ -166,7 +166,7 @@ function detectEventType(title = "", description = "") {
   if (/\b(theatre|play|production|show)\b/i.test(text)) types.push("Theatre");
   if (/\b(lunch|dinner|brunch|food|eating)\b/i.test(text)) types.push("Food");
   if (/\b(party|dance|club|clubbing)\b/i.test(text)) types.push("Party");
-  if (/\b(stand.?up|drag)\b/i.test(text)) types.push("Drag");
+  if (/\bdrag\b/i.test(text)) types.push("Drag");
 
   return types.length > 0 ? types : null;
 }
@@ -764,6 +764,8 @@ const VENUE_ADDR = {
   "gardeners arms": "The Gardeners Arms, Hull HU5",
   "gardeners arm": "The Gardeners Arms, Hull HU5",
   "queens hotel": "Queens Hotel, Queens Road, Hull HU5 2RG",
+  "st john's": "Queens Rd, Hull HU5 2PY",
+  "st johns": "Queens Rd, Hull HU5 2PY",
 
   // Common aliases / signage
   "polar bear": "229 Spring Bank, Hull, HU3 1LR",
@@ -1051,6 +1053,7 @@ const VENUE_COORDS = {
   "Newland Tap": { lat: 53.769, lon: -0.34 },
   Underdog: { lat: 53.7686, lon: -0.3375 },
   "Pave Bar": { lat: 53.7686, lon: -0.3375 },
+  "St John's": { lat: 53.7678, lon: -0.3398 },
 };
 
 // Calculate distance between two lat/lon points (in km)
@@ -1075,6 +1078,9 @@ const HULL_CENTER = { lat: 53.7431, lon: -0.337 };
 /* -------- CSV-driven single-venue scraper (patched) -------- */
 async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
   const TAG = `[csv:${name}]`;
+  const rowLog = (...args) => {
+    if (CSV_DEBUG) log(...args);
+  };
   log(`${TAG} start: ${csvUrl}`);
 
   // --- fetch CSV ---
@@ -1245,7 +1251,9 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
     const startRaw = pick(r, START_HEADERS);
     const endRaw = pick(r, END_HEADERS);
 
-    log(`${rowTag} | date='${dateText}' time='${timeText}' title='${title}'`);
+    rowLog(
+      `${rowTag} | date='${dateText}' time='${timeText}' title='${title}'`,
+    );
 
     // 🎟️ Tickets URL(s)
     let ticketsRaw = readCell(r, tixCol);
@@ -1264,19 +1272,21 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
       const whole = Array.isArray(r) ? r.join(" ") : Object.values(r).join(" ");
       ticketUrls = findUrls(whole);
       if (ticketUrls.length) {
-        log(`${rowTag} 🎟️ scanned row found URL(s): ${ticketUrls.join(", ")}`);
+        rowLog(
+          `${rowTag} 🎟️ scanned row found URL(s): ${ticketUrls.join(", ")}`,
+        );
       }
     }
 
     if (ticketUrls.length) {
-      log(`${rowTag} 🎟️ tickets: ${ticketUrls.join(", ")}`);
+      rowLog(`${rowTag} 🎟️ tickets: ${ticketUrls.join(", ")}`);
       if (!url || !/^https?:\/\//i.test(url)) {
         url = ticketUrls[0];
-        log(`${rowTag} 🔗 using tickets link as Open URL: ${url}`);
+        rowLog(`${rowTag} 🔗 using tickets link as Open URL: ${url}`);
       }
     } else {
       const prev = (ticketsRaw && String(ticketsRaw).slice(0, 80)) || "(empty)";
-      log(`${rowTag} no ticket link. Raw cell preview: ${prev}`);
+      rowLog(`${rowTag} no ticket link. Raw cell preview: ${prev}`);
     }
 
     const tickets = (ticketUrls.slice(0, 5) || [])
@@ -1302,12 +1312,12 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
       const priceText = normalizeWhitespace(readCell(r, priceCol)) || null;
 
       // Debug: see what we ended up with
-      log(
+      rowLog(
         `${rowTag} parsed startISO=${
           startISO || "(null)"
         } from date='${dateWithYear}' time='${timeWithDefault}'`,
       );
-      if (!startISO) log(`${rowTag} [WARN] still undated after inference`);
+      if (!startISO) rowLog(`${rowTag} [WARN] still undated after inference`);
 
       const ev = buildEvent({
         source: name,
@@ -1330,20 +1340,20 @@ async function scrapeCsvVenue({ name, csvUrl, address, tz = TZ }) {
         const d = dayjs(ev.start);
         if (d.isValid() && d.isBefore(CUTOFF)) {
           skippedPast++;
-          log(`${rowTag} ⏭️ past -> skip`);
+          rowLog(`${rowTag} ⏭️ past -> skip`);
           continue;
         }
       }
 
       if (!ev.title && !ev.url && !ev.start && !ev.venue) {
         skippedEmpty++;
-        log(`${rowTag} ⏭️ empty -> skip`);
+        rowLog(`${rowTag} ⏭️ empty -> skip`);
         continue;
       }
 
       out.push(ev);
       kept++;
-      log(`${rowTag} [OK] kept | ${ev.title?.slice(0, 80) || ""}`);
+      rowLog(`${rowTag} [OK] kept | ${ev.title?.slice(0, 80) || ""}`);
     } catch (e) {
       errors++;
       log(`${rowTag} [ERR] row-level error: ${e.message}`);
@@ -1627,382 +1637,66 @@ async function scrapePolarBear() {
 /* -------- THE NEW ADELPHI CLUB ----------------------------------- */
 // Source list: https://www.theadelphi.com/events/
 async function scrapeAdelphi() {
-  const base = "https://www.theadelphi.com";
-  const listURL = `${base}/events/`;
-  const baseHost = new URL(base).hostname;
-  const DEFAULT_HHMM = "20:00";
-  const BATCH = 5;
-  const results = [];
-  let pastSkipCount = 0;
-  const PAST_SKIP_LIMIT = 10;
+    const base = "https://www.theadelphi.com";
+    const listURL = `${base}/events/`;
 
-  log("[adelphi] starting scrape...");
+    log("[adelphi] list scrape");
 
-  // Step 1: Fetch event list
-  let html;
-  try {
-    const res = await fetch(listURL, {
-      headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-    });
-    html = await res.text();
-  } catch (err) {
-    log("[adelphi] [ERR] failed to fetch event list:", err.message);
-    return [];
-  }
-
-  const $ = cheerio.load(html);
-
-  // Step 2: Extract candidate event URLs - look for actual event listing elements
-  // The Adelphi website shows events in a list. Extract only URLs from event containers
-  let eventLinks = [];
-
-  // Try to find event container elements and extract their links
-  // Look for common event listing patterns
-  const eventContainers = $(
-    '[class*="event"], [class*="post"], [class*="listing"], article, .tribe-events-list-event-title',
-  );
-
-  if (eventContainers.length > 0) {
-    // If we found event containers, extract links from them
-    eventLinks = eventContainers
-      .find("a[href]")
-      .map((_, a) => $(a).attr("href"))
-      .get()
-      .map((href) => safeNewURL(href, base))
-      .filter(Boolean)
-      .filter((u) => {
-        try {
-          const { hostname, pathname, search } = new URL(u);
-          if (hostname !== baseHost) return false;
-          if (/^mailto:|^tel:/i.test(u)) return false;
-          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(pathname))
-            return false;
-          if (/eventDisplay=past/i.test(search)) return false;
-          return /^\/events?\/[^/]+\/?$/i.test(pathname);
-        } catch {
-          return false;
-        }
-      });
-  }
-
-  // If we didn't find event containers, fall back to finding all event links
-  if (eventLinks.length === 0) {
-    eventLinks = $("a[href]")
-      .map((_, a) => $(a).attr("href"))
-      .get()
-      .map((href) => safeNewURL(href, base))
-      .filter(Boolean)
-      .filter((u) => {
-        try {
-          const { hostname, pathname, search } = new URL(u);
-          if (hostname !== baseHost) return false;
-          if (/^mailto:|^tel:/i.test(u)) return false;
-          if (/\.(pdf|jpg|jpeg|png|webp|gif|svg)$/i.test(pathname))
-            return false;
-          if (/eventDisplay=past/i.test(search)) return false;
-          // More specific pattern: must be /events/something or /event/something
-          return /^\/events\/[^/]+\/?$|^\/event\/[^/]+\/?$/i.test(pathname);
-        } catch {
-          return false;
-        }
-      });
-  }
-
-  // Remove duplicates from eventLinks
-  const uniqueLinks = [...new Set(eventLinks)];
-
-  let urls = uniqueLinks.length ? uniqueLinks : [listURL];
-
-  // Step 2.5: Filter out already-scraped URLs to speed up incremental updates
-  // Load existing events to get URLs we've already processed
-  const existingUrls = new Set();
-  try {
-    const fs = await import("fs");
-    const path = await import("path");
-    const jsonPath = path.join(
-      path.dirname(import.meta.url.replace("file://", "")),
-      "public",
-      "events.json",
-    );
-    const stat = fs.statSync(jsonPath);
-    if (stat && stat.isFile()) {
-      const existingData = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-      if (Array.isArray(existingData)) {
-        existingData.forEach((ev) => {
-          if (ev.source === "The Adelphi Club" && ev.url) {
-            existingUrls.add(ev.url);
-          }
-        });
-      }
-    }
-  } catch (err) {
-    // Existing file doesn't exist or can't be read, that's OK
-    log("[adelphi] [info] No existing events cache found (first run?)");
-  }
-
-  const newUrls = urls.filter((u) => !existingUrls.has(u));
-  const skippedCount = urls.length - newUrls.length;
-
-  if (skippedCount > 0) {
-    log(
-      `[adelphi] [info] Skipping ${skippedCount} already-cached URLs, fetching ${newUrls.length} new ones`,
-    );
-  }
-
-  urls = newUrls.length > 0 ? newUrls : urls;
-
-  log(`[adelphi] scraping ${urls.length} page(s)...`);
-
-  for (let i = 0; i < urls.length; i += BATCH) {
-    const batch = urls.slice(i, i + BATCH);
-    const settled = await Promise.allSettled(
-      batch.map(async (url) => {
-        try {
-          const res = await fetch(url, {
+    let html;
+    try {
+        const res = await fetch(listURL, {
             headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
-          });
-          const html = await res.text();
-          const $$ = cheerio.load(html);
-          const fromLD = extractEventFromJSONLD($$, url) || {};
+        });
+        html = await res.text();
+    } catch (err) {
+        log("[adelphi] [ERR] failed:", err.message);
+        return [];
+    }
 
-          const title =
-            fromLD.title ||
-            $$("h1, .entry-title, .tribe-events-single-event-title")
-              .first()
-              .text()
-              .trim() ||
-            $$("title").text().trim();
+    const $ = cheerio.load(html);
+    const out = [];
 
-          const $h1 = $$("h1, .entry-title").first();
-          const near = normalizeWhitespace(
-            $h1.text() + " " + $h1.nextAll().slice(0, 6).text(),
-          );
-          const big = normalizeWhitespace(
-            $$(
-              "main, article, .entry-content, .tribe-events-single, body",
-            ).text(),
-          );
+    $("li").each((_, li) => {
+        const text = normalizeWhitespace($(li).text());
+        const date = text.match(/\b\d{1,2}\s+[A-Z][a-z]+\s+\d{4}\b/)?.[0];
+        if (!date) return;
 
-          // --- Date ---
-          // First check for explicit "Date:" label which is most reliable
-          let dateText =
-            near.match(/\bDate:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i)?.[1] ||
-            big.match(/\bDate:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i)?.[1] ||
-            near.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-            big.match(/\b\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4}\b/i)?.[0] ||
-            near.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\b/)?.[0] ||
-            "";
+        const link = $(li).find("a[href]").filter((_, a) => {
+            const href = $(a).attr("href") || "";
+            return href.includes("/event/") || href.includes("/events/");
+        }).first();
 
-          if (dateText) {
-            dateText = normalizeWhitespace(
-              stripOrdinals(dateText).replace(/,/g, " "),
-            );
-          } else {
-            const fallbackDate = tryParseDateFromText(near + " " + big);
-            if (fallbackDate) {
-              const d = dayjs(fallbackDate);
-              if (d.isValid()) dateText = d.format("D MMM YYYY");
-            }
-          }
+        const title = normalizeWhitespace(link.text());
+        if (!title) return;
 
-          // --- Time ---
-          let timeText = "";
-          let timeUndefined = false;
-          let timeEstimated = false;
+        const url = safeNewURL(link.attr("href"), base);
 
-          // First check for explicit "Time:" label which is most reliable
-          const timeMatch =
-            near.match(/\bTime:\s*\d{4}\/\d{2}\/\d{2}\s+(\d{1,2}:\d{2})/i) ||
-            big.match(/\bTime:\s*\d{4}\/\d{2}\/\d{2}\s+(\d{1,2}:\d{2})/i);
+        const priceText = extractPriceText(text);
+        const freeEntry = isFreeEntry(text);
+        const timeText = text.match(/\b\d{1,2}:\d{2}\b/)?.[0] || "20:00";
 
-          const doorsMatch =
-            big.match(
-              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
-            ) ||
-            near.match(
-              /\bdoors?\s*(?:at|open)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
-            );
-
-          const startMatch =
-            big.match(
-              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
-            ) ||
-            near.match(
-              /\b(start|show)\s*(?:at)?\s*(\d{1,2}[:.]\d{2}\s*(am|pm)?)/i,
-            );
-
-          if (timeMatch) {
-            timeText = cleanTimeCandidate(timeMatch[1]);
-          } else if (doorsMatch) {
-            timeText = cleanTimeCandidate(doorsMatch[1]);
-          } else if (startMatch) {
-            timeText = cleanTimeCandidate(startMatch[2]);
-          } else {
-            timeUndefined = true;
-          }
-
-          const t24 = to24h(timeText);
-
-          // --- Build start time ---
-          let startISO = null;
-          try {
-            if (fromLD.startISO) {
-              startISO = toISO(fromLD.startISO);
-            } else if (dateText && t24) {
-              // Both date and time provided
-              if (
-                typeof dateText === "string" &&
-                dateText.trim() &&
-                typeof t24 === "string" &&
-                t24.trim()
-              ) {
-                const dateStr = dateText.trim();
-                const timeStr = t24.trim();
-                // Try DD/MM/YYYY HH:mm first
-                let d = dayjs.tz(
-                  `${dateStr} ${timeStr}`,
-                  "DD/MM/YYYY HH:mm",
-                  TZ,
-                  true,
-                );
-                // Fall back to D/M/YYYY HH:mm
-                if (!d || !d.isValid || !d.isValid()) {
-                  d = dayjs.tz(
-                    `${dateStr} ${timeStr}`,
-                    "D/M/YYYY HH:mm",
-                    TZ,
-                    true,
-                  );
-                }
-                // Fall back to D MMM YYYY HH:mm
-                if (!d || !d.isValid || !d.isValid()) {
-                  d = dayjs.tz(
-                    `${dateStr} ${timeStr}`,
-                    "D MMM YYYY HH:mm",
-                    TZ,
-                    true,
-                  );
-                }
-                if (d && d.isValid && d.isValid()) startISO = toISO(d);
-              }
-            } else if (dateText) {
-              // Date only - try multiple formats
-              if (typeof dateText === "string" && dateText.trim()) {
-                const trimmedDate = dateText.trim();
-                // Try DD/MM/YYYY format first
-                let d = dayjs.tz(trimmedDate, "DD/MM/YYYY", TZ, true);
-                // Fall back to D/M/YYYY
-                if (!d || !d.isValid || !d.isValid()) {
-                  d = dayjs.tz(trimmedDate, "D/M/YYYY", TZ, true);
-                }
-                // Fall back to D MMM YYYY
-                if (!d || !d.isValid || !d.isValid()) {
-                  d = dayjs.tz(trimmedDate, "D MMM YYYY", TZ, true);
-                }
-                if (d && d.isValid && d.isValid()) startISO = toISO(d);
-              }
-            }
-          } catch (err) {
-            log(`[adelphi] [ERR] invalid date for "${title}": ${err.message}`);
-            return null;
-          }
-
-          if (!startISO && dateText) {
-            const fallbackDate = tryParseDateFromText(dateText);
-            if (fallbackDate) startISO = toISO(fallbackDate);
-          }
-
-          // --- Past event filter ---
-          if (startISO) {
-            const d = dayjs(startISO);
-            // Use a more inclusive cutoff: accept events from yesterday onwards
-            // This ensures we capture same-day events and recent events
-            const inclusiveCutoff = CUTOFF.subtract(1, "day");
-            if (d.isValid() && d.isBefore(inclusiveCutoff)) {
-              if (
-                CUTOFF.diff(d, "year") < 2 &&
-                pastSkipCount < PAST_SKIP_LIMIT
-              ) {
-                log(`[adelphi] [SKIP] skipping past: ${title} | ${startISO}`);
-              }
-              pastSkipCount++;
-              return null;
-            }
-          }
-
-          if (!dateText) {
-            log(`[adelphi] [WARN] missing date for "${title}"`);
-          }
-          if (timeUndefined) {
-            log(`[adelphi] [WARN] no explicit time for "${title}"`);
-          }
-
-          const address =
-            fromLD.address ||
-            big.match(/\bHU\d\w?\s*\d\w\w\b/i)?.[0] ||
-            "The New Adelphi Club, Hull";
-
-          const tickets = $$("a[href]")
-            .filter((_, a) =>
-              /(seetickets|gigantic|eventbrite|wegottickets|ticketsource|eventim)/i.test(
-                $$(a).attr("href") || "",
-              ),
-            )
-            .map((_, a) => {
-              const href = $$(a).attr("href");
-              const u = safeNewURL(href, url);
-              return u
-                ? { label: $$(a).text().trim() || "Tickets", url: u }
-                : null;
-            })
-            .get();
-
-          const text = [title, near, big].join(" ");
-          const soldOut =
-            isSoldOut(text) || offersIndicateSoldOut(fromLD.offers || []);
-          const freeEntry = isFreeEntry(text);
-
-          // Extract price from page text if available
-          const priceText = extractPriceText(text);
-
-          const ev = buildEvent({
+        const ev = buildEvent({
             source: "The Adelphi Club",
             venue: "The New Adelphi Club",
             url,
             title,
-            dateText,
+            dateText: date,
             timeText,
-            startISO,
-            endISO: toISO(fromLD.endISO) || null,
-            address,
-            tickets,
-            soldOut,
+            startISO: parseDMYWithTime(date, timeText) || tryParseDateFromText(date),
+            address: "89 De Grey Street, Hull, HU5 2RU",
+            tickets: [],
+            soldOut: isSoldOut(text),
             freeEntry,
             ...(priceText && { priceText }),
-          });
+        });
 
-          ev.timeUndefined = timeUndefined;
-          ev.timeEstimated = timeEstimated;
+        if (ev.start && dayjs(ev.start).isBefore(CUTOFF)) return;
 
-          return ev;
-        } catch (err) {
-          log(`[adelphi] [ERR] error: ${err.message}`);
-          return null;
-        }
-      }),
-    );
+        out.push(ev);
+    });
 
-    for (const r of settled) {
-      if (r.status === "fulfilled" && r.value) results.push(r.value);
-    }
-
-    await sleep(60);
-  }
-
-  log(
-    `[adelphi] [OK] done. Events: ${results.length}, Skipped past: ${pastSkipCount}`,
-  );
-  return results;
+    log(`[adelphi] done, events: ${out.length}`);
+    return out;
 }
 
 /* -------- THE PEOPLE'S REPUBLIC (Untappd) -------------------------- */
@@ -4349,6 +4043,15 @@ async function main() {
             tz: TZ,
           }),
         ),
+        wrapScrape("csv:St John's", () =>
+          scrapeCsvVenue({
+            name: "St John's",
+            csvUrl:
+              "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUQlqmuWQWMj-hVoo4_mXM8qcoBjifehvDX6tj1dxfqpBFuRBsExOOmJBBmLjHJ4Y9PsIKm-FxioA1/pub?output=csv",
+            address: "Queens Rd, Hull HU5 2PY",
+            tz: TZ,
+          }),
+        ),
       );
 
       if (!skipMoodys)
@@ -4399,43 +4102,44 @@ async function main() {
     events = deduplicateEvents(events);
 
     // ⭐ MERGE with existing events from previous runs (to keep old events we didn't re-scrape)
-    // Load existing events.json and add back events we didn't re-scrape
+    // Note: when stdout is redirected to public/events.json, that file can be empty at startup.
+    // We handle this quietly and only merge when valid cached JSON exists.
     try {
-      const fs = await import("fs");
-      const path = await import("path");
       const jsonPath = path.join(
-        path.dirname(import.meta.url.replace("file://", "")),
+        path.dirname(fileURLToPath(import.meta.url)),
         "public",
         "events.json",
       );
-      const stat = fs.statSync(jsonPath);
-      if (stat && stat.isFile()) {
-        const existingData = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-        if (Array.isArray(existingData)) {
-          // Create set of URLs from newly scraped events
-          const newEventUrls = new Set(
-            events.map((e) => e.url).filter(Boolean),
-          );
 
-          // Add back existing events whose URLs weren't re-scraped
-          const maintainedEvents = existingData.filter((ev) => {
-            // Keep events we didn't just re-scrape
-            // (they're old but we didn't have time to refresh them)
-            return !newEventUrls.has(ev.url);
-          });
+      if (fs.existsSync(jsonPath)) {
+        const raw = fs.readFileSync(jsonPath, "utf8").trim();
+        if (raw) {
+          const existingData = JSON.parse(raw);
+          if (Array.isArray(existingData) && existingData.length) {
+            // Create set of URLs from newly scraped events
+            const newEventUrls = new Set(
+              events.map((e) => e.url).filter(Boolean),
+            );
 
-          events = [...events, ...maintainedEvents];
-          log(
-            `[info] Merged ${maintainedEvents.length} cached events with ${events.length - maintainedEvents.length} newly scraped events`,
-          );
+            // Add back existing events whose URLs weren't re-scraped
+            const maintainedEvents = existingData.filter(
+              (ev) => !newEventUrls.has(ev.url),
+            );
 
-          // Deduplicate again after merging
-          events = deduplicateEvents(events);
+            if (maintainedEvents.length) {
+              events = [...events, ...maintainedEvents];
+              log(
+                `[info] Merged ${maintainedEvents.length} cached events with ${events.length - maintainedEvents.length} newly scraped events`,
+              );
+
+              // Deduplicate again after merging
+              events = deduplicateEvents(events);
+            }
+          }
         }
       }
-    } catch (err) {
-      // If merging fails, just use newly scraped events
-      log("[info] Could not merge with existing events (OK on first run)");
+    } catch {
+      log("[warn] Skipped cached merge (existing events file not valid JSON)");
     }
 
     // Sort: by distance (closer first), then by date (earlier first)
