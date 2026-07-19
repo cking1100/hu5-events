@@ -1656,14 +1656,18 @@ async function scrapeAdelphi() {
     const $ = cheerio.load(html);
     const out = [];
 
-    $("li").each((_, li) => {
-        const text = normalizeWhitespace($(li).text());
-        const date = text.match(/\b\d{1,2}\s+[A-Z][a-z]+\s+\d{4}\b/)?.[0];
-        if (!date) return;
+    // Target the specific list of upcoming events
+    $(".content.events ul.tour-dates.current-dates > li").each((_, li) => {
+        const $li = $(li);
 
-        const link = $(li).find("a[href]").filter((_, a) => {
+        // Get the date from meta tag or parse from text
+        const startDateMeta = $li.find("meta[itemprop='startDate']").attr("content");
+        const text = normalizeWhitespace($li.text());
+
+        // Find the event title link (contains /events/ in href)
+        const link = $li.find("a[href*='/events/']").filter((_, a) => {
             const href = $(a).attr("href") || "";
-            return href.includes("/event/") || href.includes("/events/");
+            return !href.includes(".jpg") && !href.includes(".jpeg") && !href.includes(".png");
         }).first();
 
         const title = normalizeWhitespace(link.text());
@@ -1671,18 +1675,41 @@ async function scrapeAdelphi() {
 
         const url = safeNewURL(link.attr("href"), base);
 
+        // Extract date components from the text
+        const dateMatch = text.match(/(\d{1,2})([A-Z][a-z]{2})\s+(\d{4})/);
+        let dateText = "";
+        let timeText = text.match(/\b\d{1,2}:\d{2}\b/)?.[0] || "20:00";
+
+        // Try to construct a proper date string
+        let startISO = null;
+        if (startDateMeta && startDateMeta !== "--") {
+            // Use the meta tag date if available
+            startISO = parseDMYWithTime(startDateMeta, timeText) || startDateMeta;
+            // Format dateText from the ISO date
+            const d = dayjs(startDateMeta);
+            if (d.isValid()) {
+                dateText = d.format("D MMMM YYYY");
+            }
+        } else if (dateMatch) {
+            // Parse from text
+            const day = dateMatch[1];
+            const month = dateMatch[2];
+            const year = dateMatch[3];
+            dateText = `${day} ${month} ${year}`;
+            startISO = parseDMYWithTime(dateText, timeText) || tryParseDateFromText(dateText);
+        }
+
         const priceText = extractPriceText(text);
         const freeEntry = isFreeEntry(text);
-        const timeText = text.match(/\b\d{1,2}:\d{2}\b/)?.[0] || "20:00";
 
         const ev = buildEvent({
             source: "The Adelphi Club",
             venue: "The New Adelphi Club",
             url,
             title,
-            dateText: date,
+            dateText,
             timeText,
-            startISO: parseDMYWithTime(date, timeText) || tryParseDateFromText(date),
+            startISO,
             address: "89 De Grey Street, Hull, HU5 2RU",
             tickets: [],
             soldOut: isSoldOut(text),
@@ -1698,6 +1725,7 @@ async function scrapeAdelphi() {
     log(`[adelphi] done, events: ${out.length}`);
     return out;
 }
+
 
 /* -------- THE PEOPLE'S REPUBLIC (Untappd) -------------------------- */
 /* Source List: https://untappd.com/v/the-peoples-republic/4588756/events */
