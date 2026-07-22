@@ -1656,46 +1656,48 @@ async function scrapeAdelphi() {
     const $ = cheerio.load(html);
     const out = [];
 
-    // Target the specific list of upcoming events
-    $(".content.events ul.tour-dates.current-dates > li").each((_, li) => {
+    // Target event list items with schema.org markup
+    $("ul.tour-dates.current-dates > li.group").each((_, li) => {
         const $li = $(li);
 
-        // Get the date from meta tag or parse from text
+        // Get the date from meta tag
         const startDateMeta = $li.find("meta[itemprop='startDate']").attr("content");
-        const text = normalizeWhitespace($li.text());
 
-        // Find the event title link (contains /events/ in href)
-        const link = $li.find("a[href*='/events/']").filter((_, a) => {
-            const href = $(a).attr("href") || "";
-            return !href.includes(".jpg") && !href.includes(".jpeg") && !href.includes(".png");
-        }).first();
+        // Extract date from the <p class="tour-date"> element
+        const $dateEl = $li.find("p.tour-date");
+        const day = $dateEl.find("span.day").text().trim();
+        const monthText = $dateEl.text().replace(day, "").replace(/\d{4}/, "").trim();
+        const year = $dateEl.find("span.year").text().trim();
+        const timeText = $dateEl.find("span.time").text().trim() || "20:00";
 
-        const title = normalizeWhitespace(link.text());
+        // Get title and URL from the name span
+        const $titleLink = $li.find("span.sub-head[itemprop='name'] a[itemprop='url']");
+        const title = normalizeWhitespace($titleLink.text());
         if (!title) return;
 
-        const url = safeNewURL(link.attr("href"), base);
+        const url = safeNewURL($titleLink.attr("href"), base);
+        if (!url) return;
 
-        // Extract date components from the text
-        const dateMatch = text.match(/(\d{1,2})([A-Z][a-z]{2})\s+(\d{4})/);
+        const text = normalizeWhitespace($li.text());
+
+        // Construct date string
         let dateText = "";
-        let timeText = text.match(/\b\d{1,2}:\d{2}\b/)?.[0] || "20:00";
-
-        // Try to construct a proper date string
         let startISO = null;
+
         if (startDateMeta && startDateMeta !== "--") {
-            // Use the meta tag date if available
-            startISO = parseDMYWithTime(startDateMeta, timeText) || startDateMeta;
-            // Format dateText from the ISO date
-            const d = dayjs(startDateMeta);
+            // Use the meta tag date (YYYY-MM-DD format)
+            const d = dayjs.tz(startDateMeta, "YYYY-MM-DD", TZ);
             if (d.isValid()) {
+                // Combine with time to get full ISO
+                const time24 = to24h(timeText) || "20:00";
+                const [hh, mm] = time24.split(":").map(n => parseInt(n, 10));
+                const withTime = d.hour(hh).minute(mm).second(0).millisecond(0);
+                startISO = toISO(withTime);
                 dateText = d.format("D MMMM YYYY");
             }
-        } else if (dateMatch) {
-            // Parse from text
-            const day = dateMatch[1];
-            const month = dateMatch[2];
-            const year = dateMatch[3];
-            dateText = `${day} ${month} ${year}`;
+        } else if (day && year) {
+            // Construct from parsed components (e.g. "23 Jul 2026")
+            dateText = `${day} ${monthText} ${year}`.trim();
             startISO = parseDMYWithTime(dateText, timeText) || tryParseDateFromText(dateText);
         }
 
