@@ -23,6 +23,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat.js";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createEvents } from "ics";
 
 /* Enable Day.js plugins once */
 dayjs.extend(utc);
@@ -38,6 +39,75 @@ const CSV_DEBUG = process.env.CSV_DEBUG === "1";
 
 /* Start-of-today cutoff in London. We keep today+future, allow undated. */
 const CUTOFF = dayjs.tz(dayjs(), TZ).startOf("day");
+
+/* ---------------------- Calendar generation -------------------- */
+function generateCalendarFile(events) {
+  // Filter to only dated events for calendar export
+  const datedEvents = events.filter((e) => e.start);
+
+  if (datedEvents.length === 0) {
+    // Return minimal valid calendar
+    return [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Find HU5 Events//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "X-WR-CALNAME:HU5 Events",
+      "X-WR-TIMEZONE:Europe/London",
+      "END:VCALENDAR",
+    ].join("\r\n");
+  }
+
+  // Convert events to ics format
+  const icsEvents = datedEvents
+    .map((evt) => {
+      const start = dayjs(evt.start).tz(TZ);
+      if (!start.isValid()) return null;
+
+      // Default 2-hour duration if no end time
+      const end = evt.end ? dayjs(evt.end).tz(TZ) : start.add(2, "hour");
+
+      return {
+        start: [
+          start.year(),
+          start.month() + 1,
+          start.date(),
+          start.hour(),
+          start.minute(),
+        ],
+        end: [end.year(), end.month() + 1, end.date(), end.hour(), end.minute()],
+        title: evt.title || "Event",
+        description: evt.description || "",
+        location:
+          evt.venue + (evt.address ? ", " + evt.address : "") || "Hull, UK",
+        url: evt.url && evt.url.startsWith("http") ? evt.url : undefined,
+        uid: evt._id || `${evt.title}-${start.unix()}`,
+        status: "CONFIRMED",
+      };
+    })
+    .filter(Boolean);
+
+  // Use ics library to generate calendar
+  const { error, value } = createEvents(icsEvents);
+
+  if (error) {
+    console.error("[err] Calendar generation failed:", error);
+    // Return minimal valid calendar on error
+    return [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Find HU5 Events//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "X-WR-CALNAME:HU5 Events",
+      "X-WR-TIMEZONE:Europe/London",
+      "END:VCALENDAR",
+    ].join("\r\n");
+  }
+
+  return value;
+}
 
 /* ---------------------- Small general utilities -------------------- */
 // Enhanced logging with timestamps and better formatting
@@ -4211,6 +4281,21 @@ async function main() {
     log(`[info] Venues: ${venues.length} unique`);
     log(`[info] Venue list: ${venues.join(", ")}`);
 
+    // Generate calendar file
+    const calendarContent = generateCalendarFile(futureEvents);
+
+    // Write outputs with explicit UTF-8 encoding (fixes Windows/PowerShell issues)
+    const publicDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "public");
+    const eventsJsonPath = path.join(publicDir, "events.json");
+    const eventsIcsPath = path.join(publicDir, "events.ics");
+
+    fs.writeFileSync(eventsJsonPath, JSON.stringify(futureEvents, null, 2), "utf8");
+    fs.writeFileSync(eventsIcsPath, calendarContent, "utf8");
+
+    log(`[ok] Written ${eventsJsonPath}`);
+    log(`[ok] Written ${eventsIcsPath}`);
+
+    // Also output to stdout for server.js compatibility
     process.stdout.write(JSON.stringify(futureEvents, null, 2));
   } catch (e) {
     console.error("[fatal] Scraper crashed:", e.message);

@@ -22,6 +22,17 @@ let activeScrapeChild = null;
 let lastEventsCheckAt = 0;
 const EVENTS_CHECK_INTERVAL_MS = 30_000;
 
+// Serve .ics files with proper headers
+app.get("/events.ics", (req, res) => {
+  const icsPath = path.join(__dirname, "public", "events.ics");
+  if (!existsSync(icsPath)) {
+    return res.status(404).send("Calendar file not found");
+  }
+  res.setHeader("Content-Type", "text/calendar; charset=utf-8");
+  res.setHeader("Content-Disposition", 'attachment; filename="hu5-events.ics"');
+  res.sendFile(icsPath);
+});
+
 const runExecFile = (file, args, options) =>
   new Promise((resolve, reject) => {
     activeScrapeChild = execFile(file, args, options, (err, stdout, stderr) => {
