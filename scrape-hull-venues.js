@@ -1491,52 +1491,68 @@ async function synthMrMoodysSundayLunch({ weeks = 15 } = {}) {
 /* -------- QUEENS HOTEL — Weekly Quiz (synthetic) ------------------ */
 // Generates Wednesday 19:30 events for the next N weeks
 async function synthQueensHotelQuiz({ weeks = 20 } = {}) {
-  const TAG = "[queens]";
-  log(`${TAG} generate for next ${weeks} Wednesdays`);
+    const TAG = "[queens]";
+    log(`${TAG} generate for next ${weeks} Wednesdays`);
 
-  const out = [];
-  const titleBase = "Quiz Night";
-  const source = "Queens Hotel";
-  const venue = "Queens Hotel";
-  const address = "Queens Hotel, Queens Road, Hull HU5 2RG";
+    const out = [];
+    const titleBase = "Quiz Night";
+    const source = "Queens Hotel";
+    const venue = "Queens Hotel";
+    const address = "Queens Hotel, Queens Road, Hull HU5 2RG";
 
-  // Start from London start-of-today cutoff
-  let d = dayjs.tz(CUTOFF, TZ);
+    // Start from London start-of-today cutoff
+    let d = dayjs.tz(CUTOFF, TZ);
 
-  // Find upcoming Wednesday (3 = Wed)
-  const dow = d.day();
-  const addDays = (3 - dow + 7) % 7;
-  if (addDays > 0) d = d.add(addDays, "day");
+    // Find upcoming Wednesday (3 = Wed)
+    const dow = d.day();
+    const addDays = (3 - dow + 7) % 7;
+    if (addDays > 0) d = d.add(addDays, "day");
 
-  // For k = 0..weeks-1: that Wednesday at 19:30
-  for (let k = 0; k < weeks; k++) {
-    const day = d.add(k, "week").hour(19).minute(30).second(0).millisecond(0);
-    const startISO = toISO(day);
-    if (!startISO) continue;
+    // For k = 0..weeks-1: that Wednesday at 19:30
+    for (let k = 0; k < weeks; k++) {
+        const day = d.add(k, "week").hour(19).minute(30).second(0).millisecond(0);
+        const startISO = toISO(day);
+        if (!startISO) continue;
 
-    const ev = buildEvent({
-      source,
-      venue,
-      url: "",
-      title: titleBase,
-      dateText: day.format("D/M/YYYY"),
-      timeText: "19:30",
-      startISO,
-      endISO: null,
-      address,
-      tickets: [],
-      tz: TZ,
+        const ev = buildEvent({
+            source,
+            venue,
+            url: "",
+            title: titleBase,
+            dateText: day.format("D/M/YYYY"),
+            timeText: "19:30",
+            startISO,
+            endISO: null,
+            address,
+            tickets: [],
+            tz: TZ,
+        });
+
+        if (ev.start) {
+            const t = dayjs(ev.start);
+            if (t.isValid() && !t.isBefore(CUTOFF)) out.push(ev);
+        }
+    }
+
+    log(`${TAG} done, events: ${out.length}`);
+    return out;
+}
+
+/* -------- QUEENS HOTEL — Scraper Runner --------------------------- */
+// Combines live CSV scrape with synthetic quiz generation
+wrapScrape("csv:Queens Hotel", async () => {
+    const csvEvents = await scrapeCsvVenue({
+        name: "Queens Hotel",
+        csvUrl:
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRXdrydPQ38DcZYNAKRgcM7fJPLHnNmD3bu9k0H1d8ltei3JXmwl3gmaXKS_yeKtmxW-qLZv0OluKK/pub?output=csv",
+        address: "Queens Road, Hull, HU52RG",
+        tz: TZ,
     });
 
-    if (ev.start) {
-      const t = dayjs(ev.start);
-      if (t.isValid() && !t.isBefore(CUTOFF)) out.push(ev);
-    }
-  }
+    const quizEvents = await synthQueensHotelQuiz();
 
-  log(`${TAG} done, events: ${out.length}`);
-  return out;
-}
+    return [...csvEvents, ...quizEvents];
+});
 
 /* -------- POLAR BEAR ---------------------------------------------- */
 // Source List: https://www.polarbearmusicclub.co.uk/whatson
@@ -4142,7 +4158,7 @@ async function main() {
             address: "50-54 Princes Avenue, Hull, United Kingdom",
             tz: TZ,
           }),
-        ),
+          ),
         wrapScrape("csv:St John's", () =>
           scrapeCsvVenue({
             name: "St John's",
