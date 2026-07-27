@@ -2567,7 +2567,54 @@
                 display: none;
             }
         }
-        </style>
+
+        @media (max-width: 720px) {
+            .event {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 12px;
+                padding: 12px !important;
+            }
+
+                .event-main,
+                .event > div:first-child {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 12px;
+                    width: 100%;
+                }
+
+                .event h4,
+                .event-title,
+                .event-details {
+                    width: 100%;
+                    word-break: normal;
+                }
+
+                .event-actions,
+                .event > div:last-child {
+                    display: flex !important;
+                    flex-direction: row !important;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    width: 100%;
+                    margin-top: 4px;
+                }
+
+                    .event-actions > *,
+                    .event > div:last-child > * {
+                        flex: 1 1 auto;
+                        min-width: 90px;
+                        height: 40px;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                        font-size: 13px;
+                        padding: 0 8px;
+                    }
+        }
+    </style>
 
     <script id="events-ld" type="application/ld+json"></script>
 </head>
@@ -5672,7 +5719,7 @@
                                 })</option>`,
                         ),
                     )
-                    .join("");
+                    .join("");          
             }
 
             (async () => {
