@@ -1724,7 +1724,7 @@
         .cal-month-title {
             font-size: var(--font-size-2xl);
             font-weight: 800;
-            color: #ffffff;
+            color: var(--text);
             margin: 0;
             flex: 1;
             text-align: center;
@@ -2030,7 +2030,7 @@
 
         .cal-event-venue {
             font-size: var(--font-size-sm);
-            color: var(--muty);
+            color: var(--muted);
             display: flex;
             align-items: center;
             gap: var(--space-1);
@@ -2045,7 +2045,7 @@
 
         .cal-event-meta {
             font-size: var(--font-size-sm);
-            color: var(--text-muted);
+            color: var(--muted);
             opacity: 0.95;
         }
 
@@ -2080,7 +2080,7 @@
         .calendar-events-empty {
             text-align: center;
             padding: var(--space-6);
-            color: var(--muty);
+            color: var(--muted);
             font-size: var(--font-size-base);
             font-weight: 600;
         }
@@ -2098,6 +2098,10 @@
         }
 
         @media (max-width: 768px) {
+            .calendar-container {
+                padding: var(--space-4) var(--space-2);
+            }
+
             .calendar-grid {
                 gap: var(--space-1);
             }
@@ -2120,6 +2124,11 @@
                 font-size: var(--font-size-xl);
             }
 
+            .cal-event-count {
+                color: var(--text);
+                background: color-mix(in oklab, var(--accent) 60%, var(--chip));
+            }
+
             .view-tab {
                 padding: var(--space-2) var(--space-4);
                 font-size: var(--font-size-sm);
@@ -2136,7 +2145,11 @@
 
         @media (max-width: 480px) {
             .calendar-header {
-                flex-wrap: wrap;
+                display: grid;
+                grid-template-columns: 44px 1fr 44px;
+                align-items: center;
+                justify-items: center;
+                gap: var(--space-2);
             }
 
             .cal-nav-btn {
@@ -2145,14 +2158,61 @@
                 font-size: var(--font-size-xl);
             }
 
+            #calPrevMonth {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            #calNextMonth {
+                grid-column: 3;
+                grid-row: 2;
+            }
+
             .cal-month-title {
+                grid-column: 1 / -1;
+                grid-row: 1;
                 width: 100%;
-                order: -1;
-                margin-bottom: var(--space-2);
+                margin-bottom: 0;
+                padding: 0 var(--space-1);
+                background: none;
+                -webkit-text-fill-color: currentColor;
+                text-shadow: none;
+                color: var(--text);
+                line-height: 1.25;
+            }
+
+            .cal-today-btn {
+                grid-column: 2;
+                grid-row: 2;
+                width: 100%;
+                min-height: 40px;
+                padding: var(--space-2) var(--space-3);
             }
 
             .cal-event-dots {
                 display: none;
+            }
+
+            .calendar-weekdays {
+                gap: 4px;
+            }
+
+            .cal-weekday {
+                font-size: 11px;
+                padding: 6px 2px;
+                letter-spacing: 0.04em;
+            }
+
+            .cal-date-cell {
+                min-height: 56px;
+            }
+
+            .calendar-events-panel {
+                padding: var(--space-3);
+            }
+
+            .calendar-events-header h3 {
+                font-size: var(--font-size-lg);
             }
 
             .view-toggle {
@@ -2658,6 +2718,30 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
+            color: #051024 !important;
+            border: 2px solid color-mix(in oklab, var(--accent2) 70%, #ffffff 30%) !important;
+            font-weight: 900;
+            box-shadow: 0 8px 24px var(--glow);
+            text-shadow: none;
+        }
+
+        #filtersToggle:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 28px var(--glow-strong);
+            filter: saturate(1.1);
+        }
+
+        #filtersToggle:focus-visible {
+            outline: 3px solid color-mix(in oklab, var(--accent2) 80%, #ffffff 20%);
+            outline-offset: 2px;
+        }
+
+        #filtersToggle.is-open {
+            background: color-mix(in oklab, var(--accent) 28%, var(--chip)) !important;
+            color: var(--accent2) !important;
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent), 0 8px 22px var(--glow);
         }
 
         /* Mobile: Stretches full-width to match full-width buttons */
@@ -2669,6 +2753,9 @@
             #filtersToggle {
                 width: 100% !important;
                 padding: 12px 16px;
+                position: sticky;
+                top: 8px;
+                z-index: 75;
             }
         }
         .row.header-actions {
@@ -2816,6 +2903,12 @@
     align-items: center !important;
     justify-content: center !important;
 }
+
+/* Show only the four date range quick filters in the panel */
+#toggleUndated,
+#refreshNow {
+    display: none !important;
+}
     </style>
 
     <script id="events-ld" type="application/ld+json"></script>
@@ -2868,7 +2961,8 @@
                 <div class="row header-actions">
                     <!-- Filters Button -->
                     <button id="filtersToggle" type="button" class="seg" aria-expanded="false" aria-controls="filtersPanel" onclick="forceToggleFilters(event)">
-                        <span>⚙️</span> Filters
+                        <span aria-hidden="true">⚙️</span>
+                        <span id="filtersToggleLabel">Show Filters</span>
                     </button>
 
                     <!-- Share Button -->
@@ -2908,13 +3002,13 @@
                             <span>Date Range</span>
                         </label>
                         <div class="date-inputs">
-                            <button type="button" class="field date-btn" onclick="document.getElementById('from').showPicker()">
+                            <button type="button" class="field date-btn" onclick="openDatePicker('from')">
                                 <span>📅</span>
                                 <span id="fromBtnText">From Date</span>
                                 <input id="from" type="date" class="hidden-date-input" onchange="document.getElementById('fromBtnText').textContent = this.value || 'From Date'" />
                             </button>
                             <span class="date-separator">→</span>
-                            <button type="button" class="field date-btn" onclick="document.getElementById('to').showPicker()">
+                            <button type="button" class="field date-btn" onclick="openDatePicker('to')">
                                 <span>📅</span>
                                 <span id="toBtnText">To Date</span>
                                 <input id="to" type="date" class="hidden-date-input" onchange="document.getElementById('toBtnText').textContent = this.value || 'To Date'" />
@@ -3190,6 +3284,27 @@
     </div>
 
     <script>
+        function openDatePicker(inputId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            try {
+                if (typeof input.showPicker === "function") {
+                    input.showPicker();
+                    return;
+                }
+            } catch (_) {
+                // Fall through to click/focus fallback for browsers that block or lack showPicker.
+            }
+
+            try {
+                input.focus({ preventScroll: true });
+            } catch (_) {
+                input.focus();
+            }
+            input.click();
+        }
+
         // --- LOCAL DATE HELPER (Prevents timezone offset shifting Mon events to Sun) ---
         function getLocalDateString(dateInput) {
             if (!dateInput) return '';
@@ -5383,23 +5498,6 @@
                 window.scrollTo({ top: 0, behavior: "smooth" }),
             );
 
-            // collapsible filters (compensate scroll jump)
-            els.filtersToggle?.addEventListener("click", () => {
-                const header = document.querySelector("header");
-                const before = header.getBoundingClientRect().height;
-                const willOpen = els.filtersPanel.classList.contains("hidden");
-                els.filtersPanel.classList.toggle("hidden");
-                els.filtersToggle.setAttribute(
-                    "aria-expanded",
-                    willOpen ? "true" : "false",
-                );
-                requestAnimationFrame(() => {
-                    const after = header.getBoundingClientRect().height;
-                    const diff = after - before;
-                    if (diff) window.scrollBy(0, diff);
-                });
-            });
-
             // auto-refresh timer chip
             // auto-refresh timer chip
             function scheduleTick() {
@@ -5928,11 +6026,23 @@
         })();
     </script>
     <script>
+        function syncFiltersToggleUI(isOpen) {
+            const btn = document.getElementById('filtersToggle');
+            if (!btn) return;
+
+            btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            btn.classList.toggle('is-open', isOpen);
+
+            const label = document.getElementById('filtersToggleLabel');
+            if (label) {
+                label.textContent = isOpen ? 'Hide Filters' : 'Show Filters';
+            }
+        }
+
         function forceToggleFilters(e) {
             if (e) e.preventDefault();
 
             const panel = document.getElementById('filtersPanel');
-            const btn = document.getElementById('filtersToggle');
             if (!panel) return;
 
             // Check if it's currently showing
@@ -5942,11 +6052,11 @@
             if (isShowing) {
                 panel.classList.remove('force-show');
                 panel.classList.add('force-hide');
-                if (btn) btn.setAttribute('aria-expanded', 'false');
+                syncFiltersToggleUI(false);
             } else {
                 panel.classList.remove('force-hide');
                 panel.classList.add('force-show');
-                if (btn) btn.setAttribute('aria-expanded', 'true');
+                syncFiltersToggleUI(true);
             }
         }
 
@@ -5955,7 +6065,9 @@
             const panel = document.getElementById('filtersPanel');
             if (panel) {
                 panel.classList.add('force-hide');
+                panel.classList.remove('force-show');
             }
+            syncFiltersToggleUI(false);
         });
     </script>
 </body>
