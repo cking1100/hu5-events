@@ -18,6 +18,11 @@ Disallow: /
 # Point crawlers to sitemap
 Sitemap: https://www.findhu5.events/sitemap.xml
 
+# Keep the public event directory easy to discover
+User-agent: Googlebot
+Allow: /events.json
+Allow: /events.ics
+
 # Crawl-delay and request-rate for responsible crawling
 Crawl-delay: 5
 Request-rate: 1/5s

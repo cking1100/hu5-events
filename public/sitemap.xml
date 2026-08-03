@@ -4,8 +4,8 @@
   <!-- Main homepage (updated daily with events) -->
   <url>
     <loc>https://www.findhu5.events/</loc>
-    <lastmod>2025-12-23</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>hourly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://www.findhu5.events/og-preview.png</image:loc>

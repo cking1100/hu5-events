@@ -30,14 +30,21 @@
           content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
     <title>
-        Events Tonight Hull | Live Music, Comedy & Gigs in HU5 | Find HU5 Events
+        Events Tonight & This Weekend in Hull HU5 | Live Music, Comedy & Gigs
     </title>
     <meta name="description"
-          content="Find events tonight in Hull HU5: live music gigs, comedy nights, Irish bar events, quizzes & open mics at 9+ venues. Updated daily. What's on this weekend?" />
+          content="Find events tonight and this weekend in Hull HU5. Discover live music, comedy, gigs, pub nights, quizzes, open mics and more at local venues, updated regularly." />
     <meta name="keywords"
-          content="events Hull, Hull events tonight, live music Hull, comedy Hull, gigs Hull HU5, events HU5, Irish bar Hull, open mic Hull, quiz night Hull, what's on Hull, entertainment Hull, tonight in Hull, this weekend Hull, what's on tonight, events this weekend, tonight events, weekend events" />
+          content="events tonight Hull, what's on Hull, Hull events this weekend, live music Hull, comedy nights Hull, gigs Hull HU5, pub events Hull, quiz nights Hull, open mic Hull, entertainment Hull, tonight in Hull, weekend events Hull" />
     <meta name="robots"
           content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot"
+          content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="subject"
+          content="Hull events, live music, comedy, gigs and nightlife in HU5" />
+    <meta name="classification"
+          content="Local events directory" />
+    <link rel="alternate" hreflang="en-gb" href="https://www.findhu5.events/" />
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color"
           content="#050818"
@@ -89,7 +96,22 @@
           "@type": "WebSite",
           "name": "Find HU5 Events",
           "url": "https://www.findhu5.events/",
-          "description": "Listings for gigs, pub nights and open mics around Hull's HU5.",
+          "description": "Live events guide for Hull HU5, featuring tonight's gigs, comedy nights, pub events, quizzes and open mics.",
+          "inLanguage": "en-GB",
+          "about": {
+            "@type": "Place",
+            "name": "Hull",
+            "address": {
+              "@type": "PostalAddress",
+              "addressRegion": "East Riding of Yorkshire",
+              "addressCountry": "GB",
+              "postalCode": "HU5"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Find HU5 Events"
+          },
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://www.findhu5.events/?q={search_term_string}",
@@ -494,6 +516,49 @@
         p {
             margin: 0;
             line-height: var(--line-height-normal);
+        }
+
+        .seo-intro {
+            margin: var(--space-6) 0 var(--space-4);
+            padding: var(--space-5);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: rgba(13, 27, 53, 0.78);
+            box-shadow: var(--shadow);
+        }
+
+        .seo-intro h2 {
+            margin-bottom: var(--space-3);
+            color: var(--accent2);
+        }
+
+        .seo-intro p {
+            margin-bottom: var(--space-3);
+            color: var(--text);
+            max-width: 72ch;
+        }
+
+        .seo-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--space-3);
+            margin: var(--space-3) 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .seo-highlights li {
+            padding: var(--space-3);
+            border-radius: var(--radius-sm);
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.16);
+            font-size: var(--font-size-sm);
+        }
+
+        @media (prefers-color-scheme: light) {
+            .seo-intro {
+                background: rgba(255, 255, 255, 0.9);
+            }
         }
 
         strong, b {
@@ -2951,9 +3016,9 @@
                 <div class="brand-left">
                     <div class="logo" aria-hidden="true">H</div>
                     <div>
-                        <h1>HU5 Events Finder</h1>
+                        <h1>Events Tonight &amp; This Weekend in Hull HU5</h1>
                         <div class="tag">
-                            Find live events, gigs &amp; what's on tonight in Hull
+                            Live music, comedy, gigs and pub events across Hull HU5
                         </div>
                     </div>
                 </div>
@@ -3195,6 +3260,19 @@
                 events.
             </p>
         </div>
+
+        <section class="seo-intro" aria-labelledby="seo-intro-title">
+            <h2 id="seo-intro-title">Find events tonight and this weekend in Hull HU5</h2>
+            <p>
+                Discover live music, comedy, pub nights, quizzes, open mics and more at venues across Hull's HU5 postcode area.
+                Whether you are looking for <strong>events tonight in Hull</strong>, <strong>what's on this weekend</strong>, or a specific venue, these listings help you plan your night.
+            </p>
+            <ul class="seo-highlights">
+                <li>Live music gigs and DJ nights</li>
+                <li>Comedy and open mic events</li>
+                <li>Irish bars, quizzes and pub entertainment</li>
+            </ul>
+        </section>
 
         <!-- View Mode Toggle -->
         <div class="view-toggle-container" style="padding: var(--space-4) 0; border-bottom: 1px solid var(--border);">
