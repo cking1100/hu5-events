@@ -2917,12 +2917,19 @@
     width: 100% !important;
 }
 
+.date-picker-wrap {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
 .field.date-btn {
     position: relative;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 6px !important;
+    width: 100% !important;
     flex: 1 !important;
     cursor: pointer;
     text-align: center;
@@ -2933,10 +2940,18 @@
 
 .hidden-date-input {
     position: absolute;
+    inset: 0;
     opacity: 0;
-    pointer-events: none;
-    width: 0;
-    height: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: auto;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
 }
 
 /* --- FORCE QUICK BUTTONS ON 1 LINE --- */
@@ -3016,9 +3031,9 @@
                 <div class="brand-left">
                     <div class="logo" aria-hidden="true">H</div>
                     <div>
-                        <h1>Events Tonight &amp; This Weekend in Hull HU5</h1>
+                        <h1>Hu5 Events Finder</h1>
                         <div class="tag">
-                            Live music, comedy, gigs and pub events across Hull HU5
+                            Find live events, gigs &amp; what's on tonight in Hull
                         </div>
                     </div>
                 </div>
@@ -3067,17 +3082,21 @@
                             <span>Date Range</span>
                         </label>
                         <div class="date-inputs">
-                            <button type="button" class="field date-btn" onclick="openDatePicker('from')">
-                                <span>📅</span>
-                                <span id="fromBtnText">From Date</span>
+                            <div class="date-picker-wrap">
+                                <button type="button" class="field date-btn" onclick="openDatePicker('from')">
+                                    <span>📅</span>
+                                    <span id="fromBtnText">From Date</span>
+                                </button>
                                 <input id="from" type="date" class="hidden-date-input" onchange="document.getElementById('fromBtnText').textContent = this.value || 'From Date'" />
-                            </button>
+                            </div>
                             <span class="date-separator">→</span>
-                            <button type="button" class="field date-btn" onclick="openDatePicker('to')">
-                                <span>📅</span>
-                                <span id="toBtnText">To Date</span>
+                            <div class="date-picker-wrap">
+                                <button type="button" class="field date-btn" onclick="openDatePicker('to')">
+                                    <span>📅</span>
+                                    <span id="toBtnText">To Date</span>
+                                </button>
                                 <input id="to" type="date" class="hidden-date-input" onchange="document.getElementById('toBtnText').textContent = this.value || 'To Date'" />
-                            </button>
+                            </div>
                         </div>
                     </div>
 
@@ -3175,105 +3194,6 @@
     </header>
 
     <main class="wrap">
-        <!-- SEO-optimized intro content (visually hidden, but indexed) -->
-        <div style="
-          position: absolute;
-          left: -9999px;
-          width: 1px;
-          height: 1px;
-          overflow: hidden;
-        ">
-            <h2>Events Tonight in Hull</h2>
-            <p>
-                Find what's on tonight in Hull with our comprehensive event finder.
-                Browse live music gigs, comedy nights, Irish bar events, quizzes, open
-                mics and more at venues across Hull's HU5 postcode area. Updated daily
-                with events from Polar Bear, Adelphi, Welly, The People's Republic,
-                UMU and many more.
-            </p>
-
-            <h3>Live Music Hull</h3>
-            <p>
-                Discover live music events and gigs happening in Hull. Find acoustic
-                sets, rock bands, tribute acts, DJ nights and more at your favourite
-                venues.
-            </p>
-
-            <h3>Comedy Nights in Hull</h3>
-            <p>
-                Looking for comedy nights in Hull? Browse stand-up comedy shows, open
-                mic events and comedy club nights happening this week and weekend.
-            </p>
-
-            <h3>Irish Bar Events Hull</h3>
-            <p>
-                Find traditional Irish bar events, live traditional music sessions,
-                ceili nights and Irish-themed pub events across Hull.
-            </p>
-
-            <h3>What's On This Weekend in Hull</h3>
-            <p>
-                See our complete guide to weekend events in Hull including gigs, pub
-                nights, quizzes, dance nights and more.
-            </p>
-
-            <h3>Events Tonight in Hull HU5</h3>
-            <p>
-                What's happening tonight in Hull? Browse tonight's live events,
-                entertainment, and gigs happening right now at HU5 venues. From live
-                music to comedy shows, find everything on tonight in Hull.
-            </p>
-
-            <h3>This Weekend in Hull - Events & Entertainment</h3>
-            <p>
-                What's on this weekend in Hull? This weekend offers exciting events
-                across Hull HU5. Check out this weekend's live music gigs, comedy
-                nights, Irish bar events and entertainment for something to do this
-                weekend. Plan your weekend activities now.
-            </p>
-
-            <h3>Tonight's Live Music & Gigs in Hull</h3>
-            <p>
-                Looking for live music tonight in Hull? Find acoustic sets, DJ nights,
-                tribute bands and local musicians performing tonight. Discover live
-                entertainment happening tonight at Hull venues.
-            </p>
-
-            <h3>Comedy Tonight & This Weekend in Hull</h3>
-            <p>
-                Stand-up comedy, open mic nights and comedy shows tonight and this
-                weekend in Hull. Find funny things to do tonight and weekend comedy
-                events at Hull HU5 venues.
-            </p>
-
-            <h3>Quiz Nights & Pub Events This Weekend</h3>
-            <p>
-                Pub quizzes, karaoke nights and pub events this weekend in Hull. Check
-                what's on at your favourite local pubs this weekend with
-                entertainment, food and drink specials.
-            </p>
-
-            <h3>Search Events by Venue</h3>
-            <p>
-                Filter events by Hull venue including The Polar Bear, Adelphi, Welly
-                Club, The People's Republic, UMU and more establishments hosting live
-                events.
-            </p>
-        </div>
-
-        <section class="seo-intro" aria-labelledby="seo-intro-title">
-            <h2 id="seo-intro-title">Find events tonight and this weekend in Hull HU5</h2>
-            <p>
-                Discover live music, comedy, pub nights, quizzes, open mics and more at venues across Hull's HU5 postcode area.
-                Whether you are looking for <strong>events tonight in Hull</strong>, <strong>what's on this weekend</strong>, or a specific venue, these listings help you plan your night.
-            </p>
-            <ul class="seo-highlights">
-                <li>Live music gigs and DJ nights</li>
-                <li>Comedy and open mic events</li>
-                <li>Irish bars, quizzes and pub entertainment</li>
-            </ul>
-        </section>
-
         <!-- View Mode Toggle -->
         <div class="view-toggle-container" style="padding: var(--space-4) 0; border-bottom: 1px solid var(--border);">
             <div class="view-toggle" role="tablist" aria-label="View mode">
@@ -3366,22 +3286,56 @@
             const input = document.getElementById(inputId);
             if (!input) return;
 
-            try {
-                if (typeof input.showPicker === "function") {
-                    input.showPicker();
-                    return;
+            const tryOpen = () => {
+                try {
+                    if (typeof input.showPicker === "function") {
+                        input.showPicker();
+                        return;
+                    }
+                } catch (_) {
+                    // Fall through to click/focus fallback for browsers that block or lack showPicker.
                 }
-            } catch (_) {
-                // Fall through to click/focus fallback for browsers that block or lack showPicker.
+
+                try {
+                    input.focus({ preventScroll: true });
+                } catch (_) {
+                    input.focus();
+                }
+                try {
+                    input.click();
+                } catch (_) {
+                    // Ignore fallback errors.
+                }
+            };
+
+            const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+            if (isTouchDevice) {
+                requestAnimationFrame(() => {
+                    tryOpen();
+                    setTimeout(tryOpen, 120);
+                });
+                return;
             }
 
-            try {
-                input.focus({ preventScroll: true });
-            } catch (_) {
-                input.focus();
-            }
-            input.click();
+            tryOpen();
         }
+
+        function updateDateButtonLabel(input) {
+            const label = document.getElementById(input.id + "BtnText");
+            if (!label) return;
+            label.textContent = input.value ? input.value : (input.id === "from" ? "From Date" : "To Date");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            ["from", "to"].forEach((id) => {
+                const input = document.getElementById(id);
+                if (!input) return;
+                const syncLabel = () => updateDateButtonLabel(input);
+                input.addEventListener("change", syncLabel);
+                input.addEventListener("input", syncLabel);
+                syncLabel();
+            });
+        });
 
         // --- LOCAL DATE HELPER (Prevents timezone offset shifting Mon events to Sun) ---
         function getLocalDateString(dateInput) {
