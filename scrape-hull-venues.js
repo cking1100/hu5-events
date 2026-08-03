@@ -710,11 +710,6 @@ function extractEventFromJSONLD($$, pageUrl) {
                   url: safeNewURL(o.url || "", pageUrl),
                 }))
                 .filter((t) => t?.url);
-              const safeJoinDateTime = (d, t) => {
-                const D = (d || "").trim();
-                const T = (t || "").trim();
-                return D && T ? `${D} ${T}` : D || T || "";
-              };
 
               // keep raw offers so we can inspect availability later
               return {
@@ -746,7 +741,7 @@ function inferYearAndTime(dateText = "", timeText = "", tz = TZ) {
   // already has a year?
   if (/\b\d{4}\b/.test(clean)) return { dateText: clean, timeText };
 
-  const today = dayjs.tz(TZ);
+  const today = dayjs.tz(dayjs(), tz);
 
   // (A) numeric D/M or D-M or D.M
   let m = clean.match(/\b(\d{1,2})[\/\-.](\d{1,2})\b/);
@@ -1538,21 +1533,20 @@ async function synthQueensHotelQuiz({ weeks = 20 } = {}) {
     return out;
 }
 
-/* -------- QUEENS HOTEL — Scraper Runner --------------------------- */
+/* -------- QUEENS HOTEL ------------------------------------------- */
 // Combines live CSV scrape with synthetic quiz generation
-wrapScrape("csv:Queens Hotel", async () => {
-    const csvEvents = await scrapeCsvVenue({
-        name: "Queens Hotel",
-        csvUrl:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRXdrydPQ38DcZYNAKRgcM7fJPLHnNmD3bu9k0H1d8ltei3JXmwl3gmaXKS_yeKtmxW-qLZv0OluKK/pub?output=csv",
-        address: "Queens Road, Hull, HU52RG",
-        tz: TZ,
-    });
+async function scrapeQueensHotel() {
+  const csvEvents = await scrapeCsvVenue({
+    name: "Queens Hotel",
+    csvUrl:
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRXdrydPQ38DcZYNAKRgcM7fJPLHnNmD3bu9k0H1d8ltei3JXmwl3gmaXKS_yeKtmxW-qLZv0OluKK/pub?output=csv",
+    address: "Queens Road, Hull, HU52RG",
+    tz: TZ,
+  });
 
-    const quizEvents = await synthQueensHotelQuiz();
-
-    return [...csvEvents, ...quizEvents];
-});
+  const quizEvents = await synthQueensHotelQuiz();
+  return [...csvEvents, ...quizEvents];
+}
 
 /* -------- POLAR BEAR ---------------------------------------------- */
 // Source List: https://www.polarbearmusicclub.co.uk/whatson
@@ -2416,8 +2410,8 @@ async function scrapeWelly() {
     return y >= 2020 && y <= 2100;
   }
 
-  // Try to discover a datetime on a detail page (belt & braces; may return null)
-  function extractUntappdStartISO($$, pageUrl) {
+  // Try to discover a datetime on a detail page (belt and braces; may return null)
+  function extractDetailStartISO($$, pageUrl) {
     // 1) <time datetime="...">
     const tAttr = $$("time[datetime]").first().attr("datetime");
     if (tAttr) {
@@ -2593,7 +2587,7 @@ async function scrapeWelly() {
             fromLD.startISO ||
             parseDMYWithTime(dateWordy, timeWordy) ||
             tryParseDateFromText(stripOrdinals(`${dateWordy} ${timeWordy}`)) ||
-            extractUntappdStartISO($$, url) ||
+            extractDetailStartISO($$, url) ||
             null;
 
           // Past filter (keep undated)
@@ -2883,45 +2877,6 @@ async function scrapeUnionMashUp() {
     return null;
   };
 
-  function inferYearAndTime(dateText = "", timeText = "", tz = TZ) {
-    const clean = stripOrdinals(String(dateText || ""))
-      .replace(/,/g, " ")
-      .trim();
-    if (!clean) return { dateText, timeText };
-
-    // match D/M, D-M, D.M (1 or 2 digits), with NO 4-digit year present
-    const hasYear = /\b\d{4}\b/.test(clean);
-    const m = clean.match(/\b(\d{1,2})[\/\-.](\d{1,2})\b/);
-
-    if (hasYear || !m) return { dateText: clean, timeText }; // nothing to infer
-
-    const d = parseInt(m[1], 10);
-    const mo = parseInt(m[2], 10);
-    if (!(d >= 1 && d <= 31 && mo >= 1 && mo <= 12))
-      return { dateText: clean, timeText };
-
-    const today = dayjs().tz(tz);
-    let candidate = dayjs.tz(
-      `${today.year()}-${String(mo).padStart(2, "0")}-${String(d).padStart(
-        2,
-        "0",
-      )}`,
-      "YYYY-MM-DD",
-      tz,
-      true,
-    );
-    if (!candidate.isValid()) return { dateText: clean, timeText };
-
-    // If that date is already before today's cutoff, bump to next year
-    if (candidate.isBefore(CUTOFF)) {
-      candidate = candidate.add(1, "year");
-    }
-
-    const inferredDate = candidate.format("D/M/YYYY");
-    const safeTime = timeText && timeText.trim() ? timeText : "20:00";
-    return { dateText: inferredDate, timeText: safeTime };
-  }
-
   const validParse = (dateText, timeText) => {
     // Whatever your helpers return, normalize to ISO or null
     const a = parseDMYWithTime(dateText, timeText);
@@ -2998,7 +2953,7 @@ async function scrapeUnionMashUp() {
             $$("h1, .entry-title").first().text().trim() ||
             $$("title").text().trim();
 
-          // 🚫 Skip private events by title
+          // Skip private events by title
           if (/private\s*event/i.test(title)) {
             log("[umu] skipping private event");
             return null;
@@ -3024,7 +2979,7 @@ async function scrapeUnionMashUp() {
               .text(),
           );
 
-          // 🚫 Skip private events by body text
+          // Skip private events by body text
           const bodyText = (big || near || "").toLowerCase();
           if (bodyText.includes("private event")) {
             log("[umu] skipping private event (body):", title);
@@ -4064,7 +4019,7 @@ async function main() {
     let tasks;
 
     if (onlyNewland) {
-      // 🔹 Newland Tap ONLY mode
+      // Newland Tap-only mode
       tasks = [
         wrapScrape("csv:Newland Tap", () =>
           scrapeCsvVenue({
@@ -4077,7 +4032,7 @@ async function main() {
         ),
       ];
     } else {
-      // 🔹 Normal “all venues” mode
+      // Normal all-venues mode
       tasks = [
         wrapScrape("polar", scrapePolarBear),
         wrapScrape("adelphi", scrapeAdelphi),
@@ -4140,7 +4095,7 @@ async function main() {
               ),
             ]
           : []),
-        // ⭐ Newland Tap also included in normal mode
+        // Newland Tap is also included in normal mode
         wrapScrape("csv:Newland Tap", () =>
           scrapeCsvVenue({
             name: "Newland Tap",
@@ -4174,9 +4129,7 @@ async function main() {
         tasks.push(
           wrapScrape("moodys", () => synthMrMoodysSundayLunch({ weeks: 15 })),
         );
-      tasks.push(
-        wrapScrape("queens", () => synthQueensHotelQuiz({ weeks: 20 })),
-      );
+      tasks.push(wrapScrape("queens", scrapeQueensHotel));
       if (!skipPave) tasks.push(wrapScrape("pave", scrapePaveBar));
     }
 
@@ -4188,14 +4141,14 @@ async function main() {
       else log("[scrape] failed:", r.reason?.message || r.reason);
     }
 
-    // ⭐ Add event types and distance info to each event
+    // Add event types and distance info to each event
     events = events.map((ev) => ({
       ...ev,
       type: detectEventType(ev.title || "", ev.description || ""),
       distance: getDistance(HULL_CENTER, VENUE_COORDS[ev.venue]),
     }));
 
-    // ⭐ Force Newland Tap events to be free entry
+    // Force Newland Tap events to be free entry
     events = events.map((ev) => {
       const blob = `${ev.venue || ""} ${ev.source || ""}`.toLowerCase();
       if (blob.includes("newland tap")) {
@@ -4214,10 +4167,10 @@ async function main() {
         : ev,
     );
 
-    // ⭐ DEDUPLICATE events (removes exact title + date + venue duplicates)
+    // Deduplicate events by title + date + venue
     events = deduplicateEvents(events);
 
-    // ⭐ MERGE with existing events from previous runs (to keep old events we didn't re-scrape)
+    // Merge with existing events from previous runs (keeps events we did not re-scrape)
     // Note: when stdout is redirected to public/events.json, that file can be empty at startup.
     // We handle this quietly and only merge when valid cached JSON exists.
     try {
@@ -4276,7 +4229,7 @@ async function main() {
       return ta - tb;
     });
 
-    // ⭐ Filter: Keep NOW+future (not just today's start), keep undated
+    // Keep now-and-future events; preserve undated events
     const nowMs = Date.now();
     const futureEvents = events.filter((ev) => {
       const t = Date.parse(ev.start || "");
