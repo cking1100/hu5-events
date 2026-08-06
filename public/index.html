@@ -3616,7 +3616,9 @@
             };
 
             const NEWFEST_DATE_KEY = "2026-08-22";
-            const NEWFEST_START_TIME = "15:00";
+            const NEWFEST_START_TIME = "9:30am";
+            const NAMJAM_DATE_KEY = "2026-09-05";
+            const NAMJAM_TICKET_PRICE = "£5";
             const NEWFEST_PARTNERS = [
                 "@bside.newland",
                 "@soul45_hu5",
@@ -3745,6 +3747,32 @@
                                                                                                 <div style="margin-top: 10px; font-size: 12px; color: rgba(255, 240, 220, 0.95); font-weight: 600; max-width: 900px; line-height: 1.4;">${NEWFEST_PARTNERS}</div>
                                                                                             </div>
                                                                                         </article>
+                                                                                    </div>`;
+            }
+
+            function renderNamJamBanner() {
+                return `<div style="grid-column: 1 / -1; margin-bottom: 20px;">
+                                                                                                                                                                                <article style="background-color: #162744; background-image: linear-gradient(135deg, #162744 0%, #2f1b4b 52%, #1a3557 100%); border: 1px solid rgba(120, 212, 255, 0.65); position: relative; margin-bottom: 0; grid-column: 1 / -1; box-shadow: 0 14px 34px rgba(7, 17, 28, 0.42), 0 0 0 1px rgba(255, 118, 181, 0.2) inset; border-radius: 16px; width: 100%; overflow: hidden;">
+                                                                                                                                                                                    <div style="position: absolute; top: -30%; left: -10%; width: 55%; height: 160%; background-color: transparent; background-image: radial-gradient(circle at 50% 50%, rgba(77, 191, 255, 0.24) 0%, rgba(77, 191, 255, 0) 68%); pointer-events: none;"></div>
+                                                                                                                                                                                    <div style="position: absolute; top: -25%; right: -12%; width: 55%; height: 160%; background-color: transparent; background-image: radial-gradient(circle at 50% 50%, rgba(255, 118, 181, 0.22) 0%, rgba(255, 118, 181, 0) 68%); pointer-events: none;"></div>
+                                                                                                                                                                                        <div style="position: relative; z-index: 1; padding: 30px 24px 24px; display: grid; gap: 14px; justify-items: center; text-align: center;">
+                                                                                                                                                                                                <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(186, 234, 255, 0.35); color: #d9f6ff; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px;">One Day Event • Saturday 5 September 2026</div>
+                                                                                                                                                                                                <div style="font-size: 46px; line-height: 1;">🎨🎵🖋️</div>
+                                                                                                                                                                                                <h2 style="margin: 0; font-size: clamp(28px, 5vw, 38px); font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #7bd5ff; text-shadow: 0 0 22px rgba(77, 191, 255, 0.45);">NAMJAM</h2>
+                                                                                                                                                                                                <div style="display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 999px; background: linear-gradient(90deg, rgba(77, 191, 255, 0.28), rgba(255, 118, 181, 0.32)); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff3fa; font-size: 14px; font-weight: 800; letter-spacing: 0.3px;">Tickets ${NAMJAM_TICKET_PRICE}</div>
+                                                                                                                                                                                                <div style="width: 100%; max-width: 860px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 2px; text-align: left;">
+                                                                                                                                                                                                    <div style="padding: 12px; border-radius: 10px; border: 1px solid rgba(120, 212, 255, 0.5); background: linear-gradient(135deg, rgba(15, 54, 78, 0.5) 0%, rgba(7, 29, 46, 0.35) 100%); color: #e7f7ff; font-size: 13px; font-weight: 700; line-height: 1.35;">12pm-5pm<br><span style="font-weight: 600; color: rgba(231, 247, 255, 0.9);">Namaste Tattoo Studio</span><br><span style="font-size: 12px; font-weight: 700; color: #9ee9ff;">@namaste_tattoo</span><br><span style="font-size: 11px; font-weight: 600; color: rgba(231, 247, 255, 0.82);">34 Prince's Rd, Hull HU5 2RD</span></div>
+                                                                                                                                                                                                    <div style="padding: 12px; border-radius: 10px; border: 1px solid rgba(255, 154, 208, 0.52); background: linear-gradient(135deg, rgba(70, 20, 50, 0.5) 0%, rgba(44, 12, 34, 0.34) 100%); color: #ffe8f4; font-size: 13px; font-weight: 700; line-height: 1.35;">5pm-11pm<br><span style="font-weight: 600; color: rgba(255, 232, 244, 0.9);">The New Adelphi Club</span><br><span style="font-size: 12px; font-weight: 700; color: #ffc5e7;">@the_adelphi_club</span><br><span style="font-size: 11px; font-weight: 600; color: rgba(255, 232, 244, 0.82);">89 De Grey St, Hull HU5 2RU</span></div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div style="margin-top: 2px; max-width: 860px; padding: 12px 14px; border-radius: 10px; border: 1px dashed rgba(255, 196, 226, 0.45); background: rgba(255, 255, 255, 0.04); color: rgba(255, 245, 252, 0.96); font-size: 13px; font-weight: 700; line-height: 1.45;">Proceeds go to Hull and East Yorkshire Mind Bereavement by Suicide charity.</div>
+                                                                                                                                                                                                <div style="width: 100%; max-width: 860px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 2px;">
+                                                                                                                                                                                                    <span style="padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(120, 212, 255, 0.45); background: rgba(20, 64, 85, 0.35); color: #daf3ff; font-size: 12px; font-weight: 700;">Music</span>
+                                                                                                                                                                                                    <span style="padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255, 154, 208, 0.45); background: rgba(68, 20, 56, 0.35); color: #ffe5f3; font-size: 12px; font-weight: 700;">Arts</span>
+                                                                                                                                                                                                    <span style="padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(120, 212, 255, 0.45); background: rgba(20, 64, 85, 0.35); color: #daf3ff; font-size: 12px; font-weight: 700;">Flash Tattoos</span>
+                                                                                                                                                                                                    <span style="padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255, 154, 208, 0.45); background: rgba(68, 20, 56, 0.35); color: #ffe5f3; font-size: 12px; font-weight: 700;">Fundraising Event</span>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                </article>
                                                                                     </div>`;
             }
 
@@ -5075,6 +5103,9 @@
                                     : // Add special styling for NewFest (August 22, 2026)
                                     key === NEWFEST_DATE_KEY
                                         ? ` style="background: linear-gradient(135deg, rgba(255, 145, 77, 0.12) 0%, rgba(255, 210, 120, 0.08) 100%); border-radius: 12px; padding: 16px; margin-bottom: 24px; border: 2px solid rgba(255, 145, 77, 0.45);"`
+                                        : // Add special styling for NAMJAM (September 5, 2026)
+                                        key === NAMJAM_DATE_KEY
+                                            ? ` style="background: linear-gradient(135deg, rgba(77, 191, 255, 0.1) 0%, rgba(255, 118, 181, 0.08) 100%); border-radius: 12px; padding: 16px; margin-bottom: 24px; border: 2px solid rgba(77, 191, 255, 0.45);"`
                                     : ""
                             }><h3${
                             // Add green styling to the header for Paddy's Night
@@ -5086,6 +5117,9 @@
                                     : // Add warm styling to the header for NewFest
                                     key === NEWFEST_DATE_KEY
                                         ? ` style="color: #ff914d; text-shadow: 0 0 10px rgba(255, 145, 77, 0.35); margin-bottom: 8px; text-align: center;"`
+                                        : // Add styling to the header for NAMJAM
+                                        key === NAMJAM_DATE_KEY
+                                            ? ` style="color: #4dbfff; text-shadow: 0 0 10px rgba(77, 191, 255, 0.4); margin-bottom: 8px; text-align: center;"`
                                     : ""
                             }>${
                             // Add shamrock emoji for Paddy's Night
@@ -5098,6 +5132,8 @@
                                         ? "🎵 " + label + " - HU5 Live! 🎵"
                                         : key === NEWFEST_DATE_KEY
                                             ? "🎉 " + label + " - NewFest 🎉"
+                                            : key === NAMJAM_DATE_KEY
+                                                ? "🎨 " + label + " - NAMJAM 🎨"
                                         : label
                             }</h3>${
                             // Add special banner for Paddy's Night Tuesday (March 17th)
@@ -5129,6 +5165,8 @@
                                           </div>`
                                                                         : key === NEWFEST_DATE_KEY
                                                                                 ? renderNewFestBanner()
+                                                                            : key === NAMJAM_DATE_KEY
+                                                                                ? renderNamJamBanner()
                                     : ""
                             }${
                             // Check if this is NYE (Dec 31) and add closing times card
@@ -5977,6 +6015,7 @@
                 // Check if this is August 15th (HU5 Live)
                 const isHU5Live = dateStr.endsWith('-08-15');
                 const isNewFest = dateStr === NEWFEST_DATE_KEY;
+                const isNamJam = dateStr === NAMJAM_DATE_KEY;
 
                 els.calendarEventsTitle.textContent = `${formattedDate} (${dateEvents.length} event${dateEvents.length === 1 ? '' : 's'})`;
 
@@ -6003,6 +6042,8 @@
                                     `;
                                         } else if (isNewFest) {
                                                 bannerHTML = renderNewFestBanner();
+                                        } else if (isNamJam) {
+                                            bannerHTML = renderNamJamBanner();
                     }
 
                     els.calendarEventsList.innerHTML = bannerHTML + dateEvents.map(ev => {
