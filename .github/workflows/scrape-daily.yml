@@ -34,10 +34,14 @@ jobs:
         run: npm run scrape
         timeout-minutes: 5
 
-      - name: Verify events.json
+      - name: Verify generated files
         run: |
           if [ ! -f public/events.json ]; then
             echo "ERROR: events.json not created"
+            exit 1
+          fi
+          if [ ! -f public/events.ics ]; then
+            echo "ERROR: events.ics not created"
             exit 1
           fi
           EVENT_COUNT=$(jq 'length' public/events.json)
@@ -54,10 +58,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add public/events.json
+          git add public/events.json public/events.ics
 
           if git diff --cached --quiet; then
-            echo "No changes in events.json; nothing to commit."
+            echo "No changes in generated files; nothing to commit."
             exit 0
           fi
 
