@@ -3615,6 +3615,37 @@
                 "DIVE HU5": /\bdive\b.*\bhu5\b/i,
             };
 
+            const NEWFEST_DATE_KEY = "2026-08-22";
+            const NEWFEST_START_TIME = "15:00";
+            const NEWFEST_PARTNERS = [
+                "@bside.newland",
+                "@soul45_hu5",
+                "@tprhull",
+                "@the_adelphi_club",
+                "@dj_jonny_debt",
+                "@newlandtap_hull",
+                "@shuppeto.graphics",
+                "@spati_bar",
+                "@mr_moodys_tavern",
+                "@midweek_at_moodys",
+                "@barleys_vegan",
+                "@larkins_bar_hull",
+                "@namaste_tattoo",
+                "@newlantaphull",
+                "@hu5events",
+            ].join(" • ");
+            const NEWFEST_VENUES = [
+                "B-Side",
+                "Soul45",
+                "The Peoples Republic",
+                "The New Adelphi",
+                "Newland Tap",
+                "Späti",
+                "Mr Moodys Tavern",
+                "Namaste Tattoo Studio",
+                "Larkins Bar",
+            ];
+
             // Ensure title ends with exactly one " - Venue" suffix
             function ensureVenueInTitle(title, venue) {
                 const t = String(title || "").trim();
@@ -3651,6 +3682,81 @@
                 if (baseTitle.toLowerCase() === v.toLowerCase()) return v;
 
                 return `${baseTitle} - ${v}`;
+            }
+
+            function inferNewFestTheme(ev) {
+                const blob = `${ev?.title || ""} ${ev?.description || ""} ${ev?.meta || ""} ${ev?.notes || ""}`.toLowerCase();
+                if (/\b(film|screening|cinema|movie)\b/.test(blob)) return "Pop-up Film";
+                if (/\b(food|kitchen|vegan|street\s*food|bbq|eat)\b/.test(blob))
+                    return "Food Stop";
+                if (/\b(dj|live|band|music|vinyl|set)\b/.test(blob))
+                    return "Music Session";
+                if (/\b(tattoo|art|workshop|activity|market)\b/.test(blob))
+                    return "Community Activity";
+                return "Festival Stop";
+            }
+
+            function formatEventTitleForDate(ev, dateKey) {
+                const titleRaw = String(ev?.title || "Untitled").trim();
+                const vLabel = ev?._venueLabel || venueLabel(ev);
+
+                const condensed = titleRaw.toLowerCase().replace(/[^a-z]/g, "");
+                const looksLikeGenericNewFest =
+                    /\bnewfest\b/i.test(titleRaw) &&
+                    condensed.startsWith("newfest") &&
+                    titleRaw.length <= 32;
+
+                if (dateKey === NEWFEST_DATE_KEY && looksLikeGenericNewFest) {
+                    const themed = inferNewFestTheme(ev);
+                    return `${themed} - ${vLabel}`;
+                }
+
+                return ensureVenueInTitle(titleRaw, vLabel);
+            }
+
+            function renderNewFestVenueChips() {
+                return NEWFEST_VENUES.map(
+                    (name) =>
+                        `<span style="display: inline-flex; align-items: center; justify-content: center; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255, 210, 120, 0.45); background: rgba(38, 24, 8, 0.35); color: #ffe7c7; font-size: 12px; font-weight: 650; letter-spacing: 0.2px;">${escapeHTML(
+                            name,
+                        )}</span>`,
+                ).join("");
+            }
+
+            function renderNewFestBanner() {
+                return `<div style="grid-column: 1 / -1; margin-bottom: 20px;">
+                                                                                        <article style="background: linear-gradient(135deg, rgba(255, 145, 77, 0.16) 0%, rgba(255, 210, 120, 0.12) 100%); border: 2px solid #ff914d; position: relative; margin-bottom: 0; grid-column: 1 / -1; box-shadow: 0 8px 24px rgba(255, 145, 77, 0.25); border-radius: 12px; width: 100%; overflow: hidden;">
+                                                                                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 15% 35%, rgba(255, 145, 77, 0.15) 0%, transparent 48%), radial-gradient(circle at 85% 70%, rgba(255, 210, 120, 0.14) 0%, transparent 48%); pointer-events: none;"></div>
+                                                                                            <div style="padding: 28px 24px; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%;">
+                                                                                                <div style="font-size: 50px; margin-bottom: 12px; text-align: center; width: 100%;">🎉🍔🎶🎬</div>
+                                                                                                <h2 style="color: #ff914d; margin: 0; font-size: 30px; font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 18px rgba(255, 145, 77, 0.45); text-transform: uppercase; text-align: center; width: 100%;">NewFest</h2>
+                                                                                                <div style="color: #ffd278; margin: 8px 0 0 0; font-size: 16px; font-weight: 700; letter-spacing: 0.4px;">Saturday 22 August 2026 • Starts ${NEWFEST_START_TIME}</div>
+                                                                                                <div style="height: 3px; width: 100%; max-width: 520px; background: linear-gradient(90deg, transparent, #ff914d, #ffd278, #ff914d, transparent); margin-top: 14px; box-shadow: 0 0 10px rgba(255, 145, 77, 0.5);"></div>
+                                                                                                <div style="margin-top: 12px; font-size: 14px; color: rgba(255, 255, 255, 0.92); font-weight: 500; max-width: 760px; line-height: 1.45;">Ten independent businesses are teaming up for a day of music, food, activities, and a pop-up film screening across the avenue. Expect rotating happenings from mid-afternoon into late evening.</div>
+                                                                                                <div style="margin-top: 12px; width: 100%; max-width: 760px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;">
+                                                                                                  <div style="padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 210, 120, 0.45); background: rgba(38, 24, 8, 0.35); color: #ffe7c7; font-size: 12px; font-weight: 700;">Live Music</div>
+                                                                                                  <div style="padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 210, 120, 0.45); background: rgba(38, 24, 8, 0.35); color: #ffe7c7; font-size: 12px; font-weight: 700;">Food</div>
+                                                                                                  <div style="padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 210, 120, 0.45); background: rgba(38, 24, 8, 0.35); color: #ffe7c7; font-size: 12px; font-weight: 700;">Activities</div>
+                                                                                                  <div style="padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255, 210, 120, 0.45); background: rgba(38, 24, 8, 0.35); color: #ffe7c7; font-size: 12px; font-weight: 700;">Pop-up Film</div>
+                                                                                                </div>
+                                                                                                <div style="margin-top: 12px; font-size: 12px; color: #ffd278; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px;">Participating Venues & Hosts</div>
+                                                                                                <div style="margin-top: 8px; width: 100%; max-width: 900px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">${renderNewFestVenueChips()}</div>
+                                                                                                <div style="margin-top: 10px; font-size: 12px; color: #ffe7c7; font-weight: 700; max-width: 900px; line-height: 1.35;">All people involved (for example, @shuppeto.graphics is the graphic designer):</div>
+                                                                                                <div style="margin-top: 10px; font-size: 12px; color: rgba(255, 240, 220, 0.95); font-weight: 600; max-width: 900px; line-height: 1.4;">${NEWFEST_PARTNERS}</div>
+                                                                                            </div>
+                                                                                        </article>
+                                                                                    </div>`;
+            }
+
+            function parseDateInputLocal(dateStr, endOfDay = false) {
+                if (!dateStr) return null;
+                const m = String(dateStr).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                if (!m) return null;
+                const y = Number(m[1]);
+                const mon = Number(m[2]);
+                const d = Number(m[3]);
+                if (endOfDay) return +new Date(y, mon - 1, d, 23, 59, 59, 999);
+                return +new Date(y, mon - 1, d, 0, 0, 0, 0);
             }
 
             // ICS-like URLs? then link to listings page instead
@@ -4467,8 +4573,17 @@
             function render() {
                 const t0 = performance.now();
                 const n = state.view.length;
+                const hasActiveFilters =
+                    !!els.q.value.trim() ||
+                    !!els.from.value ||
+                    !!els.to.value ||
+                    !!els.venue.value ||
+                    state.range !== "all" ||
+                    !state.showUndated;
 
-                els.countText.textContent = `${n} event${n === 1 ? "" : "s"}`;
+                els.countText.textContent = hasActiveFilters
+                    ? `${n} filtered event${n === 1 ? "" : "s"}`
+                    : `${n} event${n === 1 ? "" : "s"}`;
                 els.refreshText.textContent = state.autoRefresh
                     ? "Auto refresh on"
                     : "Auto refresh off";
@@ -4700,7 +4815,7 @@
                             .map((ev) => {
                                 const titleRaw = ev.title || "Untitled";
                                 const vLabel = ev._venueLabel || venueLabel(ev);
-                                const displayTitle = ensureVenueInTitle(titleRaw, vLabel);
+                                const displayTitle = formatEventTitleForDate(ev, key);
                                 const openHref = toListingsUrl(ev.url || "", ev.source);
                                 const gHref = googleHref(ev);
                                 const isIcs = isIcsLike(ev.url || "");
@@ -4957,6 +5072,9 @@
                                 : // Add special styling for HU5 Live (August 15th)
                                 key.endsWith("-08-15")
                                     ? ` style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(10, 175, 255, 0.05) 100%); border-radius: 12px; padding: 16px; margin-bottom: 24px; border: 2px solid rgba(0, 212, 255, 0.4);"`
+                                    : // Add special styling for NewFest (August 22, 2026)
+                                    key === NEWFEST_DATE_KEY
+                                        ? ` style="background: linear-gradient(135deg, rgba(255, 145, 77, 0.12) 0%, rgba(255, 210, 120, 0.08) 100%); border-radius: 12px; padding: 16px; margin-bottom: 24px; border: 2px solid rgba(255, 145, 77, 0.45);"`
                                     : ""
                             }><h3${
                             // Add green styling to the header for Paddy's Night
@@ -4965,6 +5083,9 @@
                                 : // Add cyan styling to the header for HU5 Live
                                 key.endsWith("-08-15")
                                     ? ` style="color: #00d4ff; text-shadow: 0 0 10px rgba(0, 212, 255, 0.4); margin-bottom: 8px; text-align: center;"`
+                                    : // Add warm styling to the header for NewFest
+                                    key === NEWFEST_DATE_KEY
+                                        ? ` style="color: #ff914d; text-shadow: 0 0 10px rgba(255, 145, 77, 0.35); margin-bottom: 8px; text-align: center;"`
                                     : ""
                             }>${
                             // Add shamrock emoji for Paddy's Night
@@ -4975,6 +5096,8 @@
                                     : // Add music emoji for HU5 Live
                                     key.endsWith("-08-15")
                                         ? "🎵 " + label + " - HU5 Live! 🎵"
+                                        : key === NEWFEST_DATE_KEY
+                                            ? "🎉 " + label + " - NewFest 🎉"
                                         : label
                             }</h3>${
                             // Add special banner for Paddy's Night Tuesday (March 17th)
@@ -5004,6 +5127,8 @@
                                               </div>
                                             </article>
                                           </div>`
+                                                                        : key === NEWFEST_DATE_KEY
+                                                                                ? renderNewFestBanner()
                                     : ""
                             }${
                             // Check if this is NYE (Dec 31) and add closing times card
@@ -5243,8 +5368,8 @@
                 const q = els.q.value.toLowerCase().trim();
                 const hasFrom = !!els.from.value,
                     hasTo = !!els.to.value;
-                const from = hasFrom ? +new Date(els.from.value) : null;
-                const to = hasTo ? +new Date(els.to.value + "T23:59:59") : null;
+                const from = hasFrom ? parseDateInputLocal(els.from.value, false) : null;
+                const to = hasTo ? parseDateInputLocal(els.to.value, true) : null;
                 state.sort = els.sort.value;
                 const vfilter = els.venue.value;
 
@@ -5321,6 +5446,7 @@
                     venue: els.venue.value || "",
                     range: state.range,
                     showUndated: state.showUndated,
+                    savedAt: Date.now(),
                 };
                 try {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -5336,6 +5462,23 @@
                 } catch (err) {
                     console.warn("load filters failed:", err);
                     data = {};
+                }
+
+                // Expire old saved filters so stale ranges do not hide most events.
+                const FILTER_STATE_TTL_MS = 12 * 60 * 60 * 1000;
+                const savedAt = Number(data.savedAt || 0);
+                const savedIsFresh =
+                    Number.isFinite(savedAt) &&
+                    savedAt > 0 &&
+                    Date.now() - savedAt <= FILTER_STATE_TTL_MS;
+                if (!savedIsFresh) {
+                    data = {
+                        sort: data.sort || "date-asc",
+                        showUndated:
+                            typeof data.showUndated === "boolean"
+                                ? data.showUndated
+                                : true,
+                    };
                 }
 
                 // 1) Apply saved filters first
@@ -5833,6 +5976,7 @@
 
                 // Check if this is August 15th (HU5 Live)
                 const isHU5Live = dateStr.endsWith('-08-15');
+                const isNewFest = dateStr === NEWFEST_DATE_KEY;
 
                 els.calendarEventsTitle.textContent = `${formattedDate} (${dateEvents.length} event${dateEvents.length === 1 ? '' : 's'})`;
 
@@ -5857,6 +6001,8 @@
                                         </div>
                                       </div>
                                     `;
+                                        } else if (isNewFest) {
+                                                bannerHTML = renderNewFestBanner();
                     }
 
                     els.calendarEventsList.innerHTML = bannerHTML + dateEvents.map(ev => {
@@ -5875,7 +6021,7 @@
                         return `
                                       <div class="cal-event-card" data-event-id="${escapeHTML(ev._id)}" onclick="window.open('${escapeHTML(ev.link || ev.url || '#')}', '_blank')">
                                         ${timeInfo ? `<div class="cal-event-time">${escapeHTML(timeInfo)}</div>` : ''}
-                                        <h4 class="cal-event-title">${escapeHTML(ev.title || 'Untitled Event')}</h4>
+                                        <h4 class="cal-event-title">${escapeHTML(formatEventTitleForDate(ev, dateStr) || 'Untitled Event')}</h4>
                                         <div class="cal-event-venue">${escapeHTML(venue)}${address ? ` - ${escapeHTML(address)}` : ''}</div>
                                         ${ev.meta || ev.description ? `<div class="cal-event-meta">${escapeHTML((ev.meta || ev.description || '').substring(0, 150))}${(ev.meta || ev.description || '').length > 150 ? '...' : ''}</div>` : ''}
                                         ${badges ? `<div class="cal-event-badges">${badges}</div>` : ''}
