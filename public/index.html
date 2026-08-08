@@ -6016,6 +6016,14 @@
                     return evDateStr === dateStr;
                 });
 
+                // Ensure events in the selected day are always shown in time order.
+                dateEvents.sort((a, b) => {
+                    const at = +a._startEff || 9e15;
+                    const bt = +b._startEff || 9e15;
+                    if (at !== bt) return at - bt;
+                    return (a.title || '').localeCompare(b.title || '');
+                });
+
                 // Format the date for display
                 const formattedDate = date.toLocaleDateString('en-GB', {
                     weekday: 'long',
