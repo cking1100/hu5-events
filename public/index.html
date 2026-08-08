@@ -2940,12 +2940,14 @@
 
 .hidden-date-input {
     position: absolute;
-    inset: 0;
+    inset: auto;
+    right: 0;
+    bottom: 0;
     opacity: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: auto;
+    width: 1px;
+    height: 1px;
+    z-index: -1;
+    pointer-events: none;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
@@ -3083,7 +3085,7 @@
                         </label>
                         <div class="date-inputs">
                             <div class="date-picker-wrap">
-                                <button type="button" class="field date-btn" onclick="openDatePicker('from')">
+                                <button type="button" class="field date-btn" data-date-input="from">
                                     <span>📅</span>
                                     <span id="fromBtnText">From Date</span>
                                 </button>
@@ -3091,7 +3093,7 @@
                             </div>
                             <span class="date-separator">→</span>
                             <div class="date-picker-wrap">
-                                <button type="button" class="field date-btn" onclick="openDatePicker('to')">
+                                <button type="button" class="field date-btn" data-date-input="to">
                                     <span>📅</span>
                                     <span id="toBtnText">To Date</span>
                                 </button>
@@ -3334,6 +3336,16 @@
                 input.addEventListener("change", syncLabel);
                 input.addEventListener("input", syncLabel);
                 syncLabel();
+
+                const btn = document.querySelector(
+                    `.date-btn[data-date-input="${id}"]`,
+                );
+                if (btn) {
+                    btn.addEventListener("click", (ev) => {
+                        ev.preventDefault();
+                        openDatePicker(id);
+                    });
+                }
             });
         });
 
