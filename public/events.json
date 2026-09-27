@@ -2,52 +2,6 @@
   {
     "source": "Polar Bear Music Club",
     "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/polar-bear-jazz-club-26-09-26",
-    "title": "Polar Bear Jazz Club",
-    "start": "2026-09-26T18:30:00.000Z",
-    "end": "2026-09-26T21:30:00.000Z",
-    "dateText": "26 September 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [
-      {
-        "label": "FREE ENTRY",
-        "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
-      }
-    ],
-    "scrapedAt": "2026-09-26T06:08:00.950Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-09-26 19:30",
-    "type": [
-      "Party"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-26-sep-2026",
-    "title": "WIRED - DJS EVERY SATURDAY NIGHT",
-    "start": "2026-09-26T21:30:00.000Z",
-    "end": "2026-09-27T01:30:00.000Z",
-    "dateText": "26 September 2026",
-    "timeText": "2:30 am",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.665Z",
-    "soldOut": false,
-    "priceText": "£12",
-    "freeEntry": true,
-    "displayTime24": "22:30",
-    "displayDateTime24": "2026-09-26 22:30",
-    "type": null,
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
     "url": "https://www.polarbearmusicclub.co.uk/whatson/the-sesh-290926-live-music-every-tuesday-hull",
     "title": "THE SESH",
     "start": "2026-09-29T18:30:00.000Z",
@@ -56,7 +10,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:02.047Z",
+    "scrapedAt": "2026-09-27T06:08:22.222Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -84,7 +38,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:02.176Z",
+    "scrapedAt": "2026-09-27T06:08:22.444Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
@@ -109,7 +63,7 @@
         "url": "https://www.seetickets.com/event/catfishing-the-bottlemen/polar-bear-music-club/3601521"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:02.673Z",
+    "scrapedAt": "2026-09-27T06:08:22.717Z",
     "soldOut": false,
     "priceText": "£12.50",
     "freeEntry": false,
@@ -129,7 +83,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:02.969Z",
+    "scrapedAt": "2026-09-27T06:08:23.005Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -149,7 +103,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:03.552Z",
+    "scrapedAt": "2026-09-27T06:08:23.562Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -177,7 +131,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:04.026Z",
+    "scrapedAt": "2026-09-27T06:08:24.043Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -202,7 +156,7 @@
         "url": "https://www.seetickets.com/event/tim-curry-night/polar-bear-music-club/3729235"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:04.479Z",
+    "scrapedAt": "2026-09-27T06:08:24.281Z",
     "soldOut": false,
     "priceText": "£7.00",
     "freeEntry": false,
@@ -247,7 +201,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.867Z",
+    "scrapedAt": "2026-09-27T06:08:24.482Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -267,7 +221,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:05.598Z",
+    "scrapedAt": "2026-09-27T06:08:24.998Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -286,7 +240,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:06.067Z",
+    "scrapedAt": "2026-09-27T06:08:25.246Z",
     "soldOut": false,
     "priceText": "£13.50",
     "freeEntry": false,
@@ -306,7 +260,7 @@
     "timeText": "7:00 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:06.531Z",
+    "scrapedAt": "2026-09-27T06:08:25.463Z",
     "soldOut": false,
     "priceText": "£15",
     "freeEntry": false,
@@ -331,7 +285,7 @@
         "url": "https://www.seetickets.com/event/the-uk-strokes/polar-bear-music-club/3620407"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:07.072Z",
+    "scrapedAt": "2026-09-27T06:08:25.661Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
@@ -351,7 +305,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:07.594Z",
+    "scrapedAt": "2026-09-27T06:08:25.759Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -371,7 +325,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:08.175Z",
+    "scrapedAt": "2026-09-27T06:08:26.014Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -395,7 +349,7 @@
         "url": "https://www.seetickets.com/event/girl-group/the-polar-bear-music-club/3660981"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:08.462Z",
+    "scrapedAt": "2026-09-27T06:08:26.491Z",
     "soldOut": false,
     "priceText": "£13",
     "freeEntry": false,
@@ -420,7 +374,7 @@
         "url": "https://www.seetickets.com/event/jodie-langford-alice-street-sarah-shiels/polar-bear-music-club/3710194"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:08.941Z",
+    "scrapedAt": "2026-09-27T06:08:26.703Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -445,7 +399,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:09.227Z",
+    "scrapedAt": "2026-09-27T06:08:26.876Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -466,7 +420,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:09.552Z",
+    "scrapedAt": "2026-09-27T06:08:27.029Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -486,7 +440,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:10.022Z",
+    "scrapedAt": "2026-09-27T06:08:27.275Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -510,7 +464,7 @@
         "url": "https://www.seetickets.com/event/halloween-metal-madness-2026-afterparty-/polar-bear-music-club/3709723"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:10.332Z",
+    "scrapedAt": "2026-09-27T06:08:27.363Z",
     "soldOut": true,
     "priceText": "£7.00",
     "freeEntry": false,
@@ -530,7 +484,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:10.630Z",
+    "scrapedAt": "2026-09-27T06:08:27.508Z",
     "soldOut": false,
     "priceText": "£12.50",
     "freeEntry": false,
@@ -550,7 +504,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:10.939Z",
+    "scrapedAt": "2026-09-27T06:08:27.698Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -575,7 +529,7 @@
         "url": "https://www.seetickets.com/event/andrew-o-neill-the-history-of-punk/polar-bear-music-club/3667057"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:11.441Z",
+    "scrapedAt": "2026-09-27T06:08:28.214Z",
     "soldOut": false,
     "priceText": "£15",
     "freeEntry": false,
@@ -604,7 +558,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:11.916Z",
+    "scrapedAt": "2026-09-27T06:08:28.407Z",
     "soldOut": false,
     "priceText": "£20",
     "freeEntry": false,
@@ -629,7 +583,7 @@
         "url": "https://www.seetickets.com/event/congratulations/the-polar-bear-music-club/3707660"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:12.483Z",
+    "scrapedAt": "2026-09-27T06:08:28.582Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
@@ -654,7 +608,7 @@
         "url": "https://www.seetickets.com/event/moments-of-pleasure-the-music-of-kate-bush/polar-bear-music-club/3592506"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:12.761Z",
+    "scrapedAt": "2026-09-27T06:08:28.880Z",
     "soldOut": false,
     "priceText": "£15",
     "freeEntry": false,
@@ -681,7 +635,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:13.049Z",
+    "scrapedAt": "2026-09-27T06:08:29.035Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -707,7 +661,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:13.173Z",
+    "scrapedAt": "2026-09-27T06:08:29.190Z",
     "soldOut": false,
     "priceText": "£16",
     "freeEntry": false,
@@ -732,7 +686,7 @@
         "url": "https://futuresound.seetickets.com/event/tom-a-smith/the-polar-bear-music-club/3704547"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:13.745Z",
+    "scrapedAt": "2026-09-27T06:08:29.509Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -756,7 +710,7 @@
         "url": "https://www.seetickets.com/event/scarlet-rebels/the-polar-bear-music-club/3668547"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:14.016Z",
+    "scrapedAt": "2026-09-27T06:08:29.735Z",
     "soldOut": false,
     "priceText": "£19",
     "freeEntry": false,
@@ -781,7 +735,7 @@
         "url": "https://www.seetickets.com/event/big-special/the-polar-bear-music-club/3654860"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:14.572Z",
+    "scrapedAt": "2026-09-27T06:08:29.999Z",
     "soldOut": true,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -805,7 +759,7 @@
         "url": "https://www.skiddle.com/whats-on/Hull/The-Polar-Bear/Feral-Family/42645684/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:15.177Z",
+    "scrapedAt": "2026-09-27T06:08:30.277Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -830,7 +784,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:15.490Z",
+    "scrapedAt": "2026-09-27T06:08:30.553Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -856,7 +810,7 @@
         "url": "https://www.seetickets.com/event/walt-disco/polar-bear-music-club/3717195"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:16.661Z",
+    "scrapedAt": "2026-09-27T06:08:31.021Z",
     "soldOut": false,
     "priceText": "£14",
     "freeEntry": false,
@@ -881,7 +835,7 @@
         "url": "https://www.seetickets.com/event/dan-tiernan-quartz-and-all/polar-bear-music-club/3673001"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:17.088Z",
+    "scrapedAt": "2026-09-27T06:08:31.237Z",
     "soldOut": false,
     "priceText": "£18",
     "freeEntry": false,
@@ -901,7 +855,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.014Z",
+    "scrapedAt": "2026-09-27T06:08:21.196Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "12:00",
@@ -922,7 +876,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.016Z",
+    "scrapedAt": "2026-09-27T06:08:21.198Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "12:00",
@@ -943,7 +897,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.016Z",
+    "scrapedAt": "2026-09-27T06:08:21.198Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "12:00",
@@ -964,7 +918,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.017Z",
+    "scrapedAt": "2026-09-27T06:08:21.199Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "12:00",
@@ -985,7 +939,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.017Z",
+    "scrapedAt": "2026-09-27T06:08:21.199Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1006,7 +960,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.017Z",
+    "scrapedAt": "2026-09-27T06:08:21.199Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1027,7 +981,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.018Z",
+    "scrapedAt": "2026-09-27T06:08:21.200Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1048,7 +1002,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.018Z",
+    "scrapedAt": "2026-09-27T06:08:21.200Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1069,7 +1023,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.019Z",
+    "scrapedAt": "2026-09-27T06:08:21.200Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1090,7 +1044,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.019Z",
+    "scrapedAt": "2026-09-27T06:08:21.201Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1111,7 +1065,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.019Z",
+    "scrapedAt": "2026-09-27T06:08:21.201Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1132,7 +1086,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.020Z",
+    "scrapedAt": "2026-09-27T06:08:21.202Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1153,7 +1107,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.020Z",
+    "scrapedAt": "2026-09-27T06:08:21.204Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1174,7 +1128,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.020Z",
+    "scrapedAt": "2026-09-27T06:08:21.205Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1195,7 +1149,7 @@
     "timeText": "12:00",
     "address": "6 Newland Ave, Hull HU5 3AF",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.020Z",
+    "scrapedAt": "2026-09-27T06:08:21.205Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "11:00",
@@ -1208,83 +1162,6 @@
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/velvet-frets-12/",
-    "title": "Velvet Frets",
-    "start": "2026-09-26T15:00:00.000Z",
-    "end": "2026-09-26T17:00:00.000Z",
-    "dateText": "26th September 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:02.005Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "16:00",
-    "displayDateTime24": "2026-09-26 16:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/rush-at-newland-social-above-mollys/",
-    "title": "RUSH at Newland social Above Molly’s",
-    "start": "2026-09-26T18:00:00.000Z",
-    "end": "2026-09-27T02:00:00.000Z",
-    "dateText": "26th September 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:02.268Z",
-    "soldOut": false,
-    "priceText": "£7",
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-09-26 19:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/counterfeit-celts-2/",
-    "title": "Counterfeit Celts",
-    "start": "2026-09-26T18:00:00.000Z",
-    "end": "2026-09-26T20:00:00.000Z",
-    "dateText": "26th September 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:02.284Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-09-26 19:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/ryan-mosleh-30/",
-    "title": "Ryan Mosleh",
-    "start": "2026-09-26T21:00:00.000Z",
-    "end": "2026-09-27T00:00:00.000Z",
-    "dateText": "26th September 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:02.249Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "22:00",
-    "displayDateTime24": "2026-09-26 22:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
     "url": "https://mollymangans.com/event/ellie-pollard-24/",
     "title": "Ellie Pollard",
     "start": "2026-09-27T15:00:00.000Z",
@@ -1293,7 +1170,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.733Z",
+    "scrapedAt": "2026-09-27T06:08:23.177Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "16:00",
@@ -1312,7 +1189,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:02.335Z",
+    "scrapedAt": "2026-09-27T06:08:23.197Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -1331,7 +1208,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:03.268Z",
+    "scrapedAt": "2026-09-27T06:08:23.068Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -1350,7 +1227,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:03.225Z",
+    "scrapedAt": "2026-09-27T06:08:23.160Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -1369,7 +1246,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:03.258Z",
+    "scrapedAt": "2026-09-27T06:08:23.333Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -1388,7 +1265,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:03.209Z",
+    "scrapedAt": "2026-09-27T06:08:23.056Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -1407,7 +1284,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:03.242Z",
+    "scrapedAt": "2026-09-27T06:08:24.095Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -1426,7 +1303,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:03.194Z",
+    "scrapedAt": "2026-09-27T06:08:24.227Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "12:00",
@@ -1434,6 +1311,82 @@
     "type": [
       "Karaoke"
     ],
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/velvet-frets-13/",
+    "title": "Velvet Frets",
+    "start": "2026-10-03T15:00:00.000Z",
+    "end": "2026-10-03T17:00:00.000Z",
+    "dateText": "3rd October 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-09-27T06:08:24.134Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "16:00",
+    "displayDateTime24": "2026-10-03 16:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/beth-pilling-22/",
+    "title": "Beth Pilling",
+    "start": "2026-10-07T19:00:00.000Z",
+    "end": "2026-10-07T21:00:00.000Z",
+    "dateText": "7th October 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-09-27T06:08:24.148Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-10-07 20:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/ellie-pollard-25/",
+    "title": "Ellie Pollard",
+    "start": "2026-10-08T19:00:00.000Z",
+    "end": "2026-10-08T21:00:00.000Z",
+    "dateText": "8th October 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-09-27T06:08:24.187Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2026-10-08 20:00",
+    "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/james-wood-24/",
+    "title": "James Wood",
+    "start": "2026-10-09T18:00:00.000Z",
+    "end": "2026-10-09T20:00:00.000Z",
+    "dateText": "9th October 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-09-27T06:08:24.165Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "19:00",
+    "displayDateTime24": "2026-10-09 19:00",
+    "type": null,
     "distance": 2.6944565058735668
   },
   {
@@ -1447,7 +1400,7 @@
     "timeText": "8:00 PM",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.254Z",
+    "scrapedAt": "2026-09-27T06:08:22.357Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -1466,7 +1419,7 @@
     "timeText": "8:00 PM",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.246Z",
+    "scrapedAt": "2026-09-27T06:08:22.476Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -1485,7 +1438,7 @@
     "timeText": "19:30:00",
     "address": "Queens Rd, Hull HU5 2PY",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.098Z",
+    "scrapedAt": "2026-09-27T06:08:22.135Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -1507,7 +1460,7 @@
     "timeText": "19:30:00",
     "address": "Queens Rd, Hull HU5 2PY",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.099Z",
+    "scrapedAt": "2026-09-27T06:08:22.136Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -1529,7 +1482,7 @@
     "timeText": "19:30:00",
     "address": "Queens Rd, Hull HU5 2PY",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.099Z",
+    "scrapedAt": "2026-09-27T06:08:22.136Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -1551,7 +1504,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.349Z",
+    "scrapedAt": "2026-09-27T06:08:25.647Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1572,7 +1525,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.349Z",
+    "scrapedAt": "2026-09-27T06:08:25.647Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1593,7 +1546,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.350Z",
+    "scrapedAt": "2026-09-27T06:08:25.648Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1614,7 +1567,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.350Z",
+    "scrapedAt": "2026-09-27T06:08:25.648Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1635,7 +1588,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.350Z",
+    "scrapedAt": "2026-09-27T06:08:25.648Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:00",
@@ -1656,7 +1609,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.350Z",
+    "scrapedAt": "2026-09-27T06:08:25.648Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:00",
@@ -1677,7 +1630,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.350Z",
+    "scrapedAt": "2026-09-27T06:08:25.648Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:00",
@@ -1698,7 +1651,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:04.351Z",
+    "scrapedAt": "2026-09-27T06:08:25.649Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:00",
@@ -1707,38 +1660,6 @@
       "Live Music"
     ],
     "distance": 2.8356611531925404
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/martin-gallagher/",
-    "title": "Martin Gallagher",
-    "start": "2026-09-26T17:00:00.000Z",
-    "end": "2026-09-26T22:00:00.000Z",
-    "dateText": "Sat 26th Sep",
-    "timeText": "6:00 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "Martin Gallagher",
-        "url": "https://www.fatsoma.com/e/ar2j1ifj/martin-gallagher"
-      },
-      {
-        "label": "Buy from Our Official Ticketing Partner",
-        "url": "https://www.seetickets.com/event/martin-gallagher/the-welly/3707909"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-09-26T06:08:03.715Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "18:00",
-    "displayDateTime24": "2026-09-26 18:00",
-    "type": null,
-    "distance": 3.1041171016001994
   },
   {
     "source": "The Welly Club",
@@ -1764,7 +1685,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:03.830Z",
+    "scrapedAt": "2026-09-27T06:08:24.795Z",
     "soldOut": false,
     "priceText": "£16.50",
     "freeEntry": false,
@@ -1797,7 +1718,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:03.666Z",
+    "scrapedAt": "2026-09-27T06:08:24.692Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "23:00",
@@ -1829,7 +1750,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:03.843Z",
+    "scrapedAt": "2026-09-27T06:08:25.249Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "23:00",
@@ -1861,7 +1782,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:03.702Z",
+    "scrapedAt": "2026-09-27T06:08:24.689Z",
     "soldOut": true,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -1895,7 +1816,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:04.011Z",
+    "scrapedAt": "2026-09-27T06:08:24.768Z",
     "soldOut": false,
     "priceText": "£23.00",
     "freeEntry": false,
@@ -1930,7 +1851,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:05.075Z",
+    "scrapedAt": "2026-09-27T06:08:25.006Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -1962,7 +1883,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:05.262Z",
+    "scrapedAt": "2026-09-27T06:08:27.294Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -1994,7 +1915,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:05.100Z",
+    "scrapedAt": "2026-09-27T06:08:26.561Z",
     "soldOut": false,
     "priceText": "£12.50",
     "freeEntry": false,
@@ -2029,7 +1950,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:05.264Z",
+    "scrapedAt": "2026-09-27T06:08:26.539Z",
     "soldOut": true,
     "priceText": "£9.00",
     "freeEntry": false,
@@ -2066,7 +1987,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:05.030Z",
+    "scrapedAt": "2026-09-27T06:08:26.513Z",
     "soldOut": true,
     "priceText": "£20.00",
     "freeEntry": false,
@@ -2099,7 +2020,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:04.766Z",
+    "scrapedAt": "2026-09-27T06:08:26.350Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
@@ -2132,7 +2053,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:06.491Z",
+    "scrapedAt": "2026-09-27T06:08:26.506Z",
     "soldOut": false,
     "priceText": "£25.00",
     "freeEntry": false,
@@ -2165,7 +2086,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:06.316Z",
+    "scrapedAt": "2026-09-27T06:08:28.474Z",
     "soldOut": false,
     "priceText": "£20.00",
     "freeEntry": false,
@@ -2198,7 +2119,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:06.515Z",
+    "scrapedAt": "2026-09-27T06:08:28.332Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "23:00",
@@ -2232,7 +2153,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:06.417Z",
+    "scrapedAt": "2026-09-27T06:08:28.472Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "23:00",
@@ -2266,7 +2187,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:06.314Z",
+    "scrapedAt": "2026-09-27T06:08:28.346Z",
     "soldOut": false,
     "priceText": "£15.00",
     "freeEntry": false,
@@ -2299,7 +2220,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:06.407Z",
+    "scrapedAt": "2026-09-27T06:08:28.381Z",
     "soldOut": false,
     "priceText": "£20.00",
     "freeEntry": false,
@@ -2332,7 +2253,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:07.570Z",
+    "scrapedAt": "2026-09-27T06:08:28.919Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -2364,7 +2285,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:07.597Z",
+    "scrapedAt": "2026-09-27T06:08:30.049Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -2396,7 +2317,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:07.512Z",
+    "scrapedAt": "2026-09-27T06:08:30.124Z",
     "soldOut": false,
     "priceText": "£20.00",
     "freeEntry": false,
@@ -2429,7 +2350,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:07.397Z",
+    "scrapedAt": "2026-09-27T06:08:30.010Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -2457,7 +2378,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:07.573Z",
+    "scrapedAt": "2026-09-27T06:08:30.023Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -2489,7 +2410,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:07.481Z",
+    "scrapedAt": "2026-09-27T06:08:30.011Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -2521,7 +2442,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:08.627Z",
+    "scrapedAt": "2026-09-27T06:08:29.862Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -2553,7 +2474,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:08.768Z",
+    "scrapedAt": "2026-09-27T06:08:31.111Z",
     "soldOut": false,
     "priceText": "£27.50",
     "freeEntry": false,
@@ -2586,7 +2507,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:08.780Z",
+    "scrapedAt": "2026-09-27T06:08:32.059Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -2618,7 +2539,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:08.769Z",
+    "scrapedAt": "2026-09-27T06:08:30.950Z",
     "soldOut": false,
     "priceText": "£22.50",
     "freeEntry": false,
@@ -2651,7 +2572,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:09.426Z",
+    "scrapedAt": "2026-09-27T06:08:30.993Z",
     "soldOut": false,
     "priceText": "£23.50",
     "freeEntry": false,
@@ -2684,7 +2605,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:08.944Z",
+    "scrapedAt": "2026-09-27T06:08:32.061Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -2716,7 +2637,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:10.568Z",
+    "scrapedAt": "2026-09-27T06:08:31.892Z",
     "soldOut": true,
     "priceText": "£9.00",
     "freeEntry": false,
@@ -2752,7 +2673,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:10.508Z",
+    "scrapedAt": "2026-09-27T06:08:32.986Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "14:00",
@@ -2784,7 +2705,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:10.597Z",
+    "scrapedAt": "2026-09-27T06:08:32.985Z",
     "soldOut": false,
     "priceText": "£18.00",
     "freeEntry": false,
@@ -2817,7 +2738,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:10.585Z",
+    "scrapedAt": "2026-09-27T06:08:32.939Z",
     "soldOut": true,
     "priceText": "£9.00",
     "freeEntry": false,
@@ -2853,7 +2774,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-09-26T06:08:10.573Z",
+    "scrapedAt": "2026-09-27T06:08:32.932Z",
     "soldOut": false,
     "priceText": "£16.50",
     "freeEntry": false,
@@ -3499,7 +3420,7 @@
     "timeText": "20:00",
     "address": "The Gardeners Arms, Hull HU5",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.237Z",
+    "scrapedAt": "2026-09-27T06:08:22.123Z",
     "soldOut": false,
     "priceText": "£3.25",
     "freeEntry": true,
@@ -3522,7 +3443,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.957Z",
+    "scrapedAt": "2026-09-27T06:08:22.511Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -3543,7 +3464,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.958Z",
+    "scrapedAt": "2026-09-27T06:08:22.511Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -3564,7 +3485,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.958Z",
+    "scrapedAt": "2026-09-27T06:08:22.512Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -3585,7 +3506,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.958Z",
+    "scrapedAt": "2026-09-27T06:08:22.512Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -3606,7 +3527,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.958Z",
+    "scrapedAt": "2026-09-27T06:08:22.512Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3627,7 +3548,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.958Z",
+    "scrapedAt": "2026-09-27T06:08:22.512Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3648,7 +3569,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.959Z",
+    "scrapedAt": "2026-09-27T06:08:22.512Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3669,7 +3590,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.959Z",
+    "scrapedAt": "2026-09-27T06:08:22.513Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3690,7 +3611,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.959Z",
+    "scrapedAt": "2026-09-27T06:08:22.513Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3711,7 +3632,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.959Z",
+    "scrapedAt": "2026-09-27T06:08:22.513Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3732,7 +3653,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.960Z",
+    "scrapedAt": "2026-09-27T06:08:22.513Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3753,7 +3674,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.960Z",
+    "scrapedAt": "2026-09-27T06:08:22.513Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3774,7 +3695,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.960Z",
+    "scrapedAt": "2026-09-27T06:08:22.513Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3795,7 +3716,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.960Z",
+    "scrapedAt": "2026-09-27T06:08:22.514Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3816,7 +3737,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.960Z",
+    "scrapedAt": "2026-09-27T06:08:22.514Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3837,7 +3758,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.960Z",
+    "scrapedAt": "2026-09-27T06:08:22.514Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3858,7 +3779,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.961Z",
+    "scrapedAt": "2026-09-27T06:08:22.514Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3879,7 +3800,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.961Z",
+    "scrapedAt": "2026-09-27T06:08:22.514Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3900,7 +3821,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.961Z",
+    "scrapedAt": "2026-09-27T06:08:22.515Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3921,7 +3842,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:00.961Z",
+    "scrapedAt": "2026-09-27T06:08:22.515Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -3942,7 +3863,7 @@
     "timeText": "",
     "address": "50-54 Princes Avenue, Hull, United Kingdom",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.263Z",
+    "scrapedAt": "2026-09-27T06:08:22.249Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -3963,7 +3884,7 @@
     "timeText": "",
     "address": "50-54 Princes Avenue, Hull, United Kingdom",
     "tickets": [],
-    "scrapedAt": "2026-09-26T06:08:01.264Z",
+    "scrapedAt": "2026-09-27T06:08:22.250Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
