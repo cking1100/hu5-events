@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install scraper browser
+        run: npx playwright install --with-deps chromium
+
       - name: Run scraper
         run: npm run scrape
         timeout-minutes: 5

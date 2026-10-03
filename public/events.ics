@@ -5,22 +5,11 @@ PRODID:adamgibbons/ics
 METHOD:PUBLISH
 X-PUBLISHED-TTL:PT1H
 BEGIN:VEVENT
-UID:Catfishing The Bottlemen-1791052200
-SUMMARY:Catfishing The Bottlemen
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T193000Z
-DTEND:20261003T223000Z
-URL:https://www.polarbearmusicclub.co.uk/whatson/catfishing-the-bottlemen-h
-	ull-oct-2026
-LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
 UID:WIRED - DJS EVERY SATURDAY NIGHT-1791063000
 SUMMARY:WIRED - DJS EVERY SATURDAY NIGHT
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T223000Z
-DTEND:20261004T023000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261003T213000Z
+DTEND:20261004T013000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-2
 	6-sep-2026-4s69c
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -29,9 +18,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:THE SESH-1791311400
 SUMMARY:THE SESH
-DTSTAMP:20261003T105156Z
-DTSTART:20261006T193000Z
-DTEND:20261006T203000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261006T183000Z
+DTEND:20261006T193000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/the-sesh-061026-live-music
 	-every-tuesday-hull
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -40,9 +29,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Heaven's Waltzer-1791572400
 SUMMARY:Heaven's Waltzer
-DTSTAMP:20261003T105156Z
-DTSTART:20261009T200000Z
-DTEND:20261010T020000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261009T190000Z
+DTEND:20261010T010000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/heavens-waltzer-polar-bear
 	-hull-october-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -51,30 +40,20 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Tim Curry Night-1791657000
 SUMMARY:Tim Curry Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T193000Z
-DTEND:20261010T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T183000Z
+DTEND:20261010T220000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/tim-curry-night-fundraiser
 	-hull-10-oct-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:The B Hives-1791657000
-SUMMARY:The B Hives
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T193000Z
-DTEND:20261010T230000Z
-URL:https://www.polarbearmusicclub.co.uk/whatson/the-b-hives-hull-2026
-LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
 UID:WIRED - DJS EVERY SATURDAY NIGHT-1791667800
 SUMMARY:WIRED - DJS EVERY SATURDAY NIGHT
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T223000Z
-DTEND:20261010T233000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T213000Z
+DTEND:20261010T223000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-1
 	0-oct-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -83,9 +62,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:THE SESH-1791916200
 SUMMARY:THE SESH
-DTSTAMP:20261003T105156Z
-DTSTART:20261013T193000Z
-DTEND:20261014T023000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261013T183000Z
+DTEND:20261014T013000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/the-sesh-310926-live-music
 	-every-tuesday-hull
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -94,9 +73,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The Kairos-1792002600
 SUMMARY:The Kairos
-DTSTAMP:20261003T105156Z
-DTSTART:20261014T193000Z
-DTEND:20261014T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261014T183000Z
+DTEND:20261014T220000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/the-kairos-polar-bear-hull
 	-october-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -105,9 +84,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Highway to Hull - ACDC Tribute-1792173600
 SUMMARY:Highway to Hull - ACDC Tribute
-DTSTAMP:20261003T105156Z
-DTSTART:20261016T190000Z
-DTEND:20261016T223000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261016T180000Z
+DTEND:20261016T213000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/highway-to-hull-acdc-tribu
 	te-polar-bear-october-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -116,9 +95,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The UK Strokes-1792261800
 SUMMARY:The UK Strokes
-DTSTAMP:20261003T105156Z
-DTSTART:20261017T193000Z
-DTEND:20261017T223000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T183000Z
+DTEND:20261017T213000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/the-uk-strokes-polar-bear-
 	hull-oct-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -127,9 +106,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:WIRED - DJS EVERY SATURDAY NIGHT-1792272600
 SUMMARY:WIRED - DJS EVERY SATURDAY NIGHT
-DTSTAMP:20261003T105156Z
-DTSTART:20261017T223000Z
-DTEND:20261018T023000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T213000Z
+DTEND:20261018T013000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-1
 	7-oct-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -138,9 +117,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:THE SESH-1792521000
 SUMMARY:THE SESH
-DTSTAMP:20261003T105156Z
-DTSTART:20261020T193000Z
-DTEND:20261021T023000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261020T183000Z
+DTEND:20261021T013000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/the-sesh-201026-live-music
 	-every-tuesday-hull
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -149,9 +128,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Girl Group-1792607400
 SUMMARY:Girl Group
-DTSTAMP:20261003T105156Z
-DTSTART:20261021T193000Z
-DTEND:20261021T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261021T183000Z
+DTEND:20261021T220000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/girl-group-polar-bear-musi
 	c-club-october-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -160,9 +139,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Jodie Langford-1792780200
 SUMMARY:Jodie Langford
-DTSTAMP:20261003T105156Z
-DTSTART:20261023T193000Z
-DTEND:20261023T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261023T183000Z
+DTEND:20261023T220000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/jodie-langford-alice-stree
 	t-sarah-shiels-polar-bear-hull-october-2026
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -171,9 +150,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Polar Bear Jazz Club-1792866600
 SUMMARY:Polar Bear Jazz Club
-DTSTAMP:20261003T105156Z
-DTSTART:20261024T193000Z
-DTEND:20261024T223000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261024T183000Z
+DTEND:20261024T213000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/polar-bear-jazz-club-24-10
 	-26
 LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
@@ -182,8 +161,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:WIRED - DJS EVERY SATURDAY NIGHT-1792877400
 SUMMARY:WIRED - DJS EVERY SATURDAY NIGHT
-DTSTAMP:20261003T105156Z
-DTSTART:20261024T223000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261024T213000Z
 DTEND:20261025T023000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-2
 	4-oct-2026
@@ -193,7 +172,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:THE SESH-1793129400
 SUMMARY:THE SESH
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261027T193000Z
 DTEND:20261028T023000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/the-sesh-271026-live-music
@@ -204,7 +183,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Halloween Metal Madness 2026-1793386800
 SUMMARY:Halloween Metal Madness 2026
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261030T190000Z
 DTEND:20261031T013000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/halloween-metal-madness-20
@@ -215,7 +194,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Translayvania 3: Transmutation Clinic-1793475000
 SUMMARY:Translayvania 3: Transmutation Clinic
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261031T193000Z
 DTEND:20261101T233000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/translayvania-3-transmutat
@@ -226,7 +205,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:WIRED - hALLOWEEN sPECIAL-1793485800
 SUMMARY:WIRED - hALLOWEEN sPECIAL
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261031T223000Z
 DTEND:20261101T023000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-3
@@ -237,7 +216,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Andrew O'Neill: The History of Punk-1793907000
 SUMMARY:Andrew O'Neill: The History of Punk
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261105T193000Z
 DTEND:20261105T223000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/andrew-o-neill-the-history
@@ -248,7 +227,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The Darts (US)-1794079800
 SUMMARY:The Darts (US)
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261107T193000Z
 DTEND:20261107T223000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/the-darts-polar-bear-hull-
@@ -259,7 +238,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Congratulations-1794166200
 SUMMARY:Congratulations
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261108T193000Z
 DTEND:20261108T203000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/congratulations-polar-bear
@@ -270,7 +249,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Moments of Pleasure - Performing The Music Of Kate Bush-1794598200
 SUMMARY:Moments of Pleasure - Performing The Music Of Kate Bush
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261113T193000Z
 DTEND:20261113T223000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/moments-of-pleasure-perfor
@@ -281,7 +260,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Polar Bear Jazz Club-1795203000
 SUMMARY:Polar Bear Jazz Club
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261120T193000Z
 DTEND:20261120T230000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/polar-bear-jazz-club-20-11
@@ -292,7 +271,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Ormella-1795289400
 SUMMARY:Ormella
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261121T193000Z
 DTEND:20261121T223000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/ormella-polar-bear-hull-no
@@ -303,7 +282,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:TOM A. SMITH-1795635000
 SUMMARY:TOM A. SMITH
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261125T193000Z
 DTEND:20261125T230000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/tom-a-smith-polar-bear-hul
@@ -314,7 +293,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Scarlet Rebels-1795721400
 SUMMARY:Scarlet Rebels
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261126T193000Z
 DTEND:20261126T230000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/scarlet-rebels-polar-bear-
@@ -325,7 +304,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Big Special-1795807800
 SUMMARY:Big Special
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261127T193000Z
 DTEND:20261127T230000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/big-special-polar-bear-hul
@@ -336,7 +315,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Feral Family-1796931000
 SUMMARY:Feral Family
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261210T193000Z
 DTEND:20261210T230000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/feral-family-december-2026
@@ -347,7 +326,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Magulo - 007 - DJ Hybrid-1797019200
 SUMMARY:Magulo - 007 - DJ Hybrid
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261211T200000Z
 DTEND:20261212T020000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/magulo-007-dj-hybrid-polar
@@ -358,7 +337,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Amy's Winehouse Band-1797622200
 SUMMARY:Amy's Winehouse Band
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261218T193000Z
 DTEND:20261218T230000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/amys-winehouse-band-polar-
@@ -369,7 +348,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Polar Bear Jazz Club-1797708600
 SUMMARY:Polar Bear Jazz Club
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261219T193000Z
 DTEND:20261219T223000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/polar-bear-jazz-club-19-12
@@ -380,7 +359,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Walt Disco-1801510200
 SUMMARY:Walt Disco
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20270201T193000Z
 DTEND:20270201T230000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/walt-disco-hull-polar-bear
@@ -391,7 +370,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Dan Tiernan - Quartz and All-1803670200
 SUMMARY:Dan Tiernan - Quartz and All
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20270226T193000Z
 DTEND:20270226T223000Z
 URL:https://www.polarbearmusicclub.co.uk/whatson/dan-tiernan-quartz-and-all
@@ -400,181 +379,43 @@ LOCATION:Polar Bear Music Club\, 229 Spring Bank\, Hull\, HU3 1LR
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1791111600
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261004T120000Z
-DTEND:19700101T010000Z
+UID:Newmans Nosh back at Moodys!!-1791390600
+SUMMARY:Newmans Nosh back at Moodys!!
+DTSTAMP:20261003T191335Z
+DTSTART:20261007T163000Z
+DTEND:20261007T183000Z
+DESCRIPTION:Newmans Nosh back at Moodys!! \n\nBeen a long time\, last one w
+	as soupy season and this time we have a little Italian themed menu. The id
+	ea is that it’s basically a sample menu to give you an idea of what you co
+	uld have for dinner in your very own home. 🏡\n\nCome on down to @mr_moodys
+	_tavern on 7th/8th October to come and get a little taster for yourself!✨\
+	n\n#independantbusiness #popupmenu #eastyorkshire
+URL:https://www.instagram.com/p/Dd1ebFIMNu8/
 LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1791716400
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261011T120000Z
-DTEND:19700101T010000Z
+UID:Newmans Nosh back at Moodys!!-1791477000
+SUMMARY:Newmans Nosh back at Moodys!!
+DTSTAMP:20261003T191335Z
+DTSTART:20261008T163000Z
+DTEND:20261008T183000Z
+DESCRIPTION:Newmans Nosh back at Moodys!! \n\nBeen a long time\, last one w
+	as soupy season and this time we have a little Italian themed menu. The id
+	ea is that it’s basically a sample menu to give you an idea of what you co
+	uld have for dinner in your very own home. 🏡\n\nCome on down to @mr_moodys
+	_tavern on 7th/8th October to come and get a little taster for yourself!✨\
+	n\n#independantbusiness #popupmenu #eastyorkshire
+URL:https://www.instagram.com/p/Dd1ebFIMNu8/
 LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1792321200
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261018T120000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1792926000
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261025T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1793530800
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261101T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1794135600
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261108T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1794740400
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261115T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1795345200
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261122T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1795950000
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261129T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1796554800
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261206T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1797159600
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261213T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1797764400
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261220T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1798369200
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20261227T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1798974000
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20270103T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)-1799578800
-SUMMARY:Sunday Lunch (Walk-ins Only · Bring Cash · Come Hungry)
-DTSTAMP:20261003T105156Z
-DTSTART:20270110T110000Z
-DTEND:19700101T010000Z
-LOCATION:Mr Moody's Tavern\, 6 Newland Ave\, Hull HU5 3AF
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Saturday Sing-Around Session – hosted by Lloyd Dobbs & Andy Buckton-179
-	1025200
-SUMMARY:Saturday Sing-Around Session – hosted by Lloyd Dobbs & Andy Buckton
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T120000Z
-DTEND:20261003T160000Z
-URL:https://mollymangans.com/event/saturday-sing-around-session-hosted-by-l
-	loyd-dobbs-andy-buckton-11/
-LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
-	 Hull\, East Yorkshire\, HU5 3AB
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Velvet Frets-1791039600
-SUMMARY:Velvet Frets
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T160000Z
-DTEND:20261003T180000Z
-URL:https://mollymangans.com/event/velvet-frets-13/
-LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
-	 Hull\, East Yorkshire\, HU5 3AB
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Diddie Hair-1791050400
-SUMMARY:Diddie Hair
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T190000Z
-DTEND:20261003T210000Z
-URL:https://mollymangans.com/event/diddie-hair-19/
-LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
-	 Hull\, East Yorkshire\, HU5 3AB
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:Dylan Ward-1791061200
 SUMMARY:Dylan Ward
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T220000Z
-DTEND:20261004T130000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261003T210000Z
+DTEND:20261004T120000Z
 URL:https://mollymangans.com/event/dylan-ward-44/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -583,9 +424,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Mark Knight-1791126000
 SUMMARY:Mark Knight
-DTSTAMP:20261003T105156Z
-DTSTART:20261004T160000Z
-DTEND:20261004T180000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261004T150000Z
+DTEND:20261004T170000Z
 URL:https://mollymangans.com/event/mark-knight-30/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -594,9 +435,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Jack Robertson-1791136800
 SUMMARY:Jack Robertson
-DTSTAMP:20261003T105156Z
-DTSTART:20261004T190000Z
-DTEND:20261004T210000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261004T180000Z
+DTEND:20261004T200000Z
 URL:https://mollymangans.com/event/jack-robertson-32/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -605,9 +446,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Lloyd Dobbs-1791226800
 SUMMARY:Lloyd Dobbs
-DTSTAMP:20261003T105156Z
-DTSTART:20261005T200000Z
-DTEND:20261005T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261005T190000Z
+DTEND:20261005T210000Z
 URL:https://mollymangans.com/event/lloyd-dobbs-19/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -616,9 +457,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:James Elior-1791313200
 SUMMARY:James Elior
-DTSTAMP:20261003T105156Z
-DTSTART:20261006T200000Z
-DTEND:20261006T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261006T190000Z
+DTEND:20261006T210000Z
 URL:https://mollymangans.com/event/james-elior-7/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -627,9 +468,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Beth Pilling-1791399600
 SUMMARY:Beth Pilling
-DTSTAMP:20261003T105156Z
-DTSTART:20261007T200000Z
-DTEND:20261007T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261007T190000Z
+DTEND:20261007T210000Z
 URL:https://mollymangans.com/event/beth-pilling-22/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -638,21 +479,10 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Alex Czapla-1791486000
 SUMMARY:Alex Czapla
-DTSTAMP:20261003T105156Z
-DTSTART:20261008T200000Z
-DTEND:20261008T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261008T190000Z
+DTEND:20261008T210000Z
 URL:https://mollymangans.com/event/alex-czapla-7/
-LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
-	 Hull\, East Yorkshire\, HU5 3AB
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Ellie Pollard-1791486000
-SUMMARY:Ellie Pollard
-DTSTAMP:20261003T105156Z
-DTSTART:20261008T200000Z
-DTEND:20261008T220000Z
-URL:https://mollymangans.com/event/ellie-pollard-25/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
 STATUS:CONFIRMED
@@ -660,9 +490,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:James Wood-1791568800
 SUMMARY:James Wood
-DTSTAMP:20261003T105156Z
-DTSTART:20261009T190000Z
-DTEND:20261009T210000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261009T180000Z
+DTEND:20261009T200000Z
 URL:https://mollymangans.com/event/james-wood-24/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -671,9 +501,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Friends Quiz at Newland Social Above Molly’s-1791568800
 SUMMARY:Friends Quiz at Newland Social Above Molly’s
-DTSTAMP:20261003T105156Z
-DTSTART:20261009T190000Z
-DTEND:20261009T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261009T180000Z
+DTEND:20261009T210000Z
 URL:https://mollymangans.com/event/friends-quiz-at-newland-social-above-mol
 	lys/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
@@ -683,10 +513,21 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Will Dooley-1791579600
 SUMMARY:Will Dooley
-DTSTAMP:20261003T105156Z
-DTSTART:20261009T220000Z
-DTEND:20261010T010000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261009T210000Z
+DTEND:20261010T000000Z
 URL:https://mollymangans.com/event/will-dooley-10/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Matt Harvey-1791644400
+SUMMARY:Matt Harvey
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T150000Z
+DTEND:20261010T170000Z
+URL:https://mollymangans.com/event/matt-harvey/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
 STATUS:CONFIRMED
@@ -694,9 +535,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Velvet Frets-1791655200
 SUMMARY:Velvet Frets
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T190000Z
-DTEND:20261010T210000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T180000Z
+DTEND:20261010T200000Z
 URL:https://mollymangans.com/event/velvet-frets-14/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
@@ -705,48 +546,448 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Counterfeit Celts-1791662400
 SUMMARY:Counterfeit Celts
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T210000Z
-DTEND:20261010T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T200000Z
+DTEND:20261010T220000Z
 URL:https://mollymangans.com/event/counterfeit-celts-3/
 LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
 	 Hull\, East Yorkshire\, HU5 3AB
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:Jack Robertson-1791669600
+SUMMARY:Jack Robertson
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T220000Z
+DTEND:20261011T000000Z
+URL:https://mollymangans.com/event/jack-robertson-31/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Hull City vs Everton: Fan Zone at Newland Social Above Molly’s-17917218
+	00
+SUMMARY:Hull City vs Everton: Fan Zone at Newland Social Above Molly’s
+DTSTAMP:20261003T191335Z
+DTSTART:20261011T123000Z
+DTEND:20261011T153000Z
+URL:https://mollymangans.com/event/hull-city-vs-everton-fan-zone-at-newland
+	-social-above-mollys/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Kings O’ Blarney-1791730800
+SUMMARY:Kings O’ Blarney
+DTSTAMP:20261003T191335Z
+DTSTART:20261011T150000Z
+DTEND:20261011T170000Z
+URL:https://mollymangans.com/event/kings-o-blarney-13/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Mark Knight-1791741600
+SUMMARY:Mark Knight
+DTSTAMP:20261003T191335Z
+DTSTART:20261011T180000Z
+DTEND:20261011T200000Z
+URL:https://mollymangans.com/event/mark-knight-31/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Lloyd Dobbs-1791831600
+SUMMARY:Lloyd Dobbs
+DTSTAMP:20261003T191335Z
+DTSTART:20261012T190000Z
+DTEND:20261012T210000Z
+URL:https://mollymangans.com/event/lloyd-dobbs-20/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:James Elior-1791918000
+SUMMARY:James Elior
+DTSTAMP:20261003T191335Z
+DTSTART:20261013T190000Z
+DTEND:20261013T210000Z
+URL:https://mollymangans.com/event/james-elior-8/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:James Wood-1792004400
+SUMMARY:James Wood
+DTSTAMP:20261003T191335Z
+DTSTART:20261014T190000Z
+DTEND:20261014T210000Z
+URL:https://mollymangans.com/event/james-wood-25/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Alex Czapla-1792090800
+SUMMARY:Alex Czapla
+DTSTAMP:20261003T191335Z
+DTSTART:20261015T190000Z
+DTEND:20261015T210000Z
+URL:https://mollymangans.com/event/alex-czapla-10/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Oktoberfest at Newland Social above Molly’s-1792175400
+SUMMARY:Oktoberfest at Newland Social above Molly’s
+DTSTAMP:20261003T191335Z
+DTSTART:20261016T183000Z
+DTEND:20261016T230000Z
+URL:https://mollymangans.com/event/oktoberfest-returns-to-newland-social-ab
+	ove-mollys/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Murphy Ridge-1792175400
+SUMMARY:Murphy Ridge
+DTSTAMP:20261003T191335Z
+DTSTART:20261016T183000Z
+DTEND:20261016T203000Z
+URL:https://mollymangans.com/event/murphy-ridge-5/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Saturday Sing-Around Session – hosted by Lloyd Dobbs & Andy Buckton-179
+	2234800
+SUMMARY:Saturday Sing-Around Session – hosted by Lloyd Dobbs & Andy Buckton
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T110000Z
+DTEND:20261017T150000Z
+URL:https://mollymangans.com/event/saturday-sing-around-session-hosted-by-l
+	loyd-dobbs-andy-buckton-12/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Mark Knight-1792249200
+SUMMARY:Mark Knight
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T150000Z
+DTEND:20261017T170000Z
+URL:https://mollymangans.com/event/mark-knight-32/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Matt Harvey-1792260000
+SUMMARY:Matt Harvey
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T180000Z
+DTEND:20261017T200000Z
+URL:https://mollymangans.com/event/matt-harvey-2/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Charlie Flintoft-1792267200
+SUMMARY:Charlie Flintoft
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T200000Z
+DTEND:20261017T220000Z
+URL:https://mollymangans.com/event/charlie-flintoft/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Mark Knight-1792335600
+SUMMARY:Mark Knight
+DTSTAMP:20261003T191335Z
+DTSTART:20261018T150000Z
+DTEND:20261018T170000Z
+URL:https://mollymangans.com/event/mark-knight-33/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Dylan Ward-1792346400
+SUMMARY:Dylan Ward
+DTSTAMP:20261003T191335Z
+DTSTART:20261018T180000Z
+DTEND:20261018T200000Z
+URL:https://mollymangans.com/event/dylan-ward-45/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:James Elior-1792436400
+SUMMARY:James Elior
+DTSTAMP:20261003T191335Z
+DTSTART:20261019T190000Z
+DTEND:20261019T210000Z
+URL:https://mollymangans.com/event/james-elior-9/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Dylan Ward-1792522800
+SUMMARY:Dylan Ward
+DTSTAMP:20261003T191335Z
+DTSTART:20261020T190000Z
+DTEND:20261020T210000Z
+URL:https://mollymangans.com/event/dylan-ward-46/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Beth Pilling-1792609200
+SUMMARY:Beth Pilling
+DTSTAMP:20261003T191335Z
+DTSTART:20261021T190000Z
+DTEND:20261021T210000Z
+URL:https://mollymangans.com/event/beth-pilling-23/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Jack Robertson-1792695600
+SUMMARY:Jack Robertson
+DTSTAMP:20261003T191335Z
+DTSTART:20261022T190000Z
+DTEND:20261022T210000Z
+URL:https://mollymangans.com/event/jack-robertson-33/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Hull City vs Brentford: Fan Zone at Newland Social Above Molly’s-179293
+	5000
+SUMMARY:Hull City vs Brentford: Fan Zone at Newland Social Above Molly’s
+DTSTAMP:20261003T191335Z
+DTSTART:20261025T133000Z
+DTEND:20261025T163000Z
+URL:https://mollymangans.com/event/hull-city-vs-brentford-fan-zone-at-newla
+	nd-social-above-mollys/
+LOCATION:Molly Mangan's\, Molly Mangan's Irish Bar\, 64-70 Newland Avenue\,
+	 Hull\, East Yorkshire\, HU5 3AB
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1791140400
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261004T190000Z
+DTEND:20261004T220000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	663277388
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Ciaran Needs Some F*cking Trousers!-1791486000
+SUMMARY:Ciaran Needs Some F*cking Trousers!
+DTSTAMP:20261003T191335Z
+DTSTART:20261008T190000Z
+DTEND:20261008T210000Z
+URL:https://www.facebook.com/events/1877689543193447/
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1791745200
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261011T190000Z
+DTEND:20261011T220000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	669944054
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Live: Sickcino-1792090800
+SUMMARY:Live: Sickcino
+DTSTAMP:20261003T191335Z
+DTSTART:20261015T190000Z
+DTEND:20261015T210000Z
+URL:https://www.facebook.com/events/1080437714750432/
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1792350000
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261018T190000Z
+DTEND:20261018T220000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	673277387
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1792958400
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261025T200000Z
+DTEND:20261025T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	676610720
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1793563200
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261101T200000Z
+DTEND:20261101T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	679944053
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1794168000
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261108T200000Z
+DTEND:20261108T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	693277385
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1794772800
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261115T200000Z
+DTEND:20261115T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	683277386
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1795377600
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261122T200000Z
+DTEND:20261122T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	686610719
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1795982400
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261129T200000Z
+DTEND:20261129T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	689944052
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1796587200
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261206T200000Z
+DTEND:20261206T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	703277384
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1797192000
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261213T200000Z
+DTEND:20261213T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	696610718
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:Hip Hop Hooray!-1797624000
 SUMMARY:Hip Hop Hooray!
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261218T200000Z
-DTEND:19700101T010000Z
+DTEND:20261218T220000Z
 URL:https://untappd.com/v/the-peoples-republic/4588756/event/935363
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Chunk's (Bob's) Big Brain Quiz-1797796800
+SUMMARY:Chunk's (Bob's) Big Brain Quiz
+DTSTAMP:20261003T191335Z
+DTSTART:20261220T200000Z
+DTEND:20261220T230000Z
+URL:https://www.facebook.com/events/4336291549944066/?event_time_id=4336291
+	699944051
+LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Cats With Leprosy-1798376400
+SUMMARY:Cats With Leprosy
+DTSTAMP:20261003T191335Z
+DTSTART:20261227T130000Z
+DTEND:20261227T150000Z
+URL:https://www.facebook.com/events/1799561008059226/
 LOCATION:The People's Republic\, 112 Newland Avenue\, Hull\, HU5 3AA
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:Stand-Up Comedy Show-1791743400
 SUMMARY:Stand-Up Comedy Show
-DTSTAMP:20261003T105156Z
-DTSTART:20261011T193000Z
-DTEND:19700101T010000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261011T183000Z
+DTEND:20261011T203000Z
 LOCATION:St John's\, Queens Rd\, Hull HU5 2PY
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:Stand-Up Comedy Show-1794166200
 SUMMARY:Stand-Up Comedy Show
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261108T193000Z
-DTEND:19700101T010000Z
+DTEND:20261108T213000Z
 LOCATION:St John's\, Queens Rd\, Hull HU5 2PY
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:Stand-Up Comedy Show-1797190200
 SUMMARY:Stand-Up Comedy Show
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261213T193000Z
-DTEND:19700101T010000Z
+DTEND:20261213T213000Z
 LOCATION:St John's\, Queens Rd\, Hull HU5 2PY
 STATUS:CONFIRMED
 END:VEVENT
@@ -757,9 +998,9 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
-DTSTART:20261009T200000Z
-DTEND:20261009T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261009T190000Z
+DTEND:20261009T210000Z
 URL:https://www.pavebar.co.uk
 LOCATION:Pave Bar\, 16-20 Princes Ave\, Hull HU5 3QA
 STATUS:CONFIRMED
@@ -771,9 +1012,9 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
-DTSTART:20261016T200000Z
-DTEND:20261016T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261016T190000Z
+DTEND:20261016T210000Z
 URL:https://www.pavebar.co.uk
 LOCATION:Pave Bar\, 16-20 Princes Ave\, Hull HU5 3QA
 STATUS:CONFIRMED
@@ -785,9 +1026,9 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
-DTSTART:20261023T200000Z
-DTEND:20261023T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261023T190000Z
+DTEND:20261023T210000Z
 URL:https://www.pavebar.co.uk
 LOCATION:Pave Bar\, 16-20 Princes Ave\, Hull HU5 3QA
 STATUS:CONFIRMED
@@ -799,7 +1040,7 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261030T190000Z
 DTEND:20261030T210000Z
 URL:https://www.pavebar.co.uk
@@ -813,7 +1054,7 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261106T190000Z
 DTEND:20261106T210000Z
 URL:https://www.pavebar.co.uk
@@ -827,7 +1068,7 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261113T190000Z
 DTEND:20261113T210000Z
 URL:https://www.pavebar.co.uk
@@ -841,7 +1082,7 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261120T190000Z
 DTEND:20261120T210000Z
 URL:https://www.pavebar.co.uk
@@ -855,7 +1096,7 @@ UID:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us
 SUMMARY:Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launche
 	s us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FRE
 	E ENTRY
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261127T190000Z
 DTEND:20261127T210000Z
 URL:https://www.pavebar.co.uk
@@ -863,11 +1104,24 @@ LOCATION:Pave Bar\, 16-20 Princes Ave\, Hull HU5 3QA
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:Confessional-1792004400
+SUMMARY:Confessional
+DTSTAMP:20261003T191335Z
+DTSTART:20261014T190000Z
+DTEND:20261014T210000Z
+DESCRIPTION:Confessional\n\nGot something to say? We’ve got your mic ready.
+	\nEvery 2nd Wednesday of the month\, 8pm @newlandtap_hull\nNext Confession
+	al: 14th October 2026
+URL:https://www.instagram.com/theconfessionalhull/
+LOCATION:Newland Tap
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:Beat The Clock-1791057600
 SUMMARY:Beat The Clock
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T210000Z
-DTEND:19700101T010000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261003T200000Z
+DTEND:20261003T220000Z
 URL:https://unionmashup.co.uk/events/beat-the-clock-29/?occurrence=2026-10-
 	03
 LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
@@ -876,19 +1130,19 @@ END:VEVENT
 BEGIN:VEVENT
 UID:MOJO R%26B CLUB-1791644400
 SUMMARY:MOJO R%26B CLUB
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T160000Z
-DTEND:19700101T010000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T150000Z
+DTEND:20261010T170000Z
 URL:https://unionmashup.co.uk/events/mojo-rb-club-8/?occurrence=2026-10-10
 LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Car Load of Comics-1792062000
+UID:Car Load of Comics-1792089000
 SUMMARY:Car Load of Comics
-DTSTAMP:20261003T105156Z
-DTSTART:20261015T120000Z
-DTEND:19700101T010000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261015T183000Z
+DTEND:20261015T203000Z
 URL:https://unionmashup.co.uk/events/car-load-of-comics-52/?occurrence=2026
 	-10-15
 LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
@@ -897,30 +1151,149 @@ END:VEVENT
 BEGIN:VEVENT
 UID:An Evening With Emily River Thomson-1792866600
 SUMMARY:An Evening With Emily River Thomson
-DTSTAMP:20261003T105156Z
-DTSTART:20261024T193000Z
-DTEND:19700101T010000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261024T183000Z
+DTEND:20261024T203000Z
 URL:https://unionmashup.co.uk/events/an-evening-with-emily-river-thomson/?o
 	ccurrence=2026-10-24
 LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Trance Day Party: Hull-1791036000
-SUMMARY:Trance Day Party: Hull
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T150000Z
-DTEND:20261003T200000Z
-URL:https://www.giveitsomewelly.com/event/trance-day-party-hull/
-LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
+UID:Away With Words poetry night-1793907000
+SUMMARY:Away With Words poetry night
+DTSTAMP:20261003T191335Z
+DTSTART:20261105T193000Z
+DTEND:20261105T213000Z
+URL:https://unionmashup.co.uk/events/away-with-words-poetry-night-59/?occur
+	rence=2026-11-05
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Silhouette Revisited 3-1794686400
+SUMMARY:Silhouette Revisited 3
+DTSTAMP:20261003T191335Z
+DTSTART:20261114T200000Z
+DTEND:20261114T220000Z
+URL:https://unionmashup.co.uk/events/silhouette-revisited-3/?occurrence=202
+	6-11-14
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Car Load of Comics-1795116600
+SUMMARY:Car Load of Comics
+DTSTAMP:20261003T191335Z
+DTSTART:20261119T193000Z
+DTEND:20261119T213000Z
+URL:https://unionmashup.co.uk/events/car-load-of-comics-53/?occurrence=2026
+	-11-19
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Gloria’s Glorious Gabbatek Bonanza-1795197600
+SUMMARY:Gloria’s Glorious Gabbatek Bonanza
+DTSTAMP:20261003T191335Z
+DTSTART:20261120T180000Z
+DTEND:20261120T200000Z
+URL:https://unionmashup.co.uk/events/glorias-glorious-gabbatek-bonanza/?occ
+	urrence=2026-11-20
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:POP3-1795802400
+SUMMARY:POP3
+DTSTAMP:20261003T191335Z
+DTSTART:20261127T180000Z
+DTEND:20261127T200000Z
+URL:https://unionmashup.co.uk/events/pop3-4/?occurrence=2026-11-27
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Beat The Clock-1796504400
+SUMMARY:Beat The Clock
+DTSTAMP:20261003T191335Z
+DTSTART:20261205T210000Z
+DTEND:20261205T230000Z
+URL:https://unionmashup.co.uk/events/beat-the-clock-30/?occurrence=2026-12-
+	05
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:MOJO R%26B CLUB-1797105600
+SUMMARY:MOJO R%26B CLUB
+DTSTAMP:20261003T191335Z
+DTSTART:20261212T200000Z
+DTEND:20261212T220000Z
+URL:https://unionmashup.co.uk/events/mojo-rb-club-7/?occurrence=2026-12-12
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Apparent Audio-1798308000
+SUMMARY:Apparent Audio
+DTSTAMP:20261003T191335Z
+DTSTART:20261226T180000Z
+DTEND:20261226T200000Z
+URL:https://unionmashup.co.uk/events/apparent-audio-3/?occurrence=2026-12-2
+	6
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Beat The Clock-1802552400
+SUMMARY:Beat The Clock
+DTSTAMP:20261003T191335Z
+DTSTART:20270213T210000Z
+DTEND:20270213T230000Z
+URL:https://unionmashup.co.uk/events/beat-the-clock-31/?occurrence=2027-02-
+	13
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Beat The Clock-1806782400
+SUMMARY:Beat The Clock
+DTSTAMP:20261003T191335Z
+DTSTART:20270403T200000Z
+DTEND:20270403T220000Z
+URL:https://unionmashup.co.uk/events/beat-the-clock-32/?occurrence=2027-04-
+	03
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:STICKY-1809284400
+SUMMARY:STICKY
+DTSTAMP:20261003T191335Z
+DTSTART:20270502T190000Z
+DTEND:20270502T210000Z
+URL:https://unionmashup.co.uk/events/sticky/?occurrence=2027-05-02
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Beat The Clock-1812225600
+SUMMARY:Beat The Clock
+DTSTAMP:20261003T191335Z
+DTSTART:20270605T200000Z
+DTEND:20270605T220000Z
+URL:https://unionmashup.co.uk/events/beat-the-clock-33/?occurrence=2027-06-
+	05
+LOCATION:Union Mash Up\, 22-24 Princes Ave\, Hull\, HU5 3QA
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:Kris Barras Band-1791655200
 SUMMARY:Kris Barras Band
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T190000Z
-DTEND:20261010T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T180000Z
+DTEND:20261010T210000Z
 URL:https://www.giveitsomewelly.com/event/kris-barras-band/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
 STATUS:CONFIRMED
@@ -928,9 +1301,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Pablo Carrizo-1791655200
 SUMMARY:Pablo Carrizo
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T190000Z
-DTEND:20261010T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T180000Z
+DTEND:20261010T220000Z
 URL:https://www.giveitsomewelly.com/event/pablo-carrizo/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
 STATUS:CONFIRMED
@@ -938,9 +1311,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Ferocious Dog-1792087200
 SUMMARY:Ferocious Dog
-DTSTAMP:20261003T105156Z
-DTSTART:20261015T190000Z
-DTEND:20261015T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261015T180000Z
+DTEND:20261015T210000Z
 URL:https://www.giveitsomewelly.com/event/ferocious-dog/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
 STATUS:CONFIRMED
@@ -948,9 +1321,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ELDER EMO DAY PARTY-1792249200
 SUMMARY:ELDER EMO DAY PARTY
-DTSTAMP:20261003T105156Z
-DTSTART:20261017T160000Z
-DTEND:20261017T200000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T150000Z
+DTEND:20261017T190000Z
 URL:https://www.giveitsomewelly.com/event/elder-emo-day-party/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
 STATUS:CONFIRMED
@@ -958,9 +1331,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Sounds Familiar Music Quiz – Launch Party-1792778400
 SUMMARY:Sounds Familiar Music Quiz – Launch Party
-DTSTAMP:20261003T105156Z
-DTSTART:20261023T190000Z
-DTEND:20261023T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261023T180000Z
+DTEND:20261023T220000Z
 URL:https://www.giveitsomewelly.com/event/sounds-familiar-music-quiz-launch
 	-party/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
@@ -969,9 +1342,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:High Fade-1792864800
 SUMMARY:High Fade
-DTSTAMP:20261003T105156Z
-DTSTART:20261024T190000Z
-DTEND:20261024T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261024T180000Z
+DTEND:20261024T220000Z
 URL:https://www.giveitsomewelly.com/event/high-fade/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
 STATUS:CONFIRMED
@@ -979,7 +1352,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Jelly: Halloween Special-1793313000
 SUMMARY:Jelly: Halloween Special
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261029T223000Z
 DTEND:20261030T030000Z
 URL:https://www.giveitsomewelly.com/event/jelly-halloween-special/
@@ -989,7 +1362,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Temic-1793388600
 SUMMARY:Temic
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261030T193000Z
 DTEND:20261030T220000Z
 URL:https://www.giveitsomewelly.com/event/temic/
@@ -1001,7 +1374,7 @@ UID:FOREVER NU – 25th anniversary of Toxicity & Iowa special! Chop Suey, Sl
 	ip-Not, A7Xperience, Propa Roach-1793473200
 SUMMARY:FOREVER NU – 25th anniversary of Toxicity & Iowa special! Chop Suey
 	\, Slip-Not\, A7Xperience\, Propa Roach
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261031T190000Z
 DTEND:20261031T230000Z
 URL:https://www.giveitsomewelly.com/event/forever-nu-25th-anniversary-of-to
@@ -1012,7 +1385,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:CALL ME MAYBE: 2010S HALLOWEEN PARTY Tickets-1793487600
 SUMMARY:CALL ME MAYBE: 2010S HALLOWEEN PARTY Tickets
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261031T230000Z
 DTEND:20261101T030000Z
 URL:https://www.giveitsomewelly.com/event/call-me-maybe-2010s-halloween-par
@@ -1023,7 +1396,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:SO FETCH: 2000S HALLOWEEN PARTY-1793487600
 SUMMARY:SO FETCH: 2000S HALLOWEEN PARTY
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261031T230000Z
 DTEND:20261101T030000Z
 URL:https://www.giveitsomewelly.com/event/so-fetch-2000s-halloween-party/
@@ -1033,7 +1406,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Electric Eel Shock-1794423600
 SUMMARY:Electric Eel Shock
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261111T190000Z
 DTEND:20261111T230000Z
 URL:https://www.giveitsomewelly.com/event/electric-eel-shock/
@@ -1043,7 +1416,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Lo Fidelity Allstars-1794596400
 SUMMARY:Lo Fidelity Allstars
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261113T190000Z
 DTEND:20261113T230000Z
 URL:https://www.giveitsomewelly.com/event/lo-fidelity-allstars/
@@ -1053,7 +1426,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:80s Day Disco-1794668400
 SUMMARY:80s Day Disco
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261114T150000Z
 DTEND:20261114T200000Z
 URL:https://www.giveitsomewelly.com/event/80s-day-disco/
@@ -1063,7 +1436,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Anvil-1794943800
 SUMMARY:Anvil
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261117T193000Z
 DTEND:20261117T230000Z
 URL:https://www.giveitsomewelly.com/event/anvil/
@@ -1073,7 +1446,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Look Mum No Computer-1795201200
 SUMMARY:Look Mum No Computer
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261120T190000Z
 DTEND:20261120T230000Z
 URL:https://www.giveitsomewelly.com/event/look-mum-no-computer/
@@ -1083,7 +1456,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:COWBOYY-1795633200
 SUMMARY:COWBOYY
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261125T190000Z
 DTEND:20261125T230000Z
 URL:https://www.giveitsomewelly.com/event/cowboyy/
@@ -1093,7 +1466,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:An Afternoon of Indie – Indie For The Over 30s-1795878000
 SUMMARY:An Afternoon of Indie – Indie For The Over 30s
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261128T150000Z
 DTEND:20261128T190000Z
 URL:https://www.giveitsomewelly.com/event/an-afternoon-of-indie-indie-for-t
@@ -1104,7 +1477,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Rhythm Of The 90s-1795894200
 SUMMARY:Rhythm Of The 90s
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261128T193000Z
 DTEND:20261128T230000Z
 URL:https://www.giveitsomewelly.com/event/rhythm-of-the-90s/
@@ -1114,7 +1487,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ANTARCTIC MONKEYS-1796410800
 SUMMARY:ANTARCTIC MONKEYS
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261204T190000Z
 DTEND:20261204T223000Z
 URL:https://www.giveitsomewelly.com/event/antarctic-monkeys/
@@ -1124,7 +1497,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:When Rivers Meet-1796497200
 SUMMARY:When Rivers Meet
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261205T190000Z
 DTEND:20261205T230000Z
 URL:https://www.giveitsomewelly.com/event/when-rivers-meet/
@@ -1134,7 +1507,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:L1NKN P4RK – The Linkin Park Experience-1796927400
 SUMMARY:L1NKN P4RK – The Linkin Park Experience
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261210T183000Z
 DTEND:20261210T220000Z
 URL:https://www.giveitsomewelly.com/event/l1nkn-p4rk-the-linkin-park-experi
@@ -1145,7 +1518,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The Total Stone Roses-1797102000
 SUMMARY:The Total Stone Roses
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261212T190000Z
 DTEND:20261212T230000Z
 URL:https://www.giveitsomewelly.com/event/the-total-stone-roses/
@@ -1155,7 +1528,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Stop Making Sense Live-1797102000
 SUMMARY:Stop Making Sense Live
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261212T190000Z
 DTEND:20261212T230000Z
 URL:https://www.giveitsomewelly.com/event/stop-making-sense-live/
@@ -1165,7 +1538,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Pearl’s Sleigh Ride-1797620400
 SUMMARY:Pearl’s Sleigh Ride
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261218T190000Z
 DTEND:20261218T230000Z
 URL:https://www.giveitsomewelly.com/event/pearls-sleigh-ride/
@@ -1175,7 +1548,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Sounds Familiar Music Quiz – Power Ballads Special-1801245600
 SUMMARY:Sounds Familiar Music Quiz – Power Ballads Special
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20270129T180000Z
 DTEND:20270129T230000Z
 URL:https://www.giveitsomewelly.com/event/sounds-familiar-music-quiz-power-
@@ -1186,7 +1559,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Larkin Out Festival-1801922400
 SUMMARY:Larkin Out Festival
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20270206T140000Z
 DTEND:20270206T230000Z
 URL:https://www.giveitsomewelly.com/event/larkin-out-festival/
@@ -1196,7 +1569,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The Lilacs-1804186800
 SUMMARY:The Lilacs
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20270304T190000Z
 DTEND:20270304T230000Z
 URL:https://www.giveitsomewelly.com/event/the-lilacs/
@@ -1206,9 +1579,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Sounds Familiar Music Quiz-1809104400
 SUMMARY:Sounds Familiar Music Quiz
-DTSTAMP:20261003T105156Z
-DTSTART:20270430T180000Z
-DTEND:20270430T200000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20270430T170000Z
+DTEND:20270430T190000Z
 URL:https://www.giveitsomewelly.com/event/sounds-familiar-music-quiz/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
 STATUS:CONFIRMED
@@ -1216,49 +1589,39 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Pure Weller-1809194400
 SUMMARY:Pure Weller
-DTSTAMP:20261003T105156Z
-DTSTART:20270501T190000Z
-DTEND:20270501T230000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20270501T180000Z
+DTEND:20270501T220000Z
 URL:https://www.giveitsomewelly.com/event/pure-weller/
 LOCATION:The Welly Club\, 105-107 Beverley Rd\, Hull\, HU3 1TS
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Helicon + The Velvet Tuxedo-1791054000
-SUMMARY:Helicon + The Velvet Tuxedo
-DTSTAMP:20261003T105156Z
-DTSTART:20261003T200000Z
-DTEND:20261003T220000Z
-URL:https://www.theadelphi.com/events/helicon-velvet-tuxedo/
-LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:BIS + Supports-1791140400
-SUMMARY:BIS + Supports
-DTSTAMP:20261003T105156Z
-DTSTART:20261004T200000Z
-DTEND:20261004T220000Z
+UID:BIS + Slime City-1791140400
+SUMMARY:BIS + Slime City
+DTSTAMP:20261003T191335Z
+DTSTART:20261004T190000Z
+DTEND:20261004T210000Z
 URL:https://www.theadelphi.com/events/bis-supports/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Mat Hunsley + Support-1791313200
-SUMMARY:Mat Hunsley + Support
-DTSTAMP:20261003T105156Z
-DTSTART:20261006T200000Z
-DTEND:20261006T220000Z
-URL:https://www.theadelphi.com/events/mat-hunsley/
+UID:Musicians Night-1791226800
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261005T190000Z
+DTEND:20261005T210000Z
+URL:https://www.theadelphi.com/events/musicians-night-474/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:Skating Polly + Lord Friday the 13th-1791399600
 SUMMARY:Skating Polly + Lord Friday the 13th
-DTSTAMP:20261003T105156Z
-DTSTART:20261007T200000Z
-DTEND:20261007T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261007T190000Z
+DTEND:20261007T210000Z
 URL:https://www.theadelphi.com/events/skating-polly-lord-friday-the-13th/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
@@ -1266,9 +1629,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The Hanging Stars + Sunstack Jones-1791486000
 SUMMARY:The Hanging Stars + Sunstack Jones
-DTSTAMP:20261003T105156Z
-DTSTART:20261008T200000Z
-DTEND:20261008T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261008T190000Z
+DTEND:20261008T210000Z
 URL:https://www.theadelphi.com/events/48638/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
@@ -1276,19 +1639,19 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Driven Serious + A Different Thread-1791572400
 SUMMARY:Driven Serious + A Different Thread
-DTSTAMP:20261003T105156Z
-DTSTART:20261009T200000Z
-DTEND:20261009T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261009T190000Z
+DTEND:20261009T210000Z
 URL:https://www.theadelphi.com/events/driven-serious-a-different-thread/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Random Hand + Support-1791658800
-SUMMARY:Random Hand + Support
-DTSTAMP:20261003T105156Z
-DTSTART:20261010T200000Z
-DTEND:20261010T220000Z
+UID:Random Hand + Sleuth Gang + Fire The Unstoppable Force-1791658800
+SUMMARY:Random Hand + Sleuth Gang + Fire The Unstoppable Force
+DTSTAMP:20261003T191335Z
+DTSTART:20261010T190000Z
+DTEND:20261010T210000Z
 URL:https://www.theadelphi.com/events/random-hand-support/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
@@ -1296,49 +1659,109 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Harry Bird (full band show)-1791745200
 SUMMARY:Harry Bird (full band show)
-DTSTAMP:20261003T105156Z
-DTSTART:20261011T200000Z
-DTEND:20261011T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261011T190000Z
+DTEND:20261011T210000Z
 URL:https://www.theadelphi.com/events/harry-bird/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Daytime TV + Support-1792004400
-SUMMARY:Daytime TV + Support
-DTSTAMP:20261003T105156Z
-DTSTART:20261014T200000Z
-DTEND:20261014T220000Z
+UID:Musicians Night-1791831600
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261012T190000Z
+DTEND:20261012T210000Z
+URL:https://www.theadelphi.com/events/musicians-night-475/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Dead Finks + Suburban Toys-1791918000
+SUMMARY:Dead Finks + Suburban Toys
+DTSTAMP:20261003T191335Z
+DTSTART:20261013T190000Z
+DTEND:20261013T210000Z
+URL:https://www.theadelphi.com/events/the-dead-finks-support/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Daytime TV + The Avenues-1792004400
+SUMMARY:Daytime TV + The Avenues
+DTSTAMP:20261003T191335Z
+DTSTART:20261014T190000Z
+DTEND:20261014T210000Z
 URL:https://www.theadelphi.com/events/daytime-tv-support/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Black Water County + Support-1792177200
-SUMMARY:Black Water County + Support
-DTSTAMP:20261003T105156Z
-DTSTART:20261016T200000Z
-DTEND:20261016T220000Z
+UID:O’Phantom + Mount Nothing + Parlé-1792090800
+SUMMARY:O’Phantom + Mount Nothing + Parlé
+DTSTAMP:20261003T191335Z
+DTSTART:20261015T190000Z
+DTEND:20261015T210000Z
+URL:https://www.theadelphi.com/events/ophantom-mount-nothing-parle/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Black Water County + Fraser Morgan-1792177200
+SUMMARY:Black Water County + Fraser Morgan
+DTSTAMP:20261003T191335Z
+DTSTART:20261016T190000Z
+DTEND:20261016T210000Z
 URL:https://www.theadelphi.com/events/black-water-county-more/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Kelley Stoltz + Support-1792263600
-SUMMARY:Kelley Stoltz + Support
-DTSTAMP:20261003T105156Z
-DTSTART:20261017T200000Z
-DTEND:20261017T220000Z
+UID:Kelley Stoltz + Matt Edilbe-1792263600
+SUMMARY:Kelley Stoltz + Matt Edilbe
+DTSTAMP:20261003T191335Z
+DTSTART:20261017T190000Z
+DTEND:20261017T210000Z
 URL:https://www.theadelphi.com/events/kelley-stoltz-more/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Howl-1792350000
+SUMMARY:Howl
+DTSTAMP:20261003T191335Z
+DTSTART:20261018T190000Z
+DTEND:20261018T210000Z
+URL:https://www.theadelphi.com/events/howl/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Musicians Night-1792436400
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261019T190000Z
+DTEND:20261019T210000Z
+URL:https://www.theadelphi.com/events/musicians-night-476/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Lives + Support-1792609200
+SUMMARY:Lives + Support
+DTSTAMP:20261003T191335Z
+DTSTART:20261021T190000Z
+DTEND:20261021T210000Z
+URL:https://www.theadelphi.com/events/lives-support/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
 UID:Aziz Ibrahim + Support-1792695600
 SUMMARY:Aziz Ibrahim + Support
-DTSTAMP:20261003T105156Z
-DTSTART:20261022T200000Z
-DTEND:20261022T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261022T190000Z
+DTEND:20261022T210000Z
 URL:https://www.theadelphi.com/events/aziz-ibrahim-support/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
@@ -1346,17 +1769,27 @@ END:VEVENT
 BEGIN:VEVENT
 UID:CUD + Support-1792782000
 SUMMARY:CUD + Support
-DTSTAMP:20261003T105156Z
-DTSTART:20261023T200000Z
-DTEND:20261023T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261023T190000Z
+DTEND:20261023T210000Z
 URL:https://www.theadelphi.com/events/cud/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Pet Needs + Support-1792958400
-SUMMARY:Pet Needs + Support
-DTSTAMP:20261003T105156Z
+UID:Barbedfest v2.0-1792868400
+SUMMARY:Barbedfest v2.0
+DTSTAMP:20261003T191335Z
+DTSTART:20261024T190000Z
+DTEND:20261024T210000Z
+URL:https://www.theadelphi.com/events/barbedfest-v2-0/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Pet Needs + Keep Flying + So Good-1792958400
+SUMMARY:Pet Needs + Keep Flying + So Good
+DTSTAMP:20261003T191335Z
 DTSTART:20261025T200000Z
 DTEND:20261025T220000Z
 URL:https://www.theadelphi.com/events/pet-needs-support/
@@ -1364,9 +1797,72 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:Painting (Berlin) + 360° Dog + Fragile-1793044800
+SUMMARY:Painting (Berlin) + 360° Dog + Fragile
+DTSTAMP:20261003T191335Z
+DTSTART:20261026T200000Z
+DTEND:20261026T220000Z
+URL:https://www.theadelphi.com/events/painting/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Musicians Night-1793044800
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261026T200000Z
+DTEND:20261026T220000Z
+URL:https://www.theadelphi.com/events/musicians-night-477/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Warren Records: Empty Banner + Poets Corner + Hattie Hill-1793217600
+SUMMARY:Warren Records: Empty Banner + Poets Corner + Hattie Hill
+DTSTAMP:20261003T191335Z
+DTSTART:20261028T200000Z
+DTEND:20261028T220000Z
+URL:https://www.theadelphi.com/events/warren-records-empty-banner-poets-cor
+	ner-hattie-hill/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Pumpkin Carving Competition-1793304000
+SUMMARY:Pumpkin Carving Competition
+DTSTAMP:20261003T191335Z
+DTSTART:20261029T200000Z
+DTEND:20261029T220000Z
+URL:https://www.theadelphi.com/events/pumpkin-carving-competition-2/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Adelphi Halloween: Roman Jugg Band + Parallel States + Buckfast Tramp +
+	 Sickcino-1793476800
+SUMMARY:Adelphi Halloween: Roman Jugg Band + Parallel States + Buckfast Tra
+	mp + Sickcino
+DTSTAMP:20261003T191335Z
+DTSTART:20261031T200000Z
+DTEND:20261031T220000Z
+URL:https://www.theadelphi.com/events/adelphihalloween/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Musicians Night-1793649600
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261102T200000Z
+DTEND:20261102T220000Z
+URL:https://www.theadelphi.com/events/musicians-night-478/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:Alex Lewis: Nick Drake’s Pink Moon Rising-1793736000
 SUMMARY:Alex Lewis: Nick Drake’s Pink Moon Rising
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261103T200000Z
 DTEND:20261103T220000Z
 URL:https://www.theadelphi.com/events/alex-lewis-nick-drakes-pink-moon-risi
@@ -1375,9 +1871,19 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Immersion + Support-1793908800
-SUMMARY:Immersion + Support
-DTSTAMP:20261003T105156Z
+UID:Tom Rowley + Bloodworm-1793822400
+SUMMARY:Tom Rowley + Bloodworm
+DTSTAMP:20261003T191335Z
+DTSTART:20261104T200000Z
+DTEND:20261104T220000Z
+URL:https://www.theadelphi.com/events/tom-rowley/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Immersion + Midnite Pharmacy-1793908800
+SUMMARY:Immersion + Midnite Pharmacy
+DTSTAMP:20261003T191335Z
 DTSTART:20261105T200000Z
 DTEND:20261105T220000Z
 URL:https://www.theadelphi.com/events/immersion/
@@ -1387,7 +1893,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Chris Hawkins presents Awesome Friends-1793995200
 SUMMARY:Chris Hawkins presents Awesome Friends
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261106T200000Z
 DTEND:20261106T220000Z
 URL:https://www.theadelphi.com/events/chris-hawkins-presents-awesome-friend
@@ -1396,9 +1902,29 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:Musicians Night-1794254400
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261109T200000Z
+DTEND:20261109T220000Z
+URL:https://www.theadelphi.com/events/musicians-night-479/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Jack Robertson + Tymisha-1794427200
+SUMMARY:Jack Robertson + Tymisha
+DTSTAMP:20261003T191335Z
+DTSTART:20261111T200000Z
+DTEND:20261111T220000Z
+URL:https://www.theadelphi.com/events/jack-robertson-tymisha/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:Pilori + Mastiff + Still + Defector-1794513600
 SUMMARY:Pilori + Mastiff + Still + Defector
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261112T200000Z
 DTEND:20261112T220000Z
 URL:https://www.theadelphi.com/events/pilori-mastiff-still-defector/
@@ -1406,9 +1932,9 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Mad Dog Mcrea + Support-1794600000
-SUMMARY:Mad Dog Mcrea + Support
-DTSTAMP:20261003T105156Z
+UID:Mad Dog Mcrea + Wilswood Buoys-1794600000
+SUMMARY:Mad Dog Mcrea + Wilswood Buoys
+DTSTAMP:20261003T191335Z
 DTSTART:20261113T200000Z
 DTEND:20261113T220000Z
 URL:https://www.theadelphi.com/events/mad-dog-mcrea-support/
@@ -1418,7 +1944,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Eddie & The Hot Rods-1794686400
 SUMMARY:Eddie & The Hot Rods
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261114T200000Z
 DTEND:20261114T220000Z
 URL:https://www.theadelphi.com/events/eddie-the-hot-rods-2/
@@ -1426,9 +1952,49 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:Musicians Night-1794859200
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261116T200000Z
+DTEND:20261116T220000Z
+URL:https://www.theadelphi.com/events/musicians-night-480/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Flat Moon + Wench!-1795204800
+SUMMARY:Flat Moon + Wench!
+DTSTAMP:20261003T191335Z
+DTSTART:20261120T200000Z
+DTEND:20261120T220000Z
+URL:https://www.theadelphi.com/events/flat-moon-wench/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Musicians Night-1795464000
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261123T200000Z
+DTEND:20261123T220000Z
+URL:https://www.theadelphi.com/events/musicians-night-481/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Ruth Theodore Full Band Tour + Moon Moth-1795550400
+SUMMARY:Ruth Theodore Full Band Tour + Moon Moth
+DTSTAMP:20261003T191335Z
+DTSTART:20261124T200000Z
+DTEND:20261124T220000Z
+URL:https://www.theadelphi.com/events/ruth-theodore-full-band-tour/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:Parviz + Wiffeney-1795636800
 SUMMARY:Parviz + Wiffeney
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261125T200000Z
 DTEND:20261125T220000Z
 URL:https://www.theadelphi.com/events/parvizwiffeney/
@@ -1438,7 +2004,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Subhumans + Wench!-1795723200
 SUMMARY:Subhumans + Wench!
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261126T200000Z
 DTEND:20261126T220000Z
 URL:https://www.theadelphi.com/events/subhumans-wench/
@@ -1446,9 +2012,19 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:Musicians Night-1796068800
+SUMMARY:Musicians Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261130T200000Z
+DTEND:20261130T220000Z
+URL:https://www.theadelphi.com/events/musicians-night-482/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:LIFE: Abstract-1796414400
 SUMMARY:LIFE: Abstract
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261204T200000Z
 DTEND:20261204T220000Z
 URL:https://www.theadelphi.com/events/life-abstract/
@@ -1458,7 +2034,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:LIFE: Natural-1796500800
 SUMMARY:LIFE: Natural
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261205T200000Z
 DTEND:20261205T220000Z
 URL:https://www.theadelphi.com/events/life-natural/
@@ -1468,7 +2044,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Tony Wright (Terrorvision) + Harrison Rimmer-1796932800
 SUMMARY:Tony Wright (Terrorvision) + Harrison Rimmer
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261210T200000Z
 DTEND:20261210T220000Z
 URL:https://www.theadelphi.com/events/tony-wright-terrorvision-harrison-rim
@@ -1479,7 +2055,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:Class Of ’79-1797019200
 SUMMARY:Class Of ’79
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261211T200000Z
 DTEND:20261211T220000Z
 URL:https://www.theadelphi.com/events/class-of-79-2/
@@ -1487,9 +2063,19 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:Fonda 500 – Christmas Special-1797105600
+SUMMARY:Fonda 500 – Christmas Special
+DTSTAMP:20261003T191335Z
+DTSTART:20261212T200000Z
+DTEND:20261212T220000Z
+URL:https://www.theadelphi.com/events/fonda-500-christmas-special-3/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:James Yorkston + Support-1797192000
 SUMMARY:James Yorkston + Support
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20261213T200000Z
 DTEND:20261213T220000Z
 URL:https://www.theadelphi.com/events/james-yorkston-support/
@@ -1497,9 +2083,39 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:bdrmm Christmas Special-1797624000
+SUMMARY:bdrmm Christmas Special
+DTSTAMP:20261003T191335Z
+DTSTART:20261218T200000Z
+DTEND:20261218T220000Z
+URL:https://www.theadelphi.com/events/bdrmm-christmas-special/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Kingmaker + Support-1797796800
+SUMMARY:Kingmaker + Support
+DTSTAMP:20261003T191335Z
+DTSTART:20261220T200000Z
+DTEND:20261220T220000Z
+URL:https://www.theadelphi.com/events/kingmaker-support-2/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Primitive + Support-1798401600
+SUMMARY:Primitive + Support
+DTSTAMP:20261003T191335Z
+DTSTART:20261227T200000Z
+DTEND:20261227T220000Z
+URL:https://www.theadelphi.com/events/primitive-support/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:Beaux Gris Gris & The Apocalypse-1801684800
 SUMMARY:Beaux Gris Gris & The Apocalypse
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20270203T200000Z
 DTEND:20270203T220000Z
 URL:https://www.theadelphi.com/events/beaux-gris-gris-the-apocalypse-2/
@@ -1507,9 +2123,19 @@ LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
+UID:BUDFEST 27-1801944000
+SUMMARY:BUDFEST 27
+DTSTAMP:20261003T191335Z
+DTSTART:20270206T200000Z
+DTEND:20270206T220000Z
+URL:https://www.theadelphi.com/events/budfest-27/
+LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
 UID:The Roving Crows + The Creaky Chairs-1805400000
 SUMMARY:The Roving Crows + The Creaky Chairs
-DTSTAMP:20261003T105156Z
+DTSTAMP:20261003T191335Z
 DTSTART:20270318T200000Z
 DTEND:20270318T220000Z
 URL:https://www.theadelphi.com/events/the-roving-crows-the-creaky-chairs/
@@ -1519,9 +2145,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The James Oliver Band with Norman Watt-Roy-1807902000
 SUMMARY:The James Oliver Band with Norman Watt-Roy
-DTSTAMP:20261003T105156Z
-DTSTART:20270416T200000Z
-DTEND:20270416T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20270416T190000Z
+DTEND:20270416T210000Z
 URL:https://www.theadelphi.com/events/the-james-oliver-band-with-norman-wat
 	t-roy/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
@@ -1530,9 +2156,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:The Cloverhearts-1811703600
 SUMMARY:The Cloverhearts
-DTSTAMP:20261003T105156Z
-DTSTART:20270530T200000Z
-DTEND:20270530T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20270530T190000Z
+DTEND:20270530T210000Z
 URL:https://www.theadelphi.com/events/the-cloverhearts/
 LOCATION:The New Adelphi Club\, 89 De Grey Street\, Hull\, HU5 2RU
 STATUS:CONFIRMED
@@ -1540,209 +2166,56 @@ END:VEVENT
 BEGIN:VEVENT
 UID:QUIZ NIGHT-1791226800
 SUMMARY:QUIZ NIGHT
-DTSTAMP:20261003T105156Z
-DTSTART:20261005T200000Z
-DTEND:20261005T220000Z
+DTSTAMP:20261003T191335Z
+DTSTART:20261005T190000Z
+DTEND:20261005T210000Z
 URL:https://gardeners-arms.designmynight.com/67bc5c8046b55016721e4aa7/quiz-
 	night
 LOCATION:Gardeners Arms\, The Gardeners Arms\, Hull HU5
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Quiz Night-1791397800
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261007T193000Z
-DTEND:19700101T010000Z
+UID:Halloween Disco-1793473200
+SUMMARY:Halloween Disco
+DTSTAMP:20261003T191335Z
+DTSTART:20261031T190000Z
+DTEND:20261101T000000Z
+DESCRIPTION:Halloween Disco.  Best dressed prize. Games and music.\nVictori
+	an Gothic Ball \nDJ Joey
+URL:https://www.queenshotelhull.co.uk/whats-on
 LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Quiz Night-1792002600
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261014T193000Z
-DTEND:19700101T010000Z
+UID:Halloween Movie Night-1793559600
+SUMMARY:Halloween Movie Night
+DTSTAMP:20261003T191335Z
+DTSTART:20261101T190000Z
+DTEND:20261101T220000Z
+DESCRIPTION:Halloween movie night in the beer garden
+URL:https://www.queenshotelhull.co.uk/whats-on
 LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Quiz Night-1792607400
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261021T193000Z
-DTEND:19700101T010000Z
+UID:The Zynx-1794690000
+SUMMARY:The Zynx
+DTSTAMP:20261003T191335Z
+DTSTART:20261114T210000Z
+DTEND:20261114T230000Z
+DESCRIPTION:The Zynx - The best of Ska\, Punk & Reggae
+URL:https://www.queenshotelhull.co.uk/whats-on
 LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
-UID:Quiz Night-1793212200
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261028T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1793817000
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261104T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1794421800
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261111T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1795026600
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261118T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1795631400
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261125T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1796236200
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261202T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1796841000
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261209T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1797445800
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261216T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1798050600
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261223T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1798655400
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20261230T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1799260200
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20270106T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1799865000
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20270113T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1800469800
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20270120T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1801074600
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20270127T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1801679400
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20270203T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1802284200
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20270210T183000Z
-DTEND:19700101T010000Z
-LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Pre match food & drink. Hull City vs Chelsea FA Cup-1802548800
-SUMMARY:Pre match food & drink. Hull City vs Chelsea FA Cup
-DTSTAMP:20261003T105156Z
-DTSTART:20270213T200000Z
-DTEND:19700101T010000Z
-LOCATION:Garbutts Bar\, 50-54 Princes Avenue\, Hull\, United Kingdom
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Pre match food & drink Hull FC vs Bradford Bulls-1802635200
-SUMMARY:Pre match food & drink Hull FC vs Bradford Bulls
-DTSTAMP:20261003T105156Z
-DTSTART:20270214T200000Z
-DTEND:19700101T010000Z
-LOCATION:Garbutts Bar\, 50-54 Princes Avenue\, Hull\, United Kingdom
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Quiz Night-1802889000
-SUMMARY:Quiz Night
-DTSTAMP:20261003T105156Z
-DTSTART:20270217T183000Z
-DTEND:19700101T010000Z
+UID:Christmas Jumper Day & Karaoke Evening-1796990400
+SUMMARY:Christmas Jumper Day & Karaoke Evening
+DTSTAMP:20261003T191335Z
+DTSTART:20261211T120000Z
+DTEND:20261211T230000Z
+DESCRIPTION:Christmas jumper Day and Karaoke
+URL:https://www.queenshotelhull.co.uk/whats-on
 LOCATION:Queens Hotel\, Queens Hotel\, Queens Road\, Hull HU5 2RG
 STATUS:CONFIRMED
 END:VEVENT

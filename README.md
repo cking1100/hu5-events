@@ -74,6 +74,9 @@ cd hu5-events
 # Install dependencies
 npm install
 
+# Linux/macOS: install the browser used for public TPR Facebook events
+npx playwright install chromium
+
 # Run the scraper (generates public/events.json)
 npm run scrape
 
@@ -81,6 +84,12 @@ npm run scrape
 npm start
 # Open http://localhost:5173
 ```
+
+TPR's public Facebook event source uses Playwright. Windows uses installed Microsoft Edge; Linux/macOS use Playwright Chromium. The daily GitHub Actions workflow installs Chromium and its system dependencies. No Facebook login or credentials are required. If the public source is unavailable, the scraper logs a warning and falls back to Untappd and the venue website's undated published schedules.
+
+See [SCRAPER_AUDIT.md](SCRAPER_AUDIT.md) for verified counts, source limitations, and regression-test results.
+
+Newland Tap, Commun'ull, Spati, Hoi, Underdog and Mr Moody's now use their verified public social profiles instead of obsolete CSV sheets. Queens uses its official website's event API and a checked public quiz announcement. Instagram profiles expose only a recent public timeline; the scraper logs incomplete older-post coverage. Missing event times remain unknown rather than guessed. OCR reads explicit times from official posters when captions omit them. Queens and Moody's no longer generate arbitrary future weeks; current recurring activities are retained as source-linked undated schedules.
 
 ---
 
@@ -160,12 +169,12 @@ hu5-events/
 | 4   | Molly Mangan's        | mollymangans.com         |
 | 5   | Union Mash Up (UMU)   | unionmashup.co.uk        |
 | 6   | DIVE HU5              | skiddle.com              |
-| 7   | The People's Republic | Untappd                  |
-| 8   | Mr Moody's Tavern     | Google Sheets CSV        |
+| 7   | The People's Republic | Public Facebook events + Untappd |
+| 8   | Mr Moody's Tavern     | Official public Instagram |
 | 9   | Pave Bar              | pavebar.co.uk            |
 | 10  | The Gardeners Arms    | designmynight.com        |
-| 11  | Queens Hotel          | Synthetic (weekly quiz)  |
-| 12  | Commun'ull            | communull.co.uk          |
+| 11  | Queens Hotel          | Official Marston's event API + checked quiz post |
+| 12  | Commun'ull            | Official public Facebook/Instagram |
 | 13  | Vox Box               | voxboxhull.co.uk         |
 | 14  | St John's             | Google Sheets CSV        |
 
