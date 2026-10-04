@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 import timezone from "dayjs/plugin/timezone.js";
 import customParseFormat from "dayjs/plugin/customParseFormat.js";
+import { auditSource, recordCounts } from "./source-audit.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -44,6 +45,7 @@ export function parseQueensEvents(data, venueID, cutoff = Date.now()) {
 }
 
 export async function fetchQueensEvents(fetchPage = fetch) {
+  return auditSource({ account: "Queens Hotel", sourceType: "venue-api", sourceURL: QUEENS_URL }, async check => {
   const response = await fetchPage(QUEENS_URL);
   if (!response.ok) throw new Error(`Queens website HTTP ${response.status}`);
   const $ = cheerio.load(await response.text());
@@ -54,7 +56,15 @@ export async function fetchQueensEvents(fetchPage = fetch) {
   const url = new URL(`/api/v1/venue/${config.id}/events`, config.endpoint);
   url.searchParams.set("dateRangeStart", dayjs().tz(TZ).format("YYYY-MM-DD 00:00:00"));
   url.searchParams.set("dateRangeEnd", "9999-12-31 23:59:59");
+  check.feedURL = url.href;
   const feed = await fetchPage(url);
   if (!feed.ok) throw new Error(`Queens event API HTTP ${feed.status}`);
-  return parseQueensEvents(await feed.json(), config.id);
+  const feedData = await feed.json();
+  const records = parseQueensEvents(feedData, config.id);
+  check.itemsExamined = feedData.occurrences.length;
+  check.itemsIgnored = feedData.occurrences.length - records.length;
+  recordCounts(check, records);
+  if (records.some(record => !record.endISO)) check.warnings.push("Missing or inconsistent source end times omitted; no duration guessed.");
+  return records;
+  });
 }

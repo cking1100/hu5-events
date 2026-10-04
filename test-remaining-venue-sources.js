@@ -30,5 +30,32 @@ test("Queens collects published events and checked recurrence instead of synthet
   const events = await extractRemainingVenue("Queens Hotel", {
     queens: async () => [dated], schedule: async () => [schedule],
   });
+
+  test("venue and promoter history limits are checked independently", async () => {
+    for (const [venueLimited, promoterLimited] of [[false, true], [true, false], [true, true]]) {
+      const events = await extractRemainingVenue("Newland Tap", {
+        instagram: async handle => ({
+          records: handle === "theconfessionalhull" ? [{ title: "Show", description: "@newlandtap_hull", startISO: "2030-10-10T19:00:00Z" }] : [],
+          hasOlderPosts: handle === "theconfessionalhull" ? promoterLimited : venueLimited,
+        }),
+      });
+      assert.equal(events.length, 1);
+      const notes = remainingSourceResults.get("Newland Tap").notes;
+      assert.equal(notes.some(note => note.includes("[@newlandtap_hull]")), venueLimited);
+      assert.equal(notes.some(note => note.includes("[@theconfessionalhull]")), promoterLimited);
+    }
+  });
+
+  test("a failed recheck does not retain a previous authoritative zero", async () => {
+    await extractRemainingVenue("Hoi", {
+      instagram: async () => ({ records: [], hasOlderPosts: false }),
+      facebook: async () => [],
+    });
+    await assert.rejects(extractRemainingVenue("Hoi", {
+      instagram: async () => { throw new Error("login gate"); },
+    }), /login gate/);
+    assert.equal(checkedRemainingVenues.has("Hoi"), false);
+    assert.equal(remainingSourceResults.has("Hoi"), false);
+  });
   assert.deepEqual(events, [dated, schedule]);
 });

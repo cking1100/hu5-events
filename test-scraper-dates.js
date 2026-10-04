@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { toISO, inferYearAndTime, buildEvent, scrapeCsvVenue, venueClockISO, deduplicateEvents } from "./scrape-hull-venues.js";
+import { toISO, inferYearAndTime, buildEvent, scrapeCsvVenue, scrapePaveBar, venueClockISO, deduplicateEvents } from "./scrape-hull-venues.js";
+import { sourceChecks, resetSourceAudit } from "./source-audit.js";
 
 test("same-title performances at different times on one day remain distinct", () => {
   const first = { venue: "Venue", title: "Show", start: "2026-10-10T14:00:00Z" };
@@ -45,4 +46,17 @@ test("explicit dates with unpublished clocks remain separate during deduplicatio
   const first = { venue: "Venue", title: "Pop-up", start: null, dateText: "2026-10-07" };
   const second = { ...first, dateText: "2026-10-08" };
   assert.deepEqual(deduplicateEvents([first, second, { ...first }]), [first, second]);
+});
+
+test("Pave reports one source schedule and eight generated dates without changing event fields", async context => {
+  resetSourceAudit();
+  context.mock.method(globalThis, "fetch", async () => new Response(
+    "<section>Fridays 2026<strong>Friday DJ</strong> every Friday at 8pm. Free entry.</section>"
+  ));
+  const records = await scrapePaveBar();
+  assert.equal(records.length, 8);
+  assert.equal(sourceChecks[0].itemsExamined, 1);
+  assert.equal(sourceChecks[0].schedulesExtracted, 1);
+  assert.equal(sourceChecks[0].generatedOccurrences, 8);
+  assert.ok(records.every(record => record.start && !Object.hasOwn(record, "generatedOccurrences")));
 });

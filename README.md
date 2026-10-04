@@ -91,6 +91,35 @@ See [SCRAPER_AUDIT.md](SCRAPER_AUDIT.md) for verified counts, source limitations
 
 Newland Tap, Commun'ull, Spati, Hoi, Underdog and Mr Moody's now use their verified public social profiles instead of obsolete CSV sheets. Queens uses its official website's event API and a checked public quiz announcement. Instagram profiles expose only a recent public timeline; the scraper logs incomplete older-post coverage. Missing event times remain unknown rather than guessed. OCR reads explicit times from official posters when captions omit them. Queens and Moody's no longer generate arbitrary future weeks; current recurring activities are retained as source-linked undated schedules.
 
+### Scraper source evidence
+
+Each scrape writes a compact, local `.cache/scraper-audit.json` report (ignored by Git,
+not served to visitors). Set `SCRAPER_AUDIT_PATH` to override that destination.
+Source checks also appear as `[source-audit]` JSON lines on stderr; stdout retains
+its existing event-data contract.
+
+The report records per-account source URLs/types, check/completion timestamps,
+examined/ignored input counts where measured, extracted event/schedule records,
+generated occurrences, pagination, access limits and parser warnings. Venue-run
+warnings, cache provenance and **final saved** JSON/ICS counts are recorded separately.
+No page HTML, captions, poster images, credentials or OCR transcripts are stored.
+An unknown/unavailable count is `null`, not zero. Ignored items include past,
+non-event, stale and unsupported inputs; they are not necessarily cancelled events.
+These figures precede cross-source deduplication and final date filtering.
+
+Instagram limits are reported independently for venue and promoter accounts.
+Facebook event collections follow the source's scroll/load-more responses until
+exhaustion; stalled or missing pagination metadata is reported as a retrieval
+failure rather than a verified empty collection. TPR additionally follows the
+published neighboring occurrence detail links, including future siblings of an
+already-started occurrence. This checks accessible configured sources, not
+login-gated posts or undocumented dates.
+
+One source advertisement, one recurring schedule and one dated occurrence are
+different units. Pave retains its existing policy of **1 source schedule -> 8
+generated occurrences**; TPR quiz dates are explicit published occurrences, not
+generated weeks. The public event JSON schema is unchanged.
+
 ---
 
 ## Available Commands

@@ -1,10 +1,143 @@
 # HU5 Scraper Source Audit
 
-## Current Source-Quality Follow-Up
+## October 4 Reliability Follow-Up
 
-Investigated 2026-10-03. This section supersedes the older baseline report below. Current-source counts are verified accessible advertisements, not guesses about events hidden by social-platform login requirements.
+Final full scrape executed 2026-10-04, 17:48:43.706Z to 17:49:12.448Z
+(18:48:43 to 18:49:12 Europe/London). The October 3 counts below remain a
+historical snapshot, not current October 4 totals.
 
-| Venue | Current source | Source records observed | Scraper output | Status |
+### Targeted Changes
+
+- Added compact per-source evidence on stderr and in the local, Git-ignored
+  `.cache/scraper-audit.json`: source URL/type, retrieval/check timestamps,
+  examined/ignored items where measurable, extracted records, schedules,
+  generated occurrences, pagination, warnings and access limitations.
+- Venue and promoter Instagram history flags are checked independently. A
+  limitation does not discard successfully extracted accessible records.
+- Other configured Facebook event readers now reuse TPR's scroll-triggered
+  pagination instead of rejecting any collection with another page. Repeated
+  cursors and missing pagination metadata remain explicit failures.
+- Facebook extraction now retains future published sibling occurrences even
+  when the selected occurrence is already past; cancelled siblings are excluded.
+- Venue-run errors/fallback warnings, cache provenance and final saved JSON/ICS
+  counts are included in the report. Failed/unknown source counts remain `null`,
+  not a fabricated zero. No raw pages, captions or OCR transcripts are stored.
+- No frontend, public event schema, venue routing or recurrence horizon changed.
+
+### Counting Terminology
+
+- **Source advertisement/post/item:** an input discovered on a source. Listing
+  representations may overlap; item counts are not necessarily unique events.
+- **Schedule:** a recurring rule published by a source. It can remain one undated
+  record when explicit dates are not supplied.
+- **Published occurrence:** a dated event supplied explicitly by the source,
+  including Facebook's neighboring quiz occurrences.
+- **Generated occurrence:** a dated record expanded by the scraper from a
+  schedule. Pave's existing policy is **1 source schedule -> 8 generated
+  occurrences**, not eight independently published advertisements.
+- **Extracted record:** an event/schedule emitted by a parser before cross-source
+  deduplication and final date filtering. One post can supply several dates.
+  Ignored inputs may be past, non-event, stale or unsupported, not cancelled.
+  TPR reports filtered listing items and detail pages with no upcoming records
+  separately: listing aliases and sibling traversal prevent a one-to-one
+  input/output count. Counts not measured by a reader remain unknown.
+
+### TPR Verification
+
+A pre-change live probe already returned **16 unique upcoming TPR records**, not
+one. The post-change full scrape also returned **16**: twelve published quiz dates,
+Ciaran Needs Some F*cking Trousers!, Live: Sickcino, Hip Hop Hooray! and Cats With
+Leprosy. Facebook examined 18 distinct listing items over 3 pages and 16 detail
+pages; pagination reached exhaustion. Neighboring quiz links were followed without
+a fixed occurrence cap. Untappd supplied one overlapping Hip Hop Hooray! listing;
+the combined result retains its Untappd URL through existing deduplication.
+The website still supplied two fallback schedules, not included when Facebook
+provided dated events. No TPR Instagram source is configured.
+
+The change fixes a tested recurring-date edge case, not a reproduced current
+one-event failure. It does not claim completeness beyond the accessible configured
+collections. Molly's 3-page and Union's 14-page discovery remained intact.
+
+### October 3 / October 4 Output Comparison
+
+| Venue | October 3 snapshot | October 4 scrape | Explanation |
+| --- | ---: | ---: | --- |
+| Polar Bear Music Club | 34 | 33 | WIRED on October 3 has started |
+| The New Adelphi Club | 57 | 57 | Unchanged |
+| The Welly Club | 30 | 30 | Unchanged |
+| Molly Mangan's | 34 | 32 | Dylan Ward and Mark Knight have started |
+| The People's Republic | 16 | 16 | All accessible discovered dates retained |
+| Union Mash Up | 16 | 15 | Beat The Clock on October 3 has started |
+| Gardeners Arms | 1 | 1 | Source next-date quiz listing; unchanged |
+| DIVE HU5 | 0 | 0 | No extracted records; not proof of no events elsewhere |
+| Pave Bar | 8 | 8 | One schedule expanded to eight dates; unchanged |
+| Newland Tap | 2 | 2 | One venue-post record plus one promoter-bio date |
+| Commun'ull | 0 | 0 | Past-only checked Facebook collection; Instagram limited |
+| Spati Bar | 2 | 1 | Existing parser accepts "this weekend" only on publication day |
+| Hoi | 0 | 0 | Past-only checked Facebook collection; Instagram limited |
+| Underdog | 0 | 0 | Past-only checked Facebook collection; Instagram limited |
+| Queens Hotel | 5 | 5 | Four API occurrences plus one checked quiz schedule |
+| Mr Moody's Tavern | 3 | 3 | Two pop-up dates plus one Sunday schedule |
+| Garbutts Bar | 2 | 2 | Maintained CSV schedules; unchanged |
+| St John's | 3 | 3 | Maintained CSV dates; unchanged |
+| **Total JSON** | **213** | **208** | Four started dated events and one relative-date record removed |
+| **Dated / ICS VEVENTs** | **205 / 205** | **201 / 201** | Matching output counts |
+| **Undated/unknown-time** | **8** | **7** | Relative-date coverage change above |
+
+No new event keys were added. No cached records were merged, and no venue-run or
+instrumented source retrieval failed. These decreases are not newly discovered
+events or evidence of improved coverage. Spati's same-day relative-date rule is an
+existing coverage limitation: removal on October 4 does **not** establish that
+Oktoberfest ended. It is flagged, not "corrected" by inventing an end date.
+
+### Source Access And Sanity Findings
+
+- All seven Instagram accounts, including `theconfessionalhull`, exposed 12
+  recent posts with older history indicated. Separate account warnings and
+  ignored-post counts were recorded. Absolute social-media completeness is
+  still unverified; generic captions, inaccessible stories and ambiguous posters
+  are not comprehensively parsed.
+- Commun'ull, Spati, Hoi and Underdog Facebook collections had respectively
+  1, 1, 6 and 4 examined items; each reached exhaustion with no upcoming extracted
+  records. This is evidence about those collections, not every venue channel.
+  The historical Commun'ull closure statement below was not independently
+  re-certified by this parser run.
+- Newland Tap's poster OCR confidence was below 50; the October 21 clock remains
+  unknown. Moody's two pop-up clocks were extracted from accessible poster data.
+- Queens' checked quiz post is one configured announcement, not full-account
+  discovery. Its API still has inconsistent/missing finish data; no duration was
+  guessed.
+- Gardeners' one-record output and Pave's generated dates are explained by their
+  existing source/recurrence policies, not assumed missing extra events. DIVE,
+  Commun'ull, Hoi and Underdog zeroes remain review flags rather than fabricated
+  expected counts.
+- Garbutts/St John's CSVs lack price columns. Their five blank event URLs were
+  already present in the October 3 snapshot; optional CSV URLs were not changed.
+
+### Verification
+
+- Baseline: **35 passed, 0 failed**. Final complete `npm test`: **52 passed,
+  0 failed, 0 skipped**, exit code 0; original live Adelphi tests retained.
+- New regressions cover independent venue/promoter limits, failed rechecks,
+  compact source evidence, verified empty versus gated sources, listing
+  pagination/cursor stalls, published sibling traversal and Pave counting units.
+- Full `npm run scrape`: exit code 0; all existing venue toggles enabled; public
+  JSON/ICS written by the scraper, not manually edited.
+- Output assertions passed: 208 unique event keys, no blank/error-page titles,
+  no past dated records, valid dates/display clocks, no end before start, no past
+  explicit unknown-time dates, source URLs on the instrumented dated/schedule
+  venues, and 201 dated JSON records matching 201 ICS VEVENTs. Optional maintained
+  CSV URL fields were not treated as required.
+
+## Source-Quality Follow-Up - October 3 Snapshot
+
+Investigated 2026-10-03. This section supersedes the older baseline report below
+for that date only. Its output snapshot was captured at **2026-10-03 19:13:35 UTC /
+20:13:35 Europe/London**, confirmed by the generated calendar's `DTSTAMP`.
+Source counts describe accessible advertisements and schedules observed then, not
+current October 4 totals or guesses about login-gated events.
+
+| Venue | Source checked on October 3 | Eligible source-derived records/schedules | Snapshot output | Status |
 | --- | --- | ---: | ---: | --- |
 | Newland Tap | Official Instagram `newlandtap_hull`; verified promoter `theconfessionalhull` | 2 | 2 | Confessional 14 October 20:00; Tunes on Tap 21 October, time unpublished |
 | Commun'ull | Official Instagram `communullcoffee`; Facebook page 100091509382611 | 0 | 0 | Official closure announcement; exhausted Facebook collection contains only past events |
@@ -40,7 +173,7 @@ Hoi and Underdog have genuinely zero upcoming records on their complete checked 
 
 Unknown clocks remain `start: null` with explicit `dateText` when available, rather than guessed midnight/evening times. Such records remain in JSON but cannot be exported as timed ICS events. Recent generic schedules are accepted only with current source evidence; a 35-day post-evidence freshness rule prevents old one-off announcements from perpetually renewing a schedule. Its tradeoff is explicitly limited recurrence coverage, not proof of cancellation.
 
-### Latest All-Venue Output
+### Latest All-Venue Output - Snapshot Captured October 3, 2026
 
 | Venue | Output |
 | --- | ---: |
@@ -63,7 +196,7 @@ Unknown clocks remain `start: null` with explicit `dateText` when available, rat
 | Garbutts Bar | 2 |
 | St John's | 3 |
 
-Total **213 records: 205 dated events and 8 valid unknown-time/schedule records**. ICS contains **205 VEVENTs**. TPR's code is unchanged; Totally Wired's 3 October 20:00 start has passed, leaving 16 upcoming events. Polar's Catfishing and Adelphi's Helicon also started during this follow-up, explaining their one-event decreases. Earlier Molly pagination/429 handling, Union pagination, Welly clocks and Adelphi filtering remain intact.
+October 3 snapshot: **213 records: 205 dated events and 8 valid unknown-time/schedule records**. Its ICS contains **205 VEVENTs**. TPR's code was unchanged in that follow-up; Totally Wired's 3 October 20:00 start had passed, leaving 16 upcoming events then. Polar's Catfishing and Adelphi's Helicon also started during that follow-up, explaining their one-event decreases. Earlier Molly pagination/429 handling, Union pagination, Welly clocks and Adelphi filtering remained intact. Pave's eight records were generated from one source schedule, not eight independent advertisements.
 
 ### Follow-Up Verification
 

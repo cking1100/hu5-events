@@ -29,6 +29,7 @@ import { fetchEventListPages, parseMollyListCards } from "./event-list-pages.js"
 import { scrapeTPRFacebook } from "./tpr-facebook.js";
 import { fetchUMUListPages } from "./umu-list-pages.js";
 import { extractRemainingVenue, checkedRemainingVenues, remainingSourceResults } from "./remaining-venue-sources.js";
+import { auditSource, auditVenue, recordVenueWarning, resetSourceAudit, sourceChecks, venueChecks, recordCounts, outputSummary } from "./source-audit.js";
 
 /* Enable Day.js plugins once */
 dayjs.extend(utc);
@@ -117,6 +118,7 @@ function generateCalendarFile(events) {
 /* ---------------------- Small general utilities -------------------- */
 // Enhanced logging with timestamps and better formatting
 const log = (...args) => {
+  recordVenueWarning(...args);
   const timestamp = dayjs().tz(TZ).format("HH:mm:ss");
   const levelMatch = args[0]?.match?.(
     /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv|pave)\]/i,
@@ -1467,7 +1469,7 @@ async function scrapeRemainingVenue(name) {
   const records = await extractRemainingVenue(name);
   const result = remainingSourceResults.get(name);
   for (const note of result.notes) log(`[source:${name}] [warn] ${note}`);
-  log(`[source:${name}] verified public source records: ${records.length}`);
+  log(`[source:${name}] extracted event/schedule records: ${records.length} (not a count of independent advertisements)`);
   return records.map(record => {
     const event = buildEvent({ source: name, venue: name, url: record.url,
       title: record.title, startISO: record.startISO, endISO: record.endISO });
@@ -3367,6 +3369,7 @@ function mergeMoodysSundayDuplicates(events, tz = TZ) {
 
 /* -------- PAVE BAR --------------------------------------- */
 async function scrapePaveBar() {
+  return auditSource({ account: "Pave Bar", sourceType: "website-schedules", sourceURL: "https://www.pavebar.co.uk" }, async check => {
   log("[pave] start");
   const base = "https://www.pavebar.co.uk";
   const address = "16-20 Princes Ave, Hull HU5 3QA";
@@ -3381,11 +3384,14 @@ async function scrapePaveBar() {
     html = await res.text();
   } catch (e) {
     log("[pave] fetch failed:", e.message);
-    return [];
+    throw e;
   }
 
   const $ = cheerio.load(html);
   const results = [];
+  check.itemsExamined = 0;
+  check.itemsIgnored = 0;
+  check.sourceSchedules = 0;
 
   // Pave Bar lists all events directly on the homepage.
   // Each event block contains:
@@ -3455,6 +3461,7 @@ async function scrapePaveBar() {
     if (hasChildMatch) return;
 
     seen.add(rawText);
+    check.itemsExamined++;
 
     // --- Extract title ---
     // Prefer the text of any <a> or <h2>/<h3>/<h4> inside the block
@@ -3482,7 +3489,10 @@ async function scrapePaveBar() {
         .trim();
       title = stripped.split(/[.!?\n]/)[0].trim();
     }
-    if (!title) return;
+    if (!title) {
+      check.itemsIgnored++;
+      return;
+    }
 
     // --- Extract time ---
     // Patterns: "7.30pm", "7:30pm", "at 8pm", "20:00"
@@ -3535,6 +3545,7 @@ async function scrapePaveBar() {
           .toISOString();
       }
     } else {
+      check.sourceSchedules++;
       // Recurring — find next N occurrences (up to 8 weeks)
       const m = RECURRING_RE.exec(rawText);
       const pluralDay = m[1].toLowerCase().replace(/s$/, ""); // "fridays" → "friday"
@@ -3579,6 +3590,7 @@ async function scrapePaveBar() {
           freeEntry: isFreeEntry(rawText),
         });
         if (ev) results.push(ev);
+        if (ev) check.generatedOccurrences++;
       }
       return; // recurring events handled inline above
     }
@@ -3586,7 +3598,10 @@ async function scrapePaveBar() {
     // Past filter
     if (startISO) {
       const d = dayjs(startISO);
-      if (d.isValid() && d.isBefore(CUTOFF)) return;
+      if (d.isValid() && d.isBefore(CUTOFF)) {
+        check.itemsIgnored++;
+        return;
+      }
     }
 
     const freeEntry = isFreeEntry(rawText);
@@ -3624,7 +3639,10 @@ async function scrapePaveBar() {
   });
 
   log(`[pave] done, events: ${results.length}`);
+  recordCounts(check, results.map(event => ({ startISO: event.start })));
+  check.schedulesExtracted = check.sourceSchedules;
   return results;
+  });
 }
 
 /* -------- GARDENERS ARMS (DesignMyNight) -------------------------- */
@@ -3993,7 +4011,7 @@ function wrapScrape(tag, fn) {
     const label = String(tag || "scrape");
     log(`[${label}] start`);
     try {
-      const res = await fn();
+      const res = await auditVenue(label, fn);
       log(`[${label}] done, events: ${Array.isArray(res) ? res.length : 0}`);
       return res || [];
     } catch (e) {
@@ -4005,6 +4023,10 @@ function wrapScrape(tag, fn) {
 
 async function main() {
   try {
+    resetSourceAudit();
+    checkedRemainingVenues.clear();
+    remainingSourceResults.clear();
+    const startedAt = new Date().toISOString();
     log("[start] hull scrapers");
 
     const skipWelly = process.env.SKIP_WELLY === "1";
@@ -4121,6 +4143,7 @@ async function main() {
     // Keep cached venues only when there is no nonempty fresh venue result.
     // Note: when stdout is redirected to public/events.json, that file can be empty at startup.
     // We handle this quietly and only merge when valid cached JSON exists.
+    const cachedVenues = {};
     try {
       const jsonPath = path.join(
         path.dirname(fileURLToPath(import.meta.url)),
@@ -4140,6 +4163,7 @@ async function main() {
             );
 
             if (maintainedEvents.length) {
+              for (const event of maintainedEvents) cachedVenues[event.venue] = (cachedVenues[event.venue] || 0) + 1;
               events = [...events, ...maintainedEvents];
               log(
                 `[info] Merged ${maintainedEvents.length} cached events with ${events.length - maintainedEvents.length} newly scraped events`,
@@ -4181,13 +4205,13 @@ async function main() {
     });
 
     // Summary logging
-    const venues = Array.from(new Set(events.map((e) => e.venue))).sort();
-    const datedEvents = events.filter((e) => e.start).length;
-    const undatedEvents = events.length - datedEvents;
+    const venues = Array.from(new Set(futureEvents.map((e) => e.venue))).sort();
+    const datedEvents = futureEvents.filter((e) => e.start).length;
+    const undatedEvents = futureEvents.length - datedEvents;
 
     log(`[ok] Processing complete`);
     log(
-      `[info] Total events: ${events.length} (${datedEvents} dated, ${undatedEvents} undated)`,
+      `[info] Output records: ${futureEvents.length} (${datedEvents} dated, ${undatedEvents} undated)`,
     );
     log(`[info] Deduped: ${events.length} unique`);
     log(`[info] Future events: ${futureEvents.length}`);
@@ -4204,6 +4228,19 @@ async function main() {
 
     fs.writeFileSync(eventsJsonPath, JSON.stringify(futureEvents, null, 2), "utf8");
     fs.writeFileSync(eventsIcsPath, calendarContent, "utf8");
+
+    const report = { startedAt, completedAt: new Date().toISOString(),
+      sources: sourceChecks, venueRuns: venueChecks, cachedVenues,
+      output: outputSummary(futureEvents, calendarContent) };
+    const auditPath = process.env.SCRAPER_AUDIT_PATH || path.join(publicDir, "..", ".cache", "scraper-audit.json");
+    try {
+      fs.mkdirSync(path.dirname(auditPath), { recursive: true });
+      fs.writeFileSync(auditPath, JSON.stringify(report, null, 2), "utf8");
+      log(`[ok] Written source audit ${auditPath}`);
+    } catch (error) {
+      log("[warn] Source audit file could not be written:", error.message);
+    }
+    log(`[output-audit] ${JSON.stringify(report.output)}`);
 
     log(`[ok] Written ${eventsJsonPath}`);
     log(`[ok] Written ${eventsIcsPath}`);

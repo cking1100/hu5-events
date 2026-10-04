@@ -1,5 +1,6 @@
 import { fetchInstagramAnnouncements, fetchFacebookListing, fetchPublishedSchedule } from "./public-social-events.js";
 import { fetchQueensEvents } from "./queens-events.js";
+import { instagramHistoryLimit } from "./source-audit.js";
 
 export const REMAINING_SOURCES = {
   "Newland Tap": { instagram: "newlandtap_hull", promoters: ["theconfessionalhull"] },
@@ -17,6 +18,8 @@ let queue = Promise.resolve();
 
 export function extractRemainingVenue(name, readers = {}) {
   const run = async () => {
+    checkedRemainingVenues.delete(name);
+    remainingSourceResults.delete(name);
     const instagram = readers.instagram || fetchInstagramAnnouncements;
     const facebook = readers.facebook || fetchFacebookListing;
     const records = [];
@@ -29,11 +32,14 @@ export function extractRemainingVenue(name, readers = {}) {
       if (!config) throw new Error(`Unknown remaining venue: ${name}`);
       const result = await instagram(config.instagram);
       records.push(...result.records);
+      const venueLimit = instagramHistoryLimit(config.instagram, result);
+      if (venueLimit) notes.push(venueLimit);
       for (const promoter of config.promoters || []) {
         const promoted = await instagram(promoter);
+        const promoterLimit = instagramHistoryLimit(promoter, promoted);
+        if (promoterLimit) notes.push(promoterLimit);
         records.push(...promoted.records.filter(record => /@newlandtap_hull\b|\bNewland\s+Tap\b/i.test(record.description || "")));
       }
-      if (result.hasOlderPosts) notes.push("Public profile exposes 12 recent posts; older timeline requires login. Complete historical coverage is not verified.");
       if (config.facebook) records.push(...await facebook(config.facebook));
     }
     checkedRemainingVenues.add(name);

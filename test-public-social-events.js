@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseInstagramAnnouncements, parseInstagramBiography, facebookListingEvents, instagramTimeline } from "./public-social-events.js";
+import { parseInstagramAnnouncements, parseInstagramBiography, facebookListingEvents, instagramTimeline, fetchInstagramAnnouncements, fetchFacebookListing } from "./public-social-events.js";
+import { resetSourceAudit, sourceChecks } from "./source-audit.js";
 
 test("official profile bios provide explicit future promoter dates and clocks", () => {
   const events = parseInstagramBiography("Got something to say?\nEvery 2nd Wednesday, 8pm @newlandtap_hull\nNext Confessional: 14th October 2026", "promoter", new Date("2026-10-03T18:00:00Z"));
@@ -78,4 +79,56 @@ test("Instagram zero-padded publication days preserve current announcements", ()
   assert.equal(events[0].dateText, "this weekend");
   const dated = parseInstagramAnnouncements([post("Show on 10th October at 8pm", "September 01, 2026")], now);
   assert.equal(dated[0].startISO, "2026-10-10T19:00:00.000Z");
+});
+
+test("Instagram records compact per-account evidence including promoter limits", async () => {
+  resetSourceAudit();
+  const html = `<script type="application/json">${JSON.stringify({ data: [
+    { username: "promoter", biography: "Official", pk: "123" },
+    { pk: "123", polaris_ordered_timeline_connection: {
+      edges: [{ node: post("Show on 10th October 2030 at 8pm") }, { node: post("Opening hours") }],
+      page_info: { has_next_page: true },
+    } },
+  ] })}</script>`;
+  const result = await fetchInstagramAnnouncements("promoter", action => action({
+    goto: async () => {}, content: async () => html,
+  }));
+  assert.equal(result.records.length, 1);
+  assert.equal(result.hasOlderPosts, true);
+  assert.equal(sourceChecks[0].account, "@promoter");
+  assert.equal(sourceChecks[0].itemsExamined, 2);
+  assert.equal(sourceChecks[0].itemsIgnored, 1);
+  assert.equal(sourceChecks[0].recordsExtracted, 1);
+  assert.match(sourceChecks[0].limitations[0], /@promoter/);
+  assert.equal(sourceChecks[0].status, "limited");
+});
+
+test("a verified empty Facebook collection differs from a login-gated page", async () => {
+  resetSourceAudit();
+  const page = html => ({
+    goto: async () => {}, content: async () => html,
+    getByRole: () => ({ count: async () => 0 }),
+  });
+  const empty = `<script type="application/json">${JSON.stringify({
+    data: { node: { pageItems: { edges: [], page_info: { has_next_page: false } } } },
+  })}</script>`;
+  assert.deepEqual(await fetchFacebookListing("venue", action => action(page(empty))), []);
+  assert.equal(sourceChecks[0].paginationComplete, true);
+  assert.equal(sourceChecks[0].recordsExtracted, 0);
+  await assert.rejects(fetchFacebookListing("gated", action => action(page("<h1>Log in</h1>"))), /cannot verify zero/);
+  assert.equal(sourceChecks[1].status, "failed");
+  assert.equal(sourceChecks[1].recordsExtracted, null);
+});
+
+test("Facebook listing timestamps survive absent action-renderer metadata", () => {
+  const html = `<script type="application/json">${JSON.stringify({
+    edges: [{ node: { node: {
+      __typename: "Event", id: "show", name: "Show", start_timestamp: 1917630000,
+      url: "https://www.facebook.com/events/show/",
+    } } }],
+    page_info: { has_next_page: false },
+  })}</script>`;
+  const result = facebookListingEvents(html, Date.parse("2026-10-04T00:00:00Z"));
+  assert.equal(result.records.length, 1);
+  assert.equal(result.records[0].title, "Show");
 });
