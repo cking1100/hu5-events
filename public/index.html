@@ -2992,7 +2992,7 @@
     display: none !important;
 }
     </style>
-    <link rel="stylesheet" href="/hu5-design.css?v=20261004-discover" />
+    <link rel="stylesheet" href="/hu5-design.css?v=20261004-refine" />
 
     <script id="events-ld" type="application/ld+json"></script>
 </head>
@@ -3225,12 +3225,12 @@
         <div id="status" class="empty" role="status" hidden>Loading listings…</div>
         <section id="discover-view" class="hidden" tabindex="-1" aria-label="Discover HU5">
             <div id="discoverDirectory">
-                <div class="discover-heading"><div><p class="eyebrow">DISCOVER HU5</p><h1>Find your next<br />favourite spot<span class="heading-stop">.</span></h1></div>
-                    <p>The places behind the nights out.<br />Newland Avenue. Princes Avenue.<br />Your local favourites, all in one place.</p></div>
-                <div class="discover-controls"><div><label class="filter-label" for="discoverSearch">Find a place</label><input class="field" id="discoverSearch" type="search" placeholder="Venue name or street…" /></div>
-                    <div><label class="filter-label" for="discoverType">In the current listings</label><select class="field" id="discoverType"><option value="">All listing types</option></select></div></div>
-                <div class="places-heading"><h2>Places to know.</h2><p id="discoverCount" role="status"></p></div>
-                <p class="discover-source-note">Our existing venue sources, including places with no current listings. Photos and ratings appear only when verified information is available.</p>
+                <div class="discover-heading"><h1>HU5 venues</h1>
+                    <p>Find somewhere to go, then see what's on there.</p></div>
+                <div class="discover-controls"><div><label class="filter-label" for="discoverSearch">Find a venue</label><input class="field" id="discoverSearch" type="search" placeholder="Name or street…" /></div>
+                    <div><label class="filter-label" for="discoverType">What's on</label><select class="field" id="discoverType"><option value="">All listing types</option></select></div></div>
+                <div class="places-heading"><p id="discoverCount" role="status"></p>
+                    <p class="discover-source-note">Includes venues with no current listings.</p></div>
                 <div class="venue-grid" id="venueGrid"></div>
             </div>
             <div id="venueDetail" hidden></div>
@@ -3313,7 +3313,7 @@
     </div>
 
     <script src="/venues.js?v=20261004"></script>
-    <script src="/discover.js?v=20261004"></script>
+    <script src="/discover.js?v=20261004-refine"></script>
     <script>
         function openDatePicker(inputId) {
             const input = document.getElementById(inputId);

@@ -24,8 +24,7 @@
             return `<figure class="venue-visual"><img src="${escape(src)}" data-venue-name="${escape(venue.name)}" alt="${escape(venue.imageAlt || venue.name)}" loading="lazy" decoding="async" /><figcaption>${escape(venue.imageCredit)}</figcaption></figure>`;
         }
         return `<div class="venue-visual venue-placeholder" role="img" aria-label="${escape(venue.name)}: photograph not available">
-            <span class="venue-poster-top">HU5 / PLACES TO KNOW</span><span class="venue-poster-name" aria-hidden="true">${escape(venue.name)}</span>
-            <span class="venue-poster-bottom">VENUE PORTRAIT TO COME <span aria-hidden="true">↗</span></span></div>`;
+            <span>No photograph available</span></div>`;
     };
     const rating = venue => Number.isFinite(venue.rating) && venue.rating >= 0 && venue.rating <= 5 && safeURL(venue.ratingSource) && venue.ratingCheckedAt
         ? `<p class="venue-rating"><a href="${escape(safeURL(venue.ratingSource))}" target="_blank" rel="noopener noreferrer">★ ${escape(venue.rating)}${Number.isInteger(venue.reviewCount) && venue.reviewCount >= 0 ? ` · ${venue.reviewCount} reviews` : ""}</a><span>Checked ${escape(venue.ratingCheckedAt)}</span></p>` : "";
@@ -41,7 +40,7 @@
         if (!ready) return "Event feed not loaded yet";
         const n = upcoming(venue).length;
         const undated = schedules(venue).length;
-        return `${n} upcoming dated listing${n === 1 ? "" : "s"}${undated ? ` · ${undated} undated` : ""}`;
+        return `${n} upcoming listing${n === 1 ? "" : "s"}${undated ? ` · ${undated} date${undated === 1 ? "" : "s"} unconfirmed` : ""}`;
     };
     function updateCatalogue() {
         const catalogued = window.HU5_VENUES.map(venue => ({ ...venue }));
@@ -57,36 +56,35 @@
             const records = api.events().filter(event => api.venueName(event) === venue.name);
             const types = [...new Set(records.flatMap(event => Array.isArray(event.type) ? event.type : event.type ? [event.type] : []).filter(Boolean))].sort();
             const address = records.find(event => event.address)?.address || venue.address || "";
-            const description = venue.description || (address
-                ? `Find ${venue.name} at ${address}. ${types.length ? `Current listings include ${types.map(type => type.toLowerCase()).join(", ")}.` : "Explore its published listings below."}`
-                : types.length ? `Current listings at ${venue.name} include ${types.map(type => type.toLowerCase()).join(", ")}.` : "");
+            const description = venue.description || (types.length
+                ? `In the listings: ${types.map(type => type.toLowerCase()).join(", ")}.` : "");
             return { ...venue, address, description, types };
         }).sort((a, b) => a.name.localeCompare(b.name));
     }
-    function card(venue, index) {
+    function card(venue) {
         return `<article class="venue-card" data-venue="${escape(venue.slug)}">
+            <h2><a href="${venueHref(venue)}">${escape(venue.name)}</a></h2>
             <a class="venue-image-link" href="${venueHref(venue)}" aria-label="View ${escape(venue.name)}">${image(venue)}</a>
-            <div class="venue-card-body"><p class="eyebrow">PLACE ${String(index + 1).padStart(2, "0")}</p>
-            <h2><a href="${venueHref(venue)}">${escape(venue.name)}</a></h2>${rating(venue)}
-            ${venue.description ? `<p class="venue-description">${escape(venue.description)}</p>` : `<p class="venue-description">Venue details are still being gathered. Its source links and available listings are below.</p>`}
+            <div class="venue-card-body">${rating(venue)}
+            ${venue.description ? `<p class="venue-description">${escape(venue.description)}</p>` : ""}
+            <p class="venue-address">${escape(venue.address || "Address not yet available")}</p>
             <p class="venue-count">${escape(countText(venue))}</p>
-            ${venue.types.length ? `<p class="venue-tags"><span>In the listings:</span> ${venue.types.map(escape).join(" / ")}</p>` : ""}
-            <div class="venue-card-actions"><a class="btn" href="${venueHref(venue)}">View venue <span aria-hidden="true">↗</span></a>
+            <div class="venue-card-actions"><a class="btn" href="${venueHref(venue)}">Details</a>
             <button class="btn" type="button" data-venue-events="${escape(venue.slug)}">What's on here</button></div></div></article>`;
     }
     function renderDirectory() {
         const shown = venues.filter(venue => `${venue.name} ${venue.address} ${venue.description}`.toLowerCase().includes(search.toLowerCase()))
             .filter(venue => !category || venue.types.includes(category));
-        document.querySelector("#discoverCount").textContent = `${shown.length} of ${venues.length} places`;
+        document.querySelector("#discoverCount").textContent = `${shown.length} of ${venues.length} venues`;
         document.querySelector("#venueGrid").innerHTML = shown.length
             ? shown.map(card).join("")
-            : `<div class="empty"><h2>No places match.</h2><p>Try a different name or listing type.</p><button class="btn" type="button" data-discover-reset>Clear discovery filters</button></div>`;
+            : `<div class="empty"><h2>No venues match.</h2><p>Try a different name or listing type.</p><button class="btn" type="button" data-discover-reset>Clear filters</button></div>`;
     }
     function renderDetail(slug) {
         const venue = venues.find(item => item.slug === slug);
         const host = document.querySelector("#venueDetail");
         if (!venue) {
-            host.innerHTML = `<a class="venue-back" href="#discover">← All places</a><div class="empty"><h1>Venue not found.</h1><p>This venue link isn't in our current directory.</p><a class="btn" href="#discover">Discover HU5</a></div>`;
+            host.innerHTML = `<a class="venue-back" href="#discover">← HU5 venues</a><div class="empty"><h1>Venue not found.</h1><p>This venue link isn't in our current directory.</p><a class="btn" href="#discover">HU5 venues</a></div>`;
             return;
         }
         const events = upcoming(venue).sort((a, b) => a._startEff - b._startEff);
@@ -102,21 +100,20 @@
             return `<li class="venue-event"><div class="venue-event-date">${escape(event._hasDate ? event._startEff.toLocaleDateString("en-GB", { weekday: "short", day: "2-digit", month: "short", year: "numeric", timeZone: "Europe/London" }) : event.dateText || "Date to be confirmed")}<span>${escape(time)}</span></div>
                 <div><h3>${url ? `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer" data-kind="open" data-eid="${escape(event._id)}">${escape(event.title)}</a>` : escape(event.title)}</h3>
                 ${event._isSoldOut ? "<p>Sold out</p>" : event._isPostponed ? "<p>Postponed</p>" : event._isFree ? "<p>Free entry</p>" : ""}
-                ${url ? `<a class="venue-source-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer" data-kind="open" data-eid="${escape(event._id)}">Source details ↗</a>` : "<p>Source link not available</p>"}</div></li>`;
+                ${url ? `<a class="venue-source-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer" data-kind="open" data-eid="${escape(event._id)}">Source details</a>` : "<p>Source link not available</p>"}</div></li>`;
         }).join("");
-        host.innerHTML = `<a class="venue-back" href="#discover">← All places</a>
-            <div class="venue-detail-hero">${image(venue)}<div><p class="eyebrow">DISCOVER HU5 / THE PLACES</p><h1>${escape(venue.name)}</h1>${rating(venue)}
+        host.innerHTML = `<a class="venue-back" href="#discover">← HU5 venues</a>
+            <div class="venue-detail-hero">${image(venue)}<div><h1>${escape(venue.name)}</h1>${rating(venue)}
             ${venue.description ? `<p class="venue-description">${escape(venue.description)}</p>` : ""}
-            <p class="venue-count">${escape(countText(venue))}</p><button class="btn" type="button" data-venue-events="${escape(venue.slug)}">See what's on here</button></div></div>
-            <div class="venue-detail-body"><section class="venue-programme"><p class="eyebrow">WHAT'S ON HERE</p><h2>Make this your next stop.</h2>
-            ${!ready ? `<p class="empty">Event feed not loaded. Use the retry control above to check available listings.</p>` : events.length ? `<ul class="venue-event-list">${eventRows(events)}</ul>` : `<p class="empty">No upcoming dated listings in the current feed. This isn't a claim that the venue has no events. Check its sources for the latest.</p>`}
+            </div></div>
+            <div class="venue-info"><p>${escape(venue.address || "Address not yet available")}</p>
+            ${links ? `<div class="venue-info-links">${links}</div>` : "<p>Official venue links haven't been added yet.</p>"}</div>
+            <div class="venue-detail-body"><section class="venue-programme"><h2>What's on</h2>
+            <p class="venue-count">${escape(countText(venue))}</p><button class="btn" type="button" data-venue-events="${escape(venue.slug)}">What's on here</button>
+            ${!ready ? `<p class="empty">Event feed not loaded. Use the retry control above to check available listings.</p>` : events.length ? `<ul class="venue-event-list">${eventRows(events)}</ul>` : `<p class="empty">No upcoming dated listings in this feed. Check the venue's sources for other events.</p>`}
             ${undated.length ? `<h2 class="venue-undated-heading">Published schedules / date unconfirmed</h2><ul class="venue-event-list">${eventRows(undated)}</ul>` : ""}
-            <button class="btn" type="button" data-venue-events="${escape(venue.slug)}">Open event filters &amp; calendar exports</button></section>
-            <aside class="venue-info"><p class="eyebrow">VENUE INFO</p><h2>Good to know.</h2>
-            <h3>Address</h3><p>${escape(venue.address || "Address not yet available")}</p>
-            ${links ? `<h3>From the source</h3><div class="venue-info-links">${links}</div>` : "<p>Official venue links haven't been added yet.</p>"}
-            ${venue.types.length ? `<h3>In the current listings</h3><p>${venue.types.map(escape).join(" / ")}</p>` : ""}
-            <p class="venue-data-note">Listings come from the event feed, not a live venue calendar. Confirm dates, times and tickets with the venue.</p></aside></div>`;
+            <button class="btn" type="button" data-venue-events="${escape(venue.slug)}">Event filters &amp; calendar exports</button>
+            <p class="venue-data-note">Check dates, times and tickets with the venue. These are the listings we have, not a live venue calendar.</p></section></div>`;
     }
     function renderRoute(focus = false) {
         const hash = location.hash;

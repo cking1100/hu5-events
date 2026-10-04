@@ -114,7 +114,7 @@ Do not reset to `main`: that would also omit the committed scraper fixes.
 ### HU5 venue discovery
 
 The masthead now separates **What's on**, **Discover** and **Calendar**.
-Discover is a place-focused directory with poster-style visual cards, name/street
+Discover is a place-focused directory with unboxed venue entries, name/street
 search, observed listing-type filters and shareable venue detail views:
 `/#discover` and `/#venue/tpr`, for example. Event cards and calendar cards link to
 their venue. "What's on here" clears stale event filters and selects that venue;
@@ -144,8 +144,8 @@ venue has no events.
   broaden site branding or add a geographical category.
 - No reusable venue photographs, independently sourced ratings/review counts or
   reliable curated descriptions were supplied in this repository. The initial
-  release uses explicitly labelled placeholders and omits ratings. Descriptions
-  are factual address/listing summaries, not invented reviews or venue claims.
+  release uses simple missing-photo notes and omits ratings. Addresses are shown
+  separately from factual listing summaries, not invented reviews or venue claims.
   Tags and the directory filter describe **types in the current feed**, not
   unsupported classifications such as "late-night bar".
 - Adding a description requires checking it against a venue source. A hero/card
@@ -188,6 +188,32 @@ Venue discovery is a **separate commit after `3dcd41b`**, titled
 later working changes, switch to `design-overhaul`, and run
 `git revert <venue-discovery-commit>`. This preserves the main redesign and scraper
 baseline. Do not reset history or revert the scraper commit.
+
+#### Design refinement
+
+The subsequent `Refine HU5 venue discovery design` commit changes presentation
+and UI copy only. A compact "HU5 venues" heading replaces the promotional hero.
+Venue names lead unboxed entries in two unequal desktop columns and a single
+mobile column. Numbered labels, elaborate placeholder posters, repeated type
+tags and filled action buttons are removed. Missing photographs get a quiet
+note; verified future photographs retain large crops and credits. Ratings remain
+optional and understated. Detail pages put the venue, address and source links
+before a plain "What's on" list. Blue is reserved mainly for the existing brand,
+navigation, focus and hover states, not every listing count or separator.
+
+Search, supported listing-type filters, catalogue membership, deep links,
+navigation, sharing and event processing are unchanged. The refinement tests
+check both dark and light mode at 375, 390, 430 and 1440px with reduced motion,
+including compact headings, unboxed entries, inline touch-sized actions,
+information ordering and horizontal overflow. To undo only the refinement,
+start with a clean working tree and run `git revert <design-refinement-commit>`;
+the Discover feature and earlier redesign remain.
+
+Refinement validation on October 4, 2026 passed **74 tests, 0 failures,
+0 skipped**, with `npm test` exiting zero. The four additional cases extend the
+existing responsive journeys to check both themes at every required width.
+Screenshots were visually inspected after removing the remaining repetitive
+placeholder blocks and correcting full-width mobile text actions.
 
 ---
 

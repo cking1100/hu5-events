@@ -35,7 +35,7 @@ test("Discover lists configured and feed-backed venues without fake photos, rati
         const quizVenues = [...new Set(events.filter(event => (Array.isArray(event.type) ? event.type : [event.type]).includes("Quiz")).map(event => event.venue))].sort();
         assert.deepEqual((await page.locator(".venue-card h2").allTextContents()).sort(), quizVenues);
         await page.locator("#discoverSearch").fill("no-matching-real-venue");
-        assert.match(await page.locator("#venueGrid").innerText(), /No places match/);
+        assert.match(await page.locator("#venueGrid").innerText(), /No venues match/);
         await page.locator("[data-discover-reset]").click();
         assert.equal(await page.locator(".venue-card").count(), expected.length);
         await page.locator("#discoverSearch").fill("Hoi");
@@ -110,7 +110,7 @@ test("unknown venue route and unavailable feed report uncertainty rather than in
         await page.unroute("**/events.json?*");
         await page.locator("#retryLoad").click();
         await page.waitForFunction(() => document.querySelector("#status").hidden);
-        assert.match(await page.locator("#venueDetail").innerText(), /0 upcoming dated listings/);
+        assert.match(await page.locator("#venueDetail").innerText(), /0 upcoming listings/);
         assert.deepEqual(errors, []);
     });
 });
@@ -168,21 +168,36 @@ test("paper light theme keeps discovery, detail and zero-listing states readable
     }, { colorScheme: "light", width: 390 });
 });
 
-for (const width of [375, 390, 430, 1440]) {
-    test(`HU5 discovery and venue detail fit ${width}px and keep navigation local`, async () => {
+for (const { width, colorScheme } of ["dark", "light"].flatMap(colorScheme =>
+    [375, 390, 430, 1440].map(width => ({ width, colorScheme })))) {
+    test(`HU5 discovery and venue detail fit ${width}px in ${colorScheme} mode and keep navigation local`, async () => {
         await withPage(async ({ page, open, origin, screenshot, errors }) => {
             await open("#discover");
             await noOverflow(page);
-            await screenshot(`discover-${width}`);
+            assert.equal(await page.locator(".discover-heading h1").innerText(), "HU5 venues");
+            assert.doesNotMatch(await page.locator("#discoverDirectory").innerText(), /favourite spot|places to know|portrait to come|PLACE \d|explore|experience|perfect|curated/i);
+            const framing = await page.locator(".venue-card").first().evaluate(element => {
+                const style = getComputedStyle(element);
+                return { background: style.backgroundColor, radius: style.borderRadius, shadow: style.boxShadow, side: style.borderLeftWidth };
+            });
+            assert.deepEqual(framing, { background: "rgba(0, 0, 0, 0)", radius: "0px", shadow: "none", side: "0px" });
+            assert.ok(await page.locator(".discover-heading").evaluate(element => element.getBoundingClientRect().height < 110));
+            assert.ok(await page.locator(".venue-card .venue-placeholder").first().evaluate(element => element.getBoundingClientRect().height < 40));
+            const actions = await page.locator(".venue-card-actions").first().locator(".btn").evaluateAll(nodes => nodes.map(element => element.getBoundingClientRect().top));
+            assert.equal(actions[0], actions[1]);
+            await screenshot(`refined-discover-${colorScheme}-${width}`);
             const sizes = await page.locator(".primary-nav a, .venue-card-actions > *").evaluateAll(nodes => nodes.map(element => element.getBoundingClientRect().height));
             assert.ok(sizes.every(height => height >= 44));
             await page.locator("[data-venue='tpr'] h2 a").click();
             await page.waitForFunction(() => location.hash === "#venue/tpr" && window.scrollY === 0);
             await noOverflow(page);
-            await screenshot(`venue-${width}`);
+            assert.doesNotMatch(await page.locator("#venueDetail").innerText(), /make this your next stop|good to know|DISCOVER HU5 \/ THE PLACES|VENUE INFO/i);
+            assert.equal(await page.locator(".venue-info").evaluate(element =>
+                !!(element.compareDocumentPosition(document.querySelector(".venue-programme")) & Node.DOCUMENT_POSITION_FOLLOWING)), true);
+            await screenshot(`refined-venue-${colorScheme}-${width}`);
             await page.locator(".venue-info").scrollIntoViewIfNeeded();
             await noOverflow(page);
-            await screenshot(`venue-info-${width}`);
+            await screenshot(`refined-venue-info-${colorScheme}-${width}`);
             await page.locator("#navList").click();
             await noOverflow(page);
             await page.locator("#navCalendar").click();
@@ -208,6 +223,6 @@ for (const width of [375, 390, 430, 1440]) {
             const manifest = await (await page.request.get(origin + "/site.webmanifest")).json();
             assert.doesNotMatch(manifest.name + manifest.description, /\bHull\b/);
             assert.deepEqual(errors, []);
-        }, { width });
+        }, { width, colorScheme });
     });
 }
