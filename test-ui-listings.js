@@ -14,7 +14,8 @@ test("listings retain real data, search, venue URLs, ranges, sorting and exports
         assert.match(await page.locator("#list").innerText(), /No matching nights/);
         await page.locator("#resetBtn").click();
         assert.equal(await page.locator("#list article.event").count(), total);
-        await page.locator("#navVenues").click();
+        await page.locator("#filtersToggle").click();
+        await page.locator("#venue").focus();
         assert.equal(await page.locator("#venue").evaluate(e => e === document.activeElement), true);
         const venue = "The People's Republic";
         const venueCount = events.filter(event => event.venue === venue).length;
@@ -74,7 +75,7 @@ test("listings retain real data, search, venue URLs, ranges, sorting and exports
         assert.match(ics, /BEGIN:VEVENT/);
         assert.match(ics, /END:VCALENDAR/);
         assert.match(await page.locator('[data-kind="google"]').first().getAttribute("href"), /calendar/);
-        const links = await page.locator("#list a").evaluateAll(nodes => nodes.map(e => e.href));
+        const links = await page.locator("#list a:not(.listing-venue a)").evaluateAll(nodes => nodes.map(e => e.href));
         assert.ok(links.every(href => /^https?:/.test(href) && href !== origin + "/"));
         const fullCalendar = await page.request.get(origin + "/events.ics");
         assert.equal(fullCalendar.status(), 200);
@@ -88,7 +89,7 @@ test("loading, failed refresh, calendar error visibility, retry and empty feed",
         await open();
         const total = await page.locator("#list article.event").count();
         await page.locator("#navCalendar").click();
-        await page.locator("#navVenues").click();
+        await page.locator("#filtersToggle").click();
         let fail = true;
         await page.route("**/events.json?*", route => fail
             ? route.fulfill({ status: 503, body: "temporarily unavailable" })

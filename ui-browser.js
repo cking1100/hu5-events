@@ -16,7 +16,7 @@ const root = new URL("./public/", import.meta.url);
 export async function withPage(run, options = {}) {
     const server = createServer(async (req, res) => {
         const path = new URL(req.url, "http://localhost").pathname;
-        const allowed = ["/", "/index.html", "/hu5-design.css", "/events.json", "/events.ics"];
+        const allowed = ["/", "/index.html", "/hu5-design.css", "/venues.js", "/discover.js", "/events.json", "/events.ics", "/site.webmanifest"];
         if (!allowed.includes(path)) {
             res.writeHead(404).end();
             return;
@@ -24,7 +24,7 @@ export async function withPage(run, options = {}) {
         try {
             const file = path === "/" ? "index.html" : path.slice(1);
             const body = await readFile(new URL(file, root));
-            const types = { ".html": "text/html", ".css": "text/css", ".json": "application/json", ".ics": "text/calendar" };
+            const types = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".ics": "text/calendar", ".webmanifest": "application/manifest+json" };
             res.writeHead(200, { "Content-Type": types[extname(file)], "Cache-Control": "no-store" });
             res.end(body);
         } catch (error) {

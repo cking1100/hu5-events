@@ -1,7 +1,7 @@
 {
-  "name": "Find HU5 Events - Gigs, Pubs & Live Music in Hull",
+  "name": "HU5 Events - What's On & Discover HU5",
   "short_name": "HU5 Events",
-  "description": "Event discovery platform for Hull's HU5 postcode area - live music, gigs, comedy, quizzes and pub nights updated daily.",
+  "description": "HU5 venues all in one place — built for the community. Gigs, quizzes, comedy and pub nights.",
   "start_url": "/?utm_source=pwa",
   "scope": "/",
   "display": "standalone",
