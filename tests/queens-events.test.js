@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseQueensEvents } from "./queens-events.js";
-import { buildEvent } from "./scrape-hull-venues.js";
+import { parseQueensEvents } from "../queens-events.js";
+import { buildEvent } from "../scrape-hull-venues.js";
 
 test("Queens uses explicit enabled venue occurrences with valid London times", () => {
   const data = {

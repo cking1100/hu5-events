@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseInstagramAnnouncements, parseInstagramBiography, facebookListingEvents, instagramTimeline, fetchInstagramAnnouncements, fetchFacebookListing } from "./public-social-events.js";
-import { resetSourceAudit, sourceChecks } from "./source-audit.js";
+import { parseInstagramAnnouncements, parseInstagramBiography, facebookListingEvents, instagramTimeline, fetchInstagramAnnouncements, fetchFacebookListing } from "../public-social-events.js";
+import { resetSourceAudit, sourceChecks } from "../source-audit.js";
 
 test("official profile bios provide explicit future promoter dates and clocks", () => {
   const events = parseInstagramBiography("Got something to say?\nEvery 2nd Wednesday, 8pm @newlandtap_hull\nNext Confessional: 14th October 2026", "promoter", new Date("2026-10-03T18:00:00Z"));

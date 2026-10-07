@@ -3,15 +3,15 @@ import { readFile } from "node:fs/promises";
 import { join, extname } from "node:path";
 import { chromium } from "playwright";
 
-export const events = JSON.parse(await readFile(new URL("./public/events.json", import.meta.url)));
+export const events = JSON.parse(await readFile(new URL("../public/events.json", import.meta.url)));
 const firstStart = events.map(event => Date.parse(event.start)).filter(Number.isFinite).sort((a, b) => a - b)[0];
 export const testTime = new Date(firstStart);
 testTime.setUTCHours(0, 0, 0, 0);
 export const testDay = testTime.toISOString().slice(0, 10);
 export const testMonth = testTime.toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "Europe/London" });
 export const nextMonth = new Date(Date.UTC(testTime.getUTCFullYear(), testTime.getUTCMonth() + 1, 1)).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
-export const calendarCount = (await readFile(new URL("./public/events.ics", import.meta.url), "utf8")).match(/BEGIN:VEVENT/g)?.length || 0;
-const root = new URL("./public/", import.meta.url);
+export const calendarCount = (await readFile(new URL("../public/events.ics", import.meta.url), "utf8")).match(/BEGIN:VEVENT/g)?.length || 0;
+const root = new URL("../public/", import.meta.url);
 
 export async function withPage(run, options = {}) {
     const server = createServer(async (req, res) => {

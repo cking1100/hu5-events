@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { auditSource, auditVenue, sourceChecks, venueChecks, resetSourceAudit, recordCounts, recordVenueWarning, outputSummary, instagramHistoryLimit } from "./source-audit.js";
+import { auditSource, auditVenue, sourceChecks, venueChecks, resetSourceAudit, recordCounts, recordVenueWarning, outputSummary, instagramHistoryLimit } from "../source-audit.js";
 
 test("source evidence records limitations without converting accessible data to failure", async () => {
   resetSourceAudit();

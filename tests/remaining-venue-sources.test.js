@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { extractRemainingVenue, checkedRemainingVenues, remainingSourceResults, QUEENS_WEEKLY_QUIZ } from "./remaining-venue-sources.js";
+import { extractRemainingVenue, checkedRemainingVenues, remainingSourceResults, QUEENS_WEEKLY_QUIZ } from "../remaining-venue-sources.js";
 
 test("a verified empty source is authoritative, not an obsolete CSV fallback", async () => {
   checkedRemainingVenues.delete("Hoi");

@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { toISO, inferYearAndTime, buildEvent, scrapeCsvVenue, scrapePaveBar, venueClockISO, deduplicateEvents } from "./scrape-hull-venues.js";
-import { sourceChecks, resetSourceAudit } from "./source-audit.js";
+import { toISO, inferYearAndTime, buildEvent, scrapeCsvVenue, scrapePaveBar, venueClockISO, deduplicateEvents } from "../scrape-hull-venues.js";
+import { sourceChecks, resetSourceAudit } from "../source-audit.js";
 
 test("same-title performances at different times on one day remain distinct", () => {
   const first = { venue: "Venue", title: "Show", start: "2026-10-10T14:00:00Z" };

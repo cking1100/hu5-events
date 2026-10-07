@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseTPRSchedules } from "./tpr-schedules.js";
+import { parseTPRSchedules } from "../tpr-schedules.js";
 
 const website = `<div class="textwidget">
 <div><strong>The Quiz.</strong></div>

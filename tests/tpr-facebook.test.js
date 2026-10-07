@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseFacebookEvents, facebookCollections, collectFacebookListing, scrapeTPRFacebook } from "./tpr-facebook.js";
-import { sourceChecks, resetSourceAudit } from "./source-audit.js";
+import { parseFacebookEvents, facebookCollections, collectFacebookListing, scrapeTPRFacebook } from "../tpr-facebook.js";
+import { sourceChecks, resetSourceAudit } from "../source-audit.js";
 
 test("Facebook exposes its event listing cursor instead of silently stopping at the first eight", () => {
   const connection = {
