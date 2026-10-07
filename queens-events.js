@@ -39,6 +39,7 @@ export function parseQueensEvents(data, venueID, cutoff = Date.now()) {
       endISO: !inconsistentEnd && endISO && Date.parse(endISO) > Date.parse(startISO) ? endISO : null,
       dateText: occurrence.startDateTime.slice(0, 10),
       timeText: occurrence.startDateTime.slice(11, 16),
+      freeEntry: true,
     });
   }
   return records;

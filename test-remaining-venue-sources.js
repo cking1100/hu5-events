@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { extractRemainingVenue, checkedRemainingVenues, remainingSourceResults } from "./remaining-venue-sources.js";
+import { extractRemainingVenue, checkedRemainingVenues, remainingSourceResults, QUEENS_WEEKLY_QUIZ } from "./remaining-venue-sources.js";
 
 test("a verified empty source is authoritative, not an obsolete CSV fallback", async () => {
   checkedRemainingVenues.delete("Hoi");
@@ -26,10 +26,15 @@ test("source access failures do not certify a venue has zero events", async () =
 
 test("Queens collects published events and checked recurrence instead of synthetic weeks", async () => {
   const dated = { title: "Source event", startISO: "2030-10-10T19:00:00Z" };
-  const schedule = { title: "Published quiz", startISO: null };
   const events = await extractRemainingVenue("Queens Hotel", {
-    queens: async () => [dated], schedule: async () => [schedule],
+    queens: async () => [dated],
   });
+  assert.deepEqual(events.map(event => event.freeEntry), [true, true]);
+  assert.deepEqual(events.map(({ freeEntry, ...event }) => event), [dated, QUEENS_WEEKLY_QUIZ]);
+  assert.equal(events[1].title, "Queens Quiz Night");
+  assert.equal(events[1].dateText, "Every Wednesday");
+  assert.equal(events[1].timeText, "19:30");
+  assert.equal(events[1].startISO, null);
 
   test("venue and promoter history limits are checked independently", async () => {
     for (const [venueLimited, promoterLimited] of [[false, true], [true, false], [true, true]]) {
@@ -57,5 +62,8 @@ test("Queens collects published events and checked recurrence instead of synthet
     assert.equal(checkedRemainingVenues.has("Hoi"), false);
     assert.equal(remainingSourceResults.has("Hoi"), false);
   });
-  assert.deepEqual(events, [dated, schedule]);
+  assert.deepEqual(events, [
+    { ...dated, freeEntry: true },
+    { ...QUEENS_WEEKLY_QUIZ, freeEntry: true },
+  ]);
 });

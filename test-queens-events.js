@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseQueensEvents } from "./queens-events.js";
+import { buildEvent } from "./scrape-hull-venues.js";
 
 test("Queens uses explicit enabled venue occurrences with valid London times", () => {
   const data = {
@@ -20,6 +21,7 @@ test("Queens uses explicit enabled venue occurrences with valid London times", (
   assert.equal(events.length, 1);
   assert.equal(events[0].startISO, "2026-10-10T18:00:00.000Z");
   assert.equal(events[0].endISO, "2026-10-10T21:00:00.000Z");
+  assert.equal(events[0].freeEntry, true);
 });
 
 test("Queens rejects changed feed schemas rather than claiming zero events", () => {
@@ -33,4 +35,21 @@ test("Queens omits source-inconsistent finish times rather than trusting expande
   const events = parseQueensEvents(data, "queens", Date.parse("2026-10-03T00:00:00Z"));
   assert.equal(events[0].endISO, null);
   assert.equal(events[0].startISO, "2026-11-14T21:00:00.000Z");
+});
+
+test("recurring Queens schedules keep weekday and time without a fabricated date", () => {
+  const event = buildEvent({
+    source: "Queens Hotel",
+    venue: "Queens Hotel",
+    title: "Queens Quiz Night",
+    dateText: "Every Wednesday",
+    timeText: "19:30",
+    freeEntry: true,
+  });
+
+  assert.equal(event.start, null);
+  assert.equal(event.dateText, "Every Wednesday");
+  assert.equal(event.timeText, "19:30");
+  assert.equal(event.displayTime24, "19:30");
+  assert.equal(event.freeEntry, true);
 });

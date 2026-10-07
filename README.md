@@ -1,6 +1,6 @@
 ﻿# Find HU5 Events 🎸
 
-**HU5 venues all in one place — built for the community.** Published gigs, pub nights, comedy, quizzes and open mics in a searchable local guide, with a separate directory for discovering the places behind the listings.
+**HU5 events all in one place — built for the community.** Published gigs, pub nights, comedy, quizzes and open mics in a searchable local guide.
 
 **Live:** https://www.findhu5.events/
 
@@ -111,109 +111,13 @@ The redesign is isolated on `design-overhaul`, directly after scraper baseline
 `git revert <redesign-commit>` (the commit titled `Redesign HU5 Events website`).
 Do not reset to `main`: that would also omit the committed scraper fixes.
 
-### HU5 venue discovery
+### Holiday themes
 
-The masthead now separates **What's on**, **Discover** and **Calendar**.
-Discover is a place-focused directory with unboxed venue entries, name/street
-search, observed listing-type filters and shareable venue detail views:
-`/#discover` and `/#venue/tpr`, for example. Event cards and calendar cards link to
-their venue. "What's on here" clears stale event filters and selects that venue;
-ordinary navigation between views preserves existing event filters.
-
-The catalogue in [public/venues.js](public/venues.js) is separate from the event
-schema. It includes all **18 configured venues**, even sources with no current
-records. Additional venue names in the feed are also included. The renderer in
-[public/discover.js](public/discover.js) reads the existing normalized feed rather
-than fetching venue websites or changing scraper output. Detail views show
-upcoming dated listings separately from published undated schedules. Counts are
-listing/occurrence counts, **not source-post counts**. An unavailable feed is
-reported as unknown, not a verified zero; zero listings are not a claim that a
-venue has no events.
-
-#### Metadata provenance and honest missing data
-
-- Venue names and website/listing URLs come from the existing configured modules
-  in [scrape-hull-venues.js](scrape-hull-venues.js).
-- Social profile URLs come from
-  [remaining-venue-sources.js](remaining-venue-sources.js). Queens uses its existing
-  [official website source](queens-events.js).
-- Addresses use the existing scraper address table and committed feed, preferring
-  an address present in the venue's feed records. Missing addresses are left
-  unknown. The requested inherited roster includes Polar Bear and Welly; their
-  actual **HU3** addresses are retained rather than relabelled HU5. This does not
-  broaden site branding or add a geographical category.
-- No reusable venue photographs, independently sourced ratings/review counts or
-  reliable curated descriptions were supplied in this repository. The initial
-  release uses simple missing-photo notes and omits ratings. Addresses are shown
-  separately from factual listing summaries, not invented reviews or venue claims.
-  Tags and the directory filter describe **types in the current feed**, not
-  unsupported classifications such as "late-night bar".
-- Adding a description requires checking it against a venue source. A hero/card
-  photograph requires `image`, `imageSource`, `imageCredit` and `imageLicense`;
-  `imageAlt` is optional. Record real provenance and permission/licensing before
-  enabling it. Failed images log a warning and become labelled placeholders.
-  A rating requires a real numeric `rating` (0–5), `ratingSource` URL and
-  `ratingCheckedAt`; `reviewCount` is optional. These fields are editorial evidence
-  records, not an automatic verification service. Do not populate them from
-  guesses or arbitrary examples.
-- The isolated metadata objects can be enriched later with `gallery` and curated
-  `tags` without editing event records. These are not populated or rendered yet;
-  upcoming events continue to be derived from the live feed rather than duplicated
-  in the catalogue.
-
-Public titles, descriptions, navigation, site/organization structured data,
-footer and PWA branding use **HU5**, not city-wide wording. Truthful geographical
-venue addresses and source URLs are not rewritten. Dynamic Event JSON-LD uses
-the actual address's postcode when available. Venue details use lightweight hash
-routing, not separate server-rendered/indexable documents.
-
-New browser regressions cover directory filtering, missing images/ratings,
-zero-listing venues, deep links/reloads/Back/Forward, sharing, event ↔ venue
-navigation, feed failure/retry, HU5-only branding and mobile/desktop layout.
-Existing listing/calendar/admin/export tests remain in `npm test`. New scripts
-and the presentation sheet have versioned URLs because Express serves those
-assets with long-lived caching; update those versions for later deployments.
-
-The October 4, 2026 discovery validation passed **70 tests, 0 failures, 0 skipped**
-(the previous 61 plus nine discovery regressions), with `npm test` exiting zero.
-Visual/browser checks covered **375, 390, 430 and 1440 pixels**, light/dark themes,
-reduced motion and element-level horizontal overflow. New external scripts and
-all inline scripts passed syntax checks, static JSON-LD and the manifest parsed,
-and editor diagnostics and `git diff --check` were clean. The committed event
-files remained **208 JSON records / 201 dated / 7 undated / 201 ICS VEVENTs**.
-The scraper, dependencies and event schema were not changed or regenerated.
-
-Venue discovery is a **separate commit after `3dcd41b`**, titled
-`Add HU5 venue discovery`. To undo just this feature, first commit or stash any
-later working changes, switch to `design-overhaul`, and run
-`git revert <venue-discovery-commit>`. This preserves the main redesign and scraper
-baseline. Do not reset history or revert the scraper commit.
-
-#### Design refinement
-
-The subsequent `Refine HU5 venue discovery design` commit changes presentation
-and UI copy only. A compact "HU5 venues" heading replaces the promotional hero.
-Venue names lead unboxed entries in two unequal desktop columns and a single
-mobile column. Numbered labels, elaborate placeholder posters, repeated type
-tags and filled action buttons are removed. Missing photographs get a quiet
-note; verified future photographs retain large crops and credits. Ratings remain
-optional and understated. Detail pages put the venue, address and source links
-before a plain "What's on" list. Blue is reserved mainly for the existing brand,
-navigation, focus and hover states, not every listing count or separator.
-
-Search, supported listing-type filters, catalogue membership, deep links,
-navigation, sharing and event processing are unchanged. The refinement tests
-check both dark and light mode at 375, 390, 430 and 1440px with reduced motion,
-including compact headings, unboxed entries, inline touch-sized actions,
-information ordering and horizontal overflow. To undo only the refinement,
-start with a clean working tree and run `git revert <design-refinement-commit>`;
-the Discover feature and earlier redesign remain.
-
-Refinement validation on October 4, 2026 passed **74 tests, 0 failures,
-0 skipped**, with `npm test` exiting zero. The four additional cases extend the
-existing responsive journeys to check both themes at every required width.
-Screenshots were visually inspected after removing the remaining repetitive
-placeholder blocks and correcting full-width mobile text actions.
+The site switches to a full Halloween theme only on **October 31**, and a full
+Christmas theme only on **December 25**, based on the `Europe/London` calendar
+date. Falling pumpkins and snow are decorative overlays on those dates; reduced
+motion preferences disable their animation. The rest of the site stays in its
+normal theme; there are no extra holiday panels or invented listings.
 
 ---
 

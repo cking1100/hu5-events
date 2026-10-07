@@ -29,11 +29,9 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-    <title>
-        HU5 Events | What's On &amp; Discover HU5 Venues
-    </title>
+    <title>HU5 Events | What's On in HU5</title>
     <meta name="description"
-          content="HU5 venues all in one place — built for the community. Find tonight's gigs, quizzes, comedy and pub nights, or discover your next favourite local spot." />
+          content="Find gigs, quizzes, comedy and pub nights in HU5. Browse local event listings and plan your next night out." />
     <meta name="keywords"
           content="HU5 events, what's on HU5, HU5 venues, Newland Avenue, Princes Avenue, HU5 gigs, HU5 quizzes, HU5 comedy, HU5 pub nights" />
     <meta name="robots"
@@ -41,7 +39,7 @@
     <meta name="googlebot"
           content="index, follow, max-snippet:-1, max-image-preview:large" />
     <meta name="subject"
-          content="HU5 venues, live music, comedy, gigs and pub nights" />
+          content="HU5 events, live music, comedy, gigs and pub nights" />
     <meta name="classification"
           content="Local events directory" />
     <link rel="alternate" hreflang="en-gb" href="https://www.findhu5.events/" />
@@ -67,9 +65,9 @@
 
     <!-- Social sharing (Open Graph) -->
     <meta property="og:title"
-          content="HU5 Events | What's On & Discover HU5" />
+          content="HU5 Events | What's On in HU5" />
     <meta property="og:description"
-          content="HU5 venues all in one place — built for the community. Find what's on and discover your next favourite local spot." />
+          content="Find gigs, quizzes, comedy and pub nights in HU5. Browse local event listings and plan your next night out." />
     <meta property="og:url" content="https://www.findhu5.events/" />
     <meta property="og:type" content="website" />
     <meta property="og:image"
@@ -82,9 +80,9 @@
     <meta property="og:site_name" content="Find HU5 Events" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title"
-          content="HU5 Events | What's On & Discover HU5" />
+          content="HU5 Events | What's On in HU5" />
     <meta name="twitter:description"
-          content="Find gigs, DJs, comedy, quizzes and pub nights at HU5 venues. What's on and where to go, built for the community." />
+          content="Find gigs, DJs, comedy, quizzes and pub nights in HU5. What's on and where to go, built for the community." />
     <meta name="twitter:image"
           content="https://www.findhu5.events/og-preview.png" />
     <meta name="twitter:image:alt"
@@ -264,7 +262,7 @@
               "name": "Where can I find live music in HU5?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Search the HU5 event listings by date, venue or artist, or use Discover to browse venues and their current listings."
+                "text": "Search the HU5 event listings by date, venue or artist."
               }
             },
             {
@@ -280,7 +278,7 @@
               "name": "Where are comedy nights in HU5?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Search What's On for comedy or browse Discover by the Comedy listing type when it is available in the current feed."
+                "text": "Search What's On for comedy listings when they are available in the current feed."
               }
             }
           ]
@@ -314,7 +312,7 @@
               "name": "Where are events tonight and this weekend?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Search by venue or date in What's On, then open a venue in Discover for its source links and listings."
+                "text": "Search by venue or date in What's On to find its published listings."
               }
             },
             {
@@ -2992,19 +2990,19 @@
     display: none !important;
 }
     </style>
-    <link rel="stylesheet" href="/hu5-design.css?v=20261004-refine" />
+    <link rel="stylesheet" href="/hu5-design.css?v=20261007-holiday-overlay" />
 
     <script id="events-ld" type="application/ld+json"></script>
 </head>
 
 <body>
+    <div id="seasonalOverlay" class="seasonal-overlay" aria-hidden="true" hidden></div>
     <a class="skip-link" href="#whats-on">Skip to events</a>
     <div class="masthead">
         <div class="wrap masthead-inner">
             <a class="wordmark" href="/" aria-label="HU5 Events home"><span>HU5</span><span>EVENTS<span class="brand-stop">.</span></span></a>
             <nav class="primary-nav" aria-label="Main navigation">
                 <a href="#whats-on" id="navList" aria-current="page">What's on</a>
-                <a href="#discover" id="navVenues">Discover</a>
                 <a href="#calendar-view" id="navCalendar">Calendar</a>
             </nav>
             <span class="masthead-location">HU5 / OUR COMMUNITY</span>
@@ -3223,18 +3221,6 @@
         </div>
 
         <div id="status" class="empty" role="status" hidden>Loading listings…</div>
-        <section id="discover-view" class="hidden" tabindex="-1" aria-label="Discover HU5">
-            <div id="discoverDirectory">
-                <div class="discover-heading"><h1>HU5 venues</h1>
-                    <p>Find somewhere to go, then see what's on there.</p></div>
-                <div class="discover-controls"><div><label class="filter-label" for="discoverSearch">Find a venue</label><input class="field" id="discoverSearch" type="search" placeholder="Name or street…" /></div>
-                    <div><label class="filter-label" for="discoverType">What's on</label><select class="field" id="discoverType"><option value="">All listing types</option></select></div></div>
-                <div class="places-heading"><p id="discoverCount" role="status"></p>
-                    <p class="discover-source-note">Includes venues with no current listings.</p></div>
-                <div class="venue-grid" id="venueGrid"></div>
-            </div>
-            <div id="venueDetail" hidden></div>
-        </section>
         <!-- Calendar View Component -->
         <div id="calendar-view" class="calendar-container hidden" role="tabpanel" aria-labelledby="viewCalendar">
             <p class="calendar-intro">A month at a glance. Choose a day to see its listings. Calendar shows all dated events.</p>
@@ -3278,7 +3264,7 @@
     </main>
     <footer class="site-footer wrap">
         <div class="footer-heading"><span class="footer-brand">HU5 EVENTS<span class="heading-stop">.</span></span><p>Stay local. Go out.</p></div>
-        <p>HU5 venues all in one place — built for the community. Gigs, quizzes, comedy and everything in between. Check with the venue for changes, ticket availability and final times.</p>
+        <p>Gigs, quizzes, comedy and everything in between. Check with the venue for changes, ticket availability and final times.</p>
         <div class="footer-links">
             <a id="footerContact" href="mailto:hu5eventsfinder@gmail.com">Suggest an event / get in touch</a>
             <a href="https://www.instagram.com/hu5events/" target="_blank" rel="noopener noreferrer">Instagram</a>
@@ -3312,8 +3298,6 @@
         Link copied
     </div>
 
-    <script src="/venues.js?v=20261004"></script>
-    <script src="/discover.js?v=20261004-refine"></script>
     <script>
         function openDatePicker(inputId) {
             const input = document.getElementById(inputId);
@@ -3615,6 +3599,7 @@
                 "Molly Mangan's",
                 "Underdog",
                 "Pave Bar",
+                "Queens Hotel",
             ]);
 
             // Normalise venue labels across sources (for filtering chip)
@@ -5054,7 +5039,7 @@
                                     <div class="mon">${dparts.mon}</div>
                                   </div>
                                   <div class="event-content">
-                                    <div class="listing-venue"><a href="${escapeHTML(window.HU5Discover.href(vLabel))}" aria-label="View venue: ${escapeHTML(vLabel)}">${highlight(vLabel, q)} <span aria-hidden="true">↗</span></a></div>
+                                    <div class="listing-venue">${highlight(vLabel, q)}</div>
 <h2 class="title">${showOpen ? `<a href="${escapeHTML(
                                     openHref,
                                 )}" target="_blank" rel="noopener noreferrer">` : ""}${highlight(
@@ -5546,17 +5531,8 @@
                     tag === "input" || tag === "textarea" || tag === "select" || e.target?.isContentEditable || e.isComposing;
                 if (e.key === "/" && !isTyping) {
                     e.preventDefault();
-                    if (state.currentView === "discover" && !$("#discoverDirectory").hidden) {
-                        $("#discoverSearch").focus();
-                        $("#discoverSearch").select();
-                    } else {
-                        if (state.currentView === "discover") {
-                            location.hash = "whats-on";
-                            switchView("list");
-                        }
-                        els.q.focus();
-                        els.q.select();
-                    }
+                    els.q.focus();
+                    els.q.select();
                 }
                 if (e.key.toLowerCase() === "r" && !isTyping) {
                     e.preventDefault();
@@ -5704,17 +5680,48 @@
                 }
             }
 
+            function renderSeasonalTheme() {
+                const date = dateKeyInTZ(new Date()).slice(5);
+                const halloween = date === "10-31";
+                const christmas = date === "12-25";
+                const overlay = $("#seasonalOverlay");
+                document.body.classList.toggle("halloween-theme", halloween);
+                document.body.classList.toggle("christmas-theme", christmas);
+                overlay.hidden = !halloween && !christmas;
+                if (halloween) {
+                    overlay.dataset.season = "halloween";
+                    if (!overlay.childElementCount) {
+                        for (let i = 0; i < 10; i++) {
+                            const pumpkin = document.createElement("span");
+                            pumpkin.textContent = "🎃";
+                            overlay.appendChild(pumpkin);
+                        }
+                    }
+                } else {
+                    overlay.replaceChildren();
+                    if (christmas) overlay.dataset.season = "christmas";
+                    else delete overlay.dataset.season;
+                }
+            }
+
+            function scheduleSeasonalThemeUpdate() {
+                const now = new Date();
+                const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+                setTimeout(() => {
+                    renderSeasonalTheme();
+                    scheduleSeasonalThemeUpdate();
+                }, Math.max(1000, nextMidnight.getTime() - now.getTime()));
+            }
+
             /* ========================= CALENDAR FUNCTIONS ========================= */
 
             function switchView(view) {
                 state.currentView = view;
-                const discovering = view === "discover";
-                $("#discover-view").classList.toggle("hidden", !discovering);
-                $(".app-header").hidden = discovering;
-                $(".view-toggle-container").hidden = discovering;
-                $("#fabTop").hidden = discovering;
-                ["list", "calendar", "discover"].forEach(mode => {
-                    const nav = document.getElementById(mode === "list" ? "navList" : mode === "calendar" ? "navCalendar" : "navVenues");
+                $(".app-header").hidden = false;
+                $(".view-toggle-container").hidden = false;
+                $("#fabTop").hidden = false;
+                ["list", "calendar"].forEach(mode => {
+                    const nav = document.getElementById(mode === "list" ? "navList" : "navCalendar");
                     if (mode === view) nav.setAttribute("aria-current", "true");
                     else nav.removeAttribute("aria-current");
                 });
@@ -5727,20 +5734,13 @@
                     els.viewCalendar.classList.add("active");
                     els.viewCalendar.setAttribute("aria-selected", "true");
                     renderCalendar();
-                } else if (!discovering) {
+                } else {
                     els.listView.style.display = "block";
                     els.calendarView.classList.add("hidden");
                     els.viewCalendar.classList.remove("active");
                     els.viewCalendar.setAttribute("aria-selected", "false");
                     els.viewList.classList.add("active");
                     els.viewList.setAttribute("aria-selected", "true");
-                } else {
-                    els.listView.style.display = "none";
-                    els.calendarView.classList.add("hidden");
-                    els.viewList.classList.remove("active");
-                    els.viewCalendar.classList.remove("active");
-                    els.viewList.setAttribute("aria-selected", "false");
-                    els.viewCalendar.setAttribute("aria-selected", "false");
                 }
             }
 
@@ -5937,7 +5937,7 @@
                                       <article class="cal-event-card" data-event-id="${escapeHTML(ev._id)}">
                                         <div class="cal-event-time">${escapeHTML(timeInfo || 'Time to be confirmed')}</div>
                                         <h4 class="cal-event-title">${escapeHTML(formatEventTitleForDate(ev, dateStr) || 'Untitled Event')}</h4>
-                                        <div class="cal-event-venue"><a href="${escapeHTML(window.HU5Discover.href(venueLabel(ev)))}" aria-label="View venue: ${escapeHTML(venueLabel(ev))}">${escapeHTML(venue)} ↗</a>${address ? ` - ${escapeHTML(address)}` : ''}</div>
+                                        <div class="cal-event-venue">${escapeHTML(venue)}${address ? ` - ${escapeHTML(address)}` : ''}</div>
                                         ${ev.meta || ev.description ? `<div class="cal-event-meta">${escapeHTML((ev.meta || ev.description || '').substring(0, 150))}${(ev.meta || ev.description || '').length > 150 ? '...' : ''}</div>` : ''}
                                         ${badges ? `<div class="cal-event-badges">${badges}</div>` : ''}
                                         ${isMeaningfulLink(ev.url || ev.link) ? `<a class="btn" href="${escapeHTML(toListingsUrl(ev.url || ev.link, ev.source))}" target="_blank" rel="noopener noreferrer">Event details</a>` : ''}
@@ -5988,7 +5988,6 @@
             function initCalendarListeners() {
                 $("#navList").addEventListener("click", () => switchView("list"));
                 $("#navCalendar").addEventListener("click", () => switchView("calendar"));
-                $("#navVenues").addEventListener("click", () => switchView("discover"));
                 $(".view-toggle").addEventListener("keydown", event => {
                     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
                     event.preventDefault();
@@ -6095,7 +6094,6 @@
                     }
 
                     populateVenueFilter();
-                    window.HU5Discover.update();
                     if (initial) load();
                     apply();
                     if (state.currentView === "calendar") {
@@ -6118,7 +6116,7 @@
 
             function populateVenueFilter() {
                 const selectedVenue = els.venue.value;
-                const venues = Array.from(new Set([...window.HU5_VENUES.map(venue => venue.name), ...state.all.map(venueLabel)])).sort();
+                const venues = Array.from(new Set(state.all.map(venueLabel))).sort();
                 const counts = state.all.reduce((m, e) => {
                     const v = venueLabel(e);
                     m[v] = (m[v] || 0) + 1;
@@ -6141,18 +6139,11 @@
                 if (u.searchParams.get("admin") === "1") setAdmin(true);
                 setAdmin(localStorage.getItem(ADMIN_KEY) === "1");
                 initCalendarListeners();
-                window.HU5Discover.init({
-                    events: () => state.all,
-                    venueName: venueLabel,
-                    today: startOfTodayLocal,
-                    switchView,
-                    showEvents: name => {
-                        resetFilters();
-                        els.venue.value = name;
-                        apply();
-                        if (els.filtersToggle.getAttribute("aria-expanded") !== "true") forceToggleFilters();
-                    },
+                document.addEventListener("visibilitychange", () => {
+                    if (!document.hidden) renderSeasonalTheme();
                 });
+                renderSeasonalTheme();
+                scheduleSeasonalThemeUpdate();
                 await boot(true);
                 scheduleTick();
                 tickUI();

@@ -1,7 +1,7 @@
 {
   "name": "hu5-events",
   "version": "1.0.0",
-  "description": "Event discovery platform for Hull's HU5 postcode area - aggregating gigs, pub nights, comedy and open mics",
+  "description": "Event listings for Hull's HU5 postcode area - gigs, pub nights, comedy and open mics",
   "author": "Find HU5 Events",
   "license": "MIT",
   "type": "module",

@@ -1,4 +1,4 @@
-import { fetchInstagramAnnouncements, fetchFacebookListing, fetchPublishedSchedule } from "./public-social-events.js";
+import { fetchInstagramAnnouncements, fetchFacebookListing } from "./public-social-events.js";
 import { fetchQueensEvents } from "./queens-events.js";
 import { instagramHistoryLimit } from "./source-audit.js";
 
@@ -12,6 +12,14 @@ export const REMAINING_SOURCES = {
 };
 
 export const QUEENS_QUIZ_SOURCE = "https://www.facebook.com/100063722795829/photos/wednesday-quiz-night-with-callum-hope-all-the-sun-today-hasnt-fried-your-brains-/1765341028933307/";
+export const QUEENS_WEEKLY_QUIZ = {
+  title: "Queens Quiz Night",
+  dateText: "Every Wednesday",
+  timeText: "19:30",
+  description: "Free quiz night every Wednesday.",
+  url: QUEENS_QUIZ_SOURCE,
+  startISO: null,
+};
 export const checkedRemainingVenues = new Set();
 export const remainingSourceResults = new Map();
 let queue = Promise.resolve();
@@ -25,8 +33,11 @@ export function extractRemainingVenue(name, readers = {}) {
     const records = [];
     const notes = [];
     if (name === "Queens Hotel") {
-      records.push(...await (readers.queens || fetchQueensEvents)());
-      records.push(...await (readers.schedule || fetchPublishedSchedule)(QUEENS_QUIZ_SOURCE));
+      records.push(...(await (readers.queens || fetchQueensEvents)()).map(record => ({
+        ...record,
+        freeEntry: true,
+      })));
+      records.push({ ...QUEENS_WEEKLY_QUIZ, freeEntry: true });
     } else {
       const config = REMAINING_SOURCES[name];
       if (!config) throw new Error(`Unknown remaining venue: ${name}`);

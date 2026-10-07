@@ -1,7 +1,7 @@
 {
-  "name": "HU5 Events - What's On & Discover HU5",
+  "name": "HU5 Events - What's On in HU5",
   "short_name": "HU5 Events",
-  "description": "HU5 venues all in one place — built for the community. Gigs, quizzes, comedy and pub nights.",
+  "description": "Find local gigs, quizzes, comedy and pub nights in HU5.",
   "start_url": "/?utm_source=pwa",
   "scope": "/",
   "display": "standalone",

@@ -16,7 +16,7 @@ const root = new URL("./public/", import.meta.url);
 export async function withPage(run, options = {}) {
     const server = createServer(async (req, res) => {
         const path = new URL(req.url, "http://localhost").pathname;
-        const allowed = ["/", "/index.html", "/hu5-design.css", "/venues.js", "/discover.js", "/events.json", "/events.ics", "/site.webmanifest"];
+        const allowed = ["/", "/index.html", "/hu5-design.css", "/events.json", "/events.ics", "/site.webmanifest"];
         if (!allowed.includes(path)) {
             res.writeHead(404).end();
             return;
@@ -39,7 +39,7 @@ export async function withPage(run, options = {}) {
         const context = await browser.newContext({
             viewport: { width: options.width || 1440, height: 900 },
             colorScheme: options.colorScheme || "dark",
-            reducedMotion: "reduce",
+            reducedMotion: options.reducedMotion || "reduce",
             timezoneId: "Europe/London",
             permissions: ["clipboard-read", "clipboard-write"],
         });
@@ -51,7 +51,7 @@ export async function withPage(run, options = {}) {
             if (route.request().url().startsWith(origin)) return route.continue();
             return route.fulfill({ status: 200, body: "", contentType: "text/javascript" });
         });
-        await page.clock.setFixedTime(testTime);
+        await page.clock.setFixedTime(options.fixedTime || testTime);
         const open = async (query = "") => {
             await page.goto(origin + "/" + query);
             await page.waitForFunction(() => window.state?.all.length > 0 && document.querySelector("#status").hidden);
