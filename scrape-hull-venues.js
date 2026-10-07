@@ -29,6 +29,7 @@ import { fetchEventListPages, parseMollyListCards } from "./event-list-pages.js"
 import { scrapeTPRFacebook } from "./tpr-facebook.js";
 import { fetchUMUListPages } from "./umu-list-pages.js";
 import { extractRemainingVenue, checkedRemainingVenues, remainingSourceResults } from "./remaining-venue-sources.js";
+import { auditSource, auditVenue, recordVenueWarning, resetSourceAudit, sourceChecks, venueChecks, recordCounts, outputSummary } from "./source-audit.js";
 
 /* Enable Day.js plugins once */
 dayjs.extend(utc);
@@ -117,6 +118,7 @@ function generateCalendarFile(events) {
 /* ---------------------- Small general utilities -------------------- */
 // Enhanced logging with timestamps and better formatting
 const log = (...args) => {
+  recordVenueWarning(...args);
   const timestamp = dayjs().tz(TZ).format("HH:mm:ss");
   const levelMatch = args[0]?.match?.(
     /\[(start|cfg|boot|err|warn|ok|info|polar|adelphi|tpr|welly|vox|umu|dive|csv|pave)\]/i,
@@ -970,9 +972,12 @@ function buildEvent({
   // ---------- Start time resolution ----------
   // 1) Trust a valid startISO if provided
   let start = toISO(startISO);
+  const hasDateTokens =
+    /\d/.test(dTxt) ||
+    /\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b/i.test(dTxt);
 
   // 2) Else strict parse date+time (prefers explicit page time if present)
-  if (!start) {
+  if (!start && hasDateTokens) {
     // If we have a clear time, try strict D/M/Y + time first
     const t24 = to24h(tTxt || "");
     if (dTxt && t24) {
@@ -991,12 +996,12 @@ function buildEvent({
   }
 
   // 3) Else try general strict helper (covers more formats)
-  if (!start && dTxt) {
+  if (!start && hasDateTokens) {
     start = parseDMYWithTime(dTxt, tTxt); // returns ISO or null
   }
 
   // 4) Final fallback: fuzzy parse from any combined text (only if we had any date-ish text)
-  if (!start && dTxt) {
+  if (!start && hasDateTokens) {
     start = tryParseDateFromText(`${dTxt} ${tTxt}`); // returns ISO or null
   }
 
@@ -1467,10 +1472,11 @@ async function scrapeRemainingVenue(name) {
   const records = await extractRemainingVenue(name);
   const result = remainingSourceResults.get(name);
   for (const note of result.notes) log(`[source:${name}] [warn] ${note}`);
-  log(`[source:${name}] verified public source records: ${records.length}`);
+  log(`[source:${name}] extracted event/schedule records: ${records.length} (not a count of independent advertisements)`);
   return records.map(record => {
     const event = buildEvent({ source: name, venue: name, url: record.url,
-      title: record.title, startISO: record.startISO, endISO: record.endISO });
+      title: record.title, dateText: record.dateText, timeText: record.timeText,
+      startISO: record.startISO, endISO: record.endISO, freeEntry: record.freeEntry });
     return { ...event, dateText: record.dateText || "", timeText: record.timeText || "",
       description: record.description || "", ...(record.timeText && { displayTime24: record.timeText }) };
   });
@@ -1644,6 +1650,74 @@ async function scrapePolarBear() {
 
 /* -------- THE NEW ADELPHI CLUB ----------------------------------- */
 // Source list: https://www.theadelphi.com/events/
+export function parseAdelphiEventDetails(html) {
+  const $ = cheerio.load(html);
+  const ticketsByURL = new Map();
+  const pageText = normalizeWhitespace($("body").text());
+  const priceText = extractPriceText(pageText);
+  const freeEntry = isFreeEntry(pageText) || /\bfree as always\b/i.test(pageText);
+
+  $("a[href]").each((_, anchor) => {
+    const $anchor = $(anchor);
+    let ticketURL;
+    try {
+      ticketURL = new URL($anchor.attr("href"), "https://www.theadelphi.com");
+    } catch {
+      return;
+    }
+    if (!["http:", "https:"].includes(ticketURL.protocol)) return;
+
+    const label = normalizeWhitespace($anchor.text());
+    const $parent = $anchor.parent();
+    const parentTag = $parent.prop("tagName")?.toLowerCase();
+    const $context = $anchor.closest("p, li");
+    const hasLocalContext =
+      $context.length > 0 ||
+      ["span", "strong", "em", "button"].includes(parentTag);
+    const parentText = normalizeWhitespace(
+      hasLocalContext ? ($context.length ? $context.text() : $parent.text()) : "",
+    );
+    const price =
+      extractPriceText(label) ||
+      (parentText && extractPriceText(parentText));
+    if (
+      ticketURL.hostname === "deref-gmx.com" &&
+      ticketURL.searchParams.has("to")
+    ) {
+      try {
+        ticketURL = new URL(ticketURL.searchParams.get("to"));
+      } catch {
+        return;
+      }
+    }
+    if (
+      ticketURL.hostname === "theadelphi.com" ||
+      ticketURL.hostname.endsWith(".theadelphi.com")
+    ) {
+      return;
+    }
+    if (
+      !/tickets?|eventim|wegottickets|gigantic|humanitix|dice|eventbrite|skiddle|bigcartel/i.test(
+        ticketURL.hostname,
+      ) &&
+      !/\b(?:tickets here|buy now)\b/i.test(label) &&
+      !price
+    ) {
+      return;
+    }
+
+    ticketURL.searchParams.delete("fbclid");
+    for (const key of [...ticketURL.searchParams.keys()]) {
+      if (/^utm_/i.test(key)) ticketURL.searchParams.delete(key);
+    }
+    const ticket = { label: label || "Tickets", url: ticketURL.href };
+    const existing = ticketsByURL.get(ticketURL.href);
+    if (!existing || price) ticketsByURL.set(ticketURL.href, ticket);
+  });
+
+  return { tickets: [...ticketsByURL.values()], priceText, freeEntry };
+}
+
 async function scrapeAdelphi() {
     const base = "https://www.theadelphi.com";
     const listURL = `${base}/events/`;
@@ -1663,6 +1737,7 @@ async function scrapeAdelphi() {
 
     const $ = cheerio.load(html);
     const out = [];
+    const candidates = [];
 
     // Target event list items with schema.org markup
     $("ul.tour-dates.current-dates > li.group").each((_, li) => {
@@ -1713,25 +1788,47 @@ async function scrapeAdelphi() {
         const priceText = extractPriceText(text);
         const freeEntry = isFreeEntry(text);
 
-        const ev = buildEvent({
-            source: "The Adelphi Club",
-            venue: "The New Adelphi Club",
-            url,
-            title,
-            dateText,
-            timeText,
-            startISO,
-            address: "89 De Grey Street, Hull, HU5 2RU",
-            tickets: [],
-            soldOut: isSoldOut(text),
-            freeEntry,
-            ...(priceText && { priceText }),
-        });
-
-        if (ev.start && dayjs(ev.start).isBefore(CUTOFF)) return;
-
-        out.push(ev);
+        if (startISO && dayjs(startISO).isBefore(CUTOFF)) return;
+        candidates.push({ title, url, dateText, timeText, startISO, text, priceText, freeEntry });
     });
+
+    let nextCandidate = 0;
+    const workerCount = Math.min(3, candidates.length);
+    await Promise.all(Array.from({ length: workerCount }, async () => {
+        while (nextCandidate < candidates.length) {
+            const candidateIndex = nextCandidate++;
+            const candidate = candidates[candidateIndex];
+            let tickets = [];
+            let detailPriceText = null;
+            let detailFreeEntry = false;
+            try {
+                const detailResponse = await fetchWithTimeout(candidate.url, {
+                    headers: { "user-agent": UA, "accept-language": ACCEPT_LANG },
+                    timeoutMs: 10000,
+                    retries: 0,
+                });
+                ({
+                    tickets,
+                    priceText: detailPriceText,
+                    freeEntry: detailFreeEntry,
+                } = parseAdelphiEventDetails(await detailResponse.text()));
+            } catch (err) {
+                log(`[adelphi] [warn] event details unavailable (${candidate.url}):`, err.message);
+            }
+
+            out[candidateIndex] = buildEvent({
+                source: "The Adelphi Club",
+                venue: "The New Adelphi Club",
+                ...candidate,
+                tickets,
+                soldOut: isSoldOut(candidate.text),
+                freeEntry: candidate.freeEntry || detailFreeEntry,
+                ...((detailPriceText || candidate.priceText) && {
+                    priceText: detailPriceText || candidate.priceText,
+                }),
+            });
+        }
+    }));
 
     log(`[adelphi] done, events: ${out.length}`);
     return out;
@@ -3367,6 +3464,7 @@ function mergeMoodysSundayDuplicates(events, tz = TZ) {
 
 /* -------- PAVE BAR --------------------------------------- */
 async function scrapePaveBar() {
+  return auditSource({ account: "Pave Bar", sourceType: "website-schedules", sourceURL: "https://www.pavebar.co.uk" }, async check => {
   log("[pave] start");
   const base = "https://www.pavebar.co.uk";
   const address = "16-20 Princes Ave, Hull HU5 3QA";
@@ -3381,11 +3479,14 @@ async function scrapePaveBar() {
     html = await res.text();
   } catch (e) {
     log("[pave] fetch failed:", e.message);
-    return [];
+    throw e;
   }
 
   const $ = cheerio.load(html);
   const results = [];
+  check.itemsExamined = 0;
+  check.itemsIgnored = 0;
+  check.sourceSchedules = 0;
 
   // Pave Bar lists all events directly on the homepage.
   // Each event block contains:
@@ -3455,6 +3556,7 @@ async function scrapePaveBar() {
     if (hasChildMatch) return;
 
     seen.add(rawText);
+    check.itemsExamined++;
 
     // --- Extract title ---
     // Prefer the text of any <a> or <h2>/<h3>/<h4> inside the block
@@ -3482,7 +3584,10 @@ async function scrapePaveBar() {
         .trim();
       title = stripped.split(/[.!?\n]/)[0].trim();
     }
-    if (!title) return;
+    if (!title) {
+      check.itemsIgnored++;
+      return;
+    }
 
     // --- Extract time ---
     // Patterns: "7.30pm", "7:30pm", "at 8pm", "20:00"
@@ -3535,6 +3640,7 @@ async function scrapePaveBar() {
           .toISOString();
       }
     } else {
+      check.sourceSchedules++;
       // Recurring — find next N occurrences (up to 8 weeks)
       const m = RECURRING_RE.exec(rawText);
       const pluralDay = m[1].toLowerCase().replace(/s$/, ""); // "fridays" → "friday"
@@ -3579,6 +3685,7 @@ async function scrapePaveBar() {
           freeEntry: isFreeEntry(rawText),
         });
         if (ev) results.push(ev);
+        if (ev) check.generatedOccurrences++;
       }
       return; // recurring events handled inline above
     }
@@ -3586,7 +3693,10 @@ async function scrapePaveBar() {
     // Past filter
     if (startISO) {
       const d = dayjs(startISO);
-      if (d.isValid() && d.isBefore(CUTOFF)) return;
+      if (d.isValid() && d.isBefore(CUTOFF)) {
+        check.itemsIgnored++;
+        return;
+      }
     }
 
     const freeEntry = isFreeEntry(rawText);
@@ -3624,7 +3734,10 @@ async function scrapePaveBar() {
   });
 
   log(`[pave] done, events: ${results.length}`);
+  recordCounts(check, results.map(event => ({ startISO: event.start })));
+  check.schedulesExtracted = check.sourceSchedules;
   return results;
+  });
 }
 
 /* -------- GARDENERS ARMS (DesignMyNight) -------------------------- */
@@ -3993,7 +4106,7 @@ function wrapScrape(tag, fn) {
     const label = String(tag || "scrape");
     log(`[${label}] start`);
     try {
-      const res = await fn();
+      const res = await auditVenue(label, fn);
       log(`[${label}] done, events: ${Array.isArray(res) ? res.length : 0}`);
       return res || [];
     } catch (e) {
@@ -4005,6 +4118,10 @@ function wrapScrape(tag, fn) {
 
 async function main() {
   try {
+    resetSourceAudit();
+    checkedRemainingVenues.clear();
+    remainingSourceResults.clear();
+    const startedAt = new Date().toISOString();
     log("[start] hull scrapers");
 
     const skipWelly = process.env.SKIP_WELLY === "1";
@@ -4121,6 +4238,7 @@ async function main() {
     // Keep cached venues only when there is no nonempty fresh venue result.
     // Note: when stdout is redirected to public/events.json, that file can be empty at startup.
     // We handle this quietly and only merge when valid cached JSON exists.
+    const cachedVenues = {};
     try {
       const jsonPath = path.join(
         path.dirname(fileURLToPath(import.meta.url)),
@@ -4140,6 +4258,7 @@ async function main() {
             );
 
             if (maintainedEvents.length) {
+              for (const event of maintainedEvents) cachedVenues[event.venue] = (cachedVenues[event.venue] || 0) + 1;
               events = [...events, ...maintainedEvents];
               log(
                 `[info] Merged ${maintainedEvents.length} cached events with ${events.length - maintainedEvents.length} newly scraped events`,
@@ -4181,13 +4300,13 @@ async function main() {
     });
 
     // Summary logging
-    const venues = Array.from(new Set(events.map((e) => e.venue))).sort();
-    const datedEvents = events.filter((e) => e.start).length;
-    const undatedEvents = events.length - datedEvents;
+    const venues = Array.from(new Set(futureEvents.map((e) => e.venue))).sort();
+    const datedEvents = futureEvents.filter((e) => e.start).length;
+    const undatedEvents = futureEvents.length - datedEvents;
 
     log(`[ok] Processing complete`);
     log(
-      `[info] Total events: ${events.length} (${datedEvents} dated, ${undatedEvents} undated)`,
+      `[info] Output records: ${futureEvents.length} (${datedEvents} dated, ${undatedEvents} undated)`,
     );
     log(`[info] Deduped: ${events.length} unique`);
     log(`[info] Future events: ${futureEvents.length}`);
@@ -4205,6 +4324,19 @@ async function main() {
     fs.writeFileSync(eventsJsonPath, JSON.stringify(futureEvents, null, 2), "utf8");
     fs.writeFileSync(eventsIcsPath, calendarContent, "utf8");
 
+    const report = { startedAt, completedAt: new Date().toISOString(),
+      sources: sourceChecks, venueRuns: venueChecks, cachedVenues,
+      output: outputSummary(futureEvents, calendarContent) };
+    const auditPath = process.env.SCRAPER_AUDIT_PATH || path.join(publicDir, "..", ".cache", "scraper-audit.json");
+    try {
+      fs.mkdirSync(path.dirname(auditPath), { recursive: true });
+      fs.writeFileSync(auditPath, JSON.stringify(report, null, 2), "utf8");
+      log(`[ok] Written source audit ${auditPath}`);
+    } catch (error) {
+      log("[warn] Source audit file could not be written:", error.message);
+    }
+    log(`[output-audit] ${JSON.stringify(report.output)}`);
+
     log(`[ok] Written ${eventsJsonPath}`);
     log(`[ok] Written ${eventsIcsPath}`);
 
@@ -4216,7 +4348,7 @@ async function main() {
   }
 }
 
-export { scrapeTPR, scrapePolarBear, scrapeAdelphi, scrapeWelly, scrapeMollyMangans,
+export { scrapeTPR, scrapePolarBear, scrapeAdelphi, scrapeQueensHotel, scrapeWelly, scrapeMollyMangans,
   scrapeUnionMashUp, scrapeDiveHU5, scrapeGardenersArms, scrapePaveBar,
   scrapeCsvVenue, deduplicateEvents };
 export { toISO, inferYearAndTime, buildEvent };

@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { fetchUMUListPages } from "./umu-list-pages.js";
-import { fetchWithTimeout } from "./scrape-hull-venues.js";
+import { fetchUMUListPages } from "../umu-list-pages.js";
+import { fetchWithTimeout } from "../scrape-hull-venues.js";
 
 test("AJAX requests retain their POST body", async context => {
   let options;

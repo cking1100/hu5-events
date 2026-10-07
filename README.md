@@ -1,6 +1,6 @@
 ﻿# Find HU5 Events 🎸
 
-A real-time event discovery platform for Hull's **HU5 postcode area**. Aggregates gigs, pub nights, comedy shows, quizzes, and open mics from multiple venues into a single searchable, filterable interface.
+**HU5 events all in one place — built for the community.** Published gigs, pub nights, comedy, quizzes and open mics in a searchable local guide.
 
 **Live:** https://www.findhu5.events/
 
@@ -10,7 +10,7 @@ A real-time event discovery platform for Hull's **HU5 postcode area**. Aggregate
 
 ✨ **Real-time Event Aggregation**
 
-- Scrapes events from 14+ Hull venues
+- Collects published listings from the existing HU5 venue-source roster
 - Updates daily automatically
 - Supports gigs, comedy, quizzes, open mics, and more
 
@@ -57,6 +57,70 @@ A real-time event discovery platform for Hull's **HU5 postcode area**. Aggregate
 
 ---
 
+## Website design and browser checks
+
+The public site keeps its vanilla JavaScript application and existing event feed.
+The editorial layout uses a compact HU5 masthead, always-visible search and quick
+date ranges, date-led listings, prominent venue names and an expandable filter
+panel. The default dark palette has a paper-style alternative for devices that
+prefer light mode. No frontend framework, external font or image dependency was
+added.
+
+- Venue, date, sort and undated filters remain shareable in the URL. Venue
+  selections survive reload and refresh.
+- Calendar continues to show **all dated events**, independently of list filters.
+  Days are keyboard-operable buttons; month navigation clears the old selected-day
+  panel. List and calendar grouping use Europe/London dates.
+- Existing ticket/source links, Google Calendar, full-feed ICS export, contact,
+  Instagram, analytics and SEO metadata remain. Dated cards also expose the
+  existing individual `.ics` download handler when a time is available.
+- Refresh errors are shown in either view, retain previously loaded listings and
+  offer retry. A failed refresh does not display a success toast.
+- `?admin=1`, statistics copying and the existing admin keyboard shortcut remain
+  available in a separate non-modal statistics panel.
+- Date sections and calendar panels contain only feed-backed listings. Legacy
+  date-only festival banners, an injected March event and empty holiday sections
+  are no longer inserted. Real festival listings are not removed from the feed.
+
+Run `npm test` for both scraper tests and browser regressions. The browser tests
+use the committed real event feed through an isolated local static server; they
+do not run the scraper or send analytics. The test clock and expected counts are
+derived from the feed rather than fabricated events or fixed venue totals.
+Windows requires installed Microsoft Edge; Linux/macOS require Playwright
+Chromium (`npx playwright install chromium`, already needed for scraper tests).
+Set `HU5_QA_DIR` to an existing directory to save review screenshots.
+
+The October 4, 2026 redesign validation passed **61 tests, 0 failures, 0 skipped**
+(52 existing tests plus 9 browser regressions). Checks covered search, ranges,
+custom dates, venue persistence, sorting, undated visibility, refresh/retry,
+sharing, ICS/Google links, calendar, admin, empty/loading/error states, dark/light
+themes and reduced motion. Listings, filters, calendar, undated sections, footer
+and admin were checked at **375, 390, 430 and 1440 pixels**, including element-level
+horizontal-overflow assertions. Inline JavaScript syntax and static JSON-LD were
+also checked. There is no build script: HTML/CSS/JavaScript are served directly.
+These checks do not claim cross-browser/device certification or verify every
+external venue URL's availability. Existing missing favicon/logo asset references
+in the metadata were preserved, not supplied with invented artwork.
+
+The presentation sheet is `public/hu5-design.css`, loaded after the original
+styles. Increment its URL version in `public/index.html` when changing it for a
+deployment because the Express server caches static stylesheets immutably.
+
+The redesign is isolated on `design-overhaul`, directly after scraper baseline
+`18c68aa`. To undo only the redesign, start with a clean working tree and run
+`git revert <redesign-commit>` (the commit titled `Redesign HU5 Events website`).
+Do not reset to `main`: that would also omit the committed scraper fixes.
+
+### Holiday themes
+
+The site switches to a full Halloween theme only on **October 31**, and a full
+Christmas theme only on **December 25**, based on the `Europe/London` calendar
+date. Falling pumpkins and snow are decorative overlays on those dates; reduced
+motion preferences disable their animation. The rest of the site stays in its
+normal theme; there are no extra holiday panels or invented listings.
+
+---
+
 ## Setup & Installation
 
 ### Prerequisites
@@ -90,6 +154,35 @@ TPR's public Facebook event source uses Playwright. Windows uses installed Micro
 See [SCRAPER_AUDIT.md](SCRAPER_AUDIT.md) for verified counts, source limitations, and regression-test results.
 
 Newland Tap, Commun'ull, Spati, Hoi, Underdog and Mr Moody's now use their verified public social profiles instead of obsolete CSV sheets. Queens uses its official website's event API and a checked public quiz announcement. Instagram profiles expose only a recent public timeline; the scraper logs incomplete older-post coverage. Missing event times remain unknown rather than guessed. OCR reads explicit times from official posters when captions omit them. Queens and Moody's no longer generate arbitrary future weeks; current recurring activities are retained as source-linked undated schedules.
+
+### Scraper source evidence
+
+Each scrape writes a compact, local `.cache/scraper-audit.json` report (ignored by Git,
+not served to visitors). Set `SCRAPER_AUDIT_PATH` to override that destination.
+Source checks also appear as `[source-audit]` JSON lines on stderr; stdout retains
+its existing event-data contract.
+
+The report records per-account source URLs/types, check/completion timestamps,
+examined/ignored input counts where measured, extracted event/schedule records,
+generated occurrences, pagination, access limits and parser warnings. Venue-run
+warnings, cache provenance and **final saved** JSON/ICS counts are recorded separately.
+No page HTML, captions, poster images, credentials or OCR transcripts are stored.
+An unknown/unavailable count is `null`, not zero. Ignored items include past,
+non-event, stale and unsupported inputs; they are not necessarily cancelled events.
+These figures precede cross-source deduplication and final date filtering.
+
+Instagram limits are reported independently for venue and promoter accounts.
+Facebook event collections follow the source's scroll/load-more responses until
+exhaustion; stalled or missing pagination metadata is reported as a retrieval
+failure rather than a verified empty collection. TPR additionally follows the
+published neighboring occurrence detail links, including future siblings of an
+already-started occurrence. This checks accessible configured sources, not
+login-gated posts or undocumented dates.
+
+One source advertisement, one recurring schedule and one dated occurrence are
+different units. Pave retains its existing policy of **1 source schedule -> 8
+generated occurrences**; TPR quiz dates are explicit published occurrences, not
+generated weeks. The public event JSON schema is unchanged.
 
 ---
 

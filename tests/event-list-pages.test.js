@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { fetchEventListPages, parseMollyListCards } from "./event-list-pages.js";
-import { scrapeMollyMangans } from "./scrape-hull-venues.js";
+import { fetchEventListPages, parseMollyListCards } from "../event-list-pages.js";
+import { scrapeMollyMangans } from "../scrape-hull-venues.js";
 
 test("Molly uses the public listing card rather than emitting an HTTP error page", async context => {
   context.mock.method(globalThis, "fetch", async url => {

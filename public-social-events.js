@@ -6,7 +6,8 @@ import customParseFormat from "dayjs/plugin/customParseFormat.js";
 import { chromium } from "playwright";
 import { createWorker } from "tesseract.js";
 import { tmpdir } from "node:os";
-import { facebookCollections, parseFacebookEvents } from "./tpr-facebook.js";
+import { facebookCollections, parseFacebookEvents, collectFacebookListing } from "./tpr-facebook.js";
+import { auditSource, recordCounts, instagramHistoryLimit } from "./source-audit.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -127,7 +128,7 @@ export function facebookListingEvents(html, cutoff = Date.now()) {
       const node = edge.node?.node;
       if (!node) continue;
       const actions = edge.node.actions_renderer?.event || {};
-      const merged = { ...node, start_timestamp: actions.start_timestamp, is_canceled: node.is_canceled };
+      const merged = { ...node, start_timestamp: actions.start_timestamp ?? node.start_timestamp, is_canceled: node.is_canceled };
       const syntheticHTML = `<script type="application/json">${JSON.stringify(merged).replace(/</g, "\\u003c")}</script>`;
       records.push(...parseFacebookEvents(syntheticHTML, new Set([node.id]), cutoff));
     }
@@ -141,10 +142,15 @@ export async function withPublicBrowser(action) {
   finally { await browser.close(); }
 }
 
-export async function fetchInstagramAnnouncements(handle) {
-  return withPublicBrowser(async page => {
-    await page.goto(`https://www.instagram.com/${handle}/`, { waitUntil: "load" });
+export async function fetchInstagramAnnouncements(handle, runBrowser = withPublicBrowser) {
+  const sourceURL = `https://www.instagram.com/${handle}/`;
+  return auditSource({ account: `@${handle}`, sourceType: "instagram-profile", sourceURL }, check => runBrowser(async page => {
+    await page.goto(sourceURL, { waitUntil: "load" });
     const timeline = instagramTimeline(await page.content(), handle);
+    check.itemsExamined = timeline.posts.length;
+    const history = { hasOlderPosts: timeline.pageInfo?.has_next_page };
+    const limitation = instagramHistoryLimit(handle, history);
+    if (limitation) check.limitations.push(limitation);
     let worker;
     try {
       for (const post of timeline.posts) {
@@ -155,6 +161,7 @@ export async function fetchInstagramAnnouncements(handle) {
         if (!response.ok) throw new Error(`Official poster HTTP ${response.status}`);
         const result = await worker.recognize(Buffer.from(await response.arrayBuffer()));
         if (result.data.confidence >= 50) post.posterText = result.data.text;
+        else check.warnings.push(`Poster ${post.code}: OCR confidence below 50; clock left unknown.`);
       }
     } finally { if (worker) await worker.terminate(); }
     const records = [...parseInstagramAnnouncements(timeline.posts), ...parseInstagramBiography(timeline.biography, handle)];
@@ -172,29 +179,50 @@ export async function fetchInstagramAnnouncements(handle) {
       timeText: clock(confirmation.accessibility_caption || "") || "",
       startISO: null,
     });
-    return { records, posts: timeline.posts, hasOlderPosts: !!timeline.pageInfo?.has_next_page };
-  });
+    check.itemsIgnored = timeline.posts.filter(post =>
+      !(sundayTitle && post === confirmation) && !parseInstagramAnnouncements([post]).length
+    ).length;
+    check.biographyRecords = records.filter(record => record.url === sourceURL).length;
+    recordCounts(check, records);
+    if (check.itemsIgnored) check.warnings.push("Ignored posts may be non-event, past, stale or unsupported; extraction is not proof of social-media completeness.");
+    return { records, posts: timeline.posts, hasOlderPosts: history.hasOlderPosts };
+  }));
 }
 
-export async function fetchPublishedSchedule(url) {
-  return withPublicBrowser(async page => {
+export async function fetchPublishedSchedule(url, runBrowser = withPublicBrowser) {
+  return auditSource({ account: "Queens Hotel quiz", sourceType: "facebook-post", sourceURL: url }, check => runBrowser(async page => {
+    check.limitations.push("Checks one configured announcement, not the account's full history.");
     await page.goto(url, { waitUntil: "load" });
     const objects = embeddedObjects(await page.content());
     const media = objects.find(value => value.created_time && value.container_story?.message?.text);
     if (!media) throw new Error("Official schedule post unavailable");
+    check.itemsExamined = 1;
     const text = media.container_story.message.text;
     const weekday = text.match(/\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i)?.[0];
-    if (!weekday || !/quiz/i.test(text) || media.created_time * 1000 < Date.now() - 35 * 86400000) return [];
-    return [{ title: text.replace(/\s+/g, " ").trim(), description: text, url, dateText: weekday, timeText: "", startISO: null }];
-  });
+    const records = !weekday || !/quiz/i.test(text) || media.created_time * 1000 < Date.now() - 35 * 86400000
+      ? [] : [{ title: text.replace(/\s+/g, " ").trim(), description: text, url, dateText: weekday, timeText: "", startISO: null }];
+    check.itemsIgnored = records.length ? 0 : 1;
+    recordCounts(check, records);
+    if (!records.length) check.warnings.push("Configured quiz announcement is stale or does not match the published schedule parser.");
+    return records;
+  }));
 }
 
-export async function fetchFacebookListing(pageID) {
-  return withPublicBrowser(async page => {
-    await page.goto(`https://www.facebook.com/${pageID}/events/`, { waitUntil: "load" });
+export async function fetchFacebookListing(pageID, runBrowser = withPublicBrowser) {
+  const sourceURL = `https://www.facebook.com/${pageID}/events/`;
+  return auditSource({ account: pageID, sourceType: "facebook-events", sourceURL }, check => runBrowser(async page => {
+    await page.goto(sourceURL, { waitUntil: "load" });
     const html = await page.content();
-    const { records, pageInfo } = facebookListingEvents(html);
-    if (pageInfo?.has_next_page) throw new Error(`Facebook listing requires pagination: ${pageID}`);
+    const nodes = await collectFacebookListing(page, html, check);
+    const records = [];
+    for (const node of nodes) {
+      const syntheticHTML = `<script type="application/json">${JSON.stringify(node).replace(/</g, "\\u003c")}</script>`;
+      const extracted = parseFacebookEvents(syntheticHTML, new Set([node.id]));
+      if (!extracted.length) check.itemsIgnored = (check.itemsIgnored || 0) + 1;
+      records.push(...extracted);
+    }
+    check.itemsIgnored ??= 0;
+    recordCounts(check, records);
     return records;
-  });
+  }));
 }
