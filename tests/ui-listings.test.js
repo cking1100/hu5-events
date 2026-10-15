@@ -30,7 +30,7 @@ test("listings retain real data, search, venue URLs, ranges, sorting and exports
         await page.locator("#filtersToggle").click();
         await page.locator("#clear").click();
         await page.locator('[data-range="today"]').click();
-        assert.equal(await page.locator("#list .section:not(#undated)").count(), 1);
+        assert.equal(await page.locator('#list .section[data-dated="true"]').count(), 1);
         await page.locator('[data-range="next7"]').click();
         const next7 = await page.locator("#list article.event").count();
         assert.ok(next7 > 0 && next7 <= total);
@@ -46,7 +46,7 @@ test("listings retain real data, search, venue URLs, ranges, sorting and exports
         await page.locator("#clear").click();
         await page.locator("#sort").selectOption("date-desc");
         await page.waitForFunction(() => state.sort === "date-desc");
-        const keys = await page.locator("#list .section:not(#undated)").evaluateAll(nodes => nodes.map(e => e.id));
+        const keys = await page.locator('#list .section[data-dated="true"]').evaluateAll(nodes => nodes.map(e => e.id));
         assert.deepEqual(keys, [...keys].sort().reverse());
         await page.locator("#sort").selectOption("title");
         await page.waitForFunction(() => state.sort === "title");
@@ -109,6 +109,7 @@ test("loading, failed refresh, calendar error visibility, retry and empty feed",
             await new Promise(resolve => setTimeout(resolve, 500));
             await route.fulfill({ status: 200, contentType: "application/json", body: "[]" });
         });
+
         await page.goto(origin + "/");
         assert.match(await page.locator("#status").innerText(), /Loading/);
         await screenshot("loading");
@@ -116,4 +117,38 @@ test("loading, failed refresh, calendar error visibility, retry and empty feed",
         assert.match(await page.locator("#list").innerText(), /No listings available/);
         assert.deepEqual(errors, []);
     });
+});
+
+test("Soul 45 listings show free entry and recurring frequency with the exact published schedule", async () => {
+    const soul45 = events.filter(event => event.venue === "Soul 45");
+    const schedules = soul45.filter(event => !event.start);
+    assert.ok(schedules.length >= 3, "Soul 45 schedules must be present in the real event feed");
+    assert.ok(soul45.every(event => event.freeEntry === true));
+    for (const width of [375, 1440]) {
+        await withPage(async ({ page, open, errors }) => {
+            await open();
+            for (const event of soul45) {
+                const card = page.getByRole("article", { name: event.title, exact: true });
+                assert.equal(await card.count(), 1);
+                assert.equal(await card.getByRole("button", { name: /^free entry$/i }).count(), 1);
+                if (event.title === "Open Decks") {
+                    assert.equal(await card.locator(".event-kind").textContent(), "Open Mic");
+                }
+                if (!event.start) {
+                    const period = /month/i.test(event.dateText) ? "month" : "week";
+                    assert.equal(await card.evaluate(element => element.closest(".section").id),
+                        period === "month" ? "monthly" : "undated");
+                    assert.equal((await card.locator(".pill").innerText()).replace(/\s+/g, " ").trim().toLowerCase(), `every ${period}`);
+                    assert.ok((await card.locator(".meta").innerText()).includes(event.dateText));
+                    assert.equal(await card.locator('[data-kind="google"], [data-kind="ics"]').count(), 0);
+                } else {
+                    assert.doesNotMatch(await card.locator(".pill").innerText(), /Every|TBC/);
+                }
+                assert.equal(await card.locator(".pill").evaluate(element => element.scrollWidth <= element.clientWidth), true);
+            }
+            assert.equal(await page.locator("#monthly .day-label").textContent(), "Monthly");
+            assert.doesNotMatch(await page.locator("#undated .day-label").innerText(), /Undated/i);
+            assert.deepEqual(errors, []);
+        }, { width });
+    }
 });

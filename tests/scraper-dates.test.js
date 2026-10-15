@@ -1,7 +1,16 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { toISO, inferYearAndTime, buildEvent, scrapeCsvVenue, scrapePaveBar, venueClockISO, deduplicateEvents } from "../scrape-hull-venues.js";
+import { toISO, inferYearAndTime, buildEvent, scrapeCsvVenue, scrapePaveBar, venueClockISO, deduplicateEvents, detectEventType } from "../scrape-hull-venues.js";
 import { sourceChecks, resetSourceAudit } from "../source-audit.js";
+
+test("open decks is an open-mic session, not theatre from playing records", () => {
+  assert.deepEqual(detectEventType("Open Decks",
+    "Play your records and most importantly, listen to other people's records. Every Thursday from 19:00."),
+  ["Open Mic"]);
+  assert.deepEqual(detectEventType("Open-Decks", "Play your records"), ["Open Mic"]);
+  assert.deepEqual(detectEventType("Open Mic", "Weekly session"), ["Open Mic"]);
+  assert.deepEqual(detectEventType("A new play", "Theatre production"), ["Theatre"]);
+});
 
 test("same-title performances at different times on one day remain distinct", () => {
   const first = { venue: "Venue", title: "Show", start: "2026-10-10T14:00:00Z" };

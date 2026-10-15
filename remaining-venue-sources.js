@@ -1,5 +1,6 @@
 import { fetchInstagramAnnouncements, fetchFacebookListing } from "./public-social-events.js";
 import { fetchQueensEvents } from "./queens-events.js";
+import { fetchSoul45Events } from "./soul45-events.js";
 import { instagramHistoryLimit } from "./source-audit.js";
 
 export const REMAINING_SOURCES = {
@@ -32,7 +33,9 @@ export function extractRemainingVenue(name, readers = {}) {
     const facebook = readers.facebook || fetchFacebookListing;
     const records = [];
     const notes = [];
-    if (name === "Queens Hotel") {
+    if (name === "Soul 45") {
+      records.push(...await (readers.soul45 || fetchSoul45Events)());
+    } else if (name === "Queens Hotel") {
       records.push(...(await (readers.queens || fetchQueensEvents)()).map(record => ({
         ...record,
         freeEntry: true,

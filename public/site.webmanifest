@@ -22,7 +22,7 @@
     },
     {
       "src": "/logo.png",
-      "sizes": "192x192 512x512",
+      "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow",
       "purpose": "any"
@@ -30,14 +30,14 @@
   ],
   "icons": [
     {
-      "src": "/logo.png",
-      "sizes": "192x192 512x512",
+      "src": "/logo.png?v=hu5-blue-20261015",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/logo.png",
-      "sizes": "192x192 512x512",
+      "src": "/logo.png?v=hu5-blue-20261015",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
@@ -50,8 +50,8 @@
       "url": "/?range=next7&utm_source=pwa_shortcut",
       "icons": [
         {
-          "src": "/logo.png",
-          "sizes": "192x192"
+          "src": "/logo.png?v=hu5-blue-20261015",
+          "sizes": "512x512"
         }
       ]
     },
@@ -62,8 +62,8 @@
       "url": "/?range=today&utm_source=pwa_shortcut",
       "icons": [
         {
-          "src": "/logo.png",
-          "sizes": "192x192"
+          "src": "/logo.png?v=hu5-blue-20261015",
+          "sizes": "512x512"
         }
       ]
     },
@@ -74,8 +74,8 @@
       "url": "/?utm_source=pwa_shortcut",
       "icons": [
         {
-          "src": "/logo.png",
-          "sizes": "192x192"
+          "src": "/logo.png?v=hu5-blue-20261015",
+          "sizes": "512x512"
         }
       ]
     }

@@ -231,16 +231,17 @@ function isFreeEntry(str) {
 function detectEventType(title = "", description = "") {
   const text = `${title} ${description}`.toLowerCase();
   const types = [];
+  const isOpenDecks = /\bopen[\s-]+decks\b/i.test(title);
 
   if (/\b(live\s+)?music|gig|band|concert|dj\b/i.test(text))
     types.push("Live Music");
   if (/\bquiz\b/i.test(text)) types.push("Quiz");
   if (/\b(stand.?up\s+)?comedy|comic\b/i.test(text)) types.push("Comedy");
-  if (/\bopen\s+mic\b/i.test(text)) types.push("Open Mic");
+  if (isOpenDecks || /\bopen\s+mic\b/i.test(text)) types.push("Open Mic");
   if (/\b(karaoke|sing|singing)\b/i.test(text)) types.push("Karaoke");
   if (/\b(poetry|spoken\s+word|slam)\b/i.test(text)) types.push("Poetry");
   if (/\b(trivia|bingo|games?\s+night)\b/i.test(text)) types.push("Games");
-  if (/\b(theatre|play|production|show)\b/i.test(text)) types.push("Theatre");
+  if (!isOpenDecks && /\b(theatre|play|production|show)\b/i.test(text)) types.push("Theatre");
   if (/\b(lunch|dinner|brunch|food|eating)\b/i.test(text)) types.push("Food");
   if (/\b(party|dance|club|clubbing)\b/i.test(text)) types.push("Party");
   if (/\bdrag\b/i.test(text)) types.push("Drag");
@@ -852,6 +853,7 @@ const VENUE_ADDR = {
   "gardeners arms": "The Gardeners Arms, Hull HU5",
   "gardeners arm": "The Gardeners Arms, Hull HU5",
   "queens hotel": "Queens Hotel, Queens Road, Hull HU5 2RG",
+  "soul 45": "45 Newland Ave, Hull HU5 3BE",
   "st john's": "Queens Rd, Hull HU5 2PY",
   "st johns": "Queens Rd, Hull HU5 2PY",
 
@@ -1468,6 +1470,10 @@ async function scrapeQueensHotel() {
   return scrapeRemainingVenue("Queens Hotel");
 }
 
+async function scrapeSoul45() {
+  return scrapeRemainingVenue("Soul 45");
+}
+
 async function scrapeRemainingVenue(name) {
   const records = await extractRemainingVenue(name);
   const result = remainingSourceResults.get(name);
@@ -1475,7 +1481,7 @@ async function scrapeRemainingVenue(name) {
   log(`[source:${name}] extracted event/schedule records: ${records.length} (not a count of independent advertisements)`);
   return records.map(record => {
     const event = buildEvent({ source: name, venue: name, url: record.url,
-      title: record.title, dateText: record.dateText, timeText: record.timeText,
+      title: record.title, dateText: name === "Soul 45" && !record.startISO ? "" : record.dateText, timeText: record.timeText,
       startISO: record.startISO, endISO: record.endISO, freeEntry: record.freeEntry });
     return { ...event, dateText: record.dateText || "", timeText: record.timeText || "",
       description: record.description || "", ...(record.timeText && { displayTime24: record.timeText }) };
@@ -4131,6 +4137,7 @@ async function main() {
     const skipMoodys = process.env.SKIP_MOODYS === "1";
     const skipUnderdog = process.env.SKIP_UNDERDOG === "1";
     const skipPave = process.env.SKIP_PAVE === "1";
+    const skipSoul45 = process.env.SKIP_SOUL45 === "1";
     const onlyNewland = process.env.ONLY_NEWLAND_TAP === "1";
 
     log("[cfg] SKIP_WELLY =", skipWelly ? "1" : "0");
@@ -4140,6 +4147,7 @@ async function main() {
     log("[cfg] SKIP_MOODYS =", skipMoodys ? "1" : "0");
     log("[cfg] SKIP_UNDERDOG =", skipUnderdog ? "1" : "0");
     log("[cfg] SKIP_PAVE =", skipPave ? "1" : "0");
+    log("[cfg] SKIP_SOUL45 =", skipSoul45 ? "1" : "0");
     log("[cfg] ONLY_NEWLAND_TAP =", onlyNewland ? "1" : "0");
 
     let tasks;
@@ -4195,6 +4203,7 @@ async function main() {
       );
 
       tasks.push(wrapScrape("queens", scrapeQueensHotel));
+      if (!skipSoul45) tasks.push(wrapScrape("soul45", scrapeSoul45));
       if (!skipPave) tasks.push(wrapScrape("pave", scrapePaveBar));
     }
 
@@ -4350,8 +4359,8 @@ async function main() {
 
 export { scrapeTPR, scrapePolarBear, scrapeAdelphi, scrapeQueensHotel, scrapeWelly, scrapeMollyMangans,
   scrapeUnionMashUp, scrapeDiveHU5, scrapeGardenersArms, scrapePaveBar,
-  scrapeCsvVenue, deduplicateEvents };
-export { toISO, inferYearAndTime, buildEvent };
+  scrapeSoul45, scrapeCsvVenue, deduplicateEvents };
+export { toISO, inferYearAndTime, buildEvent, detectEventType };
 export { fetchWithTimeout };
 export { venueClockISO };
 

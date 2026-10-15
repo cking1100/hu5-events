@@ -58,10 +58,10 @@
     <link rel="canonical" href="https://www.findhu5.events/" />
 
     <!-- Icons / PWA -->
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=hu5-blue-20261015" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=hu5-blue-20261015" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=hu5-blue-20261015" />
+    <link rel="manifest" href="/site.webmanifest?v=hu5-blue-20261015" />
 
     <!-- Social sharing (Open Graph) -->
     <meta property="og:title"
@@ -3600,6 +3600,7 @@
                 "Underdog",
                 "Pave Bar",
                 "Queens Hotel",
+                "Soul 45",
             ]);
 
             // Normalise venue labels across sources (for filtering chip)
@@ -4126,6 +4127,16 @@
              * Parse a human date (DD/MM[/YY], "15 Sep", "Mon 15 September", "YYYY-MM-DD") plus a time snippet.
              * timeText can be 12/24h or "doors 9pm". Defaults to 20:00 when not provided.
              */
+            function schedulePeriod(dateText = "") {
+                const text = String(dateText);
+                if (/\bfortnightly\b|\bevery\s+(?:other|2|two)\s+(?:weeks?|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i.test(text)) return "2 weeks";
+                if (/\bmonthly\b|\b(?:every|each)\s+month\b/i.test(text)) return "month";
+                if (/\bweekly\b|\b(?:every|each)\s+(?:week|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i.test(text)) return "week";
+                if (/\bdaily\b|\b(?:every|each)\s+day\b/i.test(text)) return "day";
+                if (/\b(?:annually|annual|yearly)\b|\b(?:every|each)\s+year\b/i.test(text)) return "year";
+                return "";
+            }
+
             function parseDateText(dateText, timeText) {
                 const monthMap = {
                     jan: 0,
@@ -4459,8 +4470,12 @@
                     ordered.sort(([a], [b]) => b.localeCompare(a));
                 else ordered.sort(([a], [b]) => a.localeCompare(b));
 
-                if (state.showUndated && undated.length)
-                    ordered.push(["Undated", undated]);
+                if (state.showUndated && undated.length) {
+                    const monthly = undated.filter(ev => schedulePeriod(ev.dateText) === "month");
+                    const other = undated.filter(ev => schedulePeriod(ev.dateText) !== "month");
+                    if (monthly.length) ordered.push(["Monthly", monthly]);
+                    if (other.length) ordered.push(["Undated", other]);
+                }
                 return ordered;
             }
 
@@ -4829,9 +4844,10 @@
 
                 const sections = grouped
                     .map(([key, items]) => {
+                        const isSchedule = key === "Undated" || key === "Monthly";
                         const label =
-                            key === "Undated"
-                                ? "Undated"
+                            isSchedule
+                                ? key === "Monthly" ? "Monthly" : "Published schedules & dates to confirm"
                                 : new Date(key + "T00:00:00").toLocaleDateString("en-GB", {
                                     weekday: "short",
                                     day: "2-digit",
@@ -5018,6 +5034,7 @@
                                 }
 
                                 const d = ev._startEff || null;
+                                const period = !d && schedulePeriod(ev.dateText);
                                 const dparts = d
                                     ? {
                                         dow: d.toLocaleDateString("en-GB", {
@@ -5027,7 +5044,9 @@
                                         day: d.toLocaleDateString("en-GB", { day: "2-digit", timeZone: state.TZ }),
                                         mon: d.toLocaleDateString("en-GB", { month: "short", timeZone: state.TZ }),
                                     }
-                                    : { dow: "Date", day: "?", mon: "TBC" };
+                                    : period
+                                        ? { dow: "Every", day: "", mon: period }
+                                        : { dow: "Date", day: "?", mon: "TBC" };
 
                                 return `
                                 <article class="event${!d ? " is-undated" : key === dateKeyInTZ(new Date()) ? " is-today" : ""}" aria-label="${escapeHTML(
@@ -5102,10 +5121,10 @@
                         const tomorrow = new Date();
                         tomorrow.setDate(tomorrow.getDate() + 1);
                         const relativeDay = key === todayKey ? "Today" : key === dateKeyInTZ(tomorrow) ? "Tomorrow" : "";
-                        return `<section class="section" id="${escapeHTML(key === "Undated" ? "undated" : key)}">
+                        return `<section class="section" data-dated="${!isSchedule}" id="${escapeHTML(key === "Undated" ? "undated" : key === "Monthly" ? "monthly" : key)}">
                             <h3><span class="day-label">${relativeDay ? `<span class="relative-day">${relativeDay}</span>` : ""}${escapeHTML(label)}</span>
                             <span class="section-count">${items.length} listing${items.length === 1 ? "" : "s"}</span></h3>
-                            ${key === "Undated" ? `<p class="calendar-intro">Published schedules and listings without a confirmed date. Check the source before making plans.</p>` : ""}
+                            ${isSchedule ? `<p class="calendar-intro">${key === "Monthly" ? "Monthly sessions. See each listing for its published schedule." : "Published schedules and listings without a confirmed date."} Check the source before making plans.</p>` : ""}
                             <div class="grid">${grid}</div></section>`;
                     })
                     .join("");

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="HU5 Events">
+  <rect width="64" height="64" fill="#00d4ff"/>
+  <path fill="#000000" d="M10 22h4v8h6v-8h4v22h-4V34h-6v10h-4zm18 0h4v18h6V22h4v18l-4 4h-6l-4-4zm18 0h12v4h-8v5h5l3 3v7l-3 3h-9v-4h8v-5h-8z"/>
+</svg>

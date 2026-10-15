@@ -106,6 +106,10 @@ The presentation sheet is `public/hu5-design.css`, loaded after the original
 styles. Increment its URL version in `public/index.html` when changing it for a
 deployment because the Express server caches static stylesheets immutably.
 
+Browser and home-screen icons use the site's own HU5 mark, not a venue logo.
+The SVG favicon has PNG browser, Apple touch and installed-app variants.
+Icon URLs are versioned so browsers can replace previously cached branding.
+
 The redesign is isolated on `design-overhaul`, directly after scraper baseline
 `18c68aa`. To undo only the redesign, start with a clean working tree and run
 `git revert <redesign-commit>` (the commit titled `Redesign HU5 Events website`).
@@ -154,6 +158,20 @@ TPR's public Facebook event source uses Playwright. Windows uses installed Micro
 See [SCRAPER_AUDIT.md](SCRAPER_AUDIT.md) for verified counts, source limitations, and regression-test results.
 
 Newland Tap, Commun'ull, Spati, Hoi, Underdog and Mr Moody's now use their verified public social profiles instead of obsolete CSV sheets. Queens uses its official website's event API and a checked public quiz announcement. Instagram profiles expose only a recent public timeline; the scraper logs incomplete older-post coverage. Missing event times remain unknown rather than guessed. OCR reads explicit times from official posters when captions omit them. Queens and Moody's no longer generate arbitrary future weeks; current recurring activities are retained as source-linked undated schedules.
+
+Soul 45 is included in the normal scrape using its official
+[event listings](https://www.soul45.bar/events). Published dates and times are
+interpreted in Europe/London, including finishes after midnight. Weekly/monthly
+sessions remain undated schedules; missing times are not guessed. All Soul 45
+listings are marked free entry by venue policy. Source failures and changed markup are
+reported through the existing scraper audit. Set `SKIP_SOUL45=1` to disable it.
+Recurring listings display an "Every month", "Every week" (or other published
+frequency) date badge rather than "Date ? TBC", alongside the full source
+schedule such as "Last Friday of every month". Monthly sessions appear in a
+dedicated "Monthly" section, rather than under an "Undated" heading. These
+schedules are not added to calendars without a confirmed occurrence date;
+the show/hide-undated control still toggles all listings without dated occurrences.
+Open Decks is categorised as Open Mic, not theatre.
 
 ### Scraper source evidence
 
