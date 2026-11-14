@@ -2,33 +2,6 @@
   {
     "source": "Polar Bear Music Club",
     "venue": "Polar Bear Music Club",
-    "url": "https://www.polarbearmusicclub.co.uk/whatson/moments-of-pleasure-performing-the-music-of-kate-bush-hull",
-    "title": "Moments of Pleasure - Performing The Music Of Kate Bush",
-    "start": "2026-11-13T19:30:00.000Z",
-    "end": "2026-11-13T22:30:00.000Z",
-    "dateText": "13 November 2026",
-    "timeText": "7:30 pm",
-    "address": "229 Spring Bank, Hull, HU3 1LR",
-    "tickets": [
-      {
-        "label": "BUY TICKETS - £15 + BF",
-        "url": "https://www.seetickets.com/event/moments-of-pleasure-the-music-of-kate-bush/polar-bear-music-club/3592506"
-      }
-    ],
-    "scrapedAt": "2026-11-13T06:05:35.930Z",
-    "soldOut": false,
-    "priceText": "£15",
-    "freeEntry": false,
-    "displayTime24": "19:30",
-    "displayDateTime24": "2026-11-13 19:30",
-    "type": [
-      "Live Music"
-    ],
-    "distance": 2.502196797612888
-  },
-  {
-    "source": "Polar Bear Music Club",
-    "venue": "Polar Bear Music Club",
     "url": "https://www.polarbearmusicclub.co.uk/whatson/wired-djs-every-saturday-14-nov-2026",
     "title": "WIRED - DJS EVERY SATURDAY NIGHT",
     "start": "2026-11-14T22:30:00.000Z",
@@ -37,7 +10,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:36.261Z",
+    "scrapedAt": "2026-11-14T06:05:20.734Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -57,7 +30,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:36.617Z",
+    "scrapedAt": "2026-11-14T06:05:21.151Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -81,7 +54,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:36.954Z",
+    "scrapedAt": "2026-11-14T06:05:21.351Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -107,7 +80,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:37.372Z",
+    "scrapedAt": "2026-11-14T06:05:21.572Z",
     "soldOut": false,
     "priceText": "£16",
     "freeEntry": false,
@@ -127,7 +100,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.690Z",
+    "scrapedAt": "2026-11-14T06:05:22.672Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -147,7 +120,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:38.034Z",
+    "scrapedAt": "2026-11-14T06:05:23.433Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -171,7 +144,7 @@
         "url": "https://futuresound.seetickets.com/event/tom-a-smith/the-polar-bear-music-club/3704547"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:38.379Z",
+    "scrapedAt": "2026-11-14T06:05:23.617Z",
     "soldOut": false,
     "priceText": "£14.50",
     "freeEntry": false,
@@ -196,7 +169,7 @@
         "url": "https://www.seetickets.com/event/scarlet-rebels/the-polar-bear-music-club/3668547"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:38.793Z",
+    "scrapedAt": "2026-11-14T06:05:23.930Z",
     "soldOut": false,
     "priceText": "£19",
     "freeEntry": false,
@@ -221,7 +194,7 @@
         "url": "https://www.seetickets.com/event/big-special/the-polar-bear-music-club/3654860"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:39.247Z",
+    "scrapedAt": "2026-11-14T06:05:24.259Z",
     "soldOut": true,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -240,7 +213,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:39.557Z",
+    "scrapedAt": "2026-11-14T06:05:24.633Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -265,7 +238,7 @@
         "url": "https://www.skiddle.com/whats-on/Hull/Polar-Bear-Music-Club/Panic-At-The-Emo-at-Polar-Bear-Music-Club-Hull/42834773/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:39.885Z",
+    "scrapedAt": "2026-11-14T06:05:25.693Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
@@ -290,7 +263,7 @@
         "url": "https://www.seetickets.com/event/nrh-concerts-presents-ming-city-rockers/the-polar-bear-music-club/3750894"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:40.331Z",
+    "scrapedAt": "2026-11-14T06:05:26.069Z",
     "soldOut": false,
     "priceText": "£14",
     "freeEntry": false,
@@ -310,7 +283,7 @@
     "timeText": "2:30 am",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:40.715Z",
+    "scrapedAt": "2026-11-14T06:05:26.438Z",
     "soldOut": false,
     "priceText": "£12",
     "freeEntry": true,
@@ -335,7 +308,7 @@
         "url": "https://www.skiddle.com/whats-on/Hull/The-Polar-Bear/Feral-Family/42645684/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.043Z",
+    "scrapedAt": "2026-11-14T06:05:27.093Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -360,7 +333,7 @@
         "url": "https://www.skiddle.com/whats-on/Hull/Polar-Bear-Music-Club/Magulo---007---DJ-Hybrid/42825825/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.406Z",
+    "scrapedAt": "2026-11-14T06:05:27.689Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -387,7 +360,7 @@
         "url": "https://www.seetickets.com/event/amy-s-winehouse-band/polar-bear-music-club/3732464"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.741Z",
+    "scrapedAt": "2026-11-14T06:05:28.305Z",
     "soldOut": false,
     "priceText": "£13",
     "freeEntry": false,
@@ -414,7 +387,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:42.080Z",
+    "scrapedAt": "2026-11-14T06:05:29.092Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -444,7 +417,7 @@
         "url": "https://www.seetickets.com/venue/polar-bear-music-club/25247"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:42.427Z",
+    "scrapedAt": "2026-11-14T06:05:29.427Z",
     "soldOut": false,
     "priceText": "£12.00",
     "freeEntry": false,
@@ -469,7 +442,7 @@
         "url": "https://twistednipple.seetickets.com/event/a-femme-centric-queer-tastic-party-part-4-/the-polar-bear-music-club/3723346"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:42.856Z",
+    "scrapedAt": "2026-11-14T06:05:30.137Z",
     "soldOut": false,
     "priceText": "£22.50",
     "freeEntry": false,
@@ -494,7 +467,7 @@
         "url": "https://www.seetickets.com/event/walt-disco/polar-bear-music-club/3717195"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.160Z",
+    "scrapedAt": "2026-11-14T06:05:30.328Z",
     "soldOut": false,
     "priceText": "£14",
     "freeEntry": false,
@@ -514,7 +487,7 @@
     "timeText": "7:30 pm",
     "address": "229 Spring Bank, Hull, HU3 1LR",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:43.459Z",
+    "scrapedAt": "2026-11-14T06:05:30.694Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -538,7 +511,7 @@
         "url": "https://www.seetickets.com/event/dan-tiernan-quartz-and-all/polar-bear-music-club/3673001"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.761Z",
+    "scrapedAt": "2026-11-14T06:05:31.481Z",
     "soldOut": false,
     "priceText": "£18",
     "freeEntry": false,
@@ -563,7 +536,7 @@
         "url": "https://www.seetickets.com/event/nontaines-d-c/polar-bear-music-club/3750808"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:44.097Z",
+    "scrapedAt": "2026-11-14T06:05:31.842Z",
     "soldOut": false,
     "priceText": "£15",
     "freeEntry": false,
@@ -597,53 +570,36 @@
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/adam-evans-6/",
-    "title": "Adam Evans",
-    "start": "2026-11-13T19:00:00.000Z",
-    "end": "2026-11-13T21:00:00.000Z",
-    "dateText": "13th November 2026",
+    "url": "https://mollymangans.com/event/saturday-sing-around-session-hosted-by-lloyd-dobbs-andy-buckton-14/",
+    "title": "Saturday Sing-Around Session – hosted by Lloyd Dobbs & Andy Buckton",
+    "start": "2026-11-14T12:00:00.000Z",
+    "end": "2026-11-14T16:00:00.000Z",
+    "dateText": "14th November 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:38.144Z",
+    "scrapedAt": "2026-11-14T06:05:19.337Z",
     "soldOut": false,
     "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-11-13 19:00",
-    "type": null,
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-11-14 12:00",
+    "type": [
+      "Karaoke"
+    ],
     "distance": 2.6944565058735668
   },
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/ryan-mosleh-32/",
-    "title": "Ryan Mosleh",
-    "start": "2026-11-13T22:00:00.000Z",
-    "end": "2026-11-14T01:00:00.000Z",
-    "dateText": "13th November 2026",
-    "timeText": "",
-    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
-    "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:38.624Z",
-    "soldOut": false,
-    "freeEntry": false,
-    "displayTime24": "22:00",
-    "displayDateTime24": "2026-11-13 22:00",
-    "type": null,
-    "distance": 2.6944565058735668
-  },
-  {
-    "source": "Molly Mangan's",
-    "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/james-wood-27/",
-    "title": "James Wood",
+    "url": "https://mollymangans.com/event/pete-clarkson-3/",
+    "title": "Pete Clarkson",
     "start": "2026-11-14T16:00:00.000Z",
     "end": "2026-11-14T18:00:00.000Z",
     "dateText": "14th November 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:38.679Z",
+    "scrapedAt": "2026-11-14T06:05:19.796Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "16:00",
@@ -662,7 +618,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:38.737Z",
+    "scrapedAt": "2026-11-14T06:05:19.756Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -673,15 +629,15 @@
   {
     "source": "Molly Mangan's",
     "venue": "Molly Mangan's",
-    "url": "https://mollymangans.com/event/live-act-announcement-coming-soon-11/",
-    "title": "Live Act Announcement Coming Soon",
+    "url": "https://mollymangans.com/event/james-wood-27/",
+    "title": "James Wood",
     "start": "2026-11-14T21:00:00.000Z",
     "end": "2026-11-14T23:00:00.000Z",
     "dateText": "14th November 2026",
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:38.651Z",
+    "scrapedAt": "2026-11-14T06:05:19.834Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "21:00",
@@ -700,7 +656,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:38.706Z",
+    "scrapedAt": "2026-11-14T06:05:19.713Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "23:00",
@@ -719,7 +675,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:39.853Z",
+    "scrapedAt": "2026-11-14T06:05:19.394Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "16:00",
@@ -738,7 +694,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:39.795Z",
+    "scrapedAt": "2026-11-14T06:05:20.985Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -757,7 +713,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:39.813Z",
+    "scrapedAt": "2026-11-14T06:05:20.913Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -776,7 +732,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:39.756Z",
+    "scrapedAt": "2026-11-14T06:05:20.939Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -795,7 +751,7 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:39.776Z",
+    "scrapedAt": "2026-11-14T06:05:20.864Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -814,12 +770,33 @@
     "timeText": "",
     "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:39.832Z",
+    "scrapedAt": "2026-11-14T06:05:20.965Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
     "displayDateTime24": "2026-11-19 20:00",
     "type": null,
+    "distance": 2.6944565058735668
+  },
+  {
+    "source": "Molly Mangan's",
+    "venue": "Molly Mangan's",
+    "url": "https://mollymangans.com/event/saturday-sing-around-session-hosted-by-lloyd-dobbs-andy-buckton-15/",
+    "title": "Saturday Sing-Around Session – hosted by Lloyd Dobbs & Andy Buckton",
+    "start": "2026-11-28T12:00:00.000Z",
+    "end": "2026-11-28T16:00:00.000Z",
+    "dateText": "28th November 2026",
+    "timeText": "",
+    "address": "Molly Mangan's Irish Bar, 64-70 Newland Avenue, Hull, East Yorkshire, HU5 3AB",
+    "tickets": [],
+    "scrapedAt": "2026-11-14T06:05:20.890Z",
+    "soldOut": false,
+    "freeEntry": false,
+    "displayTime24": "12:00",
+    "displayDateTime24": "2026-11-28 12:00",
+    "type": [
+      "Karaoke"
+    ],
     "distance": 2.6944565058735668
   },
   {
@@ -833,7 +810,7 @@
     "timeText": "",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.180Z",
+    "scrapedAt": "2026-11-14T06:05:33.092Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -854,7 +831,7 @@
     "timeText": "",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.180Z",
+    "scrapedAt": "2026-11-14T06:05:33.093Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -875,7 +852,7 @@
     "timeText": "",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.180Z",
+    "scrapedAt": "2026-11-14T06:05:33.094Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -896,7 +873,7 @@
     "timeText": "",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.180Z",
+    "scrapedAt": "2026-11-14T06:05:33.094Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -917,7 +894,7 @@
     "timeText": "",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.180Z",
+    "scrapedAt": "2026-11-14T06:05:33.094Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -938,7 +915,7 @@
     "timeText": "8:00 PM",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:50.305Z",
+    "scrapedAt": "2026-11-14T06:05:35.293Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -957,7 +934,7 @@
     "timeText": "",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.181Z",
+    "scrapedAt": "2026-11-14T06:05:33.094Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "20:00",
@@ -978,7 +955,7 @@
     "timeText": "",
     "address": "112 Newland Avenue, Hull, HU5 3AA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.181Z",
+    "scrapedAt": "2026-11-14T06:05:33.095Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "13:00",
@@ -997,7 +974,7 @@
     "timeText": "19:30:00",
     "address": "Queens Rd, Hull HU5 2PY",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.337Z",
+    "scrapedAt": "2026-11-14T06:05:18.782Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -1013,34 +990,13 @@
     "venue": "Pave Bar",
     "url": "https://www.pavebar.co.uk",
     "title": "Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FREE ENTRY",
-    "start": "2026-11-13T20:00:00.000Z",
-    "end": null,
-    "dateText": "13 November 2026",
-    "timeText": "20:00",
-    "address": "16-20 Princes Ave, Hull HU5 3QA",
-    "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.888Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-11-13 20:00",
-    "type": [
-      "Live Music"
-    ],
-    "distance": 2.8356611531925404
-  },
-  {
-    "source": "Pave Bar",
-    "venue": "Pave Bar",
-    "url": "https://www.pavebar.co.uk",
-    "title": "Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FREE ENTRY",
     "start": "2026-11-20T20:00:00.000Z",
     "end": null,
     "dateText": "20 November 2026",
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.888Z",
+    "scrapedAt": "2026-11-14T06:05:21.442Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1061,7 +1017,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.889Z",
+    "scrapedAt": "2026-11-14T06:05:21.443Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1082,7 +1038,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.889Z",
+    "scrapedAt": "2026-11-14T06:05:21.443Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1103,7 +1059,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.889Z",
+    "scrapedAt": "2026-11-14T06:05:21.444Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1124,7 +1080,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.889Z",
+    "scrapedAt": "2026-11-14T06:05:21.444Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1145,7 +1101,7 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.890Z",
+    "scrapedAt": "2026-11-14T06:05:21.444Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -1166,11 +1122,32 @@
     "timeText": "20:00",
     "address": "16-20 Princes Ave, Hull HU5 3QA",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:37.890Z",
+    "scrapedAt": "2026-11-14T06:05:21.445Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
     "displayDateTime24": "2027-01-01 20:00",
+    "type": [
+      "Live Music"
+    ],
+    "distance": 2.8356611531925404
+  },
+  {
+    "source": "Pave Bar",
+    "venue": "Pave Bar",
+    "url": "https://www.pavebar.co.uk",
+    "title": "Join us every Friday at 8pm as DJ Chris Von Trapp (Spiders) launches us into the weekend with a ‘pan galactic’ set of Cleveland Classics… FREE ENTRY",
+    "start": "2027-01-08T20:00:00.000Z",
+    "end": null,
+    "dateText": "08 January 2027",
+    "timeText": "20:00",
+    "address": "16-20 Princes Ave, Hull HU5 3QA",
+    "tickets": [],
+    "scrapedAt": "2026-11-14T06:05:21.445Z",
+    "soldOut": false,
+    "freeEntry": true,
+    "displayTime24": "20:00",
+    "displayDateTime24": "2027-01-08 20:00",
     "type": [
       "Live Music"
     ],
@@ -1192,7 +1169,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7520&occurrence=2026-11-14"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:44.825Z",
+    "scrapedAt": "2026-11-14T06:05:25.709Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": true,
@@ -1217,7 +1194,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7231&occurrence=2026-11-19"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:47.062Z",
+    "scrapedAt": "2026-11-14T06:05:25.869Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1242,7 +1219,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7613&occurrence=2026-11-21"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:45.582Z",
+    "scrapedAt": "2026-11-14T06:05:28.121Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1267,7 +1244,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7608&occurrence=2026-11-28"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:47.816Z",
+    "scrapedAt": "2026-11-14T06:05:26.176Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": true,
@@ -1294,7 +1271,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7635&occurrence=2026-12-04"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:48.330Z",
+    "scrapedAt": "2026-11-14T06:05:30.009Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1319,7 +1296,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7337&occurrence=2026-12-05"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:47.804Z",
+    "scrapedAt": "2026-11-14T06:05:30.000Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": true,
@@ -1344,7 +1321,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7579&occurrence=2026-12-12"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:49.777Z",
+    "scrapedAt": "2026-11-14T06:05:30.731Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1369,7 +1346,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7079&occurrence=2026-12-12"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:49.223Z",
+    "scrapedAt": "2026-11-14T06:05:31.493Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1396,7 +1373,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7612&occurrence=2026-12-18"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:50.482Z",
+    "scrapedAt": "2026-11-14T06:05:31.501Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": true,
@@ -1423,7 +1400,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7595&occurrence=2026-12-19"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:51.004Z",
+    "scrapedAt": "2026-11-14T06:05:32.390Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1448,7 +1425,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7611&occurrence=2026-12-19"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:50.998Z",
+    "scrapedAt": "2026-11-14T06:05:33.134Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1473,7 +1450,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7516&occurrence=2026-12-26"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:50.990Z",
+    "scrapedAt": "2026-11-14T06:05:32.365Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1498,7 +1475,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7580&occurrence=2027-02-12"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:51.707Z",
+    "scrapedAt": "2026-11-14T06:05:34.000Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1523,7 +1500,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7526&occurrence=2027-02-13"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:51.686Z",
+    "scrapedAt": "2026-11-14T06:05:34.837Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": true,
@@ -1548,7 +1525,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7624&occurrence=2027-02-19"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:52.921Z",
+    "scrapedAt": "2026-11-14T06:05:34.327Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1573,7 +1550,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7527&occurrence=2027-04-03"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:53.513Z",
+    "scrapedAt": "2026-11-14T06:05:36.116Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": true,
@@ -1598,7 +1575,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7525&occurrence=2027-05-02"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:52.911Z",
+    "scrapedAt": "2026-11-14T06:05:36.511Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1623,7 +1600,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7584&occurrence=2027-05-29"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:54.219Z",
+    "scrapedAt": "2026-11-14T06:05:37.220Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1650,7 +1627,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7528&occurrence=2027-06-05"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:54.469Z",
+    "scrapedAt": "2026-11-14T06:05:38.181Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": true,
@@ -1675,7 +1652,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7585&occurrence=2027-07-31"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:54.732Z",
+    "scrapedAt": "2026-11-14T06:05:39.331Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1702,7 +1679,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7586&occurrence=2027-09-11"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:54.225Z",
+    "scrapedAt": "2026-11-14T06:05:37.770Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1729,7 +1706,7 @@
         "url": "https://unionmashup.co.uk/?method=ical&id=7583&occurrence=2027-12-11"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:54.174Z",
+    "scrapedAt": "2026-11-14T06:05:40.045Z",
     "soldOut": false,
     "priceText": "£5",
     "freeEntry": false,
@@ -1739,39 +1716,6 @@
       "Party"
     ],
     "distance": 2.9579676894117712
-  },
-  {
-    "source": "The Welly Club",
-    "venue": "The Welly Club",
-    "url": "https://www.giveitsomewelly.com/event/lo-fidelity-allstars/",
-    "title": "Lo Fidelity Allstars",
-    "start": "2026-11-13T19:00:00.000Z",
-    "end": "2026-11-13T23:00:00.000Z",
-    "dateText": "Fri 13th Nov",
-    "timeText": "7:00 pm",
-    "address": "105-107 Beverley Rd, Hull, HU3 1TS",
-    "tickets": [
-      {
-        "label": "Lo Fidelity Allstars",
-        "url": "https://www.fatsoma.com/e/55njkk3v/lo-fidelity-allstars"
-      },
-      {
-        "label": "Buy from See Tickets",
-        "url": "https://www.seetickets.com/event/lo-fidelity-allstars/the-welly-2/3638359"
-      },
-      {
-        "label": "Built by Fatsoma",
-        "url": "https://www.fatsoma.com/"
-      }
-    ],
-    "scrapedAt": "2026-11-13T06:05:38.816Z",
-    "soldOut": false,
-    "priceText": "£20.00",
-    "freeEntry": false,
-    "displayTime24": "19:00",
-    "displayDateTime24": "2026-11-13 19:00",
-    "type": null,
-    "distance": 3.1041171016001994
   },
   {
     "source": "The Welly Club",
@@ -1797,7 +1741,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:39.255Z",
+    "scrapedAt": "2026-11-14T06:05:21.016Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -1829,7 +1773,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:39.303Z",
+    "scrapedAt": "2026-11-14T06:05:21.579Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -1861,7 +1805,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:38.214Z",
+    "scrapedAt": "2026-11-14T06:05:20.297Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
@@ -1894,7 +1838,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:39.259Z",
+    "scrapedAt": "2026-11-14T06:05:21.191Z",
     "soldOut": false,
     "priceText": "£20.00",
     "freeEntry": false,
@@ -1927,7 +1871,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:39.610Z",
+    "scrapedAt": "2026-11-14T06:05:21.249Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "21:00",
@@ -1959,7 +1903,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:40.718Z",
+    "scrapedAt": "2026-11-14T06:05:21.478Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "23:00",
@@ -1993,7 +1937,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:40.686Z",
+    "scrapedAt": "2026-11-14T06:05:22.596Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -2025,7 +1969,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:40.384Z",
+    "scrapedAt": "2026-11-14T06:05:22.191Z",
     "soldOut": false,
     "priceText": "£10",
     "freeEntry": false,
@@ -2054,7 +1998,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:40.689Z",
+    "scrapedAt": "2026-11-14T06:05:22.592Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "15:00",
@@ -2086,7 +2030,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:40.695Z",
+    "scrapedAt": "2026-11-14T06:05:22.594Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:30",
@@ -2118,7 +2062,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:40.743Z",
+    "scrapedAt": "2026-11-14T06:05:22.600Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -2150,7 +2094,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.715Z",
+    "scrapedAt": "2026-11-14T06:05:22.590Z",
     "soldOut": false,
     "priceText": "£27.50",
     "freeEntry": false,
@@ -2183,7 +2127,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:42.557Z",
+    "scrapedAt": "2026-11-14T06:05:23.702Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "18:30",
@@ -2215,7 +2159,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.724Z",
+    "scrapedAt": "2026-11-14T06:05:23.662Z",
     "soldOut": false,
     "priceText": "£20.00",
     "freeEntry": false,
@@ -2250,7 +2194,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.721Z",
+    "scrapedAt": "2026-11-14T06:05:23.676Z",
     "soldOut": false,
     "priceText": "£22.50",
     "freeEntry": false,
@@ -2283,7 +2227,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.855Z",
+    "scrapedAt": "2026-11-14T06:05:23.788Z",
     "soldOut": false,
     "priceText": "£23.50",
     "freeEntry": false,
@@ -2316,7 +2260,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:41.731Z",
+    "scrapedAt": "2026-11-14T06:05:24.214Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "19:00",
@@ -2348,7 +2292,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.470Z",
+    "scrapedAt": "2026-11-14T06:05:23.669Z",
     "soldOut": true,
     "priceText": "£9.00",
     "freeEntry": false,
@@ -2384,7 +2328,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.442Z",
+    "scrapedAt": "2026-11-14T06:05:25.604Z",
     "soldOut": false,
     "priceText": "£30.00",
     "freeEntry": false,
@@ -2417,7 +2361,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.463Z",
+    "scrapedAt": "2026-11-14T06:05:25.202Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "14:00",
@@ -2449,7 +2393,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.492Z",
+    "scrapedAt": "2026-11-14T06:05:25.601Z",
     "soldOut": false,
     "priceText": "£16.00",
     "freeEntry": false,
@@ -2482,7 +2426,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.525Z",
+    "scrapedAt": "2026-11-14T06:05:25.607Z",
     "soldOut": false,
     "priceText": "£18.50",
     "freeEntry": false,
@@ -2515,7 +2459,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:43.873Z",
+    "scrapedAt": "2026-11-14T06:05:25.274Z",
     "soldOut": true,
     "priceText": "£15.00",
     "freeEntry": false,
@@ -2548,7 +2492,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:44.792Z",
+    "scrapedAt": "2026-11-14T06:05:25.134Z",
     "soldOut": false,
     "priceText": "£18.00",
     "freeEntry": false,
@@ -2581,7 +2525,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:44.749Z",
+    "scrapedAt": "2026-11-14T06:05:26.530Z",
     "soldOut": true,
     "priceText": "£9.00",
     "freeEntry": false,
@@ -2617,7 +2561,7 @@
         "url": "https://www.fatsoma.com/"
       }
     ],
-    "scrapedAt": "2026-11-13T06:05:44.789Z",
+    "scrapedAt": "2026-11-14T06:05:26.579Z",
     "soldOut": false,
     "priceText": "£16.50",
     "freeEntry": false,
@@ -2625,31 +2569,6 @@
     "displayDateTime24": "2027-05-01 19:00",
     "type": null,
     "distance": 3.1041171016001994
-  },
-  {
-    "source": "The Adelphi Club",
-    "venue": "The New Adelphi Club",
-    "url": "https://www.theadelphi.com/events/mad-dog-mcrea-support/",
-    "title": "Mad Dog Mcrea + Wilswood Buoys",
-    "start": "2026-11-13T20:00:00.000Z",
-    "end": null,
-    "dateText": "13 November 2026",
-    "timeText": "20:00",
-    "address": "89 De Grey Street, Hull, HU5 2RU",
-    "tickets": [
-      {
-        "label": "Buy Now £21",
-        "url": "https://www.seetickets.com/event/mad-dog-mcrea/the-new-adelphi-club/3628705"
-      }
-    ],
-    "scrapedAt": "2026-10-15T13:58:33.275Z",
-    "soldOut": false,
-    "priceText": "£21",
-    "freeEntry": false,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-11-13 20:00",
-    "type": null,
-    "distance": 3.6881520812774635
   },
   {
     "source": "The Adelphi Club",
@@ -3267,26 +3186,6 @@
   {
     "source": "Soul 45",
     "venue": "Soul 45",
-    "url": "https://www.soul45.bar/events/beat-robinson",
-    "title": "Beat Robinson",
-    "start": "2026-11-13T20:00:00.000Z",
-    "end": "2026-11-14T00:00:00.000Z",
-    "dateText": "Friday 13th November 2026",
-    "timeText": "20:00",
-    "address": "45 Newland Ave, Hull HU5 3BE",
-    "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:49.430Z",
-    "soldOut": false,
-    "freeEntry": true,
-    "displayTime24": "20:00",
-    "displayDateTime24": "2026-11-13 20:00",
-    "description": "Beat Robinson brings a night of funk, soul, Latin and reggae to Soul 45.\nDJs / Artists: Beat Robinson",
-    "type": null,
-    "distance": null
-  },
-  {
-    "source": "Soul 45",
-    "venue": "Soul 45",
     "url": "https://www.soul45.bar/events/spectrum",
     "title": "Spectrum",
     "start": "2026-11-14T20:00:00.000Z",
@@ -3295,7 +3194,7 @@
     "timeText": "20:00",
     "address": "45 Newland Ave, Hull HU5 3BE",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:49.431Z",
+    "scrapedAt": "2026-11-14T06:05:36.135Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "20:00",
@@ -3315,7 +3214,7 @@
     "timeText": "21:00",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.965Z",
+    "scrapedAt": "2026-11-14T06:05:35.861Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "21:00",
@@ -3335,7 +3234,7 @@
     "timeText": "20:00",
     "address": "The Gardeners Arms, Hull HU5",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:36.506Z",
+    "scrapedAt": "2026-11-14T06:05:18.646Z",
     "soldOut": false,
     "priceText": "£3.25",
     "freeEntry": true,
@@ -3358,7 +3257,7 @@
     "timeText": "12:00",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.965Z",
+    "scrapedAt": "2026-11-14T06:05:35.861Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "12:00",
@@ -3380,7 +3279,7 @@
     "timeText": "18:00",
     "address": "45 Newland Ave, Hull HU5 3BE",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:49.431Z",
+    "scrapedAt": "2026-11-14T06:05:36.136Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "18:00",
@@ -3400,7 +3299,7 @@
     "timeText": "17.00.00",
     "address": "50-54 Princes Avenue, Hull, United Kingdom",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:36.871Z",
+    "scrapedAt": "2026-11-14T06:05:19.350Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "17:00",
@@ -3418,7 +3317,7 @@
     "timeText": "12.00.00",
     "address": "50-54 Princes Avenue, Hull, United Kingdom",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:36.872Z",
+    "scrapedAt": "2026-11-14T06:05:19.351Z",
     "soldOut": false,
     "freeEntry": false,
     "displayTime24": "12:00",
@@ -3436,7 +3335,7 @@
     "timeText": "19:30",
     "address": "Queens Hotel, Queens Road, Hull HU5 2RG",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:48.966Z",
+    "scrapedAt": "2026-11-14T06:05:35.861Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:30",
@@ -3457,7 +3356,7 @@
     "timeText": "19:00",
     "address": "45 Newland Ave, Hull HU5 3BE",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:49.431Z",
+    "scrapedAt": "2026-11-14T06:05:36.136Z",
     "soldOut": false,
     "freeEntry": true,
     "displayTime24": "19:00",
@@ -3478,7 +3377,7 @@
     "timeText": "",
     "address": "45 Newland Ave, Hull HU5 3BE",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:49.431Z",
+    "scrapedAt": "2026-11-14T06:05:36.136Z",
     "soldOut": false,
     "freeEntry": true,
     "description": "Burnt Toast is back! After a really great first night they will be doing the last Friday of the month going forward. Make sure you get yourselves down as it is a really great vibe with 3 fantastic DJs playing vinyl.\nDJs / Artists: 3 fantastic DJs playing vinyl",
@@ -3496,7 +3395,7 @@
     "timeText": "",
     "address": "45 Newland Ave, Hull HU5 3BE",
     "tickets": [],
-    "scrapedAt": "2026-11-13T06:05:49.431Z",
+    "scrapedAt": "2026-11-14T06:05:36.136Z",
     "soldOut": false,
     "freeEntry": true,
     "description": "Monthly residency on the last Saturday of every month. Catch Strawberry Jams 7pm till late at Soul 45, spinning deep grooves and bumping rhythms.\nDJs / Artists: Strawberry Jams",
